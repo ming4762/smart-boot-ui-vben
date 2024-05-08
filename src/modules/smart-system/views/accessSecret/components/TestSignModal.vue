@@ -20,7 +20,6 @@
 
   const [registerModal, { changeOkLoading }] = useModalInner(({ id }) => {
     nextTick(() => {
-      console.log('---------');
       setFieldsValue({
         date: dateUtil(),
         nonce: buildUUID(),
@@ -114,9 +113,3 @@
     ],
   });
 </script>
-
-<style scoped lang="less">
-  .page-container {
-    color: black !important;
-  }
-</style>
