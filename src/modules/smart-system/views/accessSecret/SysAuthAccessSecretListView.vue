@@ -11,12 +11,15 @@
         <SysTenantSelect allowClear v-model:value="model[field]" />
       </template>
     </SmartTable>
+
+    <TestSignModal @register="registerTestSignModal" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useI18n } from '@/hooks/web/useI18n';
   import { useSizeSetting } from '@/hooks/setting/UseSizeSetting';
+  import { useModal } from '@/components/Modal';
 
   import {
     ActionItem,
@@ -32,6 +35,7 @@
   } from './SysAuthAccessSecretListView.config';
   import { listApi, deleteApi, getByIdApi, saveUpdateApi } from './SysAuthAccessSecretListView.api';
   import { SysTenantSelect } from '@/modules/smart-system/components';
+  import TestSignModal from './components/TestSignModal.vue';
 
   const { t } = useI18n();
   const { getTableSize } = useSizeSetting();
@@ -42,8 +46,17 @@
         label: t('common.button.edit'),
         onClick: () => editByRowModal(row),
       },
+      {
+        label: '生成签名',
+        onClick: () =>
+          openTestSignModal(true, {
+            id: row.id,
+          }),
+      },
     ];
   };
+
+  const [registerTestSignModal, { openModal: openTestSignModal }] = useModal();
 
   const [registerTable, { editByRowModal }] = useSmartTable({
     id: 'smart-system-tool-accessSecret',
