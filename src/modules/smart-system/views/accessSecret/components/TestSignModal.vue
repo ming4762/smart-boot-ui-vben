@@ -14,11 +14,13 @@
   import { ApiServiceEnum, defHttp } from '@/utils/http/axios';
   import { createConfirm } from '@/utils/message/SystemNotice';
   import { copyText } from '@/utils/copyTextToClipboard';
+  import { Dayjs } from 'dayjs';
 
   const { formSizeConfig } = useSizeSetting();
 
   const [registerModal, { changeOkLoading }] = useModalInner(({ id }) => {
     nextTick(() => {
+      console.log('---------');
       setFieldsValue({
         date: dateUtil(),
         nonce: buildUUID(),
@@ -70,10 +72,24 @@
         component: 'DatePicker',
         componentProps: {
           showTime: true,
-          style: { width: '100%' },
+          style: {
+            width: '100%',
+          },
+          onChange: (value) => {
+            if (value) {
+              setFieldsValue({
+                dateGmt: (value as Dayjs).tz('GMT').format('ddd, DD MMM YYYY HH:mm:ss') + ' GMT',
+              });
+            }
+          },
         },
-        // defaultValue: dayjs(),
         required: true,
+      },
+      {
+        label: 'GMT',
+        field: 'dateGmt',
+        component: 'Input',
+        dynamicReadonly: true,
       },
       {
         label: 'Nonce',
@@ -99,4 +115,8 @@
   });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .page-container {
+    color: black !important;
+  }
+</style>

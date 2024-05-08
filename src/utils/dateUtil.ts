@@ -3,8 +3,14 @@
  */
 import dayjs from 'dayjs';
 import duration, { DurationUnitType } from 'dayjs/plugin/duration';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import weekday from 'dayjs/plugin/weekday';
 
 dayjs.extend(duration);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(weekday);
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const DATE_FORMAT = 'YYYY-MM-DD';
