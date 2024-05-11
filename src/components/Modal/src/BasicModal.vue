@@ -72,6 +72,10 @@
   import { useFullScreen } from './hooks/useModalFullScreen';
   import { omit } from 'lodash-es';
   import { useDesign } from '@/hooks/web/useDesign';
+  import {
+    AppProviderModal,
+    useAppProviderContext,
+  } from '@/components/Application/src/useAppContext';
 
   defineOptions({ name: 'BasicModal', inheritAttrs: false });
 
@@ -151,12 +155,24 @@
     };
   });
 
+  const computeAppContextModal = computed(() => {
+    const { modal: modalProviderContext } = useAppProviderContext();
+    return (unref(modalProviderContext) || {}) as AppProviderModal;
+  });
+
   const getBindValue = computed((): Recordable => {
     const attr = {
       ...attrs,
       ...unref(getMergeProps),
       open: unref(openRef),
     };
+    const appContextModal = unref(computeAppContextModal);
+    Object.keys(appContextModal).forEach((key) => {
+      const value = appContextModal[key];
+      if (attr[key] === undefined || attr[key] === null) {
+        attr[key] = value;
+      }
+    });
     if (attr?.['wrapClassName'] === unref(getWrapClassName)) {
       attr['wrapClassName'] = `${attr?.['wrapClassName'] || ''} ` + prefixCls;
     } else {
