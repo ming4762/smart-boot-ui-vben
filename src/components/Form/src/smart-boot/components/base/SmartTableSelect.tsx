@@ -44,10 +44,15 @@ export default defineComponent({
       handleEmit(options.map((item) => item.value));
     };
     const handleDeselect = (value) => {
-      const data = (props.value as any[]).filter((item) => item !== value);
-      handleEmit(data);
+      const multiple = unref(multipleRef);
+      if (!multiple) {
+        handleEmit();
+      } else {
+        const data = (props.value as any[]).filter((item) => item !== value);
+        handleEmit(data);
+      }
     };
-    const handleEmit = (data: any[]) => {
+    const handleEmit = (data?: any[]) => {
       let value: any | undefined = undefined;
       if (data && data.length > 0) {
         value = data;

@@ -287,7 +287,7 @@
     return (unref(FormProviderContext) || {}) as AppProviderForm;
   });
   // 这里强制触发计算属性，否则在函数内触发会导致获取不到inject
-  console.log(computeAppContextForm.value);
+  computeAppContextForm.value;
 
   const computedSubmitOnEnter = computed(() => {
     const { autoSubmitOnEnter } = unref(getProps);
