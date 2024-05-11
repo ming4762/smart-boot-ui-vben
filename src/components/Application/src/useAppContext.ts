@@ -1,9 +1,14 @@
 import { InjectionKey, Ref } from 'vue';
 import { createContext, useContext } from '@/hooks/core/useContext';
 
+export interface AppProviderForm {
+  autoSubmitOnEnter?: boolean;
+}
+
 export interface AppProviderContextProps {
   prefixCls: Ref<string>;
   isMobile: Ref<boolean>;
+  form: Ref<AppProviderForm | undefined>;
 }
 
 const key: InjectionKey<AppProviderContextProps> = Symbol();

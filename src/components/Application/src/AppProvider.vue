@@ -1,6 +1,6 @@
 <script lang="ts">
   import { defineComponent, toRefs, ref, unref } from 'vue';
-  import { createAppProviderContext } from './useAppContext';
+  import { AppProviderForm, createAppProviderContext } from './useAppContext';
   import { createBreakpointListen } from '@/hooks/event/useBreakpoint';
   import { prefixCls } from '@/settings/designSetting';
   import { useAppStore } from '@/store/modules/app';
@@ -11,6 +11,9 @@
      * class style prefix
      */
     prefixCls: { type: String, default: prefixCls },
+    form: {
+      type: Object as PropType<AppProviderForm>,
+    },
   };
 
   export default defineComponent({
@@ -32,10 +35,10 @@
         handleRestoreState();
       });
 
-      const { prefixCls } = toRefs(props);
+      const { prefixCls, form } = toRefs(props);
 
       // Inject variables into the global
-      createAppProviderContext({ prefixCls, isMobile });
+      createAppProviderContext({ prefixCls, isMobile, form });
 
       /**
        * Used to maintain the state before the window changes

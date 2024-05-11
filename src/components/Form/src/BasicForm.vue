@@ -64,6 +64,8 @@
   import { useDesign } from '@/hooks/web/useDesign';
   import { cloneDeep } from 'lodash-es';
   import { TableActionType } from '@/components/Table';
+  import { useAppProviderContext } from '@/components/Application';
+  import { AppProviderForm } from '@/components/Application/src/useAppContext';
 
   defineOptions({ name: 'BasicForm' });
 
@@ -280,8 +282,23 @@
     }
   }
 
-  function handleEnterPress(e: KeyboardEvent) {
+  const computeAppContextForm = computed(() => {
+    const { form: FormProviderContext } = useAppProviderContext();
+    return (unref(FormProviderContext) || {}) as AppProviderForm;
+  });
+  // 这里强制触发计算属性，否则在函数内触发会导致获取不到inject
+  console.log(computeAppContextForm.value);
+
+  const computedSubmitOnEnter = computed(() => {
     const { autoSubmitOnEnter } = unref(getProps);
+    if (autoSubmitOnEnter) {
+      return true;
+    }
+    return unref(computeAppContextForm).autoSubmitOnEnter;
+  });
+
+  function handleEnterPress(e: KeyboardEvent) {
+    const autoSubmitOnEnter = unref(computedSubmitOnEnter);
     if (!autoSubmitOnEnter) return;
     if (e.key === 'Enter' && e.target && e.target instanceof HTMLElement) {
       const target: HTMLElement = e.target as HTMLElement;
