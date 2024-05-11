@@ -79,6 +79,8 @@ export default defineComponent({
       getTableRadioConfig,
       handleRadioChange,
       handleSetSelect,
+      getSearchForm,
+      handleModalOk,
     } = useSmartTableSelect(
       tableProps,
       selectTableProps,
@@ -92,6 +94,7 @@ export default defineComponent({
     );
     const [registerModal, { closeModal }] = useModalInner(async (_) => {
       if (unref(alwaysLoad)) {
+        await getSearchForm().resetFields();
         await query();
         await handleSetSelect();
       }
@@ -103,6 +106,7 @@ export default defineComponent({
     });
 
     const handleOk = () => {
+      handleModalOk();
       emitSelectData();
     };
 
@@ -163,7 +167,6 @@ const renderTable = (instance) => {
     handleCheckboxAll,
     getHasSearchForm,
     getTableRadioConfig,
-    handleRadioChange,
   } = instance;
   let tableAttrs = {
     ...$attrs,
@@ -172,14 +175,14 @@ const renderTable = (instance) => {
     tableAttrs = {
       ...tableAttrs,
       checkboxConfig: unref(getTableCheckboxConfig),
-      onCheckboxChange: handleCheckboxChange,
-      onCheckboxAll: handleCheckboxAll,
+      // onCheckboxChange: handleCheckboxChange,
+      // onCheckboxAll: handleCheckboxAll,
     };
   } else {
     tableAttrs = {
       ...tableAttrs,
       radioConfig: unref(getTableRadioConfig),
-      onRadioChange: handleRadioChange,
+      // onRadioChange: handleRadioChange,
     };
   }
   return (

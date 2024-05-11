@@ -20,8 +20,34 @@ export const useSmartTableSelect = (
     if (unref(alwaysLoad) && tableProps.proxyConfig) {
       tableProps.proxyConfig.autoLoad = false;
     }
+    const isMultiple = unref(multiple);
+    // const checkboxConfig = multiple
+    //   ? {
+    //       checkboxConfig: {
+    //         rowTrigger: 'multiple',
+    //         highlight: true,
+    //       },
+    //     }
+    //   : {};
     return {
+      // ...checkboxConfig,
       ...tableProps,
+      columns: [
+        isMultiple
+          ? {
+              type: 'checkbox',
+              width: 60,
+              align: 'center',
+              fixed: 'left',
+            }
+          : {
+              type: 'radio',
+              width: 60,
+              align: 'center',
+              fixed: 'left',
+            },
+        ...(tableProps.columns || []),
+      ],
       rowConfig: {
         keyField: unref(valueFieldRef),
       },
@@ -37,6 +63,7 @@ export const useSmartTableSelect = (
   const getTableCheckboxConfig = computed(() => {
     return {
       highlight: true,
+      rowTrigger: 'multiple',
       checkRowKeys: unref(selectValuesRef),
     };
   });
@@ -48,7 +75,8 @@ export const useSmartTableSelect = (
     const result: Recordable = {
       highlight: true,
       strict: false,
-      reserve: true,
+      // reserve: true,
+      trigger: 'row',
     };
     const selectValues = unref(selectValuesRef);
     if (selectValues && selectValues.length > 0) {
@@ -73,15 +101,15 @@ export const useSmartTableSelect = (
   };
 
   const handleSetSelectRows = async () => {
-    await getTableInstance()?.setAllCheckboxRow(false);
-    await setCheckboxRow(unref(selectRowsRef), true);
+    getTableInstance()?.setAllCheckboxRow(false);
+    setCheckboxRow(unref(selectRowsRef), true);
   };
 
-  const handleSetRadioRow = async () => {
+  const handleSetRadioRow = () => {
     const selectRows = unref(selectRowsRef);
+    getTableInstance()?.clearRadioRow();
     if (selectRows && selectRows.length > 0) {
-      await getTableInstance()?.clearRadioRow();
-      await getTableInstance()?.setRadioRow(selectRows[0]);
+      getTableInstance()?.setRadioRow(selectRows[0]);
     }
   };
 
@@ -135,9 +163,10 @@ export const useSmartTableSelect = (
     return matchDataList;
   };
 
-  const [registerTable, { setCheckboxRow, getData, getTableInstance, query }] = useSmartTable(
-    unref(getTableProps),
-  );
+  const [
+    registerTable,
+    { setCheckboxRow, getCheckboxRecords, getData, getTableInstance, query, getSearchForm },
+  ] = useSmartTable(unref(getTableProps));
   const [registerSelectTable, { setPagination }] = useSmartTable(unref(selectTablePropsRef) || {});
 
   const selectRowsRef = ref<any[]>([]);
@@ -147,7 +176,6 @@ export const useSmartTableSelect = (
    * @param dataList
    */
   const setSelectData = (dataList: any[]) => {
-    console.log('-----------------');
     selectRowsRef.value = dataList;
   };
 
@@ -215,6 +243,10 @@ export const useSmartTableSelect = (
     }
   };
 
+  const handleModalOk = () => {
+    selectRowsRef.value = getCheckboxRecords() || [];
+  };
+
   return {
     registerTable,
     handleCheckboxChange,
@@ -232,5 +264,7 @@ export const useSmartTableSelect = (
     getTableRadioConfig,
     handleRadioChange,
     handleSetSelect,
+    getSearchForm,
+    handleModalOk,
   };
 };
