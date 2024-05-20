@@ -44,6 +44,7 @@ export default defineComponent({
     'add-edit-modal-show',
     'cell-click',
     'page-change',
+    'after-save-update',
   ],
   setup(props, { emit, slots, attrs }) {
     const { t } = useI18n();
@@ -429,6 +430,7 @@ const renderTable = (instance) => {
       tableColumns,
       pagerConfig,
       tableLoading,
+      $emit,
     } = instance;
     const tableProps = {
       ...getTableBindValues,
@@ -447,6 +449,7 @@ const renderTable = (instance) => {
           ref="addEditModalRef"
           {...getAddEditModalProps}
           tableId={id}
+          onAfterSaveUpdate={(isAdd: boolean) => $emit('after-save-update', isAdd)}
           onRegister={registerAddEditModal}
           formConfig={getAddEditFormProps}
         >

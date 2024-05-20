@@ -24,7 +24,8 @@ export default defineComponent({
     afterSave: Function as PropType<(data?) => boolean | Promise<boolean> | undefined>,
     tableId: propTypes.string,
   },
-  setup(props) {
+  emits: ['after-save-update', 'register'],
+  setup(props, { emit }) {
     const { t } = useI18n();
     const isAddRef = ref(true);
     const computedTitle = computed(() => {
@@ -120,6 +121,7 @@ export default defineComponent({
         message.success(
           unref(isAddRef) ? t('common.message.saveSuccess') : t('common.message.editSuccess'),
         );
+        emit('after-save-update', unref(isAddRef));
         closeModal();
       } finally {
         changeOkLoading(false);
