@@ -81,6 +81,7 @@ export default defineComponent({
       handleSetSelect,
       getSearchForm,
       handleModalOk,
+      registerSlotFunction,
     } = useSmartTableSelect(
       tableProps,
       selectTableProps,
@@ -126,6 +127,7 @@ export default defineComponent({
       getHasSearchForm,
       getTableRadioConfig,
       handleRadioChange,
+      registerSlotFunction,
     };
   },
   render() {
@@ -138,6 +140,7 @@ export default defineComponent({
       addSelectData,
       removeSelectData,
       selectRowsRef,
+      registerSlotFunction,
     } = this;
     return (
       <BasicModal {...$attrs} onRegister={registerModal} onOk={handleOk}>
@@ -147,6 +150,7 @@ export default defineComponent({
               addSelectData,
               removeSelectData,
               selectData: selectRowsRef,
+              registerHandler: registerSlotFunction,
             })
           : renderTable(this)}
       </BasicModal>

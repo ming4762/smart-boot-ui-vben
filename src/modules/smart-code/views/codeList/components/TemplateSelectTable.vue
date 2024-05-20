@@ -22,18 +22,21 @@
   import { SmartLayoutSeparate } from '@/components/SmartLayoutSeparate';
   import { TemplateType as templateTypeConstants } from '@/modules/smart-code/constants/DatabaseConstants';
   import TemplateGroup from '@/modules/smart-code/components/template/TemplateGroup.vue';
-  import { watch } from 'vue';
+  import { onMounted, watch } from 'vue';
 
   const props = defineProps({
     addSelectData: {
       type: Function as PropType<Function>,
-      required: true,
+      required: false,
     },
     removeSelectData: {
       type: Function as PropType<Function>,
-      required: true,
+      required: false,
     },
     selectData: Array,
+    registerHandler: {
+      type: Function as PropType<(params: Recordable<Function>) => void>,
+    },
   });
   const { t } = useI18n();
 
@@ -46,19 +49,19 @@
 
   const handleCheckboxChange = ({ checked, row }) => {
     if (checked) {
-      props.addSelectData([row]);
+      props.addSelectData && props.addSelectData([row]);
     } else {
-      props.removeSelectData([row]);
+      props.removeSelectData && props.removeSelectData([row]);
     }
   };
 
   const handleCheckboxAll = ({ checked }) => {
     const selectRows = getCheckboxRecords();
     if (checked) {
-      props.removeSelectData(props.selectData);
-      props.addSelectData(selectRows);
+      props.removeSelectData && props.removeSelectData(props.selectData);
+      props.addSelectData && props.addSelectData(selectRows);
     } else {
-      props.removeSelectData(props.selectData);
+      props.removeSelectData && props.removeSelectData(props.selectData);
     }
   };
 
@@ -67,6 +70,13 @@
     getTableInstance().setAllCheckboxRow(false);
     setCheckboxRow(props.selectData, true);
   };
+
+  onMounted(() => {
+    props.registerHandler &&
+      props.registerHandler({
+        getData: () => getCheckboxRecords(),
+      });
+  });
 
   watch(
     () => props.selectData,

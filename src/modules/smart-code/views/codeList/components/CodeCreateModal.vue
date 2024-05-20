@@ -19,12 +19,8 @@
           label-field="name"
           value-field="templateId"
         >
-          <template #table="{ addSelectData, removeSelectData, selectData }">
-            <TemplateSelectTable
-              :add-select-data="addSelectData"
-              :remove-select-data="removeSelectData"
-              :select-data="selectData"
-            />
+          <template #table="{ selectData, registerHandler }">
+            <TemplateSelectTable :register-handler="registerHandler" :select-data="selectData" />
           </template>
         </SmartTableSelect>
       </template>

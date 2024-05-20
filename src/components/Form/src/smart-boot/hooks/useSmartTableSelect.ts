@@ -243,8 +243,17 @@ export const useSmartTableSelect = (
     }
   };
 
+  let slotRegisterFunction: Recordable<Function> = {};
+  const registerSlotFunction = (functions: Recordable<Function>) => {
+    slotRegisterFunction = functions;
+  };
+
   const handleModalOk = () => {
-    selectRowsRef.value = getCheckboxRecords() || [];
+    if (slotRegisterFunction.getData) {
+      selectRowsRef.value = slotRegisterFunction.getData() || [];
+    } else {
+      selectRowsRef.value = getCheckboxRecords() || [];
+    }
   };
 
   return {
@@ -266,5 +275,6 @@ export const useSmartTableSelect = (
     handleSetSelect,
     getSearchForm,
     handleModalOk,
+    registerSlotFunction,
   };
 };
