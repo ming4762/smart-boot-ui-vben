@@ -1,6 +1,10 @@
 <template>
   <div class="full-height page-container">
-    <SmartTable @register="registerTable" :size="getTableSize">
+    <SmartTable
+      @register="registerTable"
+      :size="getTableSize"
+      @after-save-update="loadFunctionTreeData"
+    >
       <template #table-icon="{ row }">
         <Icon v-if="row.icon" :icon="getIcon(row.icon)" />
         <div v-else></div>
@@ -124,13 +128,14 @@
   };
 
   const functionTreeData = ref<Recordable[]>([]);
-  onMounted(async () => {
+  onMounted(() => loadFunctionTreeData());
+  const loadFunctionTreeData = async () => {
     functionTreeData.value = await listApi({
       parameter: {
         'functionType@in': ['10', '20'],
       },
     });
-  });
+  };
   const getTreeData = (model: Recordable) => {
     const { functionType, isTopAdd } = model;
     let treeData: Recordable[] = [];
