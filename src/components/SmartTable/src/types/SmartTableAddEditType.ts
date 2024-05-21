@@ -21,6 +21,12 @@ export interface SmartTableAddEditConfig<T = any> {
   afterSave?: (saveResult?) => boolean | Promise<boolean> | void;
   // 自定义弹窗事件
   openModalHandler?: (row: any, formData?: Recordable) => void;
+  // 添加修改前的校验
+  saveUpdateValidate?: (
+    isAdd: boolean,
+    selectData?: Recordable,
+    formData?: Recordable,
+  ) => boolean | Promise<boolean>;
 }
 
 export interface SmartAddEditModalCallbackData<T = any> {

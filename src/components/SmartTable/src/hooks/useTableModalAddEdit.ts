@@ -7,6 +7,7 @@ import { computed, nextTick, ref, Slot, unref } from 'vue';
 import { useI18n } from '@/hooks/web/useI18n';
 import { message } from 'ant-design-vue';
 import { error } from '@/utils/log';
+import { isPromise } from '@/utils/is';
 
 interface TableAction {
   getCheckboxRecords: (isFull: boolean) => Array<any>;
@@ -123,10 +124,7 @@ export const useTableModalAddEditConfig = (
       throw new Error('addEditConfig未定义');
     }
     isAddRef.value = true;
-    nextTick(() => {
-      emit('add-edit-modal-show', { isAdd: true });
-    });
-    openAddEditModal(true, getCallbackData(true, selectData, formData));
+    doOpenModal(true, selectData, formData);
   };
 
   const editByRowModal = (row, formData?: Recordable) => {
@@ -148,15 +146,29 @@ export const useTableModalAddEditConfig = (
       throw new Error('addEditConfig未定义');
     }
     isAddRef.value = false;
-    nextTick(() => {
-      emit('add-edit-modal-show', { isAdd: false, row, formData });
-    });
     if (unref(tableProps).addEditConfig?.openModalHandler) {
       unref(tableProps).addEditConfig?.openModalHandler?.(row, formData);
     } else {
-      openAddEditModal(true, getCallbackData(false, row, formData));
+      doOpenModal(false, row, formData);
     }
     return true;
+  };
+
+  const doOpenModal = async (isAdd: boolean, selectData?: Recordable, formData?: Recordable) => {
+    // 校验参数
+    const saveUpdateValidate = unref(tableProps).addEditConfig?.saveUpdateValidate;
+    if (saveUpdateValidate) {
+      const validateResult = saveUpdateValidate(isAdd, selectData, formData);
+      const realValidateResult = isPromise(validateResult) ? await validateResult : validateResult;
+      if (!realValidateResult) {
+        return false;
+      }
+    }
+    // 验证是否要打开
+    nextTick(() => {
+      emit('add-edit-modal-show', { isAdd: false, selectData, formData });
+    });
+    openAddEditModal(true, getCallbackData(isAdd, selectData, formData));
   };
 
   const getCallbackData = (
