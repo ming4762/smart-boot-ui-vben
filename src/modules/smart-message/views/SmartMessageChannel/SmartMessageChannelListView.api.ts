@@ -1,12 +1,13 @@
 import { ApiServiceEnum, defHttp } from '@/utils/http/axios';
 
 enum Api {
-  list = '/smart/sms/channel/list',
-  getById = '/smart/sms/channel/getById',
-  batchSaveUpdate = '/smart/sms/channel/saveUpdateBatch',
-  delete = '/smart/sms/channel/batchDeleteById',
-  setDefault = '/smart/sms/channel/setDefault',
-  sendTest = '/smart/sms/channel/sendTest',
+  list = '/smart/message/channel/list',
+  getById = '/smart/message/channel/getById',
+  batchSaveUpdate = '/smart/message/channel/saveUpdateBatch',
+  delete = '/smart/message/channel/batchDeleteById',
+  setUseYn = '/smart/message/channel/setUseYn',
+  listSmartMessageType1Enum = '/smart/message/channel/listSmartMessageType1Enum',
+  listSmartMessageType2Enum = '/smart/message/channel/listSmartMessageType2Enum',
 }
 
 export const listApi = (params) => {
@@ -43,20 +44,32 @@ export const getByIdApi = (id: number) => {
   });
 };
 
-export const setDefaultApi = (id: number) => {
+/**
+ * 启用停用接口
+ * @param rows 选中的数据
+ * @param useYn 启用停用
+ */
+export const setUseYnApi = (rows: any[], useYn: boolean) => {
   return defHttp.post({
     service: ApiServiceEnum.SMART_MESSAGE,
-    url: Api.setDefault,
+    url: Api.setUseYn,
     data: {
-      id,
+      idList: rows.map((item) => item.id),
+      useYn,
     },
   });
 };
 
-export const sendTestApi = (data: Record<string, any>) => {
+export const listSmartMessageType1EnumApi = () => {
   return defHttp.post({
     service: ApiServiceEnum.SMART_MESSAGE,
-    url: Api.sendTest,
-    data,
+    url: Api.listSmartMessageType1Enum,
+  });
+};
+
+export const listSmartMessageType2EnumApi = () => {
+  return defHttp.post({
+    service: ApiServiceEnum.SMART_MESSAGE,
+    url: Api.listSmartMessageType2Enum,
   });
 };
