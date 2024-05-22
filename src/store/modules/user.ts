@@ -11,7 +11,13 @@ import {
   LoginParams,
   LoginResultModel,
 } from '@/api/sys/model/userModel';
-import { changePasswordApi, doLogout, loginApi, changeTenantApi } from '@/api/sys/user';
+import {
+  changePasswordApi,
+  doLogout,
+  loginApi,
+  changeTenantApi,
+  rememberLoginApi,
+} from '@/api/sys/user';
 import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
 import { router } from '@/router';
@@ -20,6 +26,7 @@ import { usePermission } from '@/hooks/web/usePermission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic';
 import { h } from 'vue';
+import Cookies from 'universal-cookie';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -28,6 +35,8 @@ interface UserState {
   sessionTimeout?: boolean;
   lastUpdateTime: number;
 }
+
+const cookies = new Cookies();
 
 export const useUserStore = defineStore({
   id: 'app-user',
@@ -128,6 +137,14 @@ export const useUserStore = defineStore({
         return Promise.reject(error);
       }
     },
+    /**
+     * remember登录
+     * @param params
+     */
+    async rememberLogin(params: { goHome?: boolean }) {
+      const data = await rememberLoginApi();
+      return this.afterLoginAction(data, params.goHome);
+    },
     async afterLoginAction(
       loginResult: LoginResultModel,
       goHome?: boolean,
@@ -156,7 +173,6 @@ export const useUserStore = defineStore({
           // 记录动态路由加载完成
           permissionStore.setDynamicAddedRoute(true);
         }
-
         goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
       }
       return userInfo;
@@ -235,6 +251,19 @@ export const useUserStore = defineStore({
         newPassword: createPassword(username, newPassword),
         newPasswordConfirm: createPassword(username, newPasswordConfirm),
       });
+    },
+    /**
+     * 从cookie获取并设置token
+     */
+    getAndSetTokenFromCookie() {
+      const rememberCookie = cookies.get('remember-me');
+      if (rememberCookie) {
+        this.setToken(rememberCookie);
+      }
+    },
+    hasRemember(): boolean {
+      const rememberToken = cookies.get('remember-me');
+      return rememberToken !== undefined && rememberToken !== null;
     },
   },
 });

@@ -17,6 +17,7 @@ enum Api {
   changePassword = 'sys/auth/changePassword',
   listCurrentUserTenant = 'sys/tenant/manager/listCurrentUserTenant',
   changeTenant = '/auth/tenant/change',
+  rememberLogin = 'auth/rememberLogin',
 }
 
 /**
@@ -33,6 +34,16 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
       errorMessageMode: mode,
     },
   );
+}
+
+/**
+ * remember login
+ */
+export function rememberLoginApi() {
+  return defHttp.postForm<LoginResultModel>({
+    service: ApiServiceEnum.SMART_AUTH,
+    url: Api.rememberLogin,
+  });
 }
 
 /**

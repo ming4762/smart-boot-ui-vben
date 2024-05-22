@@ -55,6 +55,13 @@ export function createPermissionGuard(router: Router) {
         next();
         return;
       }
+      // 判断是否启用了remember
+      if (userStore.hasRemember()) {
+        // 重新登录
+        await userStore.rememberLogin({ goHome: false });
+        next(to.fullPath);
+        return;
+      }
 
       // redirect login page
       const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {

@@ -1,10 +1,10 @@
 import { Persistent, BasicKeys } from '@/utils/cache/persistent';
-import { CacheTypeEnum, TOKEN_KEY } from '@/enums/cacheEnum';
+import { CacheTypeEnum } from '@/enums/cacheEnum';
 import projectSetting from '@/settings/projectSetting';
 import sha256 from 'crypto-js/sha256';
 import { ApiServiceEnum, defHttp } from '@/utils/http/axios';
 import { RoleInfo, UserInfo } from '#/store';
-import { useUserStore } from '@/store/modules/user';
+import { useUserStore, useUserStoreWithOut } from '@/store/modules/user';
 import { usePermission } from '@/hooks/web/usePermission';
 import { isString } from '@/utils/is';
 import { SmartAuth } from '#/utils';
@@ -13,7 +13,8 @@ const { permissionCacheType } = projectSetting;
 const isLocal = permissionCacheType === CacheTypeEnum.LOCAL;
 
 export function getToken() {
-  return getAuthCache(TOKEN_KEY);
+  const userStore = useUserStoreWithOut();
+  return userStore.getToken;
 }
 
 export function getAuthCache<T>(key: BasicKeys) {
