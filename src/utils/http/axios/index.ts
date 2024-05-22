@@ -1,7 +1,7 @@
 // axios配置  可自行根据项目进行更改，只需更改该文件即可，其他文件可以不动
 // The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
 
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { clone } from 'lodash-es';
 import type { RequestOptions, Result } from '#/axios';
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
@@ -18,7 +18,6 @@ import { useI18n } from '@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '@/store/modules/user';
 import { AxiosRetry } from '@/utils/http/axios/axiosRetry';
-import axios from 'axios';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -51,7 +50,7 @@ const transform: AxiosTransform = {
       throw new Error(t('sys.api.apiRequestFailed'));
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, data: result, message } = data;
+    const { code, data: result, message, subCode } = data;
 
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
@@ -74,10 +73,10 @@ const transform: AxiosTransform = {
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
+    const userStore = useUserStoreWithOut();
     switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        const userStore = useUserStoreWithOut();
         // 被动登出，带redirect地址
         userStore.logout(false);
         break;
@@ -85,6 +84,24 @@ const transform: AxiosTransform = {
         // 500错误
         createError500Modal(data as Result);
         continueDeal = false;
+        break;
+      case ResultEnum.AUTH_ERROR:
+        if (subCode === 10 && userStore.hasRemember()) {
+          // 重新登陆并重新发起请求
+          continueDeal = false;
+          userStore.rememberLogin({ buildRoute: false }).then(() => {
+            const retryRequest = new AxiosRetry();
+            retryRequest.retry(
+              defHttp.getAxios(),
+              // @ts-ignore
+              new AxiosError(data.message, data.code.toString(), res.config, null, {
+                config: res.config,
+              }),
+            );
+          });
+        } else if (message) {
+          timeoutMsg = message;
+        }
         break;
       default:
         if (message) {
@@ -208,7 +225,6 @@ const transform: AxiosTransform = {
     const msg: string = response?.data?.error?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
-
     if (axios.isCancel(error)) {
       return Promise.reject(error);
     }

@@ -141,13 +141,16 @@ export const useUserStore = defineStore({
      * remember登录
      * @param params
      */
-    async rememberLogin(params: { goHome?: boolean }) {
+    async rememberLogin(
+      params: { goHome?: boolean; buildRoute?: boolean } = { goHome: false, buildRoute: true },
+    ) {
       const data = await rememberLoginApi();
-      return this.afterLoginAction(data, params.goHome);
+      return this.afterLoginAction(data, params.goHome, params.buildRoute);
     },
     async afterLoginAction(
       loginResult: LoginResultModel,
       goHome?: boolean,
+      buildRoute?: boolean,
     ): Promise<GetUserInfoModel | null> {
       const { token, user: userInfo, permissions, roles } = loginResult;
       this.setToken(token);
@@ -158,6 +161,9 @@ export const useUserStore = defineStore({
       this.setUserInfo({
         ...userInfo,
       });
+      if (buildRoute === false) {
+        return userInfo;
+      }
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
         this.setSessionTimeout(false);

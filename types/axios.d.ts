@@ -40,6 +40,7 @@ export interface RetryRequest {
 }
 export interface Result<T = any> {
   code: number;
+  subCode?: number;
   type: 'success' | 'error' | 'warning';
   message: string;
   data: T;
