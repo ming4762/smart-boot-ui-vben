@@ -10,9 +10,10 @@ import { Row, Col } from 'ant-design-vue';
 
 /**
  * 下拉表格
+ * @author shizhongming
  */
 export default defineComponent({
-  name: 'SmartPullownTable',
+  name: 'SmartPulldownTable',
   props: {
     tableProps: {
       type: Object as PropType<SmartTableProps>,
