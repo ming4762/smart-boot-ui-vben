@@ -1,3 +1,3 @@
-import SmartLayoutSeparate from './src/SmartLayoutSeparate';
+import SmartLayoutSeparate from './src/SmartLayoutSeparate.vue';
 
 export { SmartLayoutSeparate };
