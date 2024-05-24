@@ -87,6 +87,18 @@ export const getTableExpandColumns = (): SmartColumn[] => {
       },
     },
     {
+      title: '{system.views.onlineUser.title.loginDuration}',
+      field: 'loginDuration',
+      width: 150,
+      formatter({ row }) {
+        const loginDuration = row.loginDuration;
+        if (!loginDuration) {
+          return '';
+        }
+        return formatDurationStr(loginDuration);
+      },
+    },
+    {
       title: '{system.views.onlineUser.title.tenantCode}',
       field: 'tenantCode',
       width: 150,

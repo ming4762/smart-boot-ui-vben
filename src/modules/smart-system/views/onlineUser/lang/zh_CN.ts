@@ -12,6 +12,7 @@ export default {
           tenantCode: '租户编码',
           tenantName: '租户名字',
           tenant: '租户',
+          loginDuration: '登录时长',
         },
         button: {
           offline: '下线',

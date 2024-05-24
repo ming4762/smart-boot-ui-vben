@@ -8,6 +8,7 @@ export default {
           loginTime: 'Login time',
           loginIp: 'Login IP',
           bindIp: 'Bind IP',
+          loginDuration: 'Login druation',
         },
         button: {
           offline: 'Offline',
