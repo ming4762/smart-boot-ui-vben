@@ -33,8 +33,8 @@ export const getTableColumns = (): SmartColumn[] => {
     {
       field: 'filename',
       title: '{system.views.file.title.fileName}',
-      width: 160,
-      fixed: 'left',
+      minWidth: 160,
+      sortable: true,
     },
     {
       field: 'type',
@@ -45,7 +45,7 @@ export const getTableColumns = (): SmartColumn[] => {
     {
       field: 'contentType',
       title: '{system.views.file.title.contentType}',
-      width: 120,
+      width: 160,
     },
     {
       field: 'fileSize',
