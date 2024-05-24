@@ -3,7 +3,7 @@ import {
   type SmartSearchFormSchema,
   tableBooleanColumnClass,
 } from '@/components/SmartTable';
-import { formatDuration } from '@/utils/dateUtil';
+import { formatDurationStr } from '@/utils/dateUtil';
 import { Ref, unref } from 'vue';
 
 export const getTableColumns = (): SmartColumn[] => {
@@ -83,7 +83,7 @@ export const getTableExpandColumns = (): SmartColumn[] => {
         if (!timeout) {
           return '';
         }
-        return formatDuration(timeout);
+        return formatDurationStr(timeout);
       },
     },
     {
