@@ -7,7 +7,7 @@ import { computed, nextTick, ref, Slot, unref } from 'vue';
 import { useI18n } from '@/hooks/web/useI18n';
 import { message } from 'ant-design-vue';
 import { error } from '@/utils/log';
-import { isPromise } from '@/utils/is';
+import { isPromise, isString } from '@/utils/is';
 
 interface TableAction {
   getCheckboxRecords: (isFull: boolean) => Array<any>;
@@ -93,7 +93,23 @@ export const useTableModalAddEditConfig = (
     ) {
       error('添加修改表单插槽命名重复');
     }
-    return result;
+    // 获取modal插槽
+    const modalSlots: { [name: string]: Slot | undefined } = {};
+    const modalSlotsConfig = unref(tableProps).addEditConfig?.modalConfig?.slots;
+    if (modalSlotsConfig) {
+      Object.keys(modalSlotsConfig).forEach((key) => {
+        const modalSlot = modalSlotsConfig[key];
+        if (isString(modalSlot)) {
+          modalSlots[`modelSlot_${key}`] = slots[modalSlot];
+        } else {
+          modalSlots[`modelSlot_${key}`] = modalSlot;
+        }
+      });
+    }
+    return {
+      ...result,
+      ...modalSlots,
+    };
   });
 
   /**

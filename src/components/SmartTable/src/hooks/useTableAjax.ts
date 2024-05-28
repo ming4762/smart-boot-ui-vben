@@ -70,7 +70,7 @@ export const useTableAjax = (
               ...form,
               ...page,
             };
-            if (sorts.length > 0) {
+            if (sorts.length > 0 && sortConfig?.remote === true) {
               const sortNameList: string[] = [];
               const sortOrderList: string[] = [];
               for (const item of sorts) {

@@ -1,5 +1,27 @@
 import type { ModalProps } from '@/components/Modal';
 import type { FormProps } from '@/components/Form';
+import { VNode } from 'vue';
+
+interface SmartTableModalSlotProps {
+  isAdd: boolean;
+}
+
+/**
+ * 添加修改弹窗
+ */
+export interface SmartTableModalSlots {
+  footer?: string | ((data: SmartTableModalSlotProps) => VNode[] | VNode);
+  insertFooter?: string | ((data: SmartTableModalSlotProps) => VNode[] | VNode);
+  centerFooter?: string | ((data: SmartTableModalSlotProps) => VNode[] | VNode);
+  appendFooter?: string | ((data: SmartTableModalSlotProps) => VNode[] | VNode);
+}
+
+/**
+ * 添加修改弹窗modal配置
+ */
+export interface SmartTableAddEditModalConfig extends ModalProps {
+  slots?: SmartTableModalSlots;
+}
 
 /**
  * 添加编辑表单配置
@@ -8,7 +30,7 @@ export interface SmartTableAddEditConfig<T = any> {
   /**
    * modal配置
    */
-  modalConfig?: Partial<ModalProps>;
+  modalConfig?: Partial<SmartTableAddEditModalConfig>;
   /**
    * 表单配置项
    */
@@ -18,7 +40,7 @@ export interface SmartTableAddEditConfig<T = any> {
   // 保存之前对数据进行处理
   beforeSave?: (data: T) => T | Promise<T>;
   // 保存之后操作，默认reload
-  afterSave?: (saveResult?) => boolean | Promise<boolean> | void;
+  afterSave?: (saveResult?: Recordable) => boolean | Promise<boolean> | void;
   // 自定义弹窗事件
   openModalHandler?: (row: any, formData?: Recordable) => void;
   // 添加修改前的校验
@@ -30,7 +52,7 @@ export interface SmartTableAddEditConfig<T = any> {
 }
 
 export interface SmartAddEditModalCallbackData<T = any> {
-  getFunction?: (T) => Promise<T>;
+  getFunction?: (data: T) => Promise<T>;
   validateFunction?:
     | ((data: T, customData: any) => Promise<boolean | undefined> | boolean | undefined)
     | undefined;

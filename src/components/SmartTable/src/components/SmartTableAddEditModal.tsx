@@ -25,7 +25,7 @@ export default defineComponent({
     tableId: propTypes.string,
   },
   emits: ['after-save-update', 'register'],
-  setup(props, { emit }) {
+  setup(props, { emit, attrs, slots }) {
     const { t } = useI18n();
     const isAddRef = ref(true);
     const computedTitle = computed(() => {
@@ -33,7 +33,7 @@ export default defineComponent({
     });
 
     const [registerForm, formAction] = useForm();
-    const { resetFields, getFieldsValue, setFieldsValue, validate, validateFields } = formAction;
+    const { resetFields, setFieldsValue, validate } = formAction;
     const [register, { changeLoading, changeOkLoading, closeModal }] = useModalInner(
       (data: SmartAddEditModalCallbackData) => {
         const { isAdd, formData } = data;
@@ -128,41 +128,37 @@ export default defineComponent({
       }
     };
 
-    return {
-      register,
-      registerForm,
-      resetFields,
-      getFieldsValue,
-      setFieldsValue,
-      handleSubmit,
-      validate,
-      validateFields,
-      getFormAction: () => formAction,
-      computedTitle,
+    const formSlots: Recordable = {};
+    const modalSlots: Recordable = {};
+    Object.keys(slots).forEach((key) => {
+      const value = slots[key];
+      if (value) {
+        if (key.startsWith('modelSlot_')) {
+          modalSlots[key.replace('modelSlot_', '')] = () => value({ isAdd: unref(isAddRef) });
+        } else {
+          formSlots[key] = value;
+        }
+      }
+    });
+    const modalRender = {
+      default: () => (
+        <BasicForm
+          {...props.formConfig}
+          onRegister={registerForm}
+          name={`${props.tableId}_addEdit_form`}
+        ></BasicForm>
+      ),
+      ...modalSlots,
     };
-  },
-  render() {
-    const {
-      $attrs,
-      register,
-      registerForm,
-      handleSubmit,
-      $slots,
-      tableId,
-      formConfig,
-      computedTitle,
-    } = this;
-    const attrs = {
-      ...$attrs,
-      onRegister: register,
-      title: computedTitle,
+
+    return () => {
+      return (
+        <BasicModal
+          {...{ attrs, onRegister: register, title: unref(computedTitle), onOk: handleSubmit }}
+        >
+          {modalRender}
+        </BasicModal>
+      );
     };
-    return (
-      <BasicModal {...attrs} onOk={handleSubmit}>
-        <BasicForm {...formConfig} name={`${tableId}_addEdit_form`} onRegister={registerForm}>
-          {$slots}
-        </BasicForm>
-      </BasicModal>
-    );
   },
 });
