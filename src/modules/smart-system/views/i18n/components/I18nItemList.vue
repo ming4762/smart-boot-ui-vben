@@ -69,6 +69,7 @@
     addEditConfig: {
       formConfig: {
         schemas: getI18nItemListAddEditFormSchema(t),
+        baseColProps: { span: 24 },
       },
     },
     proxyConfig: {
