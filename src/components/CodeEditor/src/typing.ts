@@ -1,7 +1,5 @@
 export enum MODE {
   JSON = 'application/json',
-  HTML = 'htmlmixed',
-  JS = 'javascript',
   APL = 'apl',
   ASCIIARMOR = 'asciiarmor',
   ASTERISK = 'asterisk',

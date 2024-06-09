@@ -54,7 +54,7 @@
 
   import { useFormValues } from './hooks/useFormValues';
   import useAdvanced from './hooks/useAdvanced';
-  import { useFormEvents } from './hooks/useFormEvents';
+  import { itemIsUploadComponent, useFormEvents } from './hooks/useFormEvents';
   import { createFormContext } from './hooks/useFormContext';
   import { useAutoFocus } from './hooks/useAutoFocus';
   import { useModalContext } from '@/components/Modal';
@@ -66,6 +66,7 @@
   import { TableActionType } from '@/components/Table';
   import { useAppProviderContext } from '@/components/Application';
   import { AppProviderForm } from '@/components/Application/src/useAppContext';
+  import { isArray, isFunction } from '@/utils/is';
 
   defineOptions({ name: 'BasicForm' });
 
@@ -132,6 +133,9 @@
         component,
         componentProps = {},
         isHandleDateDefaultValue = true,
+        field,
+        isHandleDefaultValue = true,
+        valueFormat,
       } = schema;
       // handle date type
       if (
@@ -162,6 +166,24 @@
           });
           schema.defaultValue = def;
         }
+      }
+      // handle upload type
+      if (defaultValue && itemIsUploadComponent(schema?.component)) {
+        if (isArray(defaultValue)) {
+          schema.defaultValue = defaultValue;
+        } else if (typeof defaultValue == 'string') {
+          schema.defaultValue = [defaultValue];
+        }
+      }
+
+      // handle schema.valueFormat
+      if (isHandleDefaultValue && defaultValue && component && isFunction(valueFormat)) {
+        schema.defaultValue = valueFormat({
+          value: defaultValue,
+          schema,
+          model: formModel,
+          field,
+        });
       }
     }
     if (unref(getProps).showAdvancedButton) {
