@@ -8,7 +8,7 @@
         />
       </template>
       <template #table-storageType="{ row }">
-        <span>{{ getDictItemMap[row.storageType] }}</span>
+        <span>{{ pageDictMap?.['FILE_STORAGE_TYPE']?.[row.storageType] }}</span>
       </template>
     </SmartTable>
   </div>
@@ -27,7 +27,6 @@
     SmartVxeTableAction,
     useSmartTable,
   } from '@/components/SmartTable';
-  import { useLoadDictItem } from '@/modules/smart-system/hooks/SysDictHooks';
 
   import {
     getTableColumns,
@@ -43,12 +42,14 @@
   } from './SmartFileStorageListView.api';
   import { createVNode } from 'vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+  import { useInjectPageDict } from '@/components/SmartPageProvider';
 
   const { t } = useI18n();
   const { getTableSize } = useSizeSetting();
 
   const storageConfigPrefix = 'storageConfig';
-  const { getDictItemMap } = useLoadDictItem('FILE_STORAGE_TYPE');
+  const { pageDictRegister, pageDictMap } = useInjectPageDict();
+  pageDictRegister('FILE_STORAGE_TYPE');
 
   const getActions = (row: Recordable): ActionItem[] => {
     return [
