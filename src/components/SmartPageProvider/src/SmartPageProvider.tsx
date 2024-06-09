@@ -16,7 +16,7 @@ const SmartPageProvider = defineComponent({
 });
 
 SmartPageProvider.install = function (app: App) {
-  app.component(SmartPageProvider.name, SmartPageProvider);
+  app.component(SmartPageProvider.name as string, SmartPageProvider);
   return app;
 };
 
