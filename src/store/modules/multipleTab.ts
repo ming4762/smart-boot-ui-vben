@@ -14,6 +14,7 @@ import { MULTIPLE_TABS_KEY } from '@/enums/cacheEnum';
 
 import projectSetting from '@/settings/projectSetting';
 import { useUserStore } from '@/store/modules/user';
+import { isSetsEqual } from '@/utils/CollectionUtils';
 
 export interface MultipleTabState {
   cacheTabList: Set<string>;
@@ -75,7 +76,9 @@ export const useMultipleTabStore = defineStore({
         const name = item.name as string;
         cacheMap.add(name);
       }
-      this.cacheTabList = cacheMap;
+      if (!isSetsEqual(this.cacheTabList, cacheMap)) {
+        this.cacheTabList = cacheMap;
+      }
     },
 
     /**
