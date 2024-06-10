@@ -146,7 +146,9 @@ export default defineComponent({
           {...props.formConfig}
           onRegister={registerForm}
           name={`${props.tableId}_addEdit_form`}
-        ></BasicForm>
+        >
+          {formSlots}
+        </BasicForm>
       ),
       ...modalSlots,
     };
