@@ -1,5 +1,5 @@
 <template>
-  <div class="full-height page-container" id="codeTemplateContainer">
+  <div class="full-height page-container" :class="prefixCls" id="codeTemplateContainer">
     <SmartLayoutSeparate :show-line="false" first-size="240px" class="full-height">
       <template #first>
         <div class="full-height" style="margin-right: 5px; background: white">
@@ -28,6 +28,7 @@
   import { computed, ref, unref } from 'vue';
   import { useI18n } from '@/hooks/web/useI18n';
   import { message } from 'ant-design-vue';
+  import { useDesign } from '@/hooks/web/useDesign';
 
   import { SmartTable, SmartVxeTableAction, useSmartTable } from '@/components/SmartTable';
   import { SmartLayoutSeparate } from '@/components/SmartLayoutSeparate';
@@ -42,6 +43,8 @@
   import { listApi, getByIdApi, deleteApi, saveUpdateApi } from './CodeTemplateList.api';
 
   const { t } = useI18n();
+  const { prefixCls } = useDesign('smart-tools-codeTemplateList');
+  const { prefixCls: prefixClsModal } = useDesign('smart-tools-codeTemplateListModal');
 
   const currentGroupIdRef = ref<number | null>();
 
@@ -75,9 +78,10 @@
     return {
       modalConfig: {
         defaultFullscreen: true,
-        getContainer: () => {
-          return document.getElementById('codeTemplateContainer') as HTMLElement;
-        },
+        class: prefixClsModal,
+        // getContainer: () => {
+        //   return document.getElementById('codeTemplateContainer') as HTMLElement;
+        // },
       },
       formConfig: {
         schemas: getAddEditFormSchemas(t),
@@ -166,23 +170,69 @@
   });
 </script>
 
-<style scoped lang="less">
-  .code-container {
-    :deep(.ant-form) {
-      height: 100%;
+<style lang="less">
+  @prefix-cls: ~'@{namespace}-smart-tools-codeTemplateList';
+  .@{prefix-cls} {
+    .code-container {
+      .ant-form {
+        height: 100%;
+      }
+
+      .ant-col-24 {
+        height: calc(100% - 106px);
+
+        .ant-form-item {
+          height: 100%;
+          overflow: auto;
+        }
+      }
     }
 
-    :deep(.ant-col-24) {
-      height: calc(100% - 106px);
-
-      .ant-form-item {
-        height: 100%;
-        overflow: auto;
-      }
+    .code-edit-container {
+      height: 100%;
     }
   }
 
-  .code-edit-container {
-    height: 100%;
+  @prefix-cls-modal: ~'@{namespace}-smart-tools-codeTemplateListModal';
+  .@{prefix-cls-modal} {
+    .ant-form {
+      height: 100%;
+    }
+
+    .ant-col-24 {
+      height: calc(100% - 100px);
+
+      .ant-form-item {
+        height: 100%;
+
+        .ant-form-row {
+          height: 100%;
+
+          .ant-form-item-control {
+            height: 100%;
+          }
+        }
+
+        .ant-form-item-control-input {
+          height: 100%;
+
+          .ant-form-item-control-input-content {
+            height: 100%;
+          }
+
+          .ant-form-item-control-input-content > div:first-child {
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    .code-edit-container {
+      height: 100%;
+    }
+
+    .CodeMirror {
+      height: 100%;
+    }
   }
 </style>
