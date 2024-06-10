@@ -1,9 +1,11 @@
-import type { Ref } from 'vue';
-import type { SmartColumn, SmartSearchFormSchema } from '@/components/SmartTable';
+import {
+  SmartColumn,
+  SmartSearchFormSchema,
+  tableBooleanClass,
+  tableUseYnClass,
+} from '@/components/SmartTable';
 import type { FormSchema } from '@/components/Form';
 
-import { unref } from 'vue';
-import { tableUseYnClass } from '@/components/SmartTable';
 import { DATA_SCOPE, SYS_USER_TYPE } from '@/modules/smart-system/constants/SystemConstants';
 
 import { getDeptTreeListApi } from './UserListView.api';
@@ -29,20 +31,18 @@ export const getTableColumns = (): SmartColumn[] => {
       fixed: 'left',
     },
     {
-      title: '{system.views.user.table.userType}',
-      field: 'userType',
-      width: 120,
-      slots: {
-        default: 'table-userType',
-      },
-    },
-    {
       title: '{system.views.user.table.accountStatus}',
       field: 'account',
       width: 100,
       slots: {
         default: 'table-accountStatus',
       },
+    },
+    {
+      title: '{system.views.user.table.buildIn}',
+      width: 80,
+      ...tableBooleanClass('buildIn'),
+      sortable: true,
     },
     {
       title: '{system.views.user.table.email}',
@@ -102,7 +102,7 @@ export const getTableColumns = (): SmartColumn[] => {
   ];
 };
 
-export const getAddEditFormSchemas = (t: Function, userTypeRef: Ref<any[]>): FormSchema[] => {
+export const getAddEditFormSchemas = (t: Function): FormSchema[] => {
   return [
     {
       label: '',
@@ -126,22 +126,6 @@ export const getAddEditFormSchemas = (t: Function, userTypeRef: Ref<any[]>): For
       label: t('system.views.user.table.email'),
       field: 'email',
       component: 'Input',
-    },
-    {
-      label: t('system.views.user.table.userType'),
-      field: 'userType',
-      component: 'Select',
-      required: true,
-      componentProps: () => {
-        return {
-          options: unref(userTypeRef).map((item) => {
-            return {
-              label: item.dictItemName,
-              value: item.dictItemCode,
-            };
-          }),
-        };
-      },
     },
     {
       label: t('system.views.user.table.mobile'),
@@ -262,20 +246,6 @@ export const getSearchSchemas = (t: Function): SmartSearchFormSchema[] => {
             value: 0,
           },
         ],
-      },
-    },
-    {
-      label: t('system.views.user.table.userType'),
-      field: 'userType',
-      componentProps: {
-        style: {
-          width: '100px',
-        },
-      },
-      searchSymbol: '=',
-      slot: 'search-userType',
-      colProps: {
-        // span: 5,
       },
     },
   ];

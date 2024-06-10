@@ -21,6 +21,7 @@ export default {
           mobile: 'Mobile',
           userType: 'User type',
           accountStatus: 'Status',
+          buildIn: 'Build-in',
         },
         button: {
           createAccount: 'Create account',

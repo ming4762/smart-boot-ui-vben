@@ -21,6 +21,7 @@ export default {
           mobile: '手机号',
           userType: '用户类型',
           accountStatus: '账户状态',
+          buildIn: '是否内置',
         },
         button: {
           createAccount: '创建账户',

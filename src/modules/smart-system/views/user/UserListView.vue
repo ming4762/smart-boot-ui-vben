@@ -11,22 +11,6 @@
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableActions(row)" />
           </template>
-          <template #table-userType="{ row }">
-            <span>
-              {{ getUserTypeMap[row.userType] }}
-            </span>
-          </template>
-          <template #search-userType="{ model, size }">
-            <a-select style="width: 100px" :size="size" v-model:value="model.userType" allowClear>
-              <a-select-option
-                v-for="item in userTypeListRef"
-                :key="'userType_' + item.dictItemCode"
-                :value="item.dictItemCode"
-              >
-                {{ item.dictItemName }}
-              </a-select-option>
-            </a-select>
-          </template>
           <template #table-accountStatus="{ row }">
             <a-tooltip :title="getLockedMessage(row.userAccount?.accountStatus)">
               <span
@@ -49,11 +33,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, unref } from 'vue';
+  import { ref, unref } from 'vue';
   import { useI18n } from '@/hooks/web/useI18n';
   import { storeToRefs } from 'pinia';
 
-  import { useLoadDictItem } from '@/modules/smart-system/hooks/SysDictHooks';
   import { useSizeSetting } from '@/hooks/setting/UseSizeSetting';
   import { hasPermission } from '@/utils/auth';
   import { useModal } from '@/components/Modal';
@@ -95,16 +78,6 @@
   const { getTableSize } = useSizeSetting();
   const { getIsPlatformTenant } = storeToRefs(useUserStore());
   const [registerUseYnModal, { openModal: openUseYnModal }] = useModal();
-
-  const { dictData: userTypeListRef } = useLoadDictItem(ref('SYSTEM_USER_TYPE'));
-  const getUserTypeMap = computed(() => {
-    const result: { [index: string]: string } = {};
-    result[SYS_USER_TYPE] = '系统用户';
-    for (let userType of unref(userTypeListRef)) {
-      result[userType.dictItemCode] = userType.dictItemName;
-    }
-    return result;
-  });
 
   const accountLockedMessage = {
     LOGIN_FAIL_LOCKED: '多次登录失败锁定',
@@ -321,7 +294,7 @@
       },
       formConfig: {
         colon: true,
-        schemas: getAddEditFormSchemas(t, userTypeListRef),
+        schemas: getAddEditFormSchemas(t),
         labelCol: {
           span: 4,
         },
