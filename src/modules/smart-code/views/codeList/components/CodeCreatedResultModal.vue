@@ -27,7 +27,7 @@
 
   const { prefixCls } = useDesign('smart-tool-code-codeCreateResult');
 
-  const [registerModal, { changeLoading, closeModal }] = useModalInner((data: CodeCreatedModel) => {
+  const [registerModal, { changeLoading }] = useModalInner((data: CodeCreatedModel) => {
     loadData(data);
   });
   const dataRef = ref<Array<any>>([]);
@@ -56,7 +56,6 @@
       const filename = `${item.filename}.${extensionLanguageMap[item.language]}`;
       downloadByData(item.code, filename);
     });
-    closeModal();
   };
 </script>
 
