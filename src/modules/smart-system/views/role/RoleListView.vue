@@ -1,5 +1,5 @@
 <template>
-  <div class="full-height page-container">
+  <div class="full-height page-container" :class="prefixCls">
     <a-layout class="full-height">
       <a-layout-content class="full-height">
         <SmartTable
@@ -20,6 +20,7 @@
       @register="registerSetUserModal"
       @selected="handleSetUser"
       defaultFullscreen
+      :class="useSelectModalClass"
       showSelect
       :title="$t('system.views.role.button.setRoleUser')"
       :select-values="selectUserList"
@@ -45,11 +46,15 @@
   import RoleSetFunction from './components/RoleSetFunction.vue';
   import { useRoleSetUser } from './hook/useRoleSetUser';
   import { hasPermission } from '@/utils/auth';
+  import { useDesign } from '@/hooks/web/useDesign';
 
   const { t } = useI18n();
   const { getTableSize } = useSizeSetting();
 
   const permissions = SystemPermissions.role;
+
+  const { prefixCls } = useDesign('system-roleList');
+  const { prefixCls: useSelectModalClass } = useDesign('system-roleList-setUserModal');
 
   const currentRow = ref<Recordable>({});
   const handleCurrentChange = ({ row }: any) => {
@@ -143,8 +148,26 @@
   });
 </script>
 
-<style lang="less" scoped>
-  .layout-set-function {
-    margin-left: 5px;
+<style lang="less">
+  @prefix-cls-modal: ~'@{namespace}-system-roleList-setUserModal';
+  .@{prefix-cls-modal} {
+    .ant-row {
+      height: 100%;
+    }
+
+    .table-container {
+      height: 100%;
+    }
+
+    .select-table-container {
+      height: calc(100% - 50px);
+    }
+  }
+
+  @prefix-cls: ~'@{namespace}-system-roleList';
+  .@{prefix-cls} {
+    .layout-set-function {
+      margin-left: 5px;
+    }
   }
 </style>

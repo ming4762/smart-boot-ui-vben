@@ -191,7 +191,7 @@ const renderTable = (instance) => {
   }
   return (
     <Row>
-      <Col span={showSelect ? 12 : 24}>
+      <Col span={showSelect ? 12 : 24} class="table-container">
         <SmartTable
           onRegister={registerTable}
           onCheckboxChange={handleCheckboxChange}
@@ -200,7 +200,11 @@ const renderTable = (instance) => {
         />
       </Col>
       {showSelect ? (
-        <Col style={getHasSearchForm ? { marginTop: '58px' } : ''} span={12}>
+        <Col
+          class="select-table-container"
+          style={getHasSearchForm ? { marginTop: '50px' } : ''}
+          span={12}
+        >
           <SmartTable data={selectRowsRef} onRegister={registerSelectTable} />
         </Col>
       ) : (

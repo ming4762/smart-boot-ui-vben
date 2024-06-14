@@ -37,6 +37,7 @@
 
   const commonTableProps: SmartTableProps = {
     pagerConfig: true,
+    height: 'auto',
     columns: [
       {
         type: 'checkbox',
