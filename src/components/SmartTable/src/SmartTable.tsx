@@ -32,6 +32,7 @@ import { useToolbarEvent } from './hooks/useToolbarEvent';
 import { useSmartTableCheckbox } from './hooks/useSmartTableCheckbox';
 import { useSmartTableDynamicClassStyle } from './hooks/useSmartTableDynamicClassStyle';
 import { useSmartTableColumnConfig } from '@/components/SmartTable/src/hooks/useSmartTableColumnConfig';
+import { useSmartTableSeqConfig } from '@/components/SmartTable/src/hooks/useSmartTableSeqConfig';
 
 export default defineComponent({
   name: 'SmartTable',
@@ -81,6 +82,9 @@ export default defineComponent({
       setShowPagination,
       handlePageChange,
     } = usePagination(getTableProps, emit);
+
+    // -------------- 序号功能增强 ---------------------------
+    const { computedSeqConfig } = useSmartTableSeqConfig(getTableProps, getPagination);
 
     /**
      * vxe-table函数
@@ -346,6 +350,7 @@ export default defineComponent({
       pagerConfig: getPaginationInfo,
       setColumnSortConfig,
       tableLoading: getLoading,
+      computedSeqConfig,
     };
   },
   render() {
@@ -431,12 +436,14 @@ const renderTable = (instance) => {
       pagerConfig,
       tableLoading,
       $emit,
+      computedSeqConfig,
     } = instance;
     const tableProps = {
       ...getTableBindValues,
       columns: tableColumns,
       pagerConfig,
       loading: tableLoading,
+      seqConfig: computedSeqConfig,
     };
     const result = [
       <vxe-grid ref="tableElRef" {...tableProps}>

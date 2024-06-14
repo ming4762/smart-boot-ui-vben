@@ -1,9 +1,14 @@
-import type { VxeTableDefines, VxeGridProps, VxeGridPropTypes, VxeGridInstance } from 'vxe-table';
+import type {
+  VxeTableDefines,
+  VxeGridProps,
+  VxeGridPropTypes,
+  VxeGridInstance,
+  VxeTablePropTypes,
+} from 'vxe-table';
 import type { SmartSearchFormProps } from './SmartSearchFormType';
 import type { SmartTableButton, SmartTableToolbarTool } from './SmartTableButton';
 import type { SmartTableAddEditConfig } from './SmartTableAddEditType';
 import type { NamePath } from 'ant-design-vue/es/form/interface';
-import type { VxeTablePropTypes } from 'vxe-table/types/table';
 import type { Options as SortableOptions } from 'sortablejs';
 import type { SmartColumn } from './SmartTableColumnType';
 import type { SmartTableAuthConfig } from './SmartTableAuthType';
@@ -110,6 +115,7 @@ export interface SmartTableProps<T = any> extends VxeGridProps<T> {
   addEditConfig?: SmartTableAddEditConfig;
   rowConfig?: SmartTableRowConfig;
   authConfig?: SmartTableAuthConfig;
+  seqConfig?: SmartTableSeqConfig;
 }
 
 /**
@@ -176,4 +182,12 @@ export interface SmartTableInnerActionType {
 
 export interface SmartTableInnerRegisterActionType extends SmartTableInnerActionType {
   registerInnerAction: (action: SmartTableInnerActionType) => void;
+}
+
+/**
+ * 序号配置项
+ */
+export interface SmartTableSeqConfig extends VxeTablePropTypes.SeqConfig {
+  // 序号是否绑定分页
+  seqBindPage?: boolean;
 }
