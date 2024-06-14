@@ -105,8 +105,7 @@ export const useSmartTableColumn = (tableProps: ComputedRef<SmartTableProps>, t:
         },
       };
     });
-    convertEditRender(result, tableSize);
-    return result;
+    return convertEditRender(result, tableSize);
   });
 
   /**
@@ -149,25 +148,25 @@ export const useSmartTableColumn = (tableProps: ComputedRef<SmartTableProps>, t:
  * @param columns
  * @param tableSize
  */
-const convertEditRender = (columns: SmartColumn[], tableSize) => {
-  for (const column of columns) {
-    const convertProps: Recordable = {};
+const convertEditRender = (columns: SmartColumn[], tableSize): SmartColumn[] => {
+  return columns.map((column) => {
     const { editRender } = column;
     if (!editRender) {
-      continue;
+      return column;
     }
+    const convertProps: Recordable = {};
     // 处理尺寸
     convertProps.size = getFormSize(tableSize);
-
+    const editRenderConvert: Recordable = {};
     // 处理自动聚焦
-    const { autofocus, name } = editRender;
+    const { autofocus, name, props } = editRender;
     if (isBoolean(autofocus) && autofocus) {
       if (name === 'ASelect') {
-        editRender.autofocus = '.ant-select-selection-search-input';
+        editRenderConvert.autofocus = '.ant-select-selection-search-input';
       } else if (name === 'ADatePicker') {
-        editRender.autofocus = '.ant-picker-input input';
+        editRenderConvert.autofocus = '.ant-picker-input input';
       } else {
-        editRender.autofocus = undefined;
+        editRenderConvert.autofocus = undefined;
       }
     }
     // 处理事件冒泡
@@ -178,19 +177,27 @@ const convertEditRender = (columns: SmartColumn[], tableSize) => {
         }
       };
     }
-    if (XEUtils.isFunction(editRender.props)) {
+
+    if (XEUtils.isFunction(props)) {
       const defaultProps = editRender.props as Function;
-      editRender.props = (row) => {
+      editRenderConvert.props = (row) => {
         return {
           ...convertProps,
           ...defaultProps(row),
         };
       };
     } else {
-      editRender.props = {
+      editRenderConvert.props = {
         ...convertProps,
         ...(editRender.props || {}),
       };
     }
-  }
+    return {
+      ...column,
+      editRender: {
+        ...editRender,
+        ...editRenderConvert,
+      },
+    };
+  });
 };
