@@ -356,7 +356,7 @@ const getDefaultDeleteButtonConfig = (t: Function): SmartTableButton => {
     code: 'delete',
     props: {
       color: 'error',
-      preIcon: 'ant-design:edit-outlined',
+      preIcon: 'ant-design:delete-outlined',
     },
     buttonRender: {
       name: VxeTableToolButtonCustomRenderer,
