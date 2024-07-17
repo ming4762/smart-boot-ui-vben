@@ -15,6 +15,7 @@ import {
   InputNumber,
 } from 'ant-design-vue';
 import VXETable from 'vxe-table';
+import VXEUI from 'vxe-pc-ui';
 
 import ExcelJS from 'exceljs';
 import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx';
@@ -56,5 +57,6 @@ export function registerGlobComp(app: App) {
     .use(InputNumber)
     .use(Form)
     .use(Checkbox)
-    .use(VXETable);
+    .use(VXETable)
+    .use(VXEUI);
 }
