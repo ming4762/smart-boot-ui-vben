@@ -4,7 +4,7 @@
   import { extendSlots } from '@/utils/helper/tsxHelper';
   import { omit } from 'lodash-es';
   import { useI18n } from '@/hooks/web/useI18n';
-  import { VxeButton } from 'vxe-table';
+  import { VxeButton } from 'vxe-pc-ui';
 
   const props = {
     /**

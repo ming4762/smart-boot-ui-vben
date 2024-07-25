@@ -37,7 +37,7 @@
       v-if="dropDownActions && getDropdownList.length > 0"
     >
       <slot name="more"></slot>
-      <vxe-button type="text" status="primary" size="small" v-if="!$slots.more">
+      <vxe-button mode="text" status="primary" size="small" v-if="!$slots.more">
         更多
         <Icon icon="mdi-light:chevron-down" />
       </vxe-button>
@@ -105,7 +105,7 @@
             const { popConfirm } = action;
             return {
               getPopupContainer: () => unref((table as any)?.wrapRef.value) ?? document.body,
-              type: 'text',
+              mode: 'text',
               size: 'small',
               status: action.danger ? 'danger' : 'primary',
               ...action,

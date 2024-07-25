@@ -8,7 +8,7 @@ import type {
   VxeTableDefines,
 } from 'vxe-table';
 
-import { t as vxeI18n } from 'vxe-table';
+import { getI18n as vxeI18n } from 'vxe-table';
 
 import { computed, defineComponent, inject, nextTick, Ref, ref, unref } from 'vue';
 import type { SmartTableToolbarColumnConfig } from '@/components/SmartTable';
@@ -186,10 +186,10 @@ const renderDropdown = (props: VxeGridProps, handleShowHideOk, handleRestShowHid
       <div>
         <vxe-grid ref="configGridRef" {...props} />
         <div class="bottom-button">
-          <vxe-button type="text" onClick={handleRestShowHide}>
+          <vxe-button mode="text" onClick={handleRestShowHide}>
             {vxeI18n('vxe.toolbar.customRestore')}
           </vxe-button>
-          <vxe-button type="text" onClick={handleShowHideOk}>
+          <vxe-button mode="text" onClick={handleShowHideOk}>
             {vxeI18n('vxe.toolbar.customConfirm')}
           </vxe-button>
         </div>
