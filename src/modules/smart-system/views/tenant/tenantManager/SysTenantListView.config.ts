@@ -172,7 +172,7 @@ export const getFormSchemas = (t: Function, isolationStrategyListRef: Ref): Form
     {
       field: 'id',
       show: false,
-      label: t('system.views.tenant.manager.title.id'),
+      label: '',
       component: 'Input',
       componentProps: {},
     },
@@ -542,7 +542,7 @@ export const getSubscribeFormSchemas = (t: Function, tenantIdRef: Ref): FormSche
   return [
     {
       field: 'id',
-      label: t('system.views.tenant.manager.title.subscribe.id'),
+      label: '',
       component: 'Input',
       show: false,
       componentProps: {},
