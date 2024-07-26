@@ -1,4 +1,6 @@
 import type { App } from 'vue';
+import { unref } from 'vue';
+
 import { Button } from './Button';
 import {
   Input,
@@ -23,14 +25,16 @@ import { VXETablePluginAntd } from '@/components/SmartTable/VXETablePluginAntd';
 
 import { i18n } from '@/locales/setupI18n';
 
-export function registerGlobComp(app: App) {
-  VXETable.setup({
-    // @ts-ignore
-    i18n: (key, args) => {
-      // @ts-ignore
-      return i18n.global.t(key, args);
-    },
-    translate(key: string, args?: any): string {
+const initVxeTable = async (app: App) => {
+  const locale = unref(i18n.global.locale);
+  const i18nData = await import(`@/components/SmartTable/src/locale/lang/${locale}.ts`);
+  // @ts-ignore
+  VXETable.setI18n(locale, i18nData.default);
+  // @ts-ignore
+  VXETable.setLanguage(locale);
+
+  VXETable.setConfig({
+    translate(key, args) {
       if (key.startsWith('{') && key.endsWith('}')) {
         const i18nKey = key.replace('{', '').replace('}', '');
         // @ts-ignore
@@ -43,6 +47,12 @@ export function registerGlobComp(app: App) {
   VXETable.use(VXETablePluginExportXLSX, {
     ExcelJS,
   });
+
+  app.use(VXETable).use(VXEUI);
+};
+
+export function registerGlobComp(app: App) {
+  initVxeTable(app);
   app
     .use(Input)
     .use(Button)
@@ -56,7 +66,5 @@ export function registerGlobComp(app: App) {
     .use(Switch)
     .use(InputNumber)
     .use(Form)
-    .use(Checkbox)
-    .use(VXETable)
-    .use(VXEUI);
+    .use(Checkbox);
 }

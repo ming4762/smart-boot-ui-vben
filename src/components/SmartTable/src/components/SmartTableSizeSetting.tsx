@@ -1,11 +1,11 @@
 import type { SmartTableToolbarSizeSetting } from '@/components/SmartTable';
-import type { SizeType, VxeButtonProps } from 'vxe-table';
+import type { VxeButtonProps, VxeTablePropTypes } from 'vxe-table';
 
 import { computed, defineComponent, h, onMounted, unref } from 'vue';
 
 import { Menu, Dropdown } from 'ant-design-vue';
 import { ColumnHeightOutlined } from '@ant-design/icons-vue';
-import { t as vxeI18n } from 'vxe-table';
+import { getI18n } from 'vxe-table';
 
 import { useTableContext } from '../hooks/useSmartTableContext';
 
@@ -34,7 +34,7 @@ export default defineComponent({
       });
       setTableSize(e.key);
     };
-    const setTableSize = (size: SizeType) => {
+    const setTableSize = (size: VxeTablePropTypes.Size) => {
       const tableId = tableContext.getTableInstance()?.id;
       if (!tableId) {
         return;
@@ -101,7 +101,7 @@ const renderButton = (config: SmartTableToolbarSizeSetting) => {
   };
   return () => {
     return (
-      <vxe-button title={vxeI18n('smart_table.toolbar.sizeSetting')} {...props}>
+      <vxe-button title={getI18n('smart_table.toolbar.sizeSetting')} {...props}>
         {slots}
       </vxe-button>
     );

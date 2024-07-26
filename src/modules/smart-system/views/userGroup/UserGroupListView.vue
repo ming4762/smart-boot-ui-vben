@@ -130,6 +130,7 @@
       refresh: true,
       column: { columnOrder: true },
       zoom: true,
+      sizeSetting: true,
       buttons: [
         {
           code: 'ModalAdd',

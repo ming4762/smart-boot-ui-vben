@@ -33,6 +33,9 @@ export default {
       componentName: 'Please enter component name',
       redirect: 'Please enter redirect',
     },
+    title: {
+      cached: 'Cached route',
+    },
   },
 };
 

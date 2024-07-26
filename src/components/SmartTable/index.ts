@@ -18,5 +18,5 @@ export * from './src/types/SmartTableToolbarConfigType';
 export * from './src/utils/TableCommon';
 export * from './src/hooks/useVxeTableSortable';
 
-export { default as zh_CN } from './src/lang/zh_CN';
-export { default as en_US } from './src/lang/en_US';
+export { default as zh_CN } from './src/locale/lang/zh_CN';
+export { default as en_US } from './src/locale/lang/en_US';
