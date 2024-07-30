@@ -6,6 +6,7 @@ export default {
       title: {
         dictCode: 'Dict code',
         dictName: 'Dict name',
+        tenant: 'Tenant',
       },
       validate: {
         dictCode: 'Please enter dict code',

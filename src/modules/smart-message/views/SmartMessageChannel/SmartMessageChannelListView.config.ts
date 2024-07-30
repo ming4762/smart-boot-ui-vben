@@ -94,7 +94,7 @@ export const getFormSchemas = (
     {
       field: 'id',
       show: false,
-      label: t('smart.message.channel.title.id'),
+      label: '',
       component: 'Input',
       componentProps: {},
     },

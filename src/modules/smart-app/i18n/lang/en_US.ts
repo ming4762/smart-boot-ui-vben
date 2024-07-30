@@ -25,6 +25,7 @@ export default {
       add: 'Add',
       edit: 'Edit',
       useYn: 'Use Yn',
+      tenantCommonYn: 'Platform Universal',
     },
     form: {
       use: 'Use',

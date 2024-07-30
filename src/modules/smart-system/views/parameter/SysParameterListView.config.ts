@@ -103,7 +103,7 @@ export const getFormSchemas = (t: Function): FormSchema[] => {
     {
       field: 'id',
       show: false,
-      label: t('system.views.parameter.title.id'),
+      label: '',
       component: 'Input',
       componentProps: {},
     },
