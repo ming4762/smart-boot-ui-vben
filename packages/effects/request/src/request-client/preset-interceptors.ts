@@ -93,7 +93,6 @@ export const errorMessageResponseInterceptor = (
 
       let errorMessage = error?.response?.data?.error?.message ?? '';
       const status = error?.response?.status;
-
       switch (status) {
         case 400: {
           errorMessage = $t('fallback.http.badRequest');

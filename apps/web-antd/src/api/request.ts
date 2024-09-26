@@ -2,17 +2,20 @@
  * 该文件可自行根据业务逻辑进行调整
  */
 import { useAppConfig } from '@vben/hooks';
+import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import {
   authenticateResponseInterceptor,
   errorMessageResponseInterceptor,
   RequestClient,
+  type RequestOptions,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
+import { createErrorModal } from '#/utils';
 
 import { refreshTokenApi } from './core';
 
@@ -72,11 +75,16 @@ function createRequestClient(baseURL: string) {
     fulfilled: (response) => {
       const { data: responseData, status } = response;
 
-      const { code, data, message: msg } = responseData;
-      if (status >= 200 && status < 400 && code === 0) {
+      const { code, data } = responseData;
+      if (status >= 200 && status < 400 && code === 200) {
         return data;
       }
-      throw new Error(`Error ${status}: ${msg}`);
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject({
+        config: response.config,
+        isSystemError: true,
+        response,
+      });
     },
   });
 
@@ -93,11 +101,26 @@ function createRequestClient(baseURL: string) {
 
   // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
   client.addResponseInterceptor(
-    errorMessageResponseInterceptor((msg: string, _error) => {
+    errorMessageResponseInterceptor((_msg: string, _error) => {
       // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
-      message.error(msg);
+      // message.error(msg);
     }),
   );
+  client.setErrorHandler((error: any, options: RequestOptions) => {
+    let errorMessage = '';
+    const result = error?.response?.data;
+    errorMessage = result
+      ? result.message
+      : $t('fallback.http.internalServerError');
+    const errorMessageMode = options.errorMessageMode;
+    if (!errorMessageMode || errorMessageMode === 'message') {
+      message.error(errorMessage);
+    } else if (errorMessageMode === 'modal') {
+      createErrorModal({
+        content: errorMessage,
+      });
+    }
+  });
 
   return client;
 }

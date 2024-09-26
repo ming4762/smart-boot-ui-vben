@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@ant-design/icons-vue':
+      specifier: ^7.0.1
+      version: 7.0.1
     '@changesets/changelog-github':
       specifier: ^0.5.0
       version: 0.5.0
@@ -78,6 +81,9 @@ catalogs:
     '@types/chalk':
       specifier: ^2.2.0
       version: 2.2.0
+    '@types/crypto-js':
+      specifier: ^4.2.2
+      version: 4.2.2
     '@types/eslint':
       specifier: ^9.6.1
       version: 9.6.1
@@ -177,6 +183,9 @@ catalogs:
     cross-env:
       specifier: ^7.0.3
       version: 7.0.3
+    crypto-js:
+      specifier: ^4.2.0
+      version: 4.2.0
     cspell:
       specifier: ^8.14.4
       version: 8.14.4
@@ -223,7 +232,7 @@ catalogs:
       specifier: ^4.3.0
       version: 4.3.0
     eslint-plugin-jsdoc:
-      specifier: ^50.2.4
+      specifier: ^50.2
       version: 50.2.4
     eslint-plugin-jsonc:
       specifier: ^2.16.0
@@ -609,6 +618,12 @@ importers:
 
   apps/web-antd:
     dependencies:
+      '@ant-design/icons-vue':
+        specifier: 'catalog:'
+        version: 7.0.1(vue@3.5.7(typescript@5.6.2))
+      '@vben-core/shadcn-ui':
+        specifier: workspace:*
+        version: link:../../packages/@core/ui-kit/shadcn-ui
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -1693,9 +1708,16 @@ importers:
       '@vben-core/typings':
         specifier: workspace:*
         version: link:../@core/base/typings
+      crypto-js:
+        specifier: 'catalog:'
+        version: 4.2.0
       vue-router:
         specifier: 'catalog:'
         version: 4.4.5(vue@3.5.7(typescript@5.6.2))
+    devDependencies:
+      '@types/crypto-js':
+        specifier: 'catalog:'
+        version: 4.2.2
 
   playground:
     dependencies:
@@ -4539,6 +4561,9 @@ packages:
   '@types/conventional-commits-parser@5.0.0':
     resolution: {integrity: sha512-loB369iXNmAZglwWATL+WRe+CRMmmBPtpolYzIebFaX4YA3x+BEfLqhUAV9WanycKI3TG1IMr5bMJDajDKLlUQ==}
 
+  '@types/crypto-js@4.2.2':
+    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
+
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
@@ -5665,6 +5690,9 @@ packages:
     peerDependenciesMeta:
       uWebSockets.js:
         optional: true
+
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   crypto-random-string@2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
@@ -13444,6 +13472,8 @@ snapshots:
     dependencies:
       '@types/node': 22.5.5
 
+  '@types/crypto-js@4.2.2': {}
+
   '@types/eslint@9.6.1':
     dependencies:
       '@types/estree': 1.0.6
@@ -14793,6 +14823,8 @@ snapshots:
       which: 2.0.2
 
   crossws@0.2.4: {}
+
+  crypto-js@4.2.0: {}
 
   crypto-random-string@2.0.0: {}
 

@@ -24,6 +24,10 @@
   "dependencies": {
     "@vben-core/shared": "workspace:*",
     "@vben-core/typings": "workspace:*",
+    "crypto-js": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "catalog:"
   }
 }

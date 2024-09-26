@@ -13,6 +13,7 @@ packages:
   - docs
   - playground
 catalog:
+  '@ant-design/icons-vue': ^7.0.1
   '@changesets/changelog-github': ^0.5.0
   '@changesets/cli': ^2.27.8
   '@changesets/git': ^3.0.1
@@ -38,6 +39,7 @@ catalog:
   '@tanstack/vue-store': ^0.5.5
   '@types/archiver': ^6.0.2
   '@types/chalk': ^2.2.0
+  '@types/crypto-js': ^4.2.2
   '@types/eslint': ^9.6.1
   '@types/html-minifier-terser': ^7.0.2
   '@types/jsonwebtoken': ^9.0.7
@@ -72,6 +74,7 @@ catalog:
   commitlint-plugin-function-rules: ^4.0.0
   consola: ^3.2.3
   cross-env: ^7.0.3
+  crypto-js: ^4.2.0
   cspell: ^8.14.4
   cssnano: ^7.0.6
   cz-git: ^1.9.4
@@ -87,7 +90,7 @@ catalog:
   eslint-plugin-command: ^0.2.5
   eslint-plugin-eslint-comments: ^3.2.0
   eslint-plugin-import-x: ^4.3.0
-  eslint-plugin-jsdoc: ^50.2.4
+  eslint-plugin-jsdoc: ^50.2
   eslint-plugin-jsonc: ^2.16.0
   eslint-plugin-n: ^17.10.3
   eslint-plugin-no-only-tests: ^3.3.0

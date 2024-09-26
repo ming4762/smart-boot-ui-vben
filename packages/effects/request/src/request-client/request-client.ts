@@ -1,9 +1,4 @@
-import type {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  CreateAxiosDefaults,
-} from 'axios';
+import type { AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 
 import { bindMethods, merge } from '@vben/utils';
 
@@ -12,9 +7,11 @@ import axios from 'axios';
 import { FileDownloader } from './modules/downloader';
 import { InterceptorManager } from './modules/interceptor';
 import { FileUploader } from './modules/uploader';
-import { type RequestClientOptions } from './types';
+import { type RequestClientOptions, type RequestOptions } from './types';
 
 class RequestClient {
+  // 异常处理器
+  private errorHandler?: (error: any, options: RequestOptions) => void;
   private readonly instance: AxiosInstance;
 
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
@@ -25,6 +22,12 @@ class RequestClient {
   public isRefreshing = false;
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
+  public setErrorHandler = (
+    errorHandler: (error: any, options: RequestOptions) => void,
+  ) => {
+    this.errorHandler = errorHandler;
+  };
+
   public upload: FileUploader['upload'];
 
   /**
@@ -64,14 +67,14 @@ class RequestClient {
   /**
    * DELETE请求方法
    */
-  public delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  public delete<T = any>(url: string, config?: RequestOptions): Promise<T> {
     return this.request<T>(url, { ...config, method: 'DELETE' });
   }
 
   /**
    * GET请求方法
    */
-  public get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  public get<T = any>(url: string, config?: RequestOptions): Promise<T> {
     return this.request<T>(url, { ...config, method: 'GET' });
   }
 
@@ -81,9 +84,22 @@ class RequestClient {
   public post<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig,
+    config?: RequestOptions,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'POST' });
+  }
+
+  /**
+   * POST Form请求方法
+   */
+  public postForm<T = any>(
+    url: string,
+    data?: any,
+    config?: RequestOptions,
+  ): Promise<T> {
+    const headers = config?.headers || {};
+    headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+    return this.request<T>(url, { ...config, data, headers, method: 'POST' });
   }
 
   /**
@@ -92,7 +108,7 @@ class RequestClient {
   public put<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig,
+    config?: RequestOptions,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'PUT' });
   }
@@ -100,7 +116,7 @@ class RequestClient {
   /**
    * 通用的请求方法
    */
-  public async request<T>(url: string, config: AxiosRequestConfig): Promise<T> {
+  public async request<T>(url: string, config: RequestOptions): Promise<T> {
     try {
       const response: AxiosResponse<T> = await this.instance({
         url,
@@ -108,6 +124,7 @@ class RequestClient {
       });
       return response as T;
     } catch (error: any) {
+      this.errorHandler && this.errorHandler(error, config);
       throw error.response ? error.response.data : error;
     }
   }
