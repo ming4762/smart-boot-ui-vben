@@ -131,11 +131,15 @@ const handleLogin = (data: LoginAndRegisterParams) => {
   const code = JSON.stringify(
     unref(captchaRef).createValidateParameter(loginData.captcha),
   );
-  authStore.authLogin({
-    code,
-    password: createPassword(loginData.username, loginData.password),
-    username: loginData.username,
-  });
+  authStore
+    .authLogin({
+      code,
+      password: createPassword(loginData.username, loginData.password),
+      username: loginData.username,
+    })
+    .catch((_) => {
+      unref(captchaRef).refresh();
+    });
 };
 </script>
 

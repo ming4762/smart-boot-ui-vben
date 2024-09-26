@@ -1,3 +1,5 @@
+import type { UserInfo } from '@vben/types';
+
 import { baseRequestClient, requestClient } from '#/api/request';
 
 export namespace AuthApi {
@@ -5,11 +7,21 @@ export namespace AuthApi {
   export interface LoginParams {
     password: string;
     username: string;
+    code?: string;
+  }
+
+  export interface LoginRole {
+    roleCode: string;
+    roleName: string;
+    superAdminYn: boolean;
   }
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    accessToken: string;
+    token: string;
+    permissions: string[];
+    roles: LoginRole[];
+    user: UserInfo;
   }
 
   export interface RefreshTokenResult {
