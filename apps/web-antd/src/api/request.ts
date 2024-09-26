@@ -1,6 +1,8 @@
 /**
  * 该文件可自行根据业务逻辑进行调整
  */
+import type { HttpResponse, RequestOptions } from '@vben/request';
+
 import { useAppConfig } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
@@ -8,7 +10,6 @@ import {
   authenticateResponseInterceptor,
   errorMessageResponseInterceptor,
   RequestClient,
-  type RequestOptions,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
 
@@ -71,7 +72,7 @@ function createRequestClient(baseURL: string) {
   });
 
   // response数据解构
-  client.addResponseInterceptor({
+  client.addResponseInterceptor<HttpResponse>({
     fulfilled: (response) => {
       const { data: responseData, status } = response;
 
