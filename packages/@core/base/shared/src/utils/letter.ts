@@ -39,7 +39,25 @@ function kebabToCamelCase(str: string): string {
     .join('');
 }
 
+/**
+ * 驼峰转中划线
+ * @param camelCaseName
+ */
+function camelToLine(camelCaseName: string): string {
+  if (camelCaseName.length === 0) {
+    return '';
+  }
+  camelCaseName = camelCaseName.replace(
+    camelCaseName.charAt(0),
+    camelCaseName.charAt(0).toLowerCase(),
+  );
+  return camelCaseName.replaceAll(/([A-Z])/g, (match) => {
+    return `-${match.toLowerCase()}`;
+  });
+}
+
 export {
+  camelToLine,
   capitalizeFirstLetter,
   kebabToCamelCase,
   toCamelCase,

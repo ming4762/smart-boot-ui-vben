@@ -65,8 +65,9 @@ interface RequestOptions extends AxiosRequestConfig {
   service?: ApiService;
 }
 
+export { ApiServiceEnum };
+
 export type {
-  ApiServiceEnum,
   ErrorMessageMode,
   HttpResponse,
   MakeErrorMessageFn,

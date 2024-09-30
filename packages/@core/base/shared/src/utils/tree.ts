@@ -94,4 +94,54 @@ function mapTree<T, V extends Record<string, any>>(
   });
 }
 
-export { filterTree, mapTree, traverseTreeValues };
+interface TreeNode extends Record<string, any> {
+  children?: TreeNode[];
+  hasChild?: boolean;
+  hasParent?: boolean;
+}
+
+/**
+ * 将list转为树结构
+ * @param list 需要转换的list
+ * @param keyGetter 获取key函数
+ * @param parentKeyGetter 获取value函数
+ * @param topParentCode 顶级parent code
+ */
+function listToTree<T extends TreeNode>(
+  list: T[],
+  keyGetter: (arg: T) => number | string,
+  parentKeyGetter: (arg: T) => number | string,
+  topParentCode?: number | string,
+): T[] {
+  if (list === null) {
+    return [];
+  }
+  if (topParentCode === undefined || topParentCode === null) {
+    topParentCode = '0';
+  }
+  const treeList: T[] = [];
+  for (const value of list) {
+    const parentId = parentKeyGetter(value);
+    // 如果父ID 等于顶级父ID，则是顶级节点
+    if (parentId === null || parentId === topParentCode) {
+      treeList.push(value);
+      continue;
+    }
+    for (const parent of list) {
+      const id = keyGetter(parent);
+      if (id === parentId) {
+        if (!parent.children) {
+          parent.children = [];
+        }
+        parent.children.push(value);
+        // 设置节点含有下级
+        parent.hasChild = true;
+        // 设置节点含有上级
+        value.hasParent = true;
+      }
+    }
+  }
+  return treeList;
+}
+
+export { filterTree, listToTree, mapTree, traverseTreeValues };

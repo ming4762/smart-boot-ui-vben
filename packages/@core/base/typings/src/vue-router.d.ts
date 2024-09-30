@@ -1,5 +1,7 @@
 import type { Router, RouteRecordRaw } from 'vue-router';
 
+import type { UserRole } from './basic';
+
 import type { Component } from 'vue';
 
 interface RouteMeta {
@@ -121,7 +123,7 @@ interface GenerateMenuAndRoutesOptions {
   forbiddenComponent?: RouteRecordRaw['component'];
   layoutMap?: ComponentRecordType;
   pageMap?: ComponentRecordType;
-  roles?: string[];
+  roles?: UserRole[];
   router: Router;
   routes: RouteRecordRaw[];
 }
