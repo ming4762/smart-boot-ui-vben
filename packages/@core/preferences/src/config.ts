@@ -37,9 +37,10 @@ const defaultPreferences: Preferences = {
     enable: true,
     icp: '',
     icpLink: '',
+    settingShow: true,
   },
   footer: {
-    enable: true,
+    enable: false,
     fixed: false,
   },
   header: {
@@ -73,7 +74,7 @@ const defaultPreferences: Preferences = {
     width: 224,
   },
   tabbar: {
-    dragable: true,
+    draggable: true,
     enable: true,
     height: 38,
     keepAlive: true,
@@ -81,7 +82,7 @@ const defaultPreferences: Preferences = {
     showIcon: true,
     showMaximize: true,
     showMore: true,
-    showRefresh: true,
+
     styleType: 'chrome',
   },
   theme: {
@@ -107,6 +108,7 @@ const defaultPreferences: Preferences = {
     languageToggle: true,
     lockScreen: true,
     notification: true,
+    refresh: true,
     sidebarToggle: true,
     themeToggle: true,
   },

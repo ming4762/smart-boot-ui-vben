@@ -52,6 +52,7 @@ interface UserTenant {
 }
 
 interface BasicUserInfo {
+  [key: string]: any;
   /**
    * 头像
    */

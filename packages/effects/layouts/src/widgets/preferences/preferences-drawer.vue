@@ -100,10 +100,9 @@ const breadcrumbHideOnlyOne = defineModel<boolean>('breadcrumbHideOnlyOne');
 const tabbarEnable = defineModel<boolean>('tabbarEnable');
 const tabbarShowIcon = defineModel<boolean>('tabbarShowIcon');
 const tabbarShowMore = defineModel<boolean>('tabbarShowMore');
-const tabbarShowRefresh = defineModel<boolean>('tabbarShowRefresh');
 const tabbarShowMaximize = defineModel<boolean>('tabbarShowMaximize');
 const tabbarPersist = defineModel<boolean>('tabbarPersist');
-const tabbarDragable = defineModel<boolean>('tabbarDragable');
+const tabbarDraggable = defineModel<boolean>('tabbarDraggable');
 const tabbarStyleType = defineModel<string>('tabbarStyleType');
 
 const navigationStyleType = defineModel<NavigationStyleType>(
@@ -117,6 +116,7 @@ const navigationAccordion = defineModel<boolean>('navigationAccordion');
 const footerEnable = defineModel<boolean>('footerEnable');
 const footerFixed = defineModel<boolean>('footerFixed');
 
+const copyrightSettingShow = defineModel<boolean>('copyrightSettingShow');
 const copyrightEnable = defineModel<boolean>('copyrightEnable');
 const copyrightCompanyName = defineModel<string>('copyrightCompanyName');
 const copyrightCompanySiteLink = defineModel<string>(
@@ -145,6 +145,7 @@ const widgetNotification = defineModel<boolean>('widgetNotification');
 const widgetThemeToggle = defineModel<boolean>('widgetThemeToggle');
 const widgetSidebarToggle = defineModel<boolean>('widgetSidebarToggle');
 const widgetLockScreen = defineModel<boolean>('widgetLockScreen');
+const widgetRefresh = defineModel<boolean>('widgetRefresh');
 
 const {
   diffPreference,
@@ -339,13 +340,12 @@ async function handleReset() {
             </Block>
             <Block :title="$t('preferences.tabbar.title')">
               <Tabbar
-                v-model:tabbar-dragable="tabbarDragable"
+                v-model:tabbar-draggable="tabbarDraggable"
                 v-model:tabbar-enable="tabbarEnable"
                 v-model:tabbar-persist="tabbarPersist"
                 v-model:tabbar-show-icon="tabbarShowIcon"
                 v-model:tabbar-show-maximize="tabbarShowMaximize"
                 v-model:tabbar-show-more="tabbarShowMore"
-                v-model:tabbar-show-refresh="tabbarShowRefresh"
                 v-model:tabbar-style-type="tabbarStyleType"
               />
             </Block>
@@ -359,6 +359,7 @@ async function handleReset() {
                 v-model:widget-language-toggle="widgetLanguageToggle"
                 v-model:widget-lock-screen="widgetLockScreen"
                 v-model:widget-notification="widgetNotification"
+                v-model:widget-refresh="widgetRefresh"
                 v-model:widget-sidebar-toggle="widgetSidebarToggle"
                 v-model:widget-theme-toggle="widgetThemeToggle"
               />
@@ -369,7 +370,10 @@ async function handleReset() {
                 v-model:footer-fixed="footerFixed"
               />
             </Block>
-            <Block :title="$t('preferences.copyright.title')">
+            <Block
+              v-if="copyrightSettingShow"
+              :title="$t('preferences.copyright.title')"
+            >
               <Copyright
                 v-model:copyright-company-name="copyrightCompanyName"
                 v-model:copyright-company-site-link="copyrightCompanySiteLink"
