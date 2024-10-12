@@ -12,5 +12,6 @@ export * from './tree';
 export * from './unique';
 export * from './update-css-variables';
 export * from './util';
+export * from './uuid';
 export * from './window';
 export { default as cloneDeep } from 'lodash.clonedeep';

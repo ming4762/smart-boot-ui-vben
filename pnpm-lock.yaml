@@ -477,6 +477,9 @@ catalogs:
     vue-tsc:
       specifier: ^2.1.6
       version: 2.1.6
+    vxe-table:
+      specifier: ^4.7.85
+      version: 4.7.85
     watermark-js-plus:
       specifier: ^1.5.7
       version: 1.5.7
@@ -617,7 +620,7 @@ importers:
     dependencies:
       '@ant-design/icons-vue':
         specifier: 'catalog:'
-        version: 7.0.1(vue@3.5.7(typescript@5.6.2))
+        version: 7.0.1(vue@3.5.10(typescript@5.6.2))
       '@vben-core/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/@core/ui-kit/shadcn-ui
@@ -1416,6 +1419,43 @@ importers:
         specifier: 3.5.10
         version: 3.5.10(typescript@5.6.2)
 
+  packages/@core/ui-kit/smart-table-ui:
+    dependencies:
+      '@vben-core/composables':
+        specifier: workspace:*
+        version: link:../../composables
+      '@vben-core/form-ui':
+        specifier: workspace:*
+        version: link:../form-ui
+      '@vben-core/popup-ui':
+        specifier: workspace:*
+        version: link:../popup-ui
+      '@vben-core/shadcn-ui':
+        specifier: workspace:*
+        version: link:../shadcn-ui
+      '@vben-core/shared':
+        specifier: workspace:*
+        version: link:../../base/shared
+      sortablejs:
+        specifier: 'catalog:'
+        version: 1.15.3
+      vue:
+        specifier: 3.5.10
+        version: 3.5.10(typescript@5.6.2)
+      vxe-table:
+        specifier: 'catalog:'
+        version: 4.7.85
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+      zod-defaults:
+        specifier: 'catalog:'
+        version: 0.1.3(zod@3.23.8)
+    devDependencies:
+      '@types/sortablejs':
+        specifier: 'catalog:'
+        version: 1.15.8
+
   packages/@core/ui-kit/tabs-ui:
     dependencies:
       '@vben-core/composables':
@@ -1478,6 +1518,9 @@ importers:
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../@core/base/shared
+      '@vben-core/smart-table-ui':
+        specifier: workspace:*
+        version: link:../../@core/ui-kit/smart-table-ui
       '@vben/constants':
         specifier: workspace:*
         version: link:../../constants
@@ -1671,7 +1714,7 @@ importers:
         version: 2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
       pinia-plugin-persistedstate:
         specifier: 'catalog:'
-        version: 4.0.2(pinia@2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)))(rollup@3.29.5)
+        version: 4.0.2(pinia@2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)))(rollup@4.22.5)
       vue:
         specifier: 3.5.10
         version: 3.5.10(typescript@5.6.2)
@@ -1715,6 +1758,7 @@ importers:
       '@types/crypto-js':
         specifier: 'catalog:'
         version: 4.2.2
+
   playground:
     dependencies:
       '@tanstack/vue-query':
@@ -5069,6 +5113,9 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
+  '@vxe-ui/core@4.0.12':
+    resolution: {integrity: sha512-ft8f874eQSv4N9+oulFKeg8APgd8RMHeFeUUUTNckIRJ/cNi0dbR0Fe2+ZZpRl3BwRtbE2hHb2FKWmL2oyZkfw==}
+
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -6115,6 +6162,9 @@ packages:
 
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
+
+  dom-zindex@1.0.6:
+    resolution: {integrity: sha512-FKWIhiU96bi3xpP9ewRMgANsoVmMUBnMnmpCT6dPMZOunVYJQmJhSRruoI0XSPoHeIif3kyEuiHbFrOJwEJaEA==}
 
   domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
@@ -10309,6 +10359,12 @@ packages:
     peerDependencies:
       vue: 3.5.10
 
+  vxe-pc-ui@4.2.11:
+    resolution: {integrity: sha512-v9oO1PoIj49it9TwWAuEsmosgqDZD9rc5MyNSnfsl8x0Hf/dN0wOWmQVlLlyfG0YByk15hoRANlV1LkJgDzcoQ==}
+
+  vxe-table@4.7.85:
+    resolution: {integrity: sha512-sNQ4jKnU6vZkStTK2JDDKgIz5kKCCWtTtOVl7dpNsLJ16NYWMCDlNby5m/DJC+xa0dPvSdr7+AH4TXfD1vpRFg==}
+
   warning@4.0.3:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
 
@@ -10460,6 +10516,9 @@ packages:
   xdg-basedir@5.1.0:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
     engines: {node: '>=12'}
+
+  xe-utils@3.5.30:
+    resolution: {integrity: sha512-5Ez6JUANpMakduiTLxrNObzqMebnM4697KvHW5okedkUjXvYgGvkbg0tABTkvwDW/Pb09v7vT68dzBOeAuOu0g==}
 
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -13045,9 +13104,9 @@ snapshots:
       mkdirp: 1.0.4
       rimraf: 3.0.2
 
-  '@nuxt/kit@3.13.2(rollup@3.29.5)':
+  '@nuxt/kit@3.13.2(rollup@4.22.5)':
     dependencies:
-      '@nuxt/schema': 3.13.2(rollup@3.29.5)
+      '@nuxt/schema': 3.13.2(rollup@4.22.5)
       c12: 1.11.2
       consola: 3.2.3
       defu: 6.1.4
@@ -13065,7 +13124,7 @@ snapshots:
       semver: 7.6.3
       ufo: 1.5.4
       unctx: 2.3.1
-      unimport: 3.12.0(rollup@3.29.5)
+      unimport: 3.12.0(rollup@4.22.5)
       untyped: 1.4.2
     transitivePeerDependencies:
       - magicast
@@ -13073,7 +13132,7 @@ snapshots:
       - supports-color
       - webpack-sources
 
-  '@nuxt/schema@3.13.2(rollup@3.29.5)':
+  '@nuxt/schema@3.13.2(rollup@4.22.5)':
     dependencies:
       compatx: 0.1.8
       consola: 3.2.3
@@ -13085,7 +13144,7 @@ snapshots:
       std-env: 3.7.0
       ufo: 1.5.4
       uncrypto: 0.1.3
-      unimport: 3.12.0(rollup@3.29.5)
+      unimport: 3.12.0(rollup@4.22.5)
       untyped: 1.4.2
     transitivePeerDependencies:
       - rollup
@@ -14171,6 +14230,11 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+
+  '@vxe-ui/core@4.0.12':
+    dependencies:
+      dom-zindex: 1.0.6
+      xe-utils: 3.5.30
 
   JSONStream@1.3.5:
     dependencies:
@@ -15330,6 +15394,8 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       entities: 4.5.0
+
+  dom-zindex@1.0.6: {}
 
   domelementtype@2.3.0: {}
 
@@ -17831,9 +17897,9 @@ snapshots:
 
   pify@4.0.1: {}
 
-  pinia-plugin-persistedstate@4.0.2(pinia@2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)))(rollup@3.29.5):
+  pinia-plugin-persistedstate@4.0.2(pinia@2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)))(rollup@4.22.5):
     dependencies:
-      '@nuxt/kit': 3.13.2(rollup@3.29.5)
+      '@nuxt/kit': 3.13.2(rollup@4.22.5)
       deep-pick-omit: 1.2.0
       defu: 6.1.4
       destr: 2.0.3
@@ -19570,9 +19636,9 @@ snapshots:
 
   unicorn-magic@0.3.0: {}
 
-  unimport@3.12.0(rollup@3.29.5):
+  unimport@3.12.0(rollup@4.22.4):
     dependencies:
-      '@rollup/pluginutils': 5.1.2(rollup@3.29.5)
+      '@rollup/pluginutils': 5.1.2(rollup@4.22.4)
       acorn: 8.12.1
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.3
@@ -19589,9 +19655,9 @@ snapshots:
       - rollup
       - webpack-sources
 
-  unimport@3.12.0(rollup@4.22.4):
+  unimport@3.12.0(rollup@4.22.5):
     dependencies:
-      '@rollup/pluginutils': 5.1.2(rollup@4.22.4)
+      '@rollup/pluginutils': 5.1.2(rollup@4.22.5)
       acorn: 8.12.1
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.3
@@ -20071,6 +20137,14 @@ snapshots:
       vooks: 0.2.12(vue@3.5.10(typescript@5.6.2))
       vue: 3.5.10(typescript@5.6.2)
 
+  vxe-pc-ui@4.2.11:
+    dependencies:
+      '@vxe-ui/core': 4.0.12
+
+  vxe-table@4.7.85:
+    dependencies:
+      vxe-pc-ui: 4.2.11
+
   warning@4.0.3:
     dependencies:
       loose-envify: 1.4.0
@@ -20292,6 +20366,8 @@ snapshots:
       signal-exit: 4.1.0
 
   xdg-basedir@5.1.0: {}
+
+  xe-utils@3.5.30: {}
 
   xml-name-validator@4.0.0: {}
 

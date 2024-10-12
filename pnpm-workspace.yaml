@@ -174,6 +174,8 @@ catalog:
   vue-i18n: ^10.0.3
   vue-router: ^4.4.5
   vue-tsc: ^2.1.6
+  vxe-table: ^4.7.85
+  vxe-pc-ui: ^4.2.11
   watermark-js-plus: ^1.5.7
   zod: ^3.23.8
   zod-defaults: ^0.1.3

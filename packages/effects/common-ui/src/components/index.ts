@@ -13,3 +13,5 @@ export {
   VbenPinInput,
   VbenSpinner,
 } from '@vben-core/shadcn-ui';
+
+export * from '@vben-core/smart-table-ui';

@@ -97,6 +97,10 @@
       "path": "packages/@core/ui-kit/shadcn-ui",
     },
     {
+      "name": "@vben-core/smart-table-ui",
+      "path": "packages/@core/ui-kit/smart-table-ui",
+    },
+    {
       "name": "@vben-core/tabs-ui",
       "path": "packages/@core/ui-kit/tabs-ui",
     },
