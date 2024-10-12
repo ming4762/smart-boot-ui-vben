@@ -33,6 +33,8 @@ export async function getAllMenusApi() {
   return requestClient.get<RouteRecordStringComponent[]>('/menu/all');
 }
 
+const COMPONENT_START = '@';
+
 /**
  * 获取当前登录用户菜单
  */
@@ -73,8 +75,12 @@ export async function getUserMenusApi(): Promise<
       let formatComponent = component;
       if (formatComponent === 'LAYOUT') {
         formatComponent = 'BasicLayout';
+      } else if (
+        formatComponent &&
+        formatComponent.startsWith(COMPONENT_START)
+      ) {
+        formatComponent = formatComponent.slice(1);
       }
-
       const routeItem: RouteRecordStringComponent<string> = {
         component: formatComponent,
         meta: {

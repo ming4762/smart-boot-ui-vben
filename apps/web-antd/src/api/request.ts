@@ -129,3 +129,5 @@ function createRequestClient(baseURL: string) {
 export const requestClient = createRequestClient(apiURL);
 
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });
+
+export { ApiServiceEnum } from '@vben/request';
