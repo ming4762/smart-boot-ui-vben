@@ -1,4 +1,4 @@
-import 'vxe-table/lib/style.css';
+export * from './init';
 
 export type * from './types';
 

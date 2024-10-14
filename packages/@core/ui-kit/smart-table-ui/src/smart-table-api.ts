@@ -13,7 +13,7 @@ function getDefaultState(): SmartTableProps {
 }
 
 class SmartTableApi {
-  private prevState: null | SmartTableProps = null;
+  // private prevState: null | SmartTableProps = null;
 
   // 是否挂在
   isMounted = false;
@@ -36,7 +36,7 @@ class SmartTableApi {
       },
       {
         onUpdate: () => {
-          this.prevState = this.state;
+          // this.prevState = this.state;
           this.state = this.store.state;
           this.updateState();
         },

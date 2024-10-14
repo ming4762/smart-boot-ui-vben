@@ -1,2 +1,3 @@
 export * from './form';
-export * from './vxe-table';
+export * from './smart-table';
+// export * from './vxe-table';

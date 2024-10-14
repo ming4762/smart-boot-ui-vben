@@ -1,7 +1,10 @@
+import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type {
+  VxeComponentSizeType,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTablePropTypes,
+  VxeUIExport,
 } from 'vxe-table';
 
 import type { SmartTableApi } from '../smart-table-api';
@@ -27,7 +30,7 @@ import type {
   SmartTableToolbarSizeSetting,
 } from './SmartTableToolbarConfigType';
 
-import type { Ref } from 'vue';
+import type { Component, Ref } from 'vue';
 
 /**
  * 表格高度
@@ -71,10 +74,20 @@ interface SmartTableActions {
   abc?: string;
 }
 
+/**
+ * 表格尺寸 TODO：tiny未支持
+ */
+type SmartTableSize = 'small' & VxeComponentSizeType;
+
 interface SmartTableRenderProps<T = any>
   extends Omit<
     VxeGridProps<T>,
-    'checkboxConfig' | 'pagerConfig' | 'seqConfig' | 'toolbarConfig'
+    | 'checkboxConfig'
+    | 'columns'
+    | 'pagerConfig'
+    | 'seqConfig'
+    | 'size'
+    | 'toolbarConfig'
   > {
   // 添加修改配置
   addEditConfig?: SmartTableAddEditConfig;
@@ -90,6 +103,7 @@ interface SmartTableRenderProps<T = any>
   // 搜索表单配置
   searchFormConfig?: SmartSearchFormProps;
   seqConfig?: SmartTableSeqConfig;
+  size?: SmartTableSize;
   toolbarConfig?: SmartTableToolbarConfig;
   // 是否使用搜索表单
   useSearchForm?: boolean;
@@ -111,8 +125,18 @@ type ExtendSmartTableApi = {
   ) => Readonly<Ref<T>>;
 } & SmartTableApi;
 
+/**
+ * 初始化表格接口
+ */
+interface SetupSmartTable {
+  components?: Partial<Record<string, Component>>;
+  configSmartTable: (ui: VxeUIExport) => void;
+  watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
+}
+
 export type {
   ExtendSmartTableApi,
+  SetupSmartTable,
   SmartAddEditModalCallbackData,
   SmartCheckboxConfig,
   SmartTableActions,
@@ -120,4 +144,5 @@ export type {
   SmartTableLayoutProps,
   SmartTableProps,
   SmartTableRenderProps,
+  SmartTableSize,
 };

@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@vben-core/composables": "workspace:*",
+    "@vben-core/preferences": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",

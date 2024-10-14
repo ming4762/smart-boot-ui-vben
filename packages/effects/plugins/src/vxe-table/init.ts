@@ -64,7 +64,6 @@ export function initVxeTable() {
   VxeUI.component(VxeTable);
   VxeUI.component(VxeColumn);
   VxeUI.component(VxeColgroup);
-  VxeUI.component(VxeLoading);
   VxeUI.component(VxeGrid);
   VxeUI.component(VxeToolbar);
 
