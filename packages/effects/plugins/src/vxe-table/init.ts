@@ -41,7 +41,7 @@ import {
   VxeToolbar,
 } from 'vxe-table';
 
-import { initDefaultFormatter } from './formatter';
+import { extendsDefaultFormatter } from './extends';
 
 // 是否加载过
 let isInit = false;
@@ -119,6 +119,7 @@ export function setupVbenVxeTable(setupOptions: SetupVxeTable) {
     },
   );
 
-  initDefaultFormatter(VxeUI);
+  extendsDefaultFormatter(VxeUI);
+
   configVxeTable(VxeUI);
 }
