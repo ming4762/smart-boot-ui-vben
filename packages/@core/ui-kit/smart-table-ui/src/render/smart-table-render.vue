@@ -13,6 +13,7 @@ import { VxeGrid, VxeUI } from 'vxe-table';
 import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { defaultCheckboxConfig } from '../defaultConfig';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
+import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 
 interface Props extends SmartTableRenderProps {}
 
@@ -25,6 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { computedTableColumns } = useSmartTableColumn(props, VxeUI.getI18n);
 
+const { computedPagerConfig } = useSmartTablePagerConfig(props);
+
 /**
  * 表格计算属性
  */
@@ -32,6 +35,7 @@ const computedTableProps = computed<VxeGridProps>(() => {
   return {
     ...props,
     columns: unref(computedTableColumns),
+    pagerConfig: unref(computedPagerConfig),
   } as VxeGridProps;
 });
 

@@ -3,6 +3,7 @@ import type { SetupSmartTable } from './types';
 import type { Component } from 'vue';
 import { defineComponent, watch } from 'vue';
 
+import { VxeIcon, VxeInput, VxePager, VxeSelect } from 'vxe-pc-ui';
 import {
   VxeColgroup,
   VxeColumn,
@@ -15,6 +16,7 @@ import {
 import { getI18nData } from './locales';
 
 import 'vxe-table/styles/cssvar.scss';
+import 'vxe-pc-ui/styles/cssvar.scss';
 
 const COMPONENT_MAP: Record<string, Component> = {};
 
@@ -39,6 +41,12 @@ const initSmartTableComponent = () => {
   VxeUI.component(VxeColgroup);
   VxeUI.component(VxeGrid);
   VxeUI.component(VxeToolbar);
+
+  VxeUI.component(VxePager);
+  VxeUI.component(VxeSelect);
+  VxeUI.component(VxeIcon);
+  // VxeUI.component(VxeButton);
+  VxeUI.component(VxeInput);
 
   VxeUI.component(createVirtualComponent('VxeForm'));
 

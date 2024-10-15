@@ -45,6 +45,7 @@
     "@vben-core/popup-ui": "workspace:*",
     "vue": "catalog:",
     "vxe-table": "catalog:",
+    "vxe-pc-ui": "catalog:",
     "zod": "catalog:",
     "zod-defaults": "catalog:",
     "sortablejs": "catalog:"

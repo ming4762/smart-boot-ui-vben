@@ -50,6 +50,18 @@ class SmartTableApi {
 
   private updateState(): void {}
 
+  /**
+   * 设置表单的加载状态
+   * @param isLoading
+   */
+  setLoading(isLoading: boolean) {
+    this.setState({
+      gridOptions: {
+        loading: isLoading,
+      },
+    });
+  }
+
   setState(
     stateOrFn:
       | ((prev: SmartTableProps) => Partial<SmartTableProps>)
