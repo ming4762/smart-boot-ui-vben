@@ -1,4 +1,4 @@
-import type { SmartTableActions, SmartTableProps } from './types';
+import type { SmartTableActions, SmartTableStoreData } from './types';
 
 import { Store } from '@vben-core/shared/store';
 import {
@@ -8,28 +8,28 @@ import {
   StateHandler,
 } from '@vben-core/shared/utils';
 
-function getDefaultState(): SmartTableProps {
+function getDefaultState(): SmartTableStoreData {
   return {};
 }
 
 class SmartTableApi {
-  // private prevState: null | SmartTableProps = null;
+  // private prevState: null | SmartTableStoreData = null;
 
   // 是否挂在
   isMounted = false;
-  public state: null | SmartTableProps = null;
+  public state: null | SmartTableStoreData = null;
 
   stateHandler: StateHandler;
 
-  public store: Store<SmartTableProps>;
+  public store: Store<SmartTableStoreData>;
 
   public table = {} as SmartTableActions;
 
-  constructor(options: SmartTableProps = {}) {
+  constructor(options: SmartTableStoreData = {}) {
     const { ...storeState } = options;
     const defaultState = getDefaultState();
 
-    this.store = new Store<SmartTableProps>(
+    this.store = new Store<SmartTableStoreData>(
       {
         ...defaultState,
         ...storeState,
@@ -64,8 +64,8 @@ class SmartTableApi {
 
   setState(
     stateOrFn:
-      | ((prev: SmartTableProps) => Partial<SmartTableProps>)
-      | Partial<SmartTableProps>,
+      | ((prev: SmartTableStoreData) => Partial<SmartTableStoreData>)
+      | Partial<SmartTableStoreData>,
   ) {
     if (isFunction(stateOrFn)) {
       this.store.setState((prev) => {

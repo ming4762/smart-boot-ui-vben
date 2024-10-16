@@ -58,10 +58,20 @@ const initSmartTableComponent = () => {
  * @param setupOptions
  */
 const setupSmartTable = (setupOptions: SetupSmartTable) => {
-  const { components, configSmartTable, watcherField } = setupOptions;
+  const { components, configSmartTable, i18nHandler, watcherField } =
+    setupOptions;
 
   // 初始化组件
   initSmartTableComponent();
+  VxeUI.setConfig({
+    translate(key, args) {
+      if (key.startsWith('{') && key.endsWith('}')) {
+        const i18nKey = key.replace('{', '').replace('}', '');
+        return i18nHandler(i18nKey, args);
+      }
+      return key;
+    },
+  });
 
   watch(
     watcherField,

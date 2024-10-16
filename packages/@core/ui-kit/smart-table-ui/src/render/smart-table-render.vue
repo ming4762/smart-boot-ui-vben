@@ -1,9 +1,12 @@
 <script setup lang="tsx">
-import type { VxeGridProps } from 'vxe-table';
+import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
 
-import type { SmartTableRenderProps } from '../types';
+import type {
+  SmartTableRenderListeners,
+  SmartTableRenderProps,
+} from '../types';
 
-import { computed, unref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { VbenForm } from '@vben-core/form-ui';
 import { buildUUID } from '@vben-core/shared/utils';
@@ -11,22 +14,35 @@ import { buildUUID } from '@vben-core/shared/utils';
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import TableSearchLayout from '../components/TableSearchLayout.vue';
-import { defaultCheckboxConfig } from '../defaultConfig';
+import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 
 interface Props extends SmartTableRenderProps {}
 
 const props = withDefaults(defineProps<Props>(), {
-  checkboxConfig: () => defaultCheckboxConfig,
   column: [],
   id: buildUUID(),
   size: 'small',
 });
 
-const { computedTableColumns } = useSmartTableColumn(props, VxeUI.getI18n);
+const emit = defineEmits<SmartTableRenderListeners>();
+/**
+ * vxe-grid对象实例
+ */
+const vxeTableInstance = ref<VxeGridInstance>();
+const getVxeTableInstance = () => unref(vxeTableInstance);
 
+// 列调整
+const { computedTableColumns } = useSmartTableColumn(props, VxeUI.getI18n);
+// 分页
 const { computedPagerConfig } = useSmartTablePagerConfig(props);
+// 复选框
+const { computeCheckboxTableProps } = useSmartTableCheckbox(
+  props,
+  emit,
+  getVxeTableInstance,
+);
 
 /**
  * 表格计算属性
@@ -36,18 +52,30 @@ const computedTableProps = computed<VxeGridProps>(() => {
     ...props,
     columns: unref(computedTableColumns),
     pagerConfig: unref(computedPagerConfig),
+    ...unref(computeCheckboxTableProps),
   } as VxeGridProps;
 });
 
+/**
+ * 渲染表格
+ */
 const renderTable = () => {
-  const result = [<VxeGrid {...unref(computedTableProps)}></VxeGrid>];
-  return result;
+  return [
+    <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}></VxeGrid>,
+  ];
 };
 
+/**
+ * 渲染搜索表单
+ */
 const renderSearchForm = () => {
   return [<VbenForm></VbenForm>];
 };
 
+/**
+ * 渲染函数
+ * @constructor
+ */
 const RenderFunction = () => {
   const slots: any = {
     table: renderTable,

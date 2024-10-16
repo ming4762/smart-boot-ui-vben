@@ -1,6 +1,8 @@
 import type { SupportedLanguagesType } from '@vben-core/preferences';
+import type { DeepPartial } from '@vben-core/typings';
 import type {
   VxeComponentSizeType,
+  VxeGridListeners,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTablePropTypes,
@@ -93,7 +95,7 @@ interface SmartTableRenderProps<T = any>
   addEditConfig?: SmartTableAddEditConfig;
   authConfig?: SmartTableAuthConfig;
   // checkbox配置
-  checkboxConfig?: SmartCheckboxConfig;
+  checkboxConfig?: boolean | SmartCheckboxConfig;
   columns?: SmartTableColumn[];
   height?: TableHeightType;
   // 分页配置
@@ -110,6 +112,14 @@ interface SmartTableRenderProps<T = any>
 }
 
 /**
+ * SmartTable事件
+ */
+interface SmartTableRenderListeners<D = any> extends VxeGridListeners<D> {
+  // TODO: 移除
+  abc: string;
+}
+
+/**
  * SmartTable props
  */
 interface SmartTableProps<T = any> extends SmartTableRenderProps<T> {
@@ -117,11 +127,18 @@ interface SmartTableProps<T = any> extends SmartTableRenderProps<T> {
 }
 
 /**
+ * store props
+ */
+interface SmartTableStoreData<T = any> {
+  gridOptions?: DeepPartial<SmartTableProps<T>>;
+}
+
+/**
  * Smart Table API
  */
 type ExtendSmartTableApi = {
-  useStore: <T = NoInfer<SmartTableProps>>(
-    selector?: (state: NoInfer<SmartTableProps>) => T,
+  useStore: <T = NoInfer<SmartTableStoreProps>>(
+    selector?: (state: NoInfer<SmartTableStoreProps>) => T,
   ) => Readonly<Ref<T>>;
 } & SmartTableApi;
 
@@ -131,6 +148,7 @@ type ExtendSmartTableApi = {
 interface SetupSmartTable {
   components?: Partial<Record<string, Component>>;
   configSmartTable: (ui: VxeUIExport) => void;
+  i18nHandler: (key: string, args?: any) => string;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
 }
 
@@ -143,6 +161,8 @@ export type {
   SmartTableColumn,
   SmartTableLayoutProps,
   SmartTableProps,
+  SmartTableRenderListeners,
   SmartTableRenderProps,
   SmartTableSize,
+  SmartTableStoreData,
 };

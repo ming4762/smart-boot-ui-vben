@@ -11,7 +11,7 @@ function useSmartTable<T = any>(options: SmartTableProps<T>) {
   // 参数是否具有响应性
   const IS_REACTIVE = isReactive(options);
 
-  const api = new SmartTableApi(options);
+  const api = new SmartTableApi({ gridOptions: options });
   const extendedApi: ExtendSmartTableApi = api as never;
 
   extendedApi.useStore = (selector) => {
@@ -34,7 +34,7 @@ function useSmartTable<T = any>(options: SmartTableProps<T>) {
   if (IS_REACTIVE) {
     watch(
       () => options.columns,
-      () => api.setState({ columns: options.columns }),
+      () => api.setState({ gridOptions: { columns: options.columns } }),
       { immediate: true },
     );
   }

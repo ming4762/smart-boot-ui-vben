@@ -5,7 +5,7 @@ import { computed, unref } from 'vue';
 
 interface Props extends SmartTableLayoutProps {}
 
-const { showSearch } = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   showSearch: true,
 });
 
@@ -14,7 +14,7 @@ const { showSearch } = withDefaults(defineProps<Props>(), {
  */
 const computedSearchContainerClass = computed(() => {
   const classList = ['smart-search-container'];
-  if (!unref(showSearch)) {
+  if (!unref(props.showSearch)) {
     classList.push('smart-table-search-hidden');
   }
   return classList;

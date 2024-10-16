@@ -1,3 +1,5 @@
+import type { VxeUIExport } from 'vxe-table';
+
 import { computed, unref } from 'vue';
 
 import { setupSmartTable, useSmartTable } from '@vben/common-ui';
@@ -5,12 +7,14 @@ import { usePreferences } from '@vben/preferences';
 
 import { Switch, Tag } from 'ant-design-vue';
 
+import { $t } from '#/locales';
+
 const preference = usePreferences();
 
 setupSmartTable({
-  configSmartTable: (vxeUI) => {
+  configSmartTable: (vxeUI: VxeUIExport) => {
     vxeUI.setConfig({
-      size: 'mini',
+      size: 'small',
     });
   },
   watcherField: computed(() => {
@@ -23,6 +27,7 @@ setupSmartTable({
     Tag,
     Switch,
   },
+  i18nHandler: (key: string, args?: any) => $t(key, args),
 });
 
 export { useSmartTable };

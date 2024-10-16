@@ -1,4 +1,7 @@
+import vxeZhCN from 'vxe-table/lib/locale/lang/zh-CN';
+
 export default {
+  ...vxeZhCN,
   smartTable: {
     common: {
       no: '否',
