@@ -32,7 +32,17 @@
     "noData": "No Data",
     "refresh": "Refresh",
     "loadingMenu": "Loading Menu",
-    "query": "Search"
+    "query": "Search",
+    "table": {
+      "remark": "Remark",
+      "seq": "Seq",
+      "createTime": "Create time",
+      "createUser": "Create user",
+      "updateTime": "Update time",
+      "updateUser": "Update user",
+      "useYn": "Used",
+      "operation": "Operation"
+    }
   },
   "fallback": {
     "pageNotFound": "Oops! Page Not Found",

@@ -13,8 +13,10 @@ import dayjs from 'dayjs';
 
 const antdLocale = ref<Locale>(antdDefaultLocale);
 
-const modules = import.meta.glob('./langs/*.json');
-
+const modules = {
+  ...import.meta.glob('./langs/*.json'),
+  ...import.meta.glob('../modules/**/locales/langs/*.json'),
+};
 const localesMap = loadLocalesMap(modules);
 
 /**
