@@ -635,10 +635,13 @@ importers:
     dependencies:
       '@ant-design/icons-vue':
         specifier: 'catalog:'
-        version: 7.0.1(vue@3.5.11(typescript@5.6.3))
+        version: 7.0.1(vue@3.5.12(typescript@5.6.3))
       '@vben-core/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/@core/ui-kit/shadcn-ui
+      '@vben-core/smart-app-provider':
+        specifier: workspace:*
+        version: link:../../packages/@core/smart-app-provider
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -1305,6 +1308,12 @@ importers:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
 
+  packages/@core/smart-app-provider:
+    dependencies:
+      vue:
+        specifier: ^3.5.12
+        version: 3.5.12(typescript@5.6.3)
+
   packages/@core/ui-kit/form-ui:
     dependencies:
       '@vben-core/composables':
@@ -1434,6 +1443,12 @@ importers:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
 
+  packages/@core/ui-kit/smart-form-ui:
+    dependencies:
+      ant-design-vue:
+        specifier: 'catalog:'
+        version: 4.2.5(vue@3.5.12(typescript@5.6.3))
+
   packages/@core/ui-kit/smart-table-ui:
     dependencies:
       '@vben-core/composables':
@@ -1458,14 +1473,14 @@ importers:
         specifier: 'catalog:'
         version: 1.15.3
       vue:
-        specifier: ^3.5.11
-        version: 3.5.11(typescript@5.6.3)
+        specifier: ^3.5.12
+        version: 3.5.12(typescript@5.6.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.2.19
+        version: 4.2.20
       vxe-table:
         specifier: 'catalog:'
-        version: 4.7.85
+        version: 4.7.87
       zod:
         specifier: 'catalog:'
         version: 3.23.8

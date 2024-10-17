@@ -77,6 +77,10 @@
       "path": "packages/@core/preferences",
     },
     {
+      "name": "@vben-core/smart-app-provider",
+      "path": "packages/@core/smart-app-provider",
+    },
+    {
       "name": "@vben-core/form-ui",
       "path": "packages/@core/ui-kit/form-ui",
     },
@@ -95,6 +99,10 @@
     {
       "name": "@vben-core/shadcn-ui",
       "path": "packages/@core/ui-kit/shadcn-ui",
+    },
+    {
+      "name": "@vben-core/smart-form-ui",
+      "path": "packages/@core/ui-kit/smart-form-ui",
     },
     {
       "name": "@vben-core/smart-table-ui",
