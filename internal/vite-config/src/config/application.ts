@@ -60,8 +60,8 @@ function defineApplicationConfig(userConfigPromise?: DefineApplicationOptions) {
         rollupOptions: {
           output: {
             assetFileNames: '[ext]/[name]-[hash].[ext]',
-            chunkFileNames: 'js/[name]-[hash].mjs',
-            entryFileNames: 'jse/index-[name]-[hash].mjs',
+            chunkFileNames: 'js/[name]-[hash].js',
+            entryFileNames: 'jse/index-[name]-[hash].js',
           },
         },
         target: 'es2015',
@@ -84,7 +84,7 @@ function defineApplicationConfig(userConfigPromise?: DefineApplicationOptions) {
           // 预热文件
           clientFiles: [
             './index.html',
-            './bootstrap.ts',
+            './src/bootstrap.ts',
             './src/{views,layouts,router,store,api}/*',
           ],
         },

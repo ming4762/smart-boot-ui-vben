@@ -52,6 +52,7 @@ const { isMobile } = useIsMobile();
 const state = props.modalApi?.useStore?.();
 
 const {
+  bordered,
   cancelText,
   centered,
   class: modalClass,
@@ -170,9 +171,11 @@ function handleFocusOutside(e: Event) {
       ref="contentRef"
       :class="
         cn(
-          'border-border left-0 right-0 top-[10vh] mx-auto flex max-h-[80%] w-[520px] flex-col border p-0',
+          'left-0 right-0 top-[10vh] mx-auto flex max-h-[80%] w-[520px] flex-col p-0 sm:rounded-2xl',
           modalClass,
           {
+            'border-border border': bordered,
+            'shadow-3xl': !bordered,
             'left-0 top-0 size-full max-h-full !translate-x-0 !translate-y-0':
               shouldFullscreen,
             'top-1/2 !-translate-y-1/2': centered && !shouldFullscreen,
@@ -195,8 +198,9 @@ function handleFocusOutside(e: Event) {
         ref="headerRef"
         :class="
           cn(
-            'border-b px-5 py-4',
+            'px-5 py-4',
             {
+              'border-b': bordered,
               hidden: !header,
               'cursor-move select-none': shouldDraggable,
             },
@@ -254,7 +258,13 @@ function handleFocusOutside(e: Event) {
         v-if="showFooter"
         ref="footerRef"
         :class="
-          cn('flex-row items-center justify-end border-t p-2', footerClass)
+          cn(
+            'flex-row items-center justify-end p-2',
+            {
+              'border-t': bordered,
+            },
+            footerClass,
+          )
         "
       >
         <slot name="prepend-footer"></slot>

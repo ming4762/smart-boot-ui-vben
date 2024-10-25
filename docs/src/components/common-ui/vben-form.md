@@ -51,14 +51,14 @@ setupVbenForm<ComponentType>({
     // 输入项目必填国际化适配
     required: (value, _params, ctx) => {
       if (value === undefined || value === null || value.length === 0) {
-        return $t('formRules.required', [ctx.label]);
+        return $t('ui.formRules.required', [ctx.label]);
       }
       return true;
     },
     // 选择项目必填国际化适配
     selectRequired: (value, _params, ctx) => {
       if (value === undefined || value === null) {
-        return $t('formRules.selectRequired', [ctx.label]);
+        return $t('ui.formRules.selectRequired', [ctx.label]);
       }
       return true;
     },
@@ -120,7 +120,7 @@ const withDefaultPlaceholder = <T extends Component>(
   type: 'input' | 'select',
 ) => {
   return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
-    const placeholder = props?.placeholder || $t(`placeholder.${type}`);
+    const placeholder = props?.placeholder || $t(`ui.placeholder.${type}`);
     return h(component, { ...props, ...attrs, placeholder }, slots);
   };
 };
@@ -311,6 +311,7 @@ useVbenForm 返回的第二个参数，是一个对象，包含了一些表单�
 | collapsedRows | 折叠时保持的行数 | `number` | `1` |
 | commonConfig | 表单项的通用配置，每个配置都会传递到每个表单项，表单项可覆盖 | `FormCommonConfig` | - |
 | schema | 表单项的每一项配置 | `FormSchema` | - |
+| submitOnEnter | 按下回车健时提交表单 | `boolean` | false |
 
 ### TS 类型说明
 
@@ -332,6 +333,8 @@ export interface ActionButtonOptions {
   show?: boolean;
   /** 按钮文本 */
   text?: string;
+  /** 任意属性 */
+  [key: string]: any;
 }
 ```
 

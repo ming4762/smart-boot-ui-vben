@@ -35,7 +35,7 @@ const withDefaultPlaceholder = <T extends Component>(
   type: 'input' | 'select',
 ) => {
   return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
-    const placeholder = props?.placeholder || $t(`placeholder.${type}`);
+    const placeholder = props?.placeholder || $t(`ui.placeholder.${type}`);
     return h(component, { ...props, ...attrs, placeholder }, slots);
   };
 };
@@ -68,7 +68,7 @@ async function initComponentAdapter() {
     DatePicker: NDatePicker,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
-      return h(NButton, { ...props, attrs, type: 'info' }, slots);
+      return h(NButton, { ...props, attrs, type: 'default' }, slots);
     },
     // 自定义主要按钮
     PrimaryButton: (props, { attrs, slots }) => {
