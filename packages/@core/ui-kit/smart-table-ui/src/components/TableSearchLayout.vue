@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
  * 搜索DIV样式
  */
 const computedSearchContainerClass = computed(() => {
-  const classList = ['smart-search-container'];
+  const classList = ['smart-search-container', 'bg-background'];
   if (!unref(props.showSearch)) {
     classList.push('smart-table-search-hidden');
   }
@@ -26,10 +26,32 @@ const computedSearchContainerClass = computed(() => {
     <div v-if="showSearch" :class="computedSearchContainerClass">
       <slot name="search"></slot>
     </div>
-    <div class="smart-table-container">
+    <div class="smart-table-container bg-background h-full">
       <slot name="table"></slot>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="less" scoped>
+.smart-table-search-layout {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.smart-search-container {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 12px 10px 0;
+}
+
+.smart-table-container {
+  flex: 1;
+  min-height: 1px;
+  padding: 0 10px 5px;
+}
+
+.smart-table-search-hidden {
+  display: none;
+}
+</style>

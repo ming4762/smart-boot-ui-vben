@@ -43,9 +43,10 @@ interface SmartSearchFormProps extends VbenFormProps {
   // 是否默认隐藏搜索
   defaultVisible?: boolean;
   // 搜索表单项配置
-  schemas?: SmartSearchFormSchema[];
+  schema?: SmartSearchFormSchema[];
   // 向后台发送的参数是否带有符号
   searchWithSymbol?: boolean;
+  visible?: boolean;
 }
 
 export type { SmartSearchFormProps };

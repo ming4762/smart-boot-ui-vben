@@ -148,6 +148,10 @@ function getFirstNonNullOrUndefined<T>(
   return undefined;
 }
 
+function isNil(v) {
+  return v !== undefined && v !== null;
+}
+
 export {
   getFirstNonNullOrUndefined,
   isBoolean,
@@ -155,6 +159,7 @@ export {
   isFunction,
   isHttpUrl,
   isMacOs,
+  isNil,
   isNumber,
   isObject,
   isString,

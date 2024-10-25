@@ -65,7 +65,6 @@ export function setupVbenForm<
     | undefined;
 
   const components = globalShareState.getComponents();
-
   for (const component of Object.keys(components)) {
     const key = component as BaseFormComponentType;
     COMPONENT_MAP[key] = components[component as never];

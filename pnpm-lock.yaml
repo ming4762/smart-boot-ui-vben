@@ -1445,9 +1445,27 @@ importers:
 
   packages/@core/ui-kit/smart-form-ui:
     dependencies:
+      '@vben-core/composables':
+        specifier: workspace:*
+        version: link:../../composables
+      '@vben-core/icons':
+        specifier: workspace:*
+        version: link:../../base/icons
+      '@vben-core/shared':
+        specifier: workspace:*
+        version: link:../../base/shared
+      '@vben-core/smart-app-provider':
+        specifier: workspace:*
+        version: link:../../smart-app-provider
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 11.1.0(vue@3.5.12(typescript@5.6.3))
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.5(vue@3.5.12(typescript@5.6.3))
+      vue:
+        specifier: ^3.5.12
+        version: 3.5.12(typescript@5.6.3)
 
   packages/@core/ui-kit/smart-table-ui:
     dependencies:

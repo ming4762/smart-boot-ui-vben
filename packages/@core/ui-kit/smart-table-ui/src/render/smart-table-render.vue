@@ -8,7 +8,6 @@ import type {
 
 import { computed, ref, unref } from 'vue';
 
-import { VbenForm } from '@vben-core/form-ui';
 import { buildUUID } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
@@ -17,6 +16,7 @@ import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
+import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 
 interface Props extends SmartTableRenderProps {}
 
@@ -43,6 +43,8 @@ const { computeCheckboxTableProps } = useSmartTableCheckbox(
   emit,
   getVxeTableInstance,
 );
+// 搜索表单
+const { SearchForm } = useSmartTableSearchForm(props);
 
 /**
  * 表格计算属性
@@ -69,7 +71,7 @@ const renderTable = () => {
  * 渲染搜索表单
  */
 const renderSearchForm = () => {
-  return [<VbenForm></VbenForm>];
+  return [<SearchForm></SearchForm>];
 };
 
 /**

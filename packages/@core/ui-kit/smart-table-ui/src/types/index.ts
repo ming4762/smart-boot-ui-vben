@@ -15,7 +15,12 @@ import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditConfig,
 } from './SmartTableAddEditType';
-import type { SmartTableProxyConfig } from './SmartTableAjaxType';
+import type {
+  SmartTableAjaxQueryParams,
+  SmartTableFetchParams,
+  SmartTableProxyAjax,
+  SmartTableProxyConfig,
+} from './SmartTableAjaxType';
 import type { SmartTableAuthConfig } from './SmartTableAuthType';
 import type {
   SmartTableButton,
@@ -158,9 +163,12 @@ export type {
   SmartAddEditModalCallbackData,
   SmartCheckboxConfig,
   SmartTableActions,
+  SmartTableAjaxQueryParams,
   SmartTableColumn,
+  SmartTableFetchParams,
   SmartTableLayoutProps,
   SmartTableProps,
+  SmartTableProxyAjax,
   SmartTableRenderListeners,
   SmartTableRenderProps,
   SmartTableSize,

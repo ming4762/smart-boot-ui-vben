@@ -36,6 +36,8 @@ import {
   Upload,
 } from 'ant-design-vue';
 
+import { doSetupVbenForm } from '../form';
+
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
@@ -122,6 +124,7 @@ async function initComponentAdapter() {
       });
     },
   });
+  doSetupVbenForm();
 }
 
 export { initComponentAdapter };
