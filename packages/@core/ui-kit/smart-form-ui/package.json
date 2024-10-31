@@ -41,8 +41,9 @@
     "@vben-core/icons": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben-core/smart-app-provider": "workspace:*",
+    "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
-    "vue": "catalog:",
-    "@vueuse/core": "catalog:"
+    "lodash-es": "catalog:",
+    "vue": "catalog:"
   }
 }

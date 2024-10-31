@@ -2,6 +2,7 @@
 import type { FormInstance } from 'ant-design-vue';
 
 import type {
+  SmartFormActionType,
   SmartFormListener,
   SmartFormRenderProps,
   SmartFormSchema,
@@ -30,6 +31,7 @@ const schemaRef = ref<null | SmartFormSchema[]>(null);
 const formModel = reactive({});
 
 const defaultValueRef = ref({});
+const isInitedDefaultRef = ref(false);
 const advanceState = reactive<AdvanceState>({
   actionSpan: 6,
   hideAdvanceBtn: false,
@@ -118,7 +120,21 @@ const getSchema = computed(() => {
     : (schemas as SmartFormSchema[]);
 });
 
-const { handleSubmit } = useFormEvents({
+const {
+  appendSchemaByField,
+  clearValidate,
+  getFieldsValue,
+  handleSubmit,
+  removeSchemaByField,
+  resetDefaultField,
+  resetFields,
+  resetSchema,
+  scrollToField,
+  setFieldsValue,
+  updateSchema,
+  validate,
+  validateFields,
+} = useFormEvents({
   defaultValueRef,
   emit,
   formElRef: formElRef as Ref<FormActionType>,
@@ -188,6 +204,17 @@ const getFormActionBindProps = computed(
       typeof FormAction
     >['$props'],
 );
+
+async function setProps(formProps: Partial<FormProps>): Promise<void> {
+  propsRef.value = deepMerge(unref(propsRef) || {}, formProps);
+}
+
+useAutoFocus({
+  formElRef: formElRef as Ref<SmartFormActionType>,
+  getSchema,
+  isInitedDefault: isInitedDefaultRef,
+  props,
+});
 
 const formActionType = {
   appendSchemaByField,

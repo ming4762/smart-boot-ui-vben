@@ -147,6 +147,13 @@ interface SmartFormRenderProps extends AntFormProps {
   submitFunc?: () => Promise<void>;
 }
 
+/**
+ * 表单PROPS
+ */
+interface SmartFormProps extends SmartFormRenderProps {
+  abc?: string;
+}
+
 type FormSchemaInner = BaseFormSchema &
   Partial<ComponentFormSchema> &
   Partial<SlotFormSchema>;
@@ -191,6 +198,7 @@ interface SmartFormListener {
 export {
   SmartFormActionType,
   SmartFormListener,
+  SmartFormProps,
   SmartFormRenderProps,
   SmartFormSchema,
   SmartSlotFormSchema,
