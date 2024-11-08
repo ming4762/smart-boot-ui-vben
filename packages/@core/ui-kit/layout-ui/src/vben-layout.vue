@@ -460,7 +460,7 @@ function handleHeaderToggle() {
 </script>
 
 <template>
-  <div class="relative flex min-h-full w-full">
+  <div class="relative flex h-full min-h-full w-full">
     <LayoutSidebar
       v-if="sidebarEnableState"
       v-model:collapse="sidebarCollapse"

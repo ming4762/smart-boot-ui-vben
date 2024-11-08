@@ -44,6 +44,7 @@ const style = computed((): CSSProperties => {
   return {
     ...compactStyle,
     flex: 1,
+    minHeight: '1px',
     padding: `${padding}px`,
     paddingBottom: `${paddingBottom}px`,
     paddingLeft: `${paddingLeft}px`,

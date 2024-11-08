@@ -40,7 +40,7 @@ const useSmartTableSearchForm = (tableProps: SmartTableRenderProps) => {
   const [SearchForm, searchFormApi] = useVbenForm();
   const computedSearchFormProps = computed(() => {
     const { searchFormConfig, size } = unref(tableProps);
-    const { resetButtonOptions, submitButtonOptions } = searchFormConfig;
+    const { resetButtonOptions, submitButtonOptions } = searchFormConfig || {};
 
     const props: VbenFormProps = {
       ...searchFormConfig,
