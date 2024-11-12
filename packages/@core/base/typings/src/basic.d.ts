@@ -83,9 +83,11 @@ interface BasicUserInfo {
   userTenant: UserTenant;
 }
 
+type ClassType = Array<object | string> | object | string;
 export type {
   BasicOption,
   BasicUserInfo,
+  ClassType,
   SelectOption,
   TabOption,
   UserRole,
