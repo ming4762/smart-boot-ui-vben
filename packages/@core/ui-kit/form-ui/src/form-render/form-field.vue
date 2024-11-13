@@ -151,9 +151,11 @@ const computedProps = computed(() => {
   const finalComponentProps = isFunction(componentProps)
     ? componentProps(values.value, formApi!)
     : componentProps;
-
+  const finalCommonComponentProps = isFunction(commonComponentProps)
+    ? commonComponentProps(values.value, formApi!)
+    : commonComponentProps;
   return {
-    ...commonComponentProps,
+    ...finalCommonComponentProps,
     ...finalComponentProps,
     ...dynamicComponentProps.value,
   };
