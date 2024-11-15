@@ -48,7 +48,6 @@
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:",
-    "@ant-design/icons-vue": "catalog:",
     "vxe-table": "catalog:",
     "vxe-pc-ui": "catalog:"
   }

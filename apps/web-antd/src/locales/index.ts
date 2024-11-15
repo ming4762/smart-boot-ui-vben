@@ -19,24 +19,37 @@ const antdLocale = ref<Locale>(antdDefaultLocale);
 
 const modules = {
   ...import.meta.glob('./langs/**/*.json'),
-  ...import.meta.glob('../modules/**/locales/langs/*.json'),
+  ...import.meta.glob('../modules/**/langs/**/*.json'),
 };
 
 const localesMap = loadLocalesMapFromDir(
   /\.\/langs\/([^/]+)\/(.*)\.json$/,
   modules,
 );
+
+/**
+ * modules目录下的国际化信息
+ */
+const modulesLocalesMap = loadLocalesMapFromDir(
+  /^\.\.\/modules\/[^/]+\/locales\/langs\/([^/]+)\/([^/]+)\.json$/,
+  modules,
+);
+
 /**
  * 加载应用特有的语言包
  * 这里也可以改造为从服务端获取翻译数据
  * @param lang
  */
 async function loadMessages(lang: SupportedLanguagesType) {
-  const [appLocaleMessages] = await Promise.all([
+  const [appLocaleMessages, modulesAppLocaleMessages] = await Promise.all([
     localesMap[lang]?.(),
+    modulesLocalesMap[lang]?.(),
     loadThirdPartyMessage(lang),
   ]);
-  return appLocaleMessages?.default;
+  return {
+    ...appLocaleMessages?.default,
+    ...modulesAppLocaleMessages?.default,
+  };
 }
 
 /**

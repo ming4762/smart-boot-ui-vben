@@ -1,0 +1,12 @@
+{
+  "table": {
+    "useYn": "启用标志",
+    "remark": "备注",
+    "seq": "序号",
+    "createTime": "创建时间",
+    "createUser": "创建人",
+    "updateTime": "更新时间",
+    "updateUser": "更新人",
+    "operation": "操作"
+  }
+}

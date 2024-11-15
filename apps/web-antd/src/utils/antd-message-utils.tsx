@@ -1,11 +1,10 @@
+import type { VNode } from 'vue';
+import { h } from 'vue';
+
+import { Check, createIconifyIcon, Info } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { isString } from '@vben/utils';
 
-import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-  InfoCircleFilled,
-} from '@ant-design/icons-vue';
 import { Modal, type ModalFuncProps } from 'ant-design-vue';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
@@ -29,19 +28,26 @@ function renderContent({ content }: Pick<ModalOptionsEx, 'content'>) {
   );
 }
 
-function getIcon(iconType: string) {
+const CloseOutline = createIconifyIcon('carbon:close-outline');
+
+/**
+ * todo：待优化
+ * @param iconType
+ */
+function getIcon(iconType: string): () => VNode {
   switch (iconType) {
-    case 'warning': {
-      return <InfoCircleFilled class="modal-icon-warning" />;
+    case 'info': {
+      return () => <Info class="modal-icon-info" />;
     }
     case 'success': {
-      return <CheckCircleFilled class="modal-icon-success" />;
+      return () => <Check class="modal-icon-success" />;
     }
-    case 'info': {
-      return <InfoCircleFilled class="modal-icon-info" />;
+    case 'warning': {
+      return () => <Info class="modal-icon-warning" />;
     }
     default: {
-      return <CloseCircleFilled class="modal-icon-error" />;
+      return () => h(CloseOutline);
+      // return <CloseCircleFilled class="modal-icon-error" />;
     }
   }
 }
