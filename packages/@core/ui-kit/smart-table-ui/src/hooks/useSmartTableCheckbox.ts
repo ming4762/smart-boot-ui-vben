@@ -1,4 +1,3 @@
-import type { SmartTableProps } from '@/components/SmartTable';
 import type { VxeGridDefines, VxeGridInstance } from 'vxe-table';
 
 import type { SmartTableRenderProps } from '../types';
@@ -17,8 +16,8 @@ import { defaultCheckboxConfig } from '../defaultConfig';
  */
 export const useSmartTableCheckbox = (
   tableProps: SmartTableRenderProps,
-  emit: (name: string, args?: any) => void,
-  getTableInstance: () => VxeGridInstance,
+  emit: (name: string, ...args: any) => void,
+  getTableInstance: () => undefined | VxeGridInstance,
 ) => {
   let lastRowIndex: null | number = null;
 
@@ -33,6 +32,9 @@ export const useSmartTableCheckbox = (
     emit('cellClick', params);
 
     const gridInstance = getTableInstance();
+    if (!gridInstance) {
+      return;
+    }
     const { $event, row, rowIndex } = params;
     const { ctrlKey, shiftKey } = $event as PointerEvent;
     if (rowCtrl && ctrlKey) {
@@ -52,7 +54,7 @@ export const useSmartTableCheckbox = (
         indexList.sort((a, b) => a - b);
         const checkboxList: any[] = [];
         for (const [i, tableDatum] of tableData.entries()) {
-          if (i >= indexList[0] && i <= indexList[1]) {
+          if (i >= (indexList[0] as number) && i <= (indexList[1] as number)) {
             checkboxList.push(tableDatum);
           }
         }
@@ -64,39 +66,41 @@ export const useSmartTableCheckbox = (
     }
   };
 
-  const computeCheckboxTableProps = computed<SmartTableProps>(() => {
-    const propCheckboxConfig = unref(tableProps).checkboxConfig;
-    if (!propCheckboxConfig) {
-      return undefined;
-    }
-    const checkboxConfig = isBoolean(propCheckboxConfig)
-      ? defaultCheckboxConfig
-      : propCheckboxConfig;
-    const { rowCtrl, rowShift, rowTrigger } = checkboxConfig;
-    if (!rowTrigger) {
-      return {
-        onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-          emit('cellClick', params),
-      };
-    }
-    if (rowTrigger === 'multiple') {
+  const computeCheckboxTableProps = computed<SmartTableRenderProps | undefined>(
+    () => {
+      const propCheckboxConfig = unref(tableProps).checkboxConfig;
+      if (!propCheckboxConfig) {
+        return undefined;
+      }
+      const checkboxConfig = isBoolean(propCheckboxConfig)
+        ? defaultCheckboxConfig
+        : propCheckboxConfig;
+      const { rowCtrl, rowShift, rowTrigger } = checkboxConfig;
+      if (!rowTrigger) {
+        return {
+          onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
+            emit('cellClick', params),
+        };
+      }
+      if (rowTrigger === 'multiple') {
+        return {
+          checkboxConfig: {
+            ...checkboxConfig,
+            trigger: 'row',
+          },
+          onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
+            emit('cellClick', params),
+        };
+      }
       return {
         checkboxConfig: {
           ...checkboxConfig,
-          trigger: 'row',
         },
         onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-          emit('cellClick', params),
+          handleCellClick(params, rowShift, rowCtrl),
       };
-    }
-    return {
-      checkboxConfig: {
-        ...checkboxConfig,
-      },
-      onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-        handleCellClick(params, rowShift, rowCtrl),
-    };
-  });
+    },
+  );
 
   return {
     computeCheckboxTableProps,

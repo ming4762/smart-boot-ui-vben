@@ -1,19 +1,40 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
+import type { Recordable } from '@vben-core/typings';
 
-import type { SmartTableRenderProps } from '../types';
+import type { SmartTableActions, SmartTableRenderProps } from '../types';
+import type {
+  SmartSearchFormParameter,
+  SmartSearchFormProps,
+  SmartSearchFormSchema,
+} from '../types/SmartSearchFormType';
 
-import { computed, ref, unref, watch } from 'vue';
+import { computed, h, ref, unref, watch } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
-import { mergeWithArrayOverride } from '@vben-core/shared/utils';
+import { createIconifyIcon } from '@vben-core/icons';
+import {
+  isBoolean,
+  isFunction,
+  mergeWithArrayOverride,
+} from '@vben-core/shared/utils';
 
 import { getFormSize } from '../utils';
+
+const AntSearchOutlined = createIconifyIcon('ant-design:search-outlined');
+
+const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
 
 /**
  * 搜索表单配置
  * @param tableProps
+ * @param emit
+ * @param tableAction
  */
-const useSmartTableSearchForm = (tableProps: SmartTableRenderProps) => {
+const useSmartTableSearchForm = (
+  tableProps: SmartTableRenderProps,
+  emit: (name: string, ...args: any[]) => void,
+  tableAction: SmartTableActions,
+) => {
   /**
    * 搜索form显示状态
    */
@@ -36,27 +57,59 @@ const useSmartTableSearchForm = (tableProps: SmartTableRenderProps) => {
       ? visible
       : !unref(searchFormVisibleRef);
   };
-
-  const [SearchForm, searchFormApi] = useVbenForm();
+  /**
+   * 创建表单
+   */
+  const [SearchForm, searchFormApi] = useVbenForm({
+    handleReset: () => {
+      searchFormApi.resetForm();
+      tableAction.query();
+    },
+    handleSubmit: () => tableAction.query(),
+  });
   const computedSearchFormProps = computed(() => {
-    const { searchFormConfig, size } = unref(tableProps);
-    const { resetButtonOptions, submitButtonOptions } = searchFormConfig || {};
+    const { searchFormConfig, size: tableSize } = unref(tableProps);
+    const { resetButtonOptions, size, submitButtonOptions } =
+      searchFormConfig || {};
 
+    const formSize = size || getFormSize(tableSize);
     const props: VbenFormProps = {
       ...searchFormConfig,
+      commonConfig: {
+        ...searchFormConfig?.commonConfig,
+        componentProps: (value, actions) => {
+          const commonComponentProps =
+            searchFormConfig?.commonConfig?.componentProps;
+          if (!commonComponentProps) {
+            return {
+              size: formSize,
+            };
+          }
+          if (isFunction(commonComponentProps)) {
+            const componentProps = commonComponentProps(value, actions);
+            return {
+              ...componentProps,
+              size: formSize,
+            };
+          }
+          return {
+            ...commonComponentProps,
+            size: formSize,
+          };
+        },
+      },
       resetButtonOptions: {
-        preIcon: 'ic:baseline-restart-alt',
+        icon: h(AntRedoOutlined, { class: ['anticon'] }),
+        size: formSize,
         ...resetButtonOptions,
       },
       submitButtonOptions: {
         // loading: unref(getLoading),
-        preIcon: 'ant-design:search-outlined',
+        icon: h(AntSearchOutlined, { class: ['anticon'] }),
+        size: formSize,
         ...submitButtonOptions,
       },
     };
-    if (size) {
-      props.size = searchFormConfig?.size || getFormSize(size);
-    }
     return props;
   });
 
@@ -75,8 +128,94 @@ const useSmartTableSearchForm = (tableProps: SmartTableRenderProps) => {
     { immediate: true },
   );
 
+  /**
+   * 获取搜索符号
+   */
+  const getSearchFormSymbolRef = computed<
+    { [index: string]: SmartSearchFormSchema } | boolean
+  >(() => {
+    const { searchFormConfig, useSearchForm } = unref(tableProps);
+    const searchWithSymbol = searchFormConfig?.searchWithSymbol;
+    if (!useSearchForm || !searchWithSymbol) {
+      return false;
+    }
+    const { schema } = searchFormConfig as Partial<SmartSearchFormProps>;
+    const result: { [index: string]: SmartSearchFormSchema } = {};
+    schema?.forEach((item) => {
+      result[item.fieldName] = item;
+    });
+    return result;
+  });
+
+  const dealSearchSymbol = (info: Record<string, any>) => {
+    const symbolForm: Recordable<any> = {};
+    const noSymbolForm: Recordable<any> = {};
+    const getSearchFormSymbol = unref(getSearchFormSymbolRef);
+    if (isBoolean(getSearchFormSymbol)) {
+      return info;
+    }
+    Object.keys(info).forEach((key) => {
+      const value = info[key];
+      const schema = getSearchFormSymbol[key];
+      if (schema) {
+        const { customSymbol, searchSymbol: symbol } = schema;
+        if (customSymbol) {
+          // 自定义符号
+          const customSymbolResult = customSymbol({
+            model: info,
+            schema,
+            value,
+          });
+          if (customSymbolResult) {
+            Object.assign(symbolForm, customSymbolResult);
+          }
+        } else if (schema.searchSymbol) {
+          if (symbol === 'between') {
+            // between特殊处理
+            if (value && Array.isArray(value) && value.length === 2) {
+              symbolForm[`${key}@>=`] = value[0];
+              symbolForm[`${key}@<=`] = value[1];
+            }
+          } else {
+            symbolForm[`${key}@${symbol}`] = value;
+          }
+        }
+      } else {
+        noSymbolForm[key] = value;
+      }
+    });
+    return {
+      noSymbolForm,
+      symbolForm,
+    };
+  };
+
+  const getSearchFormParameter = async (): Promise<
+    SmartSearchFormParameter | undefined
+  > => {
+    if (!unref(tableProps).useSearchForm) {
+      return undefined;
+    }
+    const searchFormConfig = unref(tableProps).searchFormConfig;
+    const searchFormValue = await searchFormApi.getValues();
+    const searchWithSymbol = searchFormConfig?.searchWithSymbol;
+    const result: SmartSearchFormParameter = {
+      searchWithSymbol: isBoolean(searchWithSymbol) && searchWithSymbol,
+    };
+    if (result.searchWithSymbol) {
+      // 处理搜索符号
+      const { noSymbolForm, symbolForm } = dealSearchSymbol(searchFormValue);
+      result.searchSymbolForm = symbolForm;
+      result.noSymbolForm = noSymbolForm;
+    }
+    result.searchForm = searchFormValue;
+    return result;
+  };
+
   return {
+    getSearchFormParameter,
     SearchForm,
+    searchFormApi,
     setSearchFormVisible,
   };
 };

@@ -38,11 +38,13 @@
   },
   "dependencies": {
     "@vben-core/composables": "workspace:*",
+    "@vben-core/icons": "workspace:*",
     "@vben-core/preferences": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
+    "@vben-core/typings": "workspace:*",
     "vue": "catalog:",
     "vxe-table": "catalog:",
     "vxe-pc-ui": "catalog:",

@@ -148,7 +148,7 @@ function getFirstNonNullOrUndefined<T>(
   return undefined;
 }
 
-function isNil(v) {
+function isNil(v: any) {
   return v !== undefined && v !== null;
 }
 

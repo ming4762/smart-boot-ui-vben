@@ -41,7 +41,7 @@ const computedSearchContainerClass = computed(() => {
 
 .smart-search-container {
   width: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   padding: 12px 10px 0;
 }
 

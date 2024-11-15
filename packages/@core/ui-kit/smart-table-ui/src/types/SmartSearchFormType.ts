@@ -36,6 +36,13 @@ interface SmartSearchFormSchema extends VbenFormSchema {
   searchSymbol?: SearchSymbol;
 }
 
+interface SmartSearchFormParameter {
+  noSymbolForm?: Record<string, any>;
+  searchForm?: Record<string, any>;
+  searchSymbolForm?: Record<string, any>;
+  searchWithSymbol?: boolean;
+}
+
 /**
  * 搜索表单配置
  */
@@ -46,7 +53,12 @@ interface SmartSearchFormProps extends VbenFormProps {
   schema?: SmartSearchFormSchema[];
   // 向后台发送的参数是否带有符号
   searchWithSymbol?: boolean;
+  size?: string;
   visible?: boolean;
 }
 
-export type { SmartSearchFormProps };
+export type {
+  SmartSearchFormParameter,
+  SmartSearchFormProps,
+  SmartSearchFormSchema,
+};

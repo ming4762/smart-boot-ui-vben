@@ -2,19 +2,22 @@
 import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
 
 import type {
+  SmartTableActions,
   SmartTableRenderListeners,
   SmartTableRenderProps,
 } from '../types';
 
-import { computed, ref, unref } from 'vue';
+import { computed, onMounted, ref, unref } from 'vue';
 
 import { buildUUID } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import TableSearchLayout from '../components/TableSearchLayout.vue';
+import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
+import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 
@@ -23,15 +26,29 @@ interface Props extends SmartTableRenderProps {}
 const props = withDefaults(defineProps<Props>(), {
   column: [],
   id: buildUUID(),
-  size: 'small',
+  size: () => 'tiny',
 });
 
 const emit = defineEmits<SmartTableRenderListeners>();
+// @ts-ignore
+const emitHandler = (code: string, ...args: any[]) => emit(code, args);
 /**
  * vxe-grid对象实例
  */
 const vxeTableInstance = ref<VxeGridInstance>();
 const getVxeTableInstance = () => unref(vxeTableInstance);
+
+const { getLoading, setLoading } = useSmartTableLoading(props);
+
+const tableAction: SmartTableActions = {
+  getAddEditForm: () => ({}),
+  getGrid: () => getVxeTableInstance()!,
+  // eslint-disable-next-line no-use-before-define
+  getSearchForm: () => searchFormApi,
+  // eslint-disable-next-line no-use-before-define
+  query: (params) => query(params),
+  setLoading: (loading: boolean) => setLoading(loading),
+};
 
 // 列调整
 const { computedTableColumns } = useSmartTableColumn(props, VxeUI.getI18n);
@@ -40,11 +57,20 @@ const { computedPagerConfig } = useSmartTablePagerConfig(props);
 // 复选框
 const { computeCheckboxTableProps } = useSmartTableCheckbox(
   props,
-  emit,
+  emitHandler,
   getVxeTableInstance,
 );
 // 搜索表单
-const { SearchForm } = useSmartTableSearchForm(props);
+const { getSearchFormParameter, SearchForm, searchFormApi } =
+  useSmartTableSearchForm(props, emitHandler, tableAction);
+
+/**
+ * ajax增强
+ */
+const { computedProxyConfig, query } = useSmartTableAjax(props, emitHandler, {
+  ...tableAction,
+  getSearchFormParameter,
+});
 
 /**
  * 表格计算属性
@@ -55,6 +81,8 @@ const computedTableProps = computed<VxeGridProps>(() => {
     columns: unref(computedTableColumns),
     pagerConfig: unref(computedPagerConfig),
     ...unref(computeCheckboxTableProps),
+    loading: unref(getLoading),
+    proxyConfig: unref(computedProxyConfig),
   } as VxeGridProps;
 });
 
@@ -87,10 +115,14 @@ const RenderFunction = () => {
   }
   return <TableSearchLayout class="smart-table">{slots}</TableSearchLayout>;
 };
+
+onMounted(() => {
+  emit('register', tableAction);
+});
 </script>
 
 <template>
   <RenderFunction />
 </template>
 
-<style scoped></style>
+<style lang="less" scoped></style>

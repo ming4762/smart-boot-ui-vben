@@ -1,10 +1,10 @@
-import type { VxeGridPropTypes } from 'vxe-table';
+import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
 
 /**
  * 搜索参数类型
  */
-interface SmartTableAjaxQueryParams
-  extends VxeGridPropTypes.ProxyAjaxQueryParams {
+interface SmartTableAjaxQueryParams<D>
+  extends VxeGridPropTypes.ProxyAjaxQueryParams<D> {
   ajaxParameter?: Record<string, any>;
   searchForm?: Record<string, any>;
   searchFormSymbol?: Record<string, any>;
@@ -14,7 +14,7 @@ interface SmartTableAjaxQueryParams
 interface SmartTableFetchParams {
   filters?: Partial<VxeTableDefines.FilterCheckedParams>[];
   page?: Partial<VxeGridPropTypes.ProxyAjaxQueryPageParams>;
-  searchInfo?: Recordable;
+  searchInfo?: Record<string, any>;
   sorts?: Partial<VxeGridPropTypes.ProxyAjaxQuerySortCheckedParams>[];
 }
 
@@ -31,10 +31,8 @@ interface SmartTableProxyAjax<D = any> {
     params: VxeGridPropTypes.ProxyAjaxDeleteParams<D> &
       VxeGridPropTypes.ProxyAjaxResponseParams,
   ): void;
-  query?(
-    params: VxeGridPropTypes.ProxyAjaxQueryParams<D>,
-    ...args: any[]
-  ): Promise<any>;
+  getById?(params: D): Promise<D>;
+  query?(params: SmartTableAjaxQueryParams<D>, ...args: any[]): Promise<any>;
   queryAll?(params: VxeGridPropTypes.ProxyAjaxQueryAllParams<D>): Promise<any>;
   queryAllError?(
     params: VxeGridPropTypes.ProxyAjaxQueryAllParams<D> &
@@ -66,7 +64,8 @@ interface SmartTableProxyAjax<D = any> {
   ): void;
 }
 
-interface SmartTableProxyConfig<T = any> extends VxeGridPropTypes.ProxyConfig {
+interface SmartTableProxyConfig<T = any>
+  extends Omit<VxeGridPropTypes.ProxyConfig, 'ajax'> {
   // 删除回调
   afterDelete?: (result?: any) => void;
   afterLoad?: (result: any) => any;

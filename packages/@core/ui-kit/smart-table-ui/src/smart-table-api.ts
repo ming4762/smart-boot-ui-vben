@@ -1,4 +1,7 @@
-import type { SmartTableActions, SmartTableStoreData } from './types';
+import type { ExtendedFormApi } from '@vben-core/form-ui';
+import type { VxeGridInstance } from 'vxe-table';
+
+import type { SmartTableActions, SmartTableProps } from './types';
 
 import { Store } from '@vben-core/shared/store';
 import {
@@ -8,28 +11,34 @@ import {
   StateHandler,
 } from '@vben-core/shared/utils';
 
-function getDefaultState(): SmartTableStoreData {
+function getDefaultState(): SmartTableProps {
   return {};
 }
 
 class SmartTableApi {
   // private prevState: null | SmartTableStoreData = null;
 
+  public grid = {} as VxeGridInstance;
   // 是否挂在
   isMounted = false;
-  public state: null | SmartTableStoreData = null;
+
+  /**
+   * 搜索表单
+   */
+  public searchFormApi = {} as ExtendedFormApi;
+
+  public state: null | SmartTableProps = null;
 
   stateHandler: StateHandler;
 
-  public store: Store<SmartTableStoreData>;
-
+  public store: Store<SmartTableProps>;
   public table = {} as SmartTableActions;
 
-  constructor(options: SmartTableStoreData = {}) {
+  constructor(options: SmartTableProps = {}) {
     const { ...storeState } = options;
     const defaultState = getDefaultState();
 
-    this.store = new Store<SmartTableStoreData>(
+    this.store = new Store<SmartTableProps>(
       {
         ...defaultState,
         ...storeState,
@@ -50,22 +59,29 @@ class SmartTableApi {
 
   private updateState(): void {}
 
+  mount(instance: null | VxeGridInstance, searchFormApi: ExtendedFormApi) {
+    if (!this.isMounted && instance) {
+      this.grid = instance;
+      this.searchFormApi = searchFormApi;
+      this.stateHandler.setConditionTrue();
+      this.isMounted = true;
+    }
+  }
+
   /**
    * 设置表单的加载状态
    * @param isLoading
    */
   setLoading(isLoading: boolean) {
     this.setState({
-      gridOptions: {
-        loading: isLoading,
-      },
+      loading: isLoading,
     });
   }
 
   setState(
     stateOrFn:
-      | ((prev: SmartTableStoreData) => Partial<SmartTableStoreData>)
-      | Partial<SmartTableStoreData>,
+      | ((prev: SmartTableProps) => Partial<SmartTableProps>)
+      | Partial<SmartTableProps>,
   ) {
     if (isFunction(stateOrFn)) {
       this.store.setState((prev) => {

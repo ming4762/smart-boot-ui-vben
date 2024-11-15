@@ -1,4 +1,4 @@
-import type { VxeTablePropTypes } from 'vxe-table';
+import type { SmartTableSize } from '../types';
 
 import type { Component } from 'vue';
 
@@ -16,7 +16,7 @@ const FormSizeMap: Record<string, 'default' | 'large' | 'small'> = {
  * @param size
  */
 const getFormSize = (
-  size: undefined | VxeTablePropTypes.Size,
+  size: SmartTableSize | undefined,
 ): 'default' | 'large' | 'small' | undefined => {
   if (size) {
     return FormSizeMap[size];

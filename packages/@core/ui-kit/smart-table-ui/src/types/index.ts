@@ -1,8 +1,8 @@
+import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { SupportedLanguagesType } from '@vben-core/preferences';
-import type { DeepPartial } from '@vben-core/typings';
 import type {
   VxeComponentSizeType,
-  VxeGridListeners,
+  VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTablePropTypes,
@@ -10,7 +10,10 @@ import type {
 } from 'vxe-table';
 
 import type { SmartTableApi } from '../smart-table-api';
-import type { SmartSearchFormProps } from './SmartSearchFormType';
+import type {
+  SmartSearchFormProps,
+  SmartSearchFormSchema,
+} from './SmartSearchFormType';
 import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditConfig,
@@ -78,17 +81,21 @@ interface SmartTableToolbarConfig
  * SmartTable 支持的函数
  */
 interface SmartTableActions {
-  abc?: string;
+  getAddEditForm: () => ExtendedFormApi;
+  getGrid: () => VxeGridInstance;
+  getSearchForm: () => ExtendedFormApi;
+  query: (params?: SmartTableFetchParams) => Promise<void>;
+  setLoading: (loading: boolean) => void;
 }
 
 /**
  * 表格尺寸 TODO：tiny未支持
  */
-type SmartTableSize = 'small' & VxeComponentSizeType;
+type SmartTableSize = 'tiny' | VxeComponentSizeType;
 
-interface SmartTableRenderProps<T = any>
+interface SmartTableRenderProps
   extends Omit<
-    VxeGridProps<T>,
+    VxeGridProps,
     | 'checkboxConfig'
     | 'columns'
     | 'pagerConfig'
@@ -119,31 +126,24 @@ interface SmartTableRenderProps<T = any>
 /**
  * SmartTable事件
  */
-interface SmartTableRenderListeners<D = any> extends VxeGridListeners<D> {
-  // TODO: 移除
-  abc: string;
-}
+type SmartTableRenderListeners = {
+  'proxy-query': [any];
+  register: [SmartTableActions];
+};
 
 /**
  * SmartTable props
  */
-interface SmartTableProps<T = any> extends SmartTableRenderProps<T> {
+interface SmartTableProps extends SmartTableRenderProps {
   abc?: string;
-}
-
-/**
- * store props
- */
-interface SmartTableStoreData<T = any> {
-  gridOptions?: DeepPartial<SmartTableProps<T>>;
 }
 
 /**
  * Smart Table API
  */
 type ExtendSmartTableApi = {
-  useStore: <T = NoInfer<SmartTableStoreProps>>(
-    selector?: (state: NoInfer<SmartTableStoreProps>) => T,
+  useStore: <T = NoInfer<SmartTableProps>>(
+    selector?: (state: NoInfer<SmartTableProps>) => T,
   ) => Readonly<Ref<T>>;
 } & SmartTableApi;
 
@@ -162,6 +162,7 @@ export type {
   SetupSmartTable,
   SmartAddEditModalCallbackData,
   SmartCheckboxConfig,
+  SmartSearchFormSchema,
   SmartTableActions,
   SmartTableAjaxQueryParams,
   SmartTableColumn,
@@ -172,5 +173,4 @@ export type {
   SmartTableRenderListeners,
   SmartTableRenderProps,
   SmartTableSize,
-  SmartTableStoreData,
 };

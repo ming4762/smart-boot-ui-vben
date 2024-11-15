@@ -1,5 +1,10 @@
-<script setup lang="ts">
-import type { ExtendSmartTableApi, SmartTableProps } from './types';
+<script setup lang="tsx">
+import type {
+  ExtendSmartTableApi,
+  SmartTableActions,
+  SmartTableProps,
+  SmartTableRenderProps,
+} from './types';
 
 import { computed, toRaw, unref } from 'vue';
 
@@ -17,15 +22,19 @@ const props = withDefaults(defineProps<Props>(), {});
 const state = props.api?.useStore?.();
 const forward = useForwardPriorityValues(
   props,
-  computed(() => unref(state).gridOptions),
+  computed(() => unref(state)),
 );
-const computedProps = computed(() => {
+const computedProps = computed<SmartTableRenderProps>(() => {
   return cloneDeep(mergeWithArrayOverride({}, toRaw(unref(forward))));
 });
+
+const handleRegister = (tableAction: SmartTableActions) => {
+  props.api?.mount(tableAction.getGrid(), tableAction.getSearchForm());
+};
 </script>
 
 <template>
-  <SmartTableRender v-bind="computedProps" />
+  <SmartTableRender v-bind="computedProps" @register="handleRegister" />
 </template>
 
 <style scoped></style>
