@@ -152,6 +152,18 @@ function isNil(v: any) {
   return v !== undefined && v !== null;
 }
 
+function is(val: unknown, type: string) {
+  return Object.prototype.toString.call(val) === `[object ${type}]`;
+}
+
+function isPromise<T = any>(val: unknown): val is Promise<T> {
+  return (
+    is(val, 'Promise') &&
+    isFunction((val as any).then) &&
+    isFunction((val as any).catch)
+  );
+}
+
 export {
   getFirstNonNullOrUndefined,
   isBoolean,
@@ -162,6 +174,7 @@ export {
   isNil,
   isNumber,
   isObject,
+  isPromise,
   isString,
   isUndefined,
   isWindow,
