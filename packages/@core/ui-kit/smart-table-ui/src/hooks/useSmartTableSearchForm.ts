@@ -64,13 +64,21 @@ const useSmartTableSearchForm = (
     handleReset: () => {
       searchFormApi.resetForm();
       tableAction.query();
+      emit('formQuery');
     },
-    handleSubmit: () => tableAction.query(),
+    handleSubmit: () => {
+      tableAction.query();
+      emit('formQuery');
+    },
   });
   const computedSearchFormProps = computed(() => {
     const { searchFormConfig, size: tableSize } = unref(tableProps);
     const { resetButtonOptions, size, submitButtonOptions } =
       searchFormConfig || {};
+
+    const defaultComponentProps = {
+      allowClear: true,
+    };
 
     const formSize = size || getFormSize(tableSize);
     const props: VbenFormProps = {
@@ -82,17 +90,20 @@ const useSmartTableSearchForm = (
             searchFormConfig?.commonConfig?.componentProps;
           if (!commonComponentProps) {
             return {
+              ...defaultComponentProps,
               size: formSize,
             };
           }
           if (isFunction(commonComponentProps)) {
             const componentProps = commonComponentProps(value, actions);
             return {
+              ...defaultComponentProps,
               ...componentProps,
               size: formSize,
             };
           }
           return {
+            ...defaultComponentProps,
             ...commonComponentProps,
             size: formSize,
           };

@@ -21,6 +21,7 @@ import {
 } from 'vxe-table';
 
 import { getI18nData } from './locales';
+import { initButtonRenderer } from './renderer/VxeTableButtonRenderer';
 
 import 'vxe-table/styles/cssvar.scss';
 import 'vxe-pc-ui/styles/cssvar.scss';
@@ -98,6 +99,9 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   }
 
   configSmartTable(VxeUI);
+
+  // 初始化按钮渲染器
+  initButtonRenderer();
 };
 
 export { COMPONENT_MAP, setupSmartTable };

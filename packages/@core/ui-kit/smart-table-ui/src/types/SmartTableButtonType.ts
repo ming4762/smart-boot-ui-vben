@@ -70,7 +70,10 @@ interface SmartTableButton extends SmartTableBasicButtonDropdowns {
   'destroy-on-close'?: boolean;
   dropdowns?: SmartTableBasicButtonDropdowns[];
   placement?: string;
-  props?: ComputedRef<VbenButtonProps> | Ref<VbenButtonProps> | VbenButtonProps;
+  props?:
+    | ComputedRef<Record<string, any>>
+    | Record<string, any>
+    | Ref<Record<string, any>>;
   // 是否使用插槽
   slot?: (button: SmartTableButton & VbenButtonProps) => string | VNode;
   transfer?: boolean;

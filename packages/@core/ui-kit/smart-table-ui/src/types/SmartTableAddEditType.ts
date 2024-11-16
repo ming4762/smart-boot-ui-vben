@@ -25,6 +25,13 @@ interface SmartTableAddEditModalConfig extends ModalProps {
 }
 
 /**
+ * 添加修改表单配置
+ */
+interface SmartTableAddEditFormConfig extends VbenFormProps {
+  size?: string;
+}
+
+/**
  * 添加编辑表单配置
  */
 interface SmartTableAddEditConfig<T = any> {
@@ -39,7 +46,7 @@ interface SmartTableAddEditConfig<T = any> {
   /**
    * 表单配置项
    */
-  formConfig?: Partial<VbenFormProps>;
+  formConfig?: Partial<SmartTableAddEditFormConfig>;
   /**
    * modal配置
    */
@@ -52,6 +59,18 @@ interface SmartTableAddEditConfig<T = any> {
     selectData?: Record<string, any>,
     formData?: Record<string, any>,
   ) => boolean | Promise<boolean>;
+}
+
+/**
+ * SmartTableAddEditProps
+ */
+interface SmartTableAddEditModalProps {
+  afterSave?: (data?: any) => boolean | Promise<boolean> | undefined;
+  beforeSave?: (data: any) => any | Promise<any>;
+  formConfig?: Partial<SmartTableAddEditFormConfig>;
+  saveFunction?: (data: any) => Promise<any>;
+  t?: (code: string, ...args: string[]) => string;
+  tableId?: string;
 }
 
 interface SmartAddEditModalCallbackData<T = any> {
@@ -68,4 +87,8 @@ interface SmartAddEditModalCallbackData<T = any> {
     | undefined;
 }
 
-export type { SmartAddEditModalCallbackData, SmartTableAddEditConfig };
+export type {
+  SmartAddEditModalCallbackData,
+  SmartTableAddEditConfig,
+  SmartTableAddEditModalProps,
+};

@@ -2,6 +2,7 @@ import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type {
   VxeComponentSizeType,
+  VxeGridDefines,
   VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
@@ -14,10 +15,7 @@ import type {
   SmartSearchFormProps,
   SmartSearchFormSchema,
 } from './SmartSearchFormType';
-import type {
-  SmartAddEditModalCallbackData,
-  SmartTableAddEditConfig,
-} from './SmartTableAddEditType';
+import type { SmartTableAddEditConfig } from './SmartTableAddEditType';
 import type {
   SmartTableAjaxQueryParams,
   SmartTableFetchParams,
@@ -86,6 +84,8 @@ interface SmartTableActions {
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;
   setLoading: (loading: boolean) => void;
+  // 打开添加modal
+  showAddModal: () => void;
 }
 
 /**
@@ -127,6 +127,15 @@ interface SmartTableRenderProps
  * SmartTable事件
  */
 type SmartTableRenderListeners = {
+  addEditModalShow: [
+    {
+      formData: Record<string, any>;
+      isAdd: boolean;
+      selectData: Record<string, any>;
+    },
+  ];
+  cellClick: [VxeGridDefines.CellClickEventParams];
+  formQuery: [];
   'proxy-query': [any];
   register: [SmartTableActions];
 };
@@ -160,7 +169,6 @@ interface SetupSmartTable {
 export type {
   ExtendSmartTableApi,
   SetupSmartTable,
-  SmartAddEditModalCallbackData,
   SmartCheckboxConfig,
   SmartSearchFormSchema,
   SmartTableActions,

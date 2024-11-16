@@ -5,7 +5,7 @@ import { computed, unref } from 'vue';
 import { setupSmartTable, useSmartTable } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 
-import { Switch, Tag } from 'ant-design-vue';
+import { Button, Switch, Tag } from 'ant-design-vue';
 
 import { $t } from '#/locales';
 
@@ -26,6 +26,7 @@ setupSmartTable({
   components: {
     Tag,
     Switch,
+    Button,
   },
   i18nHandler: (key: string, args?: any) => $t(key, args),
 });

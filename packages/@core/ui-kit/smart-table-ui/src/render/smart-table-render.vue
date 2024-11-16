@@ -9,17 +9,21 @@ import type {
 
 import { computed, onMounted, ref, unref } from 'vue';
 
+import { useVbenModal } from '@vben-core/popup-ui';
 import { buildUUID } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
+import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
 import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
+import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
+import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 
 interface Props extends SmartTableRenderProps {}
 
@@ -32,11 +36,18 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<SmartTableRenderListeners>();
 // @ts-ignore
 const emitHandler = (code: string, ...args: any[]) => emit(code, args);
+
+const t = VxeUI.getI18n;
+
 /**
  * vxe-grid对象实例
  */
 const vxeTableInstance = ref<VxeGridInstance>();
 const getVxeTableInstance = () => unref(vxeTableInstance);
+
+const [AddEditModal, addEditModalApi] = useVbenModal({
+  connectedComponent: SmartTableAddEditModal,
+});
 
 const { getLoading, setLoading } = useSmartTableLoading(props);
 
@@ -51,7 +62,7 @@ const tableAction: SmartTableActions = {
 };
 
 // 列调整
-const { computedTableColumns } = useSmartTableColumn(props, VxeUI.getI18n);
+const { computedTableColumns } = useSmartTableColumn(props, t);
 // 分页
 const { computedPagerConfig } = useSmartTablePagerConfig(props);
 // 复选框
@@ -72,6 +83,16 @@ const { computedProxyConfig, query } = useSmartTableAjax(props, emitHandler, {
   getSearchFormParameter,
 });
 
+const { computeAddEditModalProps, computedHasAddEdit, showAddModal } =
+  useSmartTableModalAddEditEdit(props, emitHandler, t, {
+    modalApi: addEditModalApi,
+    query,
+  });
+
+const { computedToolbarConfig } = useSmartTableToolbar(props, t, {
+  showAddModal,
+});
+
 /**
  * 表格计算属性
  */
@@ -83,6 +104,7 @@ const computedTableProps = computed<VxeGridProps>(() => {
     ...unref(computeCheckboxTableProps),
     loading: unref(getLoading),
     proxyConfig: unref(computedProxyConfig),
+    toolbarConfig: unref(computedToolbarConfig),
   } as VxeGridProps;
 });
 
@@ -90,9 +112,13 @@ const computedTableProps = computed<VxeGridProps>(() => {
  * 渲染表格
  */
 const renderTable = () => {
-  return [
+  const vNodeList = [
     <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}></VxeGrid>,
   ];
+  if (unref(computedHasAddEdit)) {
+    vNodeList.push(<AddEditModal {...unref(computeAddEditModalProps)} />);
+  }
+  return vNodeList;
 };
 
 /**
