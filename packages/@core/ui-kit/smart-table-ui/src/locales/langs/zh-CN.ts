@@ -14,6 +14,10 @@ export default {
       use: '启用',
       yes: '是',
     },
+    message: {
+      editSuccess: '修改成功',
+      saveSuccess: '保存成功',
+    },
     title: {
       add: '添加',
       edit: '修改',

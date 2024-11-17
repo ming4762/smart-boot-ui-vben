@@ -28,6 +28,7 @@ import type {
   SmartTableToolbarTool,
 } from './SmartTableButtonType';
 import type { SmartTableColumn } from './SmartTableColumnType';
+import type { SmartTableMessageHandler } from './SmartTableMessageType';
 import type {
   RowTriggerMode,
   SmartTableRowConfig,
@@ -134,6 +135,7 @@ type SmartTableRenderListeners = {
       selectData: Record<string, any>;
     },
   ];
+  afterSaveUpdate: [boolean];
   cellClick: [VxeGridDefines.CellClickEventParams];
   formQuery: [];
   'proxy-query': [any];
@@ -163,6 +165,7 @@ interface SetupSmartTable {
   components?: Partial<Record<string, Component>>;
   configSmartTable: (ui: VxeUIExport) => void;
   i18nHandler: (key: string, args?: any) => string;
+  messageHandler?: SmartTableMessageHandler;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
 }
 

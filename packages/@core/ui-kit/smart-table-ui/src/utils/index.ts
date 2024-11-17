@@ -2,7 +2,7 @@ import type { SmartTableSize } from '../types';
 
 import type { Component } from 'vue';
 
-import { COMPONENT_MAP } from '../init';
+import { COMPONENT_MAP, MESSAGE_HANDLER } from '../init';
 
 const FormSizeMap: Record<string, 'default' | 'large' | 'small'> = {
   midum: 'default',
@@ -32,4 +32,14 @@ const getComponent = (componentName: string): Component | undefined => {
   return COMPONENT_MAP[componentName];
 };
 
-export { getComponent, getFormSize };
+const successMessage = (message: string) => MESSAGE_HANDLER.success(message);
+const warningMessage = (message: string) => MESSAGE_HANDLER.warning(message);
+const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
+
+export {
+  errorMessage,
+  getComponent,
+  getFormSize,
+  successMessage,
+  warningMessage,
+};

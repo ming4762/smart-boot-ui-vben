@@ -1,5 +1,4 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
-import type { ExtendedModalApi } from '@vben-core/popup-ui';
 
 import type { SmartTableRenderProps } from '../types';
 import type {
@@ -7,12 +6,14 @@ import type {
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
 
-import { computed, nextTick, unref } from 'vue';
+import { computed, h, nextTick, unref } from 'vue';
 
+import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise } from '@vben-core/shared/utils';
 
+import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
+
 interface Action {
-  modalApi: ExtendedModalApi;
   query: () => Promise<void>;
 }
 
@@ -24,14 +25,16 @@ const SizeMap: { [index: string]: 'default' | 'large' | 'small' } = {
 };
 
 const getDefaultFormConfig = (): Partial<VbenFormProps> => {
-  return {};
+  return {
+    showDefaultActions: false,
+  };
 };
 
 export const useSmartTableModalAddEditEdit = (
   tableProps: SmartTableRenderProps,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
-  { modalApi }: Action,
+  { query }: Action,
 ) => {
   /**
    * 是否有添加修改弹窗
@@ -73,7 +76,6 @@ export const useSmartTableModalAddEditEdit = (
     const { afterSave, beforeSave, modalConfig } = addEditConfig;
     const saveFunction = proxyConfig?.ajax?.save;
     return {
-      draggable: true,
       ...modalConfig,
       afterSave:
         afterSave ||
@@ -82,6 +84,7 @@ export const useSmartTableModalAddEditEdit = (
           return true;
         }),
       beforeSave,
+      formConfig: unref(computedAddEditFormProps),
       saveFunction,
       t,
     };
@@ -104,6 +107,22 @@ export const useSmartTableModalAddEditEdit = (
       validateFunction: unref(tableProps)?.addEditConfig?.afterLoadData,
     };
   };
+
+  /**
+   * 创建modal
+   */
+  const [Modal, modalApi] = useVbenModal({
+    connectedComponent: SmartTableAddEditModal,
+    draggable: true,
+  });
+
+  const AddEditModal = () =>
+    h(Modal, {
+      ...unref(computeAddEditModalProps),
+      onAfterSaveUpdate: (isAdd: boolean) => {
+        emit('afterSaveUpdate', isAdd);
+      },
+    });
 
   const doOpenModal = async (
     isAdd: boolean,
@@ -140,6 +159,7 @@ export const useSmartTableModalAddEditEdit = (
   };
 
   return {
+    AddEditModal,
     computeAddEditModalProps,
     computedAddEditFormProps,
     computedHasAddEdit,

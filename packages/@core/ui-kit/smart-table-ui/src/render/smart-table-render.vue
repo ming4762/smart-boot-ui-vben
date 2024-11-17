@@ -9,12 +9,10 @@ import type {
 
 import { computed, onMounted, ref, unref } from 'vue';
 
-import { useVbenModal } from '@vben-core/popup-ui';
 import { buildUUID } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
-import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
 import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
@@ -44,10 +42,6 @@ const t = VxeUI.getI18n;
  */
 const vxeTableInstance = ref<VxeGridInstance>();
 const getVxeTableInstance = () => unref(vxeTableInstance);
-
-const [AddEditModal, addEditModalApi] = useVbenModal({
-  connectedComponent: SmartTableAddEditModal,
-});
 
 const { getLoading, setLoading } = useSmartTableLoading(props);
 
@@ -83,9 +77,8 @@ const { computedProxyConfig, query } = useSmartTableAjax(props, emitHandler, {
   getSearchFormParameter,
 });
 
-const { computeAddEditModalProps, computedHasAddEdit, showAddModal } =
+const { AddEditModal, computedHasAddEdit, showAddModal } =
   useSmartTableModalAddEditEdit(props, emitHandler, t, {
-    modalApi: addEditModalApi,
     query,
   });
 
@@ -116,7 +109,7 @@ const renderTable = () => {
     <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}></VxeGrid>,
   ];
   if (unref(computedHasAddEdit)) {
-    vNodeList.push(<AddEditModal {...unref(computeAddEditModalProps)} />);
+    vNodeList.push(<AddEditModal />);
   }
   return vNodeList;
 };

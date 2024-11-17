@@ -1,4 +1,5 @@
 import type { SetupSmartTable } from './types';
+import type { SmartTableMessageHandler } from './types/SmartTableMessageType';
 
 import type { Component } from 'vue';
 import { defineComponent, watch } from 'vue';
@@ -27,6 +28,16 @@ import 'vxe-table/styles/cssvar.scss';
 import 'vxe-pc-ui/styles/cssvar.scss';
 
 const COMPONENT_MAP: Record<string, Component> = {};
+
+/**
+ * 消息处理功能
+ */
+const defaultMessageHandle = () => console.warn('请设置messageHandler');
+const MESSAGE_HANDLER: SmartTableMessageHandler = {
+  error: defaultMessageHandle,
+  success: defaultMessageHandle,
+  warning: defaultMessageHandle,
+};
 
 // 是否加载过
 let isInit = false;
@@ -67,8 +78,13 @@ const initSmartTableComponent = () => {
  * @param setupOptions
  */
 const setupSmartTable = (setupOptions: SetupSmartTable) => {
-  const { components, configSmartTable, i18nHandler, watcherField } =
-    setupOptions;
+  const {
+    components,
+    configSmartTable,
+    i18nHandler,
+    messageHandler,
+    watcherField,
+  } = setupOptions;
 
   // 初始化组件
   initSmartTableComponent();
@@ -98,10 +114,14 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
     }
   }
 
+  if (messageHandler) {
+    Object.assign(MESSAGE_HANDLER, messageHandler);
+  }
+
   configSmartTable(VxeUI);
 
   // 初始化按钮渲染器
   initButtonRenderer();
 };
 
-export { COMPONENT_MAP, setupSmartTable };
+export { COMPONENT_MAP, MESSAGE_HANDLER, setupSmartTable };
