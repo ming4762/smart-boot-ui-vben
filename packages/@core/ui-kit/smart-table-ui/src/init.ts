@@ -34,6 +34,7 @@ const COMPONENT_MAP: Record<string, Component> = {};
  */
 const defaultMessageHandle = () => console.warn('请设置messageHandler');
 const MESSAGE_HANDLER: SmartTableMessageHandler = {
+  confirm: defaultMessageHandle,
   error: defaultMessageHandle,
   success: defaultMessageHandle,
   warning: defaultMessageHandle,

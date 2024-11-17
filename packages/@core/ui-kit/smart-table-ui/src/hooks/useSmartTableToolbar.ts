@@ -1,4 +1,8 @@
-import type { SmartTableRenderProps, SmartTableSize } from '../types';
+import type {
+  SmartTableActions,
+  SmartTableRenderProps,
+  SmartTableSize,
+} from '../types';
 import type { SmartTableButton } from '../types/SmartTableButtonType';
 
 import { computed, h, unref } from 'vue';
@@ -7,8 +11,9 @@ import { createIconifyIcon } from '@vben-core/icons';
 import { merge } from '@vben-core/shared/utils';
 
 import { VxeTableToolButtonCustomRenderer } from '../types/SmartTableRenderType';
+import { AddIcon, editIcon } from '../utils';
 
-interface Action {
+interface Action extends SmartTableActions {
   showAddModal: () => void;
 }
 
@@ -33,7 +38,7 @@ const getDefaultAddButtonConfig = (
     code: 'ModalAdd',
     name: t('smartTable.button.add'),
     props: {
-      icon: h(createIconifyIcon('ant-design:plus-outlined'), {
+      icon: h(AddIcon, {
         class: ['anticon'],
       }),
       type: 'primary',
@@ -51,7 +56,7 @@ const getDefaultEditButtonConfig = (
     code: 'ModalEdit',
     name: t('smartTable.button.edit'),
     props: {
-      icon: h(createIconifyIcon('ant-design:edit-outlined'), {
+      icon: h(editIcon, {
         class: ['anticon'],
       }),
       type: 'primary',
@@ -124,7 +129,7 @@ export const useSmartTableToolbar = (
           {
             props: {
               onClick: () => {
-                // deleteByCheckbox && deleteByCheckbox();
+                actions.deleteByCheckbox && actions.deleteByCheckbox();
               },
             },
           },

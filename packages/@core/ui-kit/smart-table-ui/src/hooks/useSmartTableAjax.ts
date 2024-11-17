@@ -9,9 +9,16 @@ import type {
 } from '../types';
 import type { SmartSearchFormParameter } from '../types/SmartSearchFormType';
 
-import { computed, unref } from 'vue';
+import { computed, h, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
+
+import {
+  configModal,
+  confirmIcon,
+  successMessage,
+  warningMessage,
+} from '../utils';
 
 interface SearchFormTableAction extends SmartTableActions {
   getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
@@ -20,6 +27,7 @@ interface SearchFormTableAction extends SmartTableActions {
 const useSmartTableAjax = (
   tableProps: SmartTableRenderProps,
   emit: (name: string, ...args: any[]) => void,
+  t: (args: string) => string,
   tableAction: SearchFormTableAction,
 ) => {
   let initQuery = false;
@@ -139,8 +147,58 @@ const useSmartTableAjax = (
     }
   };
 
+  /**
+   * 执行删除操作
+   * @param rows 需要删除的行
+   */
+  const doDelete = async (rows: any[]) => {
+    const proxyConfig = unref(tableProps).proxyConfig;
+    const deleteMethod = proxyConfig?.ajax?.delete;
+    if (!deleteMethod) {
+      throw new Error('proxyConfig.ajax.delete未配置，无法删除');
+    }
+    if (rows.length === 0) {
+      return false;
+    }
+    configModal({
+      content: t('smartTable.message.deleteConfirm'),
+      icon: h(confirmIcon, { class: ['anticon'] }),
+      onOk: async () => {
+        const result = await deleteMethod({
+          $grid: tableAction.getGrid,
+          body: {
+            removeRecords: rows,
+          },
+        });
+        successMessage(t('smartTable.message.deleteSuccess'));
+        emit('proxyDelete', { status: true });
+        const afterDelete = proxyConfig?.afterDelete || query;
+        afterDelete && afterDelete(result);
+        return true;
+      },
+      title: t('smartTable.message.confirm'),
+    });
+  };
+
+  /**
+   * 根据checkbox选中删除
+   */
+  const deleteByCheckbox = (): Promise<boolean | undefined> => {
+    const tableInstance = tableAction.getGrid();
+    if (!tableInstance) {
+      return false;
+    }
+    const rows = tableInstance.getCheckboxRecords(false);
+    if (rows.length === 0) {
+      warningMessage(t('smartTable.message.deleteChoose'));
+      return false;
+    }
+    return doDelete(rows);
+  };
+
   return {
     computedProxyConfig,
+    deleteByCheckbox,
     query,
   };
 };

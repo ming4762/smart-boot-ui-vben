@@ -35,11 +35,16 @@ const getComponent = (componentName: string): Component | undefined => {
 const successMessage = (message: string) => MESSAGE_HANDLER.success(message);
 const warningMessage = (message: string) => MESSAGE_HANDLER.warning(message);
 const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
+const configModal = (option: Record<string, any>) =>
+  MESSAGE_HANDLER.confirm(option);
 
 export {
+  configModal,
   errorMessage,
   getComponent,
   getFormSize,
   successMessage,
   warningMessage,
 };
+
+export * from './buttons';

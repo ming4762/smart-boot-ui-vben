@@ -46,6 +46,8 @@ const getVxeTableInstance = () => unref(vxeTableInstance);
 const { getLoading, setLoading } = useSmartTableLoading(props);
 
 const tableAction: SmartTableActions = {
+  // eslint-disable-next-line no-use-before-define
+  deleteByCheckbox: () => deleteByCheckbox(),
   getAddEditForm: () => ({}),
   getGrid: () => getVxeTableInstance()!,
   // eslint-disable-next-line no-use-before-define
@@ -72,10 +74,15 @@ const { getSearchFormParameter, SearchForm, searchFormApi } =
 /**
  * ajax增强
  */
-const { computedProxyConfig, query } = useSmartTableAjax(props, emitHandler, {
-  ...tableAction,
-  getSearchFormParameter,
-});
+const { computedProxyConfig, deleteByCheckbox, query } = useSmartTableAjax(
+  props,
+  emitHandler,
+  t,
+  {
+    ...tableAction,
+    getSearchFormParameter,
+  },
+);
 
 const { AddEditModal, computedHasAddEdit, showAddModal } =
   useSmartTableModalAddEditEdit(props, emitHandler, t, {
@@ -83,6 +90,7 @@ const { AddEditModal, computedHasAddEdit, showAddModal } =
   });
 
 const { computedToolbarConfig } = useSmartTableToolbar(props, t, {
+  ...tableAction,
   showAddModal,
 });
 

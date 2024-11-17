@@ -15,6 +15,10 @@ export default {
       yes: '是',
     },
     message: {
+      confirm: '确认',
+      deleteChoose: '请选择要删除的数据',
+      deleteConfirm: '确定要删除吗？',
+      deleteSuccess: '删除成功',
       editSuccess: '修改成功',
       saveSuccess: '保存成功',
     },

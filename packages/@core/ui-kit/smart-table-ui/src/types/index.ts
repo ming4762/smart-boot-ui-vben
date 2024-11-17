@@ -80,6 +80,7 @@ interface SmartTableToolbarConfig
  * SmartTable 支持的函数
  */
 interface SmartTableActions {
+  deleteByCheckbox: () => Promise<boolean | undefined>;
   getAddEditForm: () => ExtendedFormApi;
   getGrid: () => VxeGridInstance;
   getSearchForm: () => ExtendedFormApi;
@@ -139,6 +140,7 @@ type SmartTableRenderListeners = {
   cellClick: [VxeGridDefines.CellClickEventParams];
   formQuery: [];
   'proxy-query': [any];
+  proxyDelete: [{ status: boolean }];
   register: [SmartTableActions];
 };
 

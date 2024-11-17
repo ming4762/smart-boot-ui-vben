@@ -5,7 +5,13 @@ import { computed, unref } from 'vue';
 import { setupSmartTable, useSmartTable } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 
-import { message as AntMessage, Button, Switch, Tag } from 'ant-design-vue';
+import {
+  message as AntMessage,
+  Button,
+  Modal,
+  Switch,
+  Tag,
+} from 'ant-design-vue';
 
 import { $t } from '#/locales';
 
@@ -33,6 +39,7 @@ setupSmartTable({
     success: (message: string) => AntMessage.success(message),
     warning: (message: string) => AntMessage.warning(message),
     error: (message: string) => AntMessage.error(message),
+    confirm: (options: Record<string, any>) => Modal.confirm(options),
   },
 });
 
