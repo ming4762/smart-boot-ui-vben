@@ -75,7 +75,7 @@ const { computeCheckboxTableProps } = useSmartTableCheckbox(
 );
 // 搜索表单
 const { getSearchFormParameter, SearchForm, searchFormApi } =
-  useSmartTableSearchForm(props, emitHandler, tableAction);
+  useSmartTableSearchForm(props, emitHandler, t, tableAction);
 
 /**
  * ajax增强

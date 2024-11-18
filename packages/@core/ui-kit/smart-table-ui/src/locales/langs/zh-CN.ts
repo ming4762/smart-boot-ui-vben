@@ -7,6 +7,7 @@ export default {
       add: '添加',
       delete: '删除',
       edit: '修改',
+      search: '搜索',
     },
     common: {
       no: '否',

@@ -33,6 +33,7 @@ const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
 const useSmartTableSearchForm = (
   tableProps: SmartTableRenderProps,
   emit: (name: string, ...args: any[]) => void,
+  t: (args: string) => string,
   tableAction: SmartTableActions,
 ) => {
   /**
@@ -115,6 +116,7 @@ const useSmartTableSearchForm = (
         ...resetButtonOptions,
       },
       submitButtonOptions: {
+        content: t('smartTable.button.search'),
         // loading: unref(getLoading),
         icon: h(AntSearchOutlined, { class: ['anticon'] }),
         size: formSize,
