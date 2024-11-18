@@ -81,13 +81,21 @@ interface SmartTableToolbarConfig
  */
 interface SmartTableActions {
   deleteByCheckbox: () => Promise<boolean | undefined>;
+  editByCheckbox: () => boolean | Promise<boolean>;
+  editByRowModal: (
+    row: any,
+    formData?: Record<string, any>,
+  ) => boolean | Promise<boolean>;
   getAddEditForm: () => ExtendedFormApi;
   getGrid: () => VxeGridInstance;
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;
   setLoading: (loading: boolean) => void;
   // 打开添加modal
-  showAddModal: () => void;
+  showAddModal: (
+    selectData?: Record<string, any>,
+    formData?: Record<string, any>,
+  ) => void;
 }
 
 /**

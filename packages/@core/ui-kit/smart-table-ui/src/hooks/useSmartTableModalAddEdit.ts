@@ -1,6 +1,6 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
 
-import type { SmartTableRenderProps } from '../types';
+import type { SmartTableActions, SmartTableRenderProps } from '../types';
 import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditModalProps,
@@ -12,10 +12,11 @@ import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise } from '@vben-core/shared/utils';
 
 import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
+import { warningMessage } from '../utils';
 
-interface Action {
-  query: () => Promise<void>;
-}
+// interface Action extends SmartTableActions {
+//   // nothing
+// }
 
 const SizeMap: { [index: string]: 'default' | 'large' | 'small' } = {
   midum: 'default',
@@ -34,7 +35,7 @@ export const useSmartTableModalAddEditEdit = (
   tableProps: SmartTableRenderProps,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
-  { query }: Action,
+  { getGrid, query }: SmartTableActions,
 ) => {
   /**
    * 是否有添加修改弹窗
@@ -68,10 +69,12 @@ export const useSmartTableModalAddEditEdit = (
     return props;
   });
 
-  const computeAddEditModalProps = computed<SmartTableAddEditModalProps>(() => {
+  const computeAddEditModalProps = computed<
+    SmartTableAddEditModalProps | undefined
+  >(() => {
     const { addEditConfig, proxyConfig } = unref(tableProps);
     if (!addEditConfig) {
-      return {};
+      return undefined;
     }
     const { afterSave, beforeSave, modalConfig } = addEditConfig;
     const saveFunction = proxyConfig?.ajax?.save;
@@ -126,8 +129,8 @@ export const useSmartTableModalAddEditEdit = (
 
   const doOpenModal = async (
     isAdd: boolean,
-    formData?: Record<string, any>,
     selectData?: Record<string, any>,
+    formData?: Record<string, any>,
   ) => {
     // 校验参数
     const saveUpdateValidate =
@@ -148,14 +151,53 @@ export const useSmartTableModalAddEditEdit = (
     modalApi.open();
   };
 
+  /**
+   * 显示修改弹窗
+   * @param formData
+   * @param selectData
+   */
   const showAddModal = (
-    formData?: Record<string, any>,
     selectData?: Record<string, any>,
+    formData?: Record<string, any>,
   ) => {
     if (!unref(computedHasAddEdit)) {
       throw new Error('addEditConfig未定义');
     }
-    doOpenModal(true, formData, selectData);
+    return doOpenModal(true, selectData, formData);
+  };
+
+  const doEdit = async (row: any, formData?: Record<string, any>) => {
+    if (!unref(computedHasAddEdit)) {
+      throw new Error('addEditConfig未定义');
+    }
+    if (unref(tableProps).addEditConfig?.openModalHandler) {
+      unref(tableProps).addEditConfig?.openModalHandler?.(row, formData);
+    } else {
+      doOpenModal(false, row, formData);
+    }
+    return true;
+  };
+
+  /**
+   * checkbox选中更新
+   */
+  const editByCheckbox = () => {
+    const selectRows = getGrid().getCheckboxRecords(false);
+    if (selectRows.length !== 1) {
+      warningMessage(t('smartTable.message.choseOne'));
+      return false;
+    }
+    const editRow = selectRows[0];
+    return doEdit(editRow);
+  };
+
+  /**
+   * 根据填入的数据更新
+   * @param row
+   * @param formData
+   */
+  const editByRowModal = (row: any, formData?: Record<string, any>) => {
+    return doEdit(row, formData);
   };
 
   return {
@@ -163,6 +205,8 @@ export const useSmartTableModalAddEditEdit = (
     computeAddEditModalProps,
     computedAddEditFormProps,
     computedHasAddEdit,
+    editByCheckbox,
+    editByRowModal,
     showAddModal,
   };
 };

@@ -15,6 +15,7 @@ export default {
       yes: '是',
     },
     message: {
+      choseOne: '请选择一条数据',
       confirm: '确认',
       deleteChoose: '请选择要删除的数据',
       deleteConfirm: '确定要删除吗？',

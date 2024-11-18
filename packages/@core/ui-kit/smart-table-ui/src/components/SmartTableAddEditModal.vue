@@ -7,8 +7,8 @@ import type {
 import { computed, ref, unref } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
-import { useVbenModal } from '@vben-core/popup-ui';
-import { isBoolean, isPromise } from '@vben-core/shared/utils';
+import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
+import { isBoolean, isFunction, isPromise } from '@vben-core/shared/utils';
 
 import { successMessage } from '../utils';
 
@@ -27,7 +27,44 @@ const computedTitle = computed(() => {
 
 const [From, formApi] = useVbenForm({});
 
-const loadEditData = () => {};
+/**
+ * 加载编辑数据
+ * @param data
+ * @param modalApi
+ */
+const loadEditData = async (
+  data: SmartAddEditModalCallbackData,
+  modalApi: ExtendedModalApi,
+) => {
+  const { formData, getFunction, isAdd, selectData, validateFunction } = data;
+  try {
+    if (!isFunction(getFunction)) {
+      throw new Error('proxyConfig.ajax.getById未定义');
+    }
+    modalApi.setState({ loading: true });
+
+    const editData = await getFunction(selectData);
+    if (isFunction(validateFunction)) {
+      const result = validateFunction(data, selectData);
+      if (isBoolean(result) && !result) {
+        return false;
+      }
+      if (isPromise(result)) {
+        const promiseResult = await result;
+        if (isBoolean(promiseResult) && !promiseResult) {
+          return false;
+        }
+      }
+    }
+    formApi.setValues({
+      ...editData,
+      formData,
+      isAdd,
+    });
+  } finally {
+    modalApi.setState({ loading: false });
+  }
+};
 
 const [Modal, modalApi] = useVbenModal({
   onConfirm: async () => {
@@ -90,7 +127,7 @@ const [Modal, modalApi] = useVbenModal({
         isAdd,
       });
     } else {
-      loadEditData();
+      loadEditData(data, modalApi);
     }
   },
 });

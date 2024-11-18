@@ -12,10 +12,9 @@ import { merge } from '@vben-core/shared/utils';
 
 import { VxeTableToolButtonCustomRenderer } from '../types/SmartTableRenderType';
 import { AddIcon, editIcon } from '../utils';
-
-interface Action extends SmartTableActions {
-  showAddModal: () => void;
-}
+//
+// interface Action extends SmartTableActions {
+// }
 
 const tableButtonSizeMap: { [key: string]: string } = {
   medium: 'middle',
@@ -86,7 +85,7 @@ const getDefaultDeleteButtonConfig = (
 export const useSmartTableToolbar = (
   tableProps: SmartTableRenderProps,
   t: (args: string) => string,
-  actions: Action,
+  { deleteByCheckbox, editByCheckbox, showAddModal }: SmartTableActions,
 ) => {
   const convertButtons = (
     buttonList: SmartTableButton[] | undefined,
@@ -103,7 +102,7 @@ export const useSmartTableToolbar = (
           item,
           props: {
             onClick: () => {
-              actions.showAddModal();
+              showAddModal();
             },
           },
         }) as SmartTableButton;
@@ -115,7 +114,7 @@ export const useSmartTableToolbar = (
           {
             props: {
               onClick: () => {
-                // editByCheckbox();
+                editByCheckbox();
               },
             },
           },
@@ -129,7 +128,7 @@ export const useSmartTableToolbar = (
           {
             props: {
               onClick: () => {
-                actions.deleteByCheckbox && actions.deleteByCheckbox();
+                deleteByCheckbox && deleteByCheckbox();
               },
             },
           },

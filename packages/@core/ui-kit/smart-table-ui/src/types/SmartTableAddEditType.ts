@@ -69,7 +69,7 @@ interface SmartTableAddEditModalProps {
   beforeSave?: (data: any) => any | Promise<any>;
   formConfig?: Partial<SmartTableAddEditFormConfig>;
   saveFunction?: (data: any) => Promise<any>;
-  t?: (code: string, ...args: string[]) => string;
+  t: (code: string, ...args: string[]) => string;
   tableId?: string;
 }
 

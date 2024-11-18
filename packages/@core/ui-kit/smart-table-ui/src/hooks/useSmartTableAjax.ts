@@ -165,7 +165,7 @@ const useSmartTableAjax = (
       icon: h(confirmIcon, { class: ['anticon'] }),
       onOk: async () => {
         const result = await deleteMethod({
-          $grid: tableAction.getGrid,
+          $grid: tableAction.getGrid(),
           body: {
             removeRecords: rows,
           },
@@ -183,7 +183,7 @@ const useSmartTableAjax = (
   /**
    * 根据checkbox选中删除
    */
-  const deleteByCheckbox = (): Promise<boolean | undefined> => {
+  const deleteByCheckbox = async (): Promise<boolean | undefined> => {
     const tableInstance = tableAction.getGrid();
     if (!tableInstance) {
       return false;
@@ -196,9 +196,21 @@ const useSmartTableAjax = (
     return doDelete(rows);
   };
 
+  /**
+   * 根据行删除
+   * @param row
+   */
+  const deleteByRow = (row: any | any[]) => {
+    if (Array.isArray(row)) {
+      return doDelete(row);
+    }
+    return doDelete([row]);
+  };
+
   return {
     computedProxyConfig,
     deleteByCheckbox,
+    deleteByRow,
     query,
   };
 };

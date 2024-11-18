@@ -48,6 +48,10 @@ const { getLoading, setLoading } = useSmartTableLoading(props);
 const tableAction: SmartTableActions = {
   // eslint-disable-next-line no-use-before-define
   deleteByCheckbox: () => deleteByCheckbox(),
+  // eslint-disable-next-line no-use-before-define
+  editByCheckbox: () => editByCheckbox(),
+  // eslint-disable-next-line no-use-before-define
+  editByRowModal: (row, formData) => editByRowModal(row, formData),
   getAddEditForm: () => ({}),
   getGrid: () => getVxeTableInstance()!,
   // eslint-disable-next-line no-use-before-define
@@ -55,6 +59,8 @@ const tableAction: SmartTableActions = {
   // eslint-disable-next-line no-use-before-define
   query: (params) => query(params),
   setLoading: (loading: boolean) => setLoading(loading),
+  // eslint-disable-next-line no-use-before-define
+  showAddModal: (selectData, formData) => showAddModal(selectData, formData),
 };
 
 // 列调整
@@ -84,15 +90,15 @@ const { computedProxyConfig, deleteByCheckbox, query } = useSmartTableAjax(
   },
 );
 
-const { AddEditModal, computedHasAddEdit, showAddModal } =
-  useSmartTableModalAddEditEdit(props, emitHandler, t, {
-    query,
-  });
-
-const { computedToolbarConfig } = useSmartTableToolbar(props, t, {
-  ...tableAction,
+const {
+  AddEditModal,
+  computedHasAddEdit,
+  editByCheckbox,
+  editByRowModal,
   showAddModal,
-});
+} = useSmartTableModalAddEditEdit(props, emitHandler, t, tableAction);
+
+const { computedToolbarConfig } = useSmartTableToolbar(props, t, tableAction);
 
 /**
  * 表格计算属性
