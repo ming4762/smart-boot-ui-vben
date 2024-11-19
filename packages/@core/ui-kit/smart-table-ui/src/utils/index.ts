@@ -2,7 +2,7 @@ import type { SmartTableSize } from '../types';
 
 import type { Component } from 'vue';
 
-import { COMPONENT_MAP, MESSAGE_HANDLER } from '../init';
+import { COMPONENT_MAP, MESSAGE_HANDLER, PERMISSION_HANDLE } from '../init';
 
 const FormSizeMap: Record<string, 'default' | 'large' | 'small'> = {
   midum: 'default',
@@ -38,11 +38,15 @@ const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
 const configModal = (option: Record<string, any>) =>
   MESSAGE_HANDLER.confirm(option);
 
+const hasPermission = (code: string | string[]) =>
+  PERMISSION_HANDLE.hasPermission(code);
+
 export {
   configModal,
   errorMessage,
   getComponent,
   getFormSize,
+  hasPermission,
   successMessage,
   warningMessage,
 };

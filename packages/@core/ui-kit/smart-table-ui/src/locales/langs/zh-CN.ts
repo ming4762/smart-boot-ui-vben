@@ -22,6 +22,7 @@ export default {
       deleteConfirm: '确定要删除吗？',
       deleteSuccess: '删除成功',
       editSuccess: '修改成功',
+      noPermission: '无权限',
       saveSuccess: '保存成功',
     },
     title: {

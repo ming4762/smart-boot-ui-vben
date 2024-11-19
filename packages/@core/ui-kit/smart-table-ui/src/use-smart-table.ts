@@ -6,6 +6,7 @@ import { useStore } from '@vben-core/shared/store';
 
 import { SmartTableApi } from './smart-table-api';
 import SmartUseTable from './smart-use-table.vue';
+import { hasPermission } from './utils';
 
 function useSmartTable(options: SmartTableProps) {
   // 参数是否具有响应性
@@ -24,7 +25,11 @@ function useSmartTable(options: SmartTableProps) {
         api.unmounted();
       });
       return () =>
-        h(SmartUseTable, { ...props, ...attrs, api: extendedApi }, slots);
+        h(
+          SmartUseTable,
+          { ...props, ...attrs, api: extendedApi, hasPermission },
+          slots,
+        );
     },
     {
       inheritAttrs: false,

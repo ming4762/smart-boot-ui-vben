@@ -1,7 +1,6 @@
 import type { VxeGridPropTypes } from 'vxe-table';
 
 import type {
-  SmartTableActions,
   SmartTableAjaxQueryParams,
   SmartTableFetchParams,
   SmartTableProxyAjax,
@@ -13,6 +12,7 @@ import { computed, h, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
 
+import { useSmartTableContext } from '../types/useSmartTableContext';
 import {
   configModal,
   confirmIcon,
@@ -20,7 +20,7 @@ import {
   warningMessage,
 } from '../utils';
 
-interface SearchFormTableAction extends SmartTableActions {
+interface SearchFormTableAction {
   getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
 }
 
@@ -137,13 +137,14 @@ const useSmartTableAjax = (
    * @param params
    */
   const query = async (params?: SmartTableFetchParams) => {
+    const { getGrid, setLoading } = useSmartTableContext();
     try {
-      tableAction.setLoading(true);
+      setLoading(true);
       const code = initQuery ? 'query' : '_init';
-      tableAction.getGrid().commitProxy(code, params);
+      getGrid().commitProxy(code, params);
       emit('proxy-query', { isInited: false, isReload: false, status: true });
     } finally {
-      tableAction.setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -160,12 +161,13 @@ const useSmartTableAjax = (
     if (rows.length === 0) {
       return false;
     }
+    const { getGrid } = useSmartTableContext();
     configModal({
       content: t('smartTable.message.deleteConfirm'),
       icon: h(confirmIcon, { class: ['anticon'] }),
       onOk: async () => {
         const result = await deleteMethod({
-          $grid: tableAction.getGrid(),
+          $grid: getGrid(),
           body: {
             removeRecords: rows,
           },
@@ -184,7 +186,8 @@ const useSmartTableAjax = (
    * 根据checkbox选中删除
    */
   const deleteByCheckbox = async (): Promise<boolean | undefined> => {
-    const tableInstance = tableAction.getGrid();
+    const { getGrid } = useSmartTableContext();
+    const tableInstance = getGrid();
     if (!tableInstance) {
       return false;
     }

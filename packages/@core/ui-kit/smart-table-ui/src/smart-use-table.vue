@@ -6,7 +6,7 @@ import type {
   SmartTableRenderProps,
 } from './types';
 
-import { computed, toRaw, unref } from 'vue';
+import { computed, toRaw, unref, useSlots } from 'vue';
 
 import { useForwardPriorityValues } from '@vben-core/composables';
 import { cloneDeep, mergeWithArrayOverride } from '@vben-core/shared/utils';
@@ -18,6 +18,8 @@ interface Props extends SmartTableProps {
 }
 
 const props = withDefaults(defineProps<Props>(), {});
+
+const slots = useSlots();
 
 const state = props.api?.useStore?.();
 const forward = useForwardPriorityValues(
@@ -31,10 +33,22 @@ const computedProps = computed<SmartTableRenderProps>(() => {
 const handleRegister = (tableAction: SmartTableActions) => {
   props.api?.mount(tableAction.getGrid(), tableAction.getSearchForm());
 };
+
+const slotNameList = computed(() => {
+  return Object.keys(slots);
+});
 </script>
 
 <template>
-  <SmartTableRender v-bind="computedProps" @register="handleRegister" />
+  <SmartTableRender v-bind="computedProps" @register="handleRegister">
+    <template
+      v-for="slotName in slotNameList"
+      :key="slotName"
+      #[slotName]="slotProps"
+    >
+      <slot :name="slotName" v-bind="slotProps"></slot>
+    </template>
+  </SmartTableRender>
 </template>
 
 <style scoped></style>

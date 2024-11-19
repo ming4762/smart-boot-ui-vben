@@ -40,6 +40,10 @@ const MESSAGE_HANDLER: SmartTableMessageHandler = {
   warning: defaultMessageHandle,
 };
 
+const PERMISSION_HANDLE = {
+  hasPermission: (_: string | string[]) => false,
+};
+
 // 是否加载过
 let isInit = false;
 
@@ -82,6 +86,7 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   const {
     components,
     configSmartTable,
+    hasPermission,
     i18nHandler,
     messageHandler,
     watcherField,
@@ -119,10 +124,14 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
     Object.assign(MESSAGE_HANDLER, messageHandler);
   }
 
+  if (hasPermission) {
+    PERMISSION_HANDLE.hasPermission = hasPermission;
+  }
+
   configSmartTable(VxeUI);
 
   // 初始化按钮渲染器
   initButtonRenderer();
 };
 
-export { COMPONENT_MAP, MESSAGE_HANDLER, setupSmartTable };
+export { COMPONENT_MAP, MESSAGE_HANDLER, PERMISSION_HANDLE, setupSmartTable };

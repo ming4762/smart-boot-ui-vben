@@ -1,8 +1,4 @@
-import type {
-  SmartTableActions,
-  SmartTableRenderProps,
-  SmartTableSize,
-} from '../types';
+import type { SmartTableRenderProps, SmartTableSize } from '../types';
 import type { SmartTableButton } from '../types/SmartTableButtonType';
 
 import { computed, h, unref } from 'vue';
@@ -11,6 +7,7 @@ import { createIconifyIcon } from '@vben-core/icons';
 import { merge } from '@vben-core/shared/utils';
 
 import { VxeTableToolButtonCustomRenderer } from '../types/SmartTableRenderType';
+import { useSmartTableContext } from '../types/useSmartTableContext';
 import { AddIcon, editIcon } from '../utils';
 //
 // interface Action extends SmartTableActions {
@@ -85,8 +82,12 @@ const getDefaultDeleteButtonConfig = (
 export const useSmartTableToolbar = (
   tableProps: SmartTableRenderProps,
   t: (args: string) => string,
-  { deleteByCheckbox, editByCheckbox, showAddModal }: SmartTableActions,
 ) => {
+  /**
+   * 转换按钮
+   * @param buttonList
+   * @param tableSize
+   */
   const convertButtons = (
     buttonList: SmartTableButton[] | undefined,
     tableSize: SmartTableSize | undefined,
@@ -94,6 +95,8 @@ export const useSmartTableToolbar = (
     if (!buttonList) {
       return undefined;
     }
+    const { deleteByCheckbox, editByCheckbox, showAddModal } =
+      useSmartTableContext();
     const buttonSize = tableSize ? tableButtonSizeMap[tableSize] : undefined;
     return buttonList.map((item) => {
       const { code } = item;

@@ -6,8 +6,9 @@ import type {
   SmartTableRenderListeners,
   SmartTableRenderProps,
 } from '../types';
+import type { SmartTableInnerActionType } from '../types/SmartTableActionType';
 
-import { computed, onMounted, ref, unref } from 'vue';
+import { computed, onMounted, ref, unref, useSlots, useTemplateRef } from 'vue';
 
 import { buildUUID } from '@vben-core/shared/utils';
 
@@ -22,20 +23,28 @@ import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdi
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
+import { createSmartTableContext } from '../types/useSmartTableContext';
 
 interface Props extends SmartTableRenderProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   column: [],
+  hasPermission: (_) => false,
   id: buildUUID(),
   size: () => 'tiny',
 });
 
 const emit = defineEmits<SmartTableRenderListeners>();
+
+const slots = useSlots();
+
 // @ts-ignore
 const emitHandler = (code: string, ...args: any[]) => emit(code, args);
 
 const t = VxeUI.getI18n;
+
+// table 外层 ref
+const wrapRef = useTemplateRef<HTMLElement>('wrapRef');
 
 /**
  * vxe-grid对象实例
@@ -44,24 +53,6 @@ const vxeTableInstance = ref<VxeGridInstance>();
 const getVxeTableInstance = () => unref(vxeTableInstance);
 
 const { getLoading, setLoading } = useSmartTableLoading(props);
-
-const tableAction: SmartTableActions = {
-  // eslint-disable-next-line no-use-before-define
-  deleteByCheckbox: () => deleteByCheckbox(),
-  // eslint-disable-next-line no-use-before-define
-  editByCheckbox: () => editByCheckbox(),
-  // eslint-disable-next-line no-use-before-define
-  editByRowModal: (row, formData) => editByRowModal(row, formData),
-  getAddEditForm: () => ({}),
-  getGrid: () => getVxeTableInstance()!,
-  // eslint-disable-next-line no-use-before-define
-  getSearchForm: () => searchFormApi,
-  // eslint-disable-next-line no-use-before-define
-  query: (params) => query(params),
-  setLoading: (loading: boolean) => setLoading(loading),
-  // eslint-disable-next-line no-use-before-define
-  showAddModal: (selectData, formData) => showAddModal(selectData, formData),
-};
 
 // 列调整
 const { computedTableColumns } = useSmartTableColumn(props, t);
@@ -75,7 +66,7 @@ const { computeCheckboxTableProps } = useSmartTableCheckbox(
 );
 // 搜索表单
 const { getSearchFormParameter, SearchForm, searchFormApi } =
-  useSmartTableSearchForm(props, emitHandler, t, tableAction);
+  useSmartTableSearchForm(props, emitHandler, t);
 
 /**
  * ajax增强
@@ -85,7 +76,6 @@ const { computedProxyConfig, deleteByCheckbox, query } = useSmartTableAjax(
   emitHandler,
   t,
   {
-    ...tableAction,
     getSearchFormParameter,
   },
 );
@@ -96,9 +86,9 @@ const {
   editByCheckbox,
   editByRowModal,
   showAddModal,
-} = useSmartTableModalAddEditEdit(props, emitHandler, t, tableAction);
+} = useSmartTableModalAddEditEdit(props, emitHandler, t);
 
-const { computedToolbarConfig } = useSmartTableToolbar(props, t, tableAction);
+const { computedToolbarConfig } = useSmartTableToolbar(props, t);
 
 /**
  * 表格计算属性
@@ -115,12 +105,44 @@ const computedTableProps = computed<VxeGridProps>(() => {
   } as VxeGridProps;
 });
 
+const computedTableSlots = computed(() => {
+  return {
+    ...slots,
+  };
+});
+
+const tableAction: SmartTableActions = {
+  deleteByCheckbox: () => deleteByCheckbox(),
+  editByCheckbox: () => editByCheckbox(),
+  editByRowModal: (row, formData) => editByRowModal(row, formData),
+  getAddEditForm: () => ({}),
+  getGrid: () => getVxeTableInstance()!,
+  getSearchForm: () => searchFormApi,
+  query: (params) => query(params),
+  setLoading: (loading: boolean) => setLoading(loading),
+  showAddModal: (selectData, formData) => showAddModal(selectData, formData),
+};
+
+const tableInnerAction: SmartTableInnerActionType = {
+  hasPermission: props.hasPermission,
+};
+
+createSmartTableContext({
+  ...tableAction,
+  getBindValues: computedTableProps,
+  t,
+  tableInnerAction,
+  wrapRef,
+});
+
 /**
  * 渲染表格
  */
 const renderTable = () => {
   const vNodeList = [
-    <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}></VxeGrid>,
+    <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}>
+      {{ ...unref(computedTableSlots) }}
+    </VxeGrid>,
   ];
   if (unref(computedHasAddEdit)) {
     vNodeList.push(<AddEditModal />);
@@ -146,7 +168,11 @@ const RenderFunction = () => {
   if (props.useSearchForm) {
     slots.search = renderSearchForm;
   }
-  return <TableSearchLayout class="smart-table">{slots}</TableSearchLayout>;
+  return (
+    <TableSearchLayout class="smart-table" ref="wrapRef">
+      {slots}
+    </TableSearchLayout>
+  );
 };
 
 onMounted(() => {

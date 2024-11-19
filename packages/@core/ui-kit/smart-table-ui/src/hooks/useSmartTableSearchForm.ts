@@ -1,7 +1,7 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
 
-import type { SmartTableActions, SmartTableRenderProps } from '../types';
+import type { SmartTableRenderProps } from '../types';
 import type {
   SmartSearchFormParameter,
   SmartSearchFormProps,
@@ -18,6 +18,7 @@ import {
   mergeWithArrayOverride,
 } from '@vben-core/shared/utils';
 
+import { useSmartTableContext } from '../types/useSmartTableContext';
 import { getFormSize } from '../utils';
 
 const AntSearchOutlined = createIconifyIcon('ant-design:search-outlined');
@@ -28,13 +29,12 @@ const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
  * 搜索表单配置
  * @param tableProps
  * @param emit
- * @param tableAction
+ * @param t
  */
 const useSmartTableSearchForm = (
   tableProps: SmartTableRenderProps,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
-  tableAction: SmartTableActions,
 ) => {
   /**
    * 搜索form显示状态
@@ -63,12 +63,14 @@ const useSmartTableSearchForm = (
    */
   const [SearchForm, searchFormApi] = useVbenForm({
     handleReset: () => {
+      const { query } = useSmartTableContext();
       searchFormApi.resetForm();
-      tableAction.query();
+      query();
       emit('formQuery');
     },
     handleSubmit: () => {
-      tableAction.query();
+      const { query } = useSmartTableContext();
+      query();
       emit('formQuery');
     },
   });

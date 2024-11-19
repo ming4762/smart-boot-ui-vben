@@ -1,9 +1,7 @@
-import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type {
   VxeComponentSizeType,
   VxeGridDefines,
-  VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTablePropTypes,
@@ -15,6 +13,7 @@ import type {
   SmartSearchFormProps,
   SmartSearchFormSchema,
 } from './SmartSearchFormType';
+import type { SmartTableActions } from './SmartTableActionType';
 import type { SmartTableAddEditConfig } from './SmartTableAddEditType';
 import type {
   SmartTableAjaxQueryParams,
@@ -77,28 +76,6 @@ interface SmartTableToolbarConfig
 }
 
 /**
- * SmartTable 支持的函数
- */
-interface SmartTableActions {
-  deleteByCheckbox: () => Promise<boolean | undefined>;
-  editByCheckbox: () => boolean | Promise<boolean>;
-  editByRowModal: (
-    row: any,
-    formData?: Record<string, any>,
-  ) => boolean | Promise<boolean>;
-  getAddEditForm: () => ExtendedFormApi;
-  getGrid: () => VxeGridInstance;
-  getSearchForm: () => ExtendedFormApi;
-  query: (params?: SmartTableFetchParams) => Promise<void>;
-  setLoading: (loading: boolean) => void;
-  // 打开添加modal
-  showAddModal: (
-    selectData?: Record<string, any>,
-    formData?: Record<string, any>,
-  ) => void;
-}
-
-/**
  * 表格尺寸 TODO：tiny未支持
  */
 type SmartTableSize = 'tiny' | VxeComponentSizeType;
@@ -119,6 +96,8 @@ interface SmartTableRenderProps
   // checkbox配置
   checkboxConfig?: boolean | SmartCheckboxConfig;
   columns?: SmartTableColumn[];
+  // 权限函数
+  hasPermission?: (code: string | string[]) => boolean;
   height?: TableHeightType;
   // 分页配置
   pagerConfig?: boolean | VxeGridPropTypes.PagerConfig;
@@ -174,6 +153,7 @@ type ExtendSmartTableApi = {
 interface SetupSmartTable {
   components?: Partial<Record<string, Component>>;
   configSmartTable: (ui: VxeUIExport) => void;
+  hasPermission: (code: string | string[]) => boolean;
   i18nHandler: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
@@ -195,3 +175,5 @@ export type {
   SmartTableRenderProps,
   SmartTableSize,
 };
+
+export { type SmartTableActionItem } from './SmartTableRowActionType';

@@ -32,4 +32,4 @@ interface SmartTableAuthConfig {
   toolbar?: SmartTableAuthToolbarConfig;
 }
 
-export type { SmartAuthType, SmartTableAuthConfig };
+export type { SmartAuthType, SmartTableAuth, SmartTableAuthConfig };
