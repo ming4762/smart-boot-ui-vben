@@ -185,7 +185,7 @@ const useSmartTableAjax = (
   /**
    * 根据checkbox选中删除
    */
-  const deleteByCheckbox = async (): Promise<boolean | undefined> => {
+  const deleteByCheckbox = async (): Promise<boolean> => {
     const { getGrid } = useSmartTableContext();
     const tableInstance = getGrid();
     if (!tableInstance) {

@@ -14,7 +14,8 @@ interface SmartTableInnerActionType {
  * SmartTable 支持的函数
  */
 interface SmartTableAction {
-  deleteByCheckbox: () => Promise<boolean | undefined>;
+  deleteByCheckbox: () => Promise<boolean>;
+  deleteByRow: (row: any | any[]) => Promise<boolean>;
   editByCheckbox: () => boolean | Promise<boolean>;
   editByRowModal: (
     row: any,

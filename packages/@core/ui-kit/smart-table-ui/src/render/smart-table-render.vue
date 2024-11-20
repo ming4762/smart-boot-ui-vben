@@ -71,14 +71,10 @@ const { getSearchFormParameter, SearchForm, searchFormApi } =
 /**
  * ajax增强
  */
-const { computedProxyConfig, deleteByCheckbox, query } = useSmartTableAjax(
-  props,
-  emitHandler,
-  t,
-  {
+const { computedProxyConfig, deleteByCheckbox, deleteByRow, query } =
+  useSmartTableAjax(props, emitHandler, t, {
     getSearchFormParameter,
-  },
-);
+  });
 
 const {
   AddEditModal,
@@ -113,6 +109,7 @@ const computedTableSlots = computed(() => {
 
 const tableAction: SmartTableAction = {
   deleteByCheckbox: () => deleteByCheckbox(),
+  deleteByRow: (row) => deleteByRow(row),
   editByCheckbox: () => editByCheckbox(),
   editByRowModal: (row, formData) => editByRowModal(row, formData),
   getAddEditForm: () => ({}),
