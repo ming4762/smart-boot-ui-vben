@@ -6,7 +6,7 @@ import type {
   SmartTableSize,
 } from '../types';
 
-import type { VNode } from 'vue';
+import type { Component, ComputedRef, VNode } from 'vue';
 import { computed, h, unref } from 'vue';
 
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
@@ -42,7 +42,7 @@ const componentMap: {
         ...componentProps,
         color: defaultValue ? '#108ee9' : '#f50',
       };
-      return h(getComponent('Tag'), props, {
+      return h(getComponent('Tag') as Component, props, {
         default: () =>
           defaultValue ? t('smartTable.common.yes') : t('smartTable.common.no'),
       });
@@ -64,14 +64,14 @@ const componentMap: {
         checked: params.row[params.column.field],
         ...getComponentProps(params, column),
       };
-      return h(getComponent('Switch'), props);
+      return h(getComponent('Switch') as Component, props);
     };
   },
   tag: (column) => {
     return (params: VxeColumnSlotTypes.DefaultSlotParams) => {
       const props = getComponentProps(params, column);
       const defaultValue = props?.default || params.row[params.column.field];
-      return h(getComponent('Tag'), props, {
+      return h(getComponent('Tag') as Component, props, {
         default: () => defaultValue,
       });
     };
@@ -88,7 +88,7 @@ const componentMap: {
         ...componentProps,
         color: defaultValue ? '#108ee9' : '#f50',
       };
-      return h(getComponent('Tag'), props, {
+      return h(getComponent('Tag') as Component, props, {
         default: () =>
           defaultValue
             ? t('smartTable.common.use')
@@ -158,7 +158,7 @@ const convertEditRender = (
 };
 
 const useSmartTableColumn = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   t: (args: string) => string,
 ) => {
   const computedTableColumns = computed<Array<SmartTableColumn>>(

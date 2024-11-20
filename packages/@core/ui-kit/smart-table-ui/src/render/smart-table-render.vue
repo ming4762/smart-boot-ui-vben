@@ -1,14 +1,28 @@
 <script setup lang="tsx">
-import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
+import type {
+  VxeGridInstance,
+  VxeGridProps,
+  VxeGridPropTypes,
+} from 'vxe-table';
 
 import type {
   SmartTableAction,
+  SmartTableColumn,
   SmartTableRenderListeners,
   SmartTableRenderProps,
 } from '../types';
 import type { SmartTableInnerActionType } from '../types/SmartTableActionType';
+import type { SmartTableInnerContext } from '../types/SmartTableInnerType';
 
-import { computed, onMounted, ref, unref, useSlots, useTemplateRef } from 'vue';
+import {
+  computed,
+  onMounted,
+  ref,
+  unref,
+  useAttrs,
+  useSlots,
+  useTemplateRef,
+} from 'vue';
 
 import { buildUUID } from '@vben-core/shared/utils';
 
@@ -18,9 +32,11 @@ import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
+import { useSmartTableColumnConfig } from '../hooks/useSmartTableColumnConfig';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
+import { useSmartTableRowDrag } from '../hooks/useSmartTableRowDrag';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 import { createSmartTableContext } from '../types/useSmartTableContext';
@@ -29,14 +45,13 @@ interface Props extends SmartTableRenderProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   column: [],
-  hasPermission: (_) => false,
+  hasPermission: (_: string | string[]) => false,
   id: buildUUID(),
-  size: () => 'tiny',
+  size: () => 'small',
 });
-
 const emit = defineEmits<SmartTableRenderListeners>();
-
 const slots = useSlots();
+const attrs = useAttrs();
 
 // @ts-ignore
 const emitHandler = (code: string, ...args: any[]) => emit(code, args);
@@ -52,27 +67,56 @@ const wrapRef = useTemplateRef<HTMLElement>('wrapRef');
 const vxeTableInstance = ref<VxeGridInstance>();
 const getVxeTableInstance = () => unref(vxeTableInstance);
 
-const { getLoading, setLoading } = useSmartTableLoading(props);
+const innerPropsRef = ref<Partial<SmartTableRenderProps>>();
+const computedTableProps = computed(() => {
+  return {
+    ...props,
+    ...unref(innerPropsRef),
+  };
+});
+const setSmartTableProps = (setProps: Partial<SmartTableRenderProps>) => {
+  innerPropsRef.value = { ...unref(innerPropsRef), ...setProps };
+};
+
+/**
+ * 列排序存储
+ */
+const { computedColumnSort, setColumnSortConfig } =
+  useSmartTableColumnConfig(getVxeTableInstance);
+
+/**
+ * 表格拖拽支持
+ */
+const { getTableDragColumn } = useSmartTableRowDrag(computedTableProps);
+
+/**
+ * 表格加载状态
+ */
+const { getLoading, setLoading } = useSmartTableLoading(computedTableProps);
 
 // 列调整
-const { computedTableColumns } = useSmartTableColumn(props, t);
+const { computedTableColumns } = useSmartTableColumn(computedTableProps, t);
 // 分页
-const { computedPagerConfig } = useSmartTablePagerConfig(props);
+const { computedPagerConfig } = useSmartTablePagerConfig(computedTableProps);
 // 复选框
 const { computeCheckboxTableProps } = useSmartTableCheckbox(
-  props,
+  computedTableProps,
   emitHandler,
   getVxeTableInstance,
 );
 // 搜索表单
-const { getSearchFormParameter, SearchForm, searchFormApi } =
-  useSmartTableSearchForm(props, emitHandler, t);
+const {
+  computedSearchFormVisible,
+  getSearchFormParameter,
+  SearchForm,
+  searchFormApi,
+} = useSmartTableSearchForm(computedTableProps, emitHandler, t);
 
 /**
  * ajax增强
  */
 const { computedProxyConfig, deleteByCheckbox, deleteByRow, query } =
-  useSmartTableAjax(props, emitHandler, t, {
+  useSmartTableAjax(computedTableProps, emitHandler, t, {
     getSearchFormParameter,
   });
 
@@ -82,16 +126,17 @@ const {
   editByCheckbox,
   editByRowModal,
   showAddModal,
-} = useSmartTableModalAddEditEdit(props, emitHandler, t);
+} = useSmartTableModalAddEditEdit(computedTableProps, emitHandler, t);
 
-const { computedToolbarConfig } = useSmartTableToolbar(props, t);
+const { computedToolbarConfig } = useSmartTableToolbar(computedTableProps, t);
 
 /**
  * 表格计算属性
  */
-const computedTableProps = computed<VxeGridProps>(() => {
+const getSmartTableBindValues = computed<VxeGridProps>(() => {
   return {
-    ...props,
+    ...attrs,
+    ...unref(computedTableProps),
     columns: unref(computedTableColumns),
     pagerConfig: unref(computedPagerConfig),
     ...unref(computeCheckboxTableProps),
@@ -105,6 +150,26 @@ const computedTableSlots = computed(() => {
   return {
     ...slots,
   };
+});
+
+const getTableColumns = computed<SmartTableColumn[]>(() => {
+  const columns = [
+    ...unref(getTableDragColumn),
+    ...unref(computedTableColumns),
+  ];
+  const columnSort = unref(computedColumnSort);
+  if (!columnSort) {
+    return columns;
+  }
+  return columns.sort((a, b) => {
+    if (!a.field) {
+      return 0;
+    }
+    if (!columnSort.includes(a.field)) {
+      return 0;
+    }
+    return columnSort.indexOf(a.field) - columnSort.indexOf(b.field);
+  });
 });
 
 const tableAction: SmartTableAction = {
@@ -122,6 +187,12 @@ const tableAction: SmartTableAction = {
 
 const tableInnerAction: SmartTableInnerActionType = {
   hasPermission: props.hasPermission,
+  setColumnSortConfig: () => setColumnSortConfig(),
+  setSmartTableProps,
+};
+
+const tableInnerContext: SmartTableInnerContext = {
+  computedSearchFormVisible,
 };
 
 createSmartTableContext({
@@ -129,6 +200,7 @@ createSmartTableContext({
   getBindValues: computedTableProps,
   t,
   tableInnerAction,
+  tableInnerContext,
   wrapRef,
 });
 
@@ -137,7 +209,11 @@ createSmartTableContext({
  */
 const renderTable = () => {
   const vNodeList = [
-    <VxeGrid ref={vxeTableInstance} {...unref(computedTableProps)}>
+    <VxeGrid
+      columns={unref(getTableColumns) as VxeGridPropTypes.Column[]}
+      ref={vxeTableInstance}
+      {...unref(getSmartTableBindValues)}
+    >
       {{ ...unref(computedTableSlots) }}
     </VxeGrid>,
   ];

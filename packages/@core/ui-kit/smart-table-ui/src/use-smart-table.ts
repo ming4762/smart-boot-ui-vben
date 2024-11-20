@@ -14,7 +14,6 @@ function useSmartTable(options: SmartTableProps) {
 
   const api = new SmartTableApi(options);
   const extendedApi: ExtendSmartTableApi = api as never;
-
   extendedApi.useStore = (selector) => {
     return useStore(api.store, selector);
   };

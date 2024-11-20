@@ -1,12 +1,29 @@
-import type { SmartTableRenderProps, SmartTableSize } from '../types';
-import type { SmartTableButton } from '../types/SmartTableButtonType';
+import type { VxeToolbarPropTypes } from 'vxe-table';
 
-import { computed, h, unref } from 'vue';
+import type {
+  SmartTableRenderProps,
+  SmartTableSize,
+  SmartTableToolbarConfig,
+} from '../types';
+import type {
+  SmartTableButton,
+  SmartTableToolbarTool,
+} from '../types/SmartTableButtonType';
+import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
+
+import { computed, type ComputedRef, h, unref } from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
-import { merge } from '@vben-core/shared/utils';
+import { isBoolean, merge } from '@vben-core/shared/utils';
 
-import { VxeTableToolButtonCustomRenderer } from '../types/SmartTableRenderType';
+import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
+import SmartTableSizeSetting from '../components/SmartTableSizeSetting.vue';
+import { SmartTableCode } from '../constant';
+import {
+  VxeTableToolButtonCustomRenderer,
+  VxeTableToolComponentRenderer,
+  VxeTableToolVxeButtonRenderer,
+} from '../types/SmartTableRenderType';
 import { useSmartTableContext } from '../types/useSmartTableContext';
 import { AddIcon, editIcon } from '../utils';
 //
@@ -80,7 +97,7 @@ const getDefaultDeleteButtonConfig = (
 };
 
 export const useSmartTableToolbar = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   t: (args: string) => string,
 ) => {
   /**
@@ -142,14 +159,174 @@ export const useSmartTableToolbar = (
     });
   };
 
+  /**
+   * 转换按钮的权限
+   * @param buttonList
+   */
   const convertButtonAuth = (
     buttonList: SmartTableButton[] | undefined,
   ): SmartTableButton[] | undefined => {
     if (!buttonList) {
       return undefined;
     }
-    return buttonList;
+    if (buttonList.length === 0) {
+      return [];
+    }
+    const authConfig = unref(tableProps).authConfig;
+    if (!authConfig) {
+      // 权限未配置，直接返回
+      return buttonList;
+    }
+    const { authHandler, displayMode, toolbar } = authConfig;
+    if (!authHandler) {
+      const {
+        tableInnerAction: { hasPermission },
+      } = useSmartTableContext();
+      if (!hasPermission) {
+        throw new Error(
+          '未设置authConfig.authHandler并且未配置Props.hasPermission',
+        );
+      }
+    }
+    return buttonList
+      .map((button) => {
+        const { auth, code } = button;
+        const configAuth = code && toolbar ? (toolbar as any)[code] : undefined;
+        if (auth && configAuth) {
+          console.warn(
+            'toolbarConfig与AuthConfig权限配置冲突，toolbarConfig配置',
+          );
+        }
+        const buttonAuth = auth || configAuth;
+        if (!buttonAuth) {
+          return button;
+        }
+        const hasAuth = authHandler(buttonAuth);
+        if (hasAuth) {
+          return button;
+        }
+        return displayMode === 'hide'
+          ? null
+          : {
+              ...button,
+              props: {
+                ...unref(button.props),
+                disabled: true,
+              },
+            };
+      })
+      .filter((item) => item !== null) as SmartTableButton[];
   };
+
+  const getDefaultRefreshConfig = (): VxeToolbarPropTypes.Refresh => {
+    const { query } = useSmartTableContext();
+    return {
+      queryMethod: (params) => {
+        return query(params);
+      },
+    };
+  };
+
+  const convertRefresh = (
+    config: undefined | VxeToolbarPropTypes.Refresh,
+  ): undefined | VxeToolbarPropTypes.Refresh => {
+    if (!config) {
+      return undefined;
+    }
+    if (isBoolean(config)) {
+      return getDefaultRefreshConfig();
+    }
+    return {
+      ...(getDefaultRefreshConfig() as any),
+      ...config,
+    };
+  };
+
+  const convertSizeSettingConfig = (
+    sizeSetting: boolean | SmartTableToolbarSizeSetting,
+  ): SmartTableToolbarTool => {
+    return {
+      code: SmartTableCode.sizeSetting,
+      component: SmartTableSizeSetting,
+      toolRender: {
+        name: VxeTableToolComponentRenderer,
+        props: {
+          // todo: 默认配置
+          config: isBoolean(sizeSetting) ? {} : sizeSetting,
+        },
+      },
+    };
+  };
+
+  const convertTools = (toolbarConfig: SmartTableToolbarConfig | undefined) => {
+    if (!toolbarConfig) {
+      return undefined;
+    }
+    const { column, showSearch, sizeSetting, tools } = toolbarConfig;
+    if (!tools && !showSearch && !column && !sizeSetting) {
+      return undefined;
+    }
+    const result: SmartTableToolbarTool[] = [...(tools || [])];
+    if (showSearch && unref(tableProps).useSearchForm) {
+      if (isBoolean(showSearch)) {
+        const {
+          tableInnerContext: { computedSearchFormVisible },
+        } = useSmartTableContext();
+        const props = computed(() => {
+          return {
+            circle: true,
+            icon: 'vxe-icon-search',
+            title: unref(computedSearchFormVisible)
+              ? t('component.table.hideSearch')
+              : t('component.table.showSearch'),
+          };
+        });
+        result.push({
+          code: SmartTableCode.showSearch,
+          props,
+          toolRender: {
+            name: VxeTableToolVxeButtonRenderer,
+          },
+        });
+      } else {
+        result.push(showSearch);
+      }
+    }
+    // 处理列配置
+    if (column) {
+      const columnConfig = isBoolean(column) ? undefined : column;
+      const {
+        tableInnerAction: { setColumnSortConfig },
+      } = useSmartTableContext();
+      result.push({
+        code: SmartTableCode.column,
+        component: SmartTableColumnConfig,
+        toolRender: {
+          name: VxeTableToolComponentRenderer,
+          props: {
+            config: columnConfig,
+            setColumnSortConfig,
+          },
+        },
+      });
+    }
+    if (sizeSetting) {
+      result.push(convertSizeSettingConfig(sizeSetting));
+    }
+    return result;
+  };
+
+  const computedToolBarRefresh = computed<
+    undefined | VxeToolbarPropTypes.Refresh
+  >(() => {
+    const { toolbarConfig } = unref(tableProps);
+    return convertRefresh(toolbarConfig?.refresh);
+  });
+
+  const computedToolbarTools = computed(() => {
+    const { toolbarConfig } = unref(tableProps);
+    return convertTools(toolbarConfig);
+  });
 
   const computedToolbarConfig = computed(() => {
     const { size: tableSize, toolbarConfig } = unref(tableProps);
@@ -159,7 +336,10 @@ export const useSmartTableToolbar = (
     let buttons = convertButtons(toolbarConfig.buttons, tableSize);
     buttons = convertButtonAuth(buttons);
     return {
+      ...toolbarConfig,
       buttons,
+      refresh: unref(computedToolBarRefresh),
+      tools: unref(computedToolbarTools),
     };
   });
 

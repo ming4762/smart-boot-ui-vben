@@ -8,7 +8,7 @@ import type {
 } from '../types';
 import type { SmartSearchFormParameter } from '../types/SmartSearchFormType';
 
-import { computed, h, unref } from 'vue';
+import { computed, type ComputedRef, h, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
 
@@ -25,7 +25,7 @@ interface SearchFormTableAction {
 }
 
 const useSmartTableAjax = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
   tableAction: SearchFormTableAction,
@@ -152,7 +152,7 @@ const useSmartTableAjax = (
    * 执行删除操作
    * @param rows 需要删除的行
    */
-  const doDelete = async (rows: any[]) => {
+  const doDelete = async (rows: any[]): Promise<boolean> => {
     const proxyConfig = unref(tableProps).proxyConfig;
     const deleteMethod = proxyConfig?.ajax?.delete;
     if (!deleteMethod) {
@@ -162,23 +162,28 @@ const useSmartTableAjax = (
       return false;
     }
     const { getGrid } = useSmartTableContext();
-    configModal({
-      content: t('smartTable.message.deleteConfirm'),
-      icon: h(confirmIcon, { class: ['anticon'] }),
-      onOk: async () => {
-        const result = await deleteMethod({
-          $grid: getGrid(),
-          body: {
-            removeRecords: rows,
-          },
-        });
-        successMessage(t('smartTable.message.deleteSuccess'));
-        emit('proxyDelete', { status: true });
-        const afterDelete = proxyConfig?.afterDelete || query;
-        afterDelete && afterDelete(result);
-        return true;
-      },
-      title: t('smartTable.message.confirm'),
+    return new Promise((resolve) => {
+      configModal({
+        content: t('smartTable.message.deleteConfirm'),
+        icon: h(confirmIcon, { class: ['anticon'] }),
+        onCancel: () => {
+          resolve(false);
+        },
+        onOk: async () => {
+          const result = await deleteMethod({
+            $grid: getGrid(),
+            body: {
+              removeRecords: rows,
+            },
+          });
+          successMessage(t('smartTable.message.deleteSuccess'));
+          emit('proxyDelete', { status: true });
+          const afterDelete = proxyConfig?.afterDelete || query;
+          afterDelete && afterDelete(result);
+          resolve(true);
+        },
+        title: t('smartTable.message.confirm'),
+      });
     });
   };
 
@@ -203,7 +208,7 @@ const useSmartTableAjax = (
    * 根据行删除
    * @param row
    */
-  const deleteByRow = (row: any | any[]) => {
+  const deleteByRow = (row: any | any[]): Promise<boolean> => {
     if (Array.isArray(row)) {
       return doDelete(row);
     }

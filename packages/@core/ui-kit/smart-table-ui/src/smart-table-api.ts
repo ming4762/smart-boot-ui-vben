@@ -16,7 +16,7 @@ class SmartTableApi {
   // 是否挂在
   isMounted = false;
   // private prevState: null | SmartTableStoreData = null;
-  public smartTableAction: SmartTableAction = {};
+  public smartTableAction = {} as SmartTableAction;
 
   public state: null | SmartTableProps = null;
 
@@ -50,7 +50,7 @@ class SmartTableApi {
   private updateState(): void {}
 
   mount(tableAction: SmartTableAction) {
-    if (!this.isMounted && tableAction.getGrid) {
+    if (!this.isMounted && tableAction.getGrid()) {
       this.smartTableAction = tableAction;
       this.stateHandler.setConditionTrue();
       this.isMounted = true;

@@ -175,6 +175,7 @@ export type {
   SmartTableRenderListeners,
   SmartTableRenderProps,
   SmartTableSize,
+  SmartTableToolbarConfig,
 };
 
 export { type SmartTableActionItem } from './SmartTableRowActionType';

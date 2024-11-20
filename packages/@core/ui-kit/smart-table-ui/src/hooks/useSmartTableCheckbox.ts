@@ -2,7 +2,7 @@ import type { VxeGridDefines, VxeGridInstance } from 'vxe-table';
 
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, unref } from 'vue';
+import { computed, type ComputedRef, unref } from 'vue';
 
 import { isBoolean } from '@vben-core/shared/utils';
 
@@ -15,7 +15,7 @@ import { defaultCheckboxConfig } from '../defaultConfig';
  * @param getTableInstance
  */
 export const useSmartTableCheckbox = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   emit: (name: string, ...args: any) => void,
   getTableInstance: () => undefined | VxeGridInstance,
 ) => {

@@ -27,4 +27,9 @@ interface SmartTableSeqConfig extends VxeTablePropTypes.SeqConfig {
   seqBindPage?: boolean;
 }
 
-export type { RowTriggerMode, SmartTableRowConfig, SmartTableSeqConfig };
+export type {
+  RowTriggerMode,
+  SmartTableRowConfig,
+  SmartTableRowDragConfig,
+  SmartTableSeqConfig,
+};

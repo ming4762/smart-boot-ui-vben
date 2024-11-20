@@ -95,8 +95,8 @@ interface SmartTableEditRender<D = any, P = Record<string, any>>
 /**
  * 列配置
  */
-interface SmartTableColumn<D = any>
-  extends Omit<VxeTableDefines.ColumnOptions<D>, 'editRender'> {
+interface SmartTableColumn
+  extends Omit<VxeTableDefines.ColumnOptions, 'editRender'> {
   // 自动class
   autoClass?: SmartColumnAutoClass;
   component?: SmartTableColumnComponent;

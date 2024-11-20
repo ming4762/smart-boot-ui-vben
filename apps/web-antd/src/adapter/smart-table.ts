@@ -5,12 +5,14 @@ import { computed, unref } from 'vue';
 import { useAccess } from '@vben/access';
 import { setupSmartTable, useSmartTable } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
+import { isString } from '@vben/utils';
 
-import { isString } from '@vue/shared';
 import {
   message as AntMessage,
   Button,
   Divider,
+  Dropdown,
+  Menu,
   Modal,
   Popconfirm,
   Switch,
@@ -41,6 +43,8 @@ setupSmartTable({
     Tooltip,
     Popconfirm,
     Divider,
+    Menu,
+    Dropdown,
   },
   i18nHandler: (key: string, args?: any) => $t(key, args),
   messageHandler: {
@@ -53,7 +57,9 @@ setupSmartTable({
     if (!code) {
       return true;
     }
-    const codes = isString(code) ? [code] : code;
+    const codes: string | string[] = isString(code)
+      ? [code as string]
+      : (code as string[]);
     const { hasAccessByCodes } = useAccess();
     return hasAccessByCodes(codes);
   },

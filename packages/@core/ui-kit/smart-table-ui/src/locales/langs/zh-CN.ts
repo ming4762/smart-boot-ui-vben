@@ -29,5 +29,8 @@ export default {
       add: '添加',
       edit: '修改',
     },
+    toolbar: {
+      sizeSetting: '尺寸',
+    },
   },
 };

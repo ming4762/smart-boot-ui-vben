@@ -1,6 +1,7 @@
 import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { VxeGridInstance } from 'vxe-table';
 
+import type { SmartTableRenderProps } from './index';
 import type { SmartTableFetchParams } from './SmartTableAjaxType';
 
 /**
@@ -8,6 +9,8 @@ import type { SmartTableFetchParams } from './SmartTableAjaxType';
  */
 interface SmartTableInnerActionType {
   hasPermission: (code: string | string[]) => boolean;
+  setColumnSortConfig: () => void;
+  setSmartTableProps: (props: Partial<SmartTableRenderProps>) => void;
 }
 
 /**

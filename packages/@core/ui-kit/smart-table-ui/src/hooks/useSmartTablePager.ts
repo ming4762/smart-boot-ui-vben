@@ -1,6 +1,6 @@
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, unref } from 'vue';
+import { computed, type ComputedRef, unref } from 'vue';
 
 import { isBoolean } from '@vben-core/shared/utils';
 
@@ -10,7 +10,9 @@ import {
   DEFAULT_PAGE_SIZE_OPTIONS,
 } from '../const';
 
-const useSmartTablePagerConfig = (tableProps: SmartTableRenderProps) => {
+const useSmartTablePagerConfig = (
+  tableProps: ComputedRef<SmartTableRenderProps>,
+) => {
   /**
    * 分页配置计算属性
    */

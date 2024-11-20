@@ -8,15 +8,12 @@ import type {
   SmartSearchFormSchema,
 } from '../types/SmartSearchFormType';
 
+import type { ComputedRef } from 'vue';
 import { computed, h, ref, unref, watch } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
 import { createIconifyIcon } from '@vben-core/icons';
-import {
-  isBoolean,
-  isFunction,
-  mergeWithArrayOverride,
-} from '@vben-core/shared/utils';
+import { isBoolean, isFunction } from '@vben-core/shared/utils';
 
 import { useSmartTableContext } from '../types/useSmartTableContext';
 import { getFormSize } from '../utils';
@@ -32,7 +29,7 @@ const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
  * @param t
  */
 const useSmartTableSearchForm = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
 ) => {
@@ -74,6 +71,11 @@ const useSmartTableSearchForm = (
       emit('formQuery');
     },
   });
+
+  const AntRedoOutlinedComponent = h(AntRedoOutlined, { class: ['anticon'] });
+  const AntSearchOutlinedComponent = h(AntSearchOutlined, {
+    class: ['anticon'],
+  });
   const computedSearchFormProps = computed(() => {
     const { searchFormConfig, size: tableSize } = unref(tableProps);
     const { resetButtonOptions, size, submitButtonOptions } =
@@ -113,14 +115,14 @@ const useSmartTableSearchForm = (
         },
       },
       resetButtonOptions: {
-        icon: h(AntRedoOutlined, { class: ['anticon'] }),
+        icon: AntRedoOutlinedComponent,
         size: formSize,
         ...resetButtonOptions,
       },
       submitButtonOptions: {
         content: t('smartTable.button.search'),
         // loading: unref(getLoading),
-        icon: h(AntSearchOutlined, { class: ['anticon'] }),
+        icon: AntSearchOutlinedComponent,
         size: formSize,
         ...submitButtonOptions,
       },
@@ -128,20 +130,20 @@ const useSmartTableSearchForm = (
     return props;
   });
 
-  /**
-   * 监控form配置变化, 更新form
-   */
-  watch(
-    computedSearchFormProps,
-    (value) => {
-      searchFormApi.setState((prev) => {
-        return {
-          ...mergeWithArrayOverride({}, value, prev),
-        };
-      });
-    },
-    { immediate: true },
-  );
+  // /**
+  //  * 监控form配置变化, 更新form
+  //  */
+  // watch(
+  //   computedSearchFormProps,
+  //   (value) => {
+  //     searchFormApi.setState((prev) => {
+  //       return {
+  //         ...mergeWithArrayOverride({}, value, prev),
+  //       };
+  //     });
+  //   },
+  //   { immediate: true },
+  // );
 
   /**
    * 获取搜索符号
@@ -228,8 +230,9 @@ const useSmartTableSearchForm = (
   };
 
   return {
+    computedSearchFormVisible: computed(() => unref(searchFormVisibleRef)),
     getSearchFormParameter,
-    SearchForm,
+    SearchForm: () => h(SearchForm, { ...unref(computedSearchFormProps) }),
     searchFormApi,
     setSearchFormVisible,
   };

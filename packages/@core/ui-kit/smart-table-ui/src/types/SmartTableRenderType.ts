@@ -1,8 +1,14 @@
 export type VxeTableRenderer =
-  | 'VxeTableToolAntRenderer'
   | 'VxeTableToolButtonCustomRenderer'
   | 'VxeTableToolButtonSlotRenderer'
-  | 'VxeTableToolComponentRenderer';
+  | 'VxeTableToolComponentRenderer'
+  | 'VxeTableToolVxeButtonRenderer';
 
 export const VxeTableToolButtonCustomRenderer: VxeTableRenderer =
   'VxeTableToolButtonCustomRenderer';
+
+export const VxeTableToolVxeButtonRenderer: VxeTableRenderer =
+  'VxeTableToolVxeButtonRenderer';
+
+export const VxeTableToolComponentRenderer: VxeTableRenderer =
+  'VxeTableToolComponentRenderer';

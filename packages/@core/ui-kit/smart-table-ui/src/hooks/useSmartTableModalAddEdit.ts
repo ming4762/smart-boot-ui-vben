@@ -6,7 +6,7 @@ import type {
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
 
-import { computed, h, nextTick, unref } from 'vue';
+import { computed, type ComputedRef, h, nextTick, unref } from 'vue';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise } from '@vben-core/shared/utils';
@@ -29,7 +29,7 @@ const getDefaultFormConfig = (): Partial<VbenFormProps> => {
 };
 
 export const useSmartTableModalAddEditEdit = (
-  tableProps: SmartTableRenderProps,
+  tableProps: ComputedRef<SmartTableRenderProps>,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
 ) => {
