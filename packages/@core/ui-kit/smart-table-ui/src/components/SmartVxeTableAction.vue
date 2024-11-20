@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { SmartTableActions } from '../types';
+import type { SmartTableAction } from '../types';
 import type {
   SmartTableActionItem,
   SmartTableRowActionProps,
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Prop>(), {
 const slots = useSlots();
 
 let table: Partial<
-  { t: (key: string, args?: any) => string } & SmartTableActions
+  { t: (key: string, args?: any) => string } & SmartTableAction
 > = {};
 if (!props.outside) {
   table = injectSmartTableContext();
@@ -66,6 +66,24 @@ function isIfShow(action: SmartTableActionItem): boolean {
   return isIfShow;
 }
 
+const getCodeActionProps = (action: SmartTableActionItem) => {
+  const { code } = action;
+  if (!code) {
+    return {};
+  }
+  if (code === 'edit') {
+    return {
+      label: getI18n('smartTable.button.edit'),
+    };
+  }
+  if (code === 'delete') {
+    return {
+      danger: true,
+      label: getI18n('smartTable.button.delete'),
+    };
+  }
+};
+
 const getActions = computed(() => {
   const {
     tableInnerAction: { hasPermission },
@@ -74,9 +92,16 @@ const getActions = computed(() => {
     .filter((action) => {
       return isIfShow(action);
     })
+    .map((item) => {
+      return {
+        ...getCodeActionProps(item),
+        ...item,
+      };
+    })
     .map((action) => {
       const { popConfirm } = action;
       return {
+        ...getCodeActionProps(action),
         getPopupContainer: () =>
           unref((table as any)?.wrapRef.value) ?? document.body,
         mode: 'text',
@@ -85,7 +110,6 @@ const getActions = computed(() => {
         ...action,
         ...popConfirm,
         enable: !!popConfirm,
-        // TODO:
         hasAuth: hasPermission(action.auth),
         onCancel: popConfirm?.cancel,
         onConfirm: popConfirm?.confirm,
@@ -118,7 +142,7 @@ const getDropdownList = computed((): any[] => {
 });
 
 const getAlign = computed(() => {
-  const columns = (table as SmartTableActions)?.getColumns?.() || [];
+  const columns = (table as SmartTableAction)?.getColumns?.() || [];
   const actionColumn = columns.find(
     (item: any) => item.flag === ACTION_COLUMN_FLAG,
   );
@@ -237,7 +261,10 @@ const RenderTooltip = (action: any) => {
 
 const RenderFunction = () => {
   return (
-    <div class={[unref(getAlign)]} onClick={(event) => onCellClick(event)}>
+    <div
+      class={[unref(getAlign), 'smart-table-row-action']}
+      onClick={(event) => onCellClick(event)}
+    >
       {unref(getActions).map((action, index) => {
         const result = [];
         if (action.slot) {
@@ -258,4 +285,59 @@ const RenderFunction = () => {
   <RenderFunction />
 </template>
 
-<style scoped></style>
+<style lang="less">
+.smart-table-row-action {
+  display: flex;
+  align-items: center;
+
+  /* update-begin-author:taoyan date:2022-11-18 for: 表格默认行高比官方示例多出2px */
+  height: 22px;
+
+  /* update-end-author:taoyan date:2022-11-18 for: 表格默认行高比官方示例多出2px */
+
+  .action-divider {
+    display: table;
+  }
+
+  &.left {
+    justify-content: flex-start;
+  }
+
+  &.center {
+    justify-content: center;
+  }
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 0 !important;
+    }
+  }
+
+  button.ant-btn-circle {
+    span {
+      margin: auto !important;
+    }
+  }
+
+  .ant-divider,
+  .ant-divider-vertical {
+    margin: 0 2px;
+  }
+
+  .icon-more {
+    transform: rotate(90deg);
+
+    svg {
+      font-size: 1.1em;
+      font-weight: 700;
+    }
+  }
+}
+</style>

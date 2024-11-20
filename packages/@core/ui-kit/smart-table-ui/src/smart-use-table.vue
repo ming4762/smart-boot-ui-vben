@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type {
   ExtendSmartTableApi,
-  SmartTableActions,
+  SmartTableAction,
   SmartTableProps,
   SmartTableRenderProps,
 } from './types';
@@ -30,8 +30,8 @@ const computedProps = computed<SmartTableRenderProps>(() => {
   return cloneDeep(mergeWithArrayOverride({}, toRaw(unref(forward))));
 });
 
-const handleRegister = (tableAction: SmartTableActions) => {
-  props.api?.mount(tableAction.getGrid(), tableAction.getSearchForm());
+const handleRegister = (tableAction: SmartTableAction) => {
+  props.api?.mount(tableAction);
 };
 
 const slotNameList = computed(() => {

@@ -1,7 +1,4 @@
-import type { ExtendedFormApi } from '@vben-core/form-ui';
-import type { VxeGridInstance } from 'vxe-table';
-
-import type { SmartTableActions, SmartTableProps } from './types';
+import type { SmartTableAction, SmartTableProps } from './types';
 
 import { Store } from '@vben-core/shared/store';
 import {
@@ -16,23 +13,16 @@ function getDefaultState(): SmartTableProps {
 }
 
 class SmartTableApi {
-  // private prevState: null | SmartTableStoreData = null;
-
-  public grid = {} as VxeGridInstance;
   // 是否挂在
   isMounted = false;
-
-  /**
-   * 搜索表单
-   */
-  public searchFormApi = {} as ExtendedFormApi;
+  // private prevState: null | SmartTableStoreData = null;
+  public smartTableAction: SmartTableAction = {};
 
   public state: null | SmartTableProps = null;
 
   stateHandler: StateHandler;
 
   public store: Store<SmartTableProps>;
-  public table = {} as SmartTableActions;
 
   constructor(options: SmartTableProps = {}) {
     const { ...storeState } = options;
@@ -59,23 +49,13 @@ class SmartTableApi {
 
   private updateState(): void {}
 
-  mount(instance: null | VxeGridInstance, searchFormApi: ExtendedFormApi) {
-    if (!this.isMounted && instance) {
-      this.grid = instance;
-      this.searchFormApi = searchFormApi;
+  mount(tableAction: SmartTableAction) {
+    if (!this.isMounted && tableAction.getGrid) {
+      this.smartTableAction = tableAction;
       this.stateHandler.setConditionTrue();
       this.isMounted = true;
+      Object.assign(this, tableAction);
     }
-  }
-
-  /**
-   * 设置表单的加载状态
-   * @param isLoading
-   */
-  setLoading(isLoading: boolean) {
-    this.setState({
-      loading: isLoading,
-    });
   }
 
   setState(

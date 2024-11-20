@@ -2,7 +2,7 @@
 import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
 
 import type {
-  SmartTableActions,
+  SmartTableAction,
   SmartTableRenderListeners,
   SmartTableRenderProps,
 } from '../types';
@@ -111,7 +111,7 @@ const computedTableSlots = computed(() => {
   };
 });
 
-const tableAction: SmartTableActions = {
+const tableAction: SmartTableAction = {
   deleteByCheckbox: () => deleteByCheckbox(),
   editByCheckbox: () => editByCheckbox(),
   editByRowModal: (row, formData) => editByRowModal(row, formData),

@@ -13,7 +13,7 @@ interface SmartTableInnerActionType {
 /**
  * SmartTable 支持的函数
  */
-interface SmartTableActions {
+interface SmartTableAction {
   deleteByCheckbox: () => Promise<boolean | undefined>;
   editByCheckbox: () => boolean | Promise<boolean>;
   editByRowModal: (
@@ -32,4 +32,4 @@ interface SmartTableActions {
   ) => void;
 }
 
-export type { SmartTableActions, SmartTableInnerActionType };
+export type { SmartTableAction, SmartTableInnerActionType };

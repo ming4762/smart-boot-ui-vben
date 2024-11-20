@@ -13,7 +13,7 @@ import type {
   SmartSearchFormProps,
   SmartSearchFormSchema,
 } from './SmartSearchFormType';
-import type { SmartTableActions } from './SmartTableActionType';
+import type { SmartTableAction } from './SmartTableActionType';
 import type { SmartTableAddEditConfig } from './SmartTableAddEditType';
 import type {
   SmartTableAjaxQueryParams,
@@ -128,7 +128,7 @@ type SmartTableRenderListeners = {
   formQuery: [];
   'proxy-query': [any];
   proxyDelete: [{ status: boolean }];
-  register: [SmartTableActions];
+  register: [SmartTableAction];
 };
 
 /**
@@ -145,7 +145,8 @@ type ExtendSmartTableApi = {
   useStore: <T = NoInfer<SmartTableProps>>(
     selector?: (state: NoInfer<SmartTableProps>) => T,
   ) => Readonly<Ref<T>>;
-} & SmartTableApi;
+} & SmartTableAction &
+  SmartTableApi;
 
 /**
  * 初始化表格接口
@@ -164,7 +165,7 @@ export type {
   SetupSmartTable,
   SmartCheckboxConfig,
   SmartSearchFormSchema,
-  SmartTableActions,
+  SmartTableAction,
   SmartTableAjaxQueryParams,
   SmartTableColumn,
   SmartTableFetchParams,

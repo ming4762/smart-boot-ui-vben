@@ -1,6 +1,6 @@
 import type { Nullable } from '@vben-core/typings';
 
-import type { SmartTableActions, SmartTableProps } from './index';
+import type { SmartTableAction, SmartTableProps } from './index';
 import type { SmartTableInnerActionType } from './SmartTableActionType';
 
 import { type ComputedRef, inject, provide, type Ref } from 'vue';
@@ -10,7 +10,7 @@ type Instance = {
   t: (key: string, args?: any) => string;
   tableInnerAction: SmartTableInnerActionType;
   wrapRef: Ref<Nullable<HTMLElement>>;
-} & SmartTableActions;
+} & SmartTableAction;
 
 type RetInstance = {
   getBindValues: ComputedRef<SmartTableProps>;
