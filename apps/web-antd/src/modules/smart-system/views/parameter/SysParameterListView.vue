@@ -1,0 +1,128 @@
+<script setup lang="ts">
+import type { SmartTableActionItem } from '@vben/common-ui';
+
+import { SmartVxeTableAction } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+
+import { useSmartTable } from '#/adapter/smart-table';
+
+import {
+  batchSaveUpdateApi,
+  deleteApi,
+  getByIdApi,
+  listApi,
+} from './SysParameterListView.api';
+import {
+  getFormSchemas,
+  getSearchFormSchemas,
+  getTableColumns,
+  Permissions,
+} from './SysParameterListView.config';
+
+const [SmartTable, tableApi] = useSmartTable({
+  id: 'smart-system-sysParameter',
+  height: 'auto',
+  useSearchForm: true,
+  border: true,
+  stripe: true,
+  formConfig: {
+    enabled: false,
+  },
+  sortConfig: {
+    remote: true,
+    defaultSort: { field: 'seq', order: 'asc' },
+  },
+  size: 'small',
+  pagerConfig: true,
+  checkboxConfig: true,
+  columnConfig: {
+    resizable: true,
+  },
+  rowConfig: {
+    isHover: true,
+    drag: true,
+  },
+  showOverflow: 'tooltip',
+  columns: getTableColumns(),
+  searchFormConfig: {
+    searchWithSymbol: true,
+    schema: getSearchFormSchemas(t),
+    wrapperClass: 'grid-cols-5',
+    commonConfig: {
+      componentProps: {
+        style: {
+          maxWidth: '150px',
+        },
+      },
+      labelWidth: 60,
+      formItemClass: 'pb-2',
+    },
+    actionWrapperClass: 'text-left col-span-1 pb-2',
+  },
+  addEditConfig: {
+    formConfig: {
+      schema: getFormSchemas(t),
+      commonConfig: {
+        // formItemClass: 'pb-2',
+      },
+    },
+  },
+  proxyConfig: {
+    ajax: {
+      query: (params) => listApi(params.ajaxParameter),
+      save: ({ body: { insertRecords, updateRecords } }) =>
+        batchSaveUpdateApi([...insertRecords, ...updateRecords]),
+      delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
+      getById: (params) => getByIdApi(params.id),
+    },
+  },
+  customConfig: { storage: true },
+  toolbarConfig: {
+    refresh: true,
+    zoom: true,
+    column: { columnOrder: true },
+    sizeSetting: true,
+    buttons: [{ code: 'ModalAdd' }, { code: 'ModalEdit' }, { code: 'delete' }],
+  },
+});
+
+const getActions = (row: any) => {
+  const { buildIn } = row;
+  const result: SmartTableActionItem[] = [
+    {
+      code: 'edit',
+      auth: buildIn ? Permissions.updateBuildIn : Permissions.update,
+      onClick: () => {
+        tableApi.editByRowModal(row);
+      },
+    },
+  ];
+  if (!buildIn) {
+    result.push({
+      code: 'delete',
+      auth: Permissions.delete,
+      danger: true,
+      onClick: () => {
+        tableApi.deleteByRow(row);
+      },
+    });
+  }
+  return result;
+};
+</script>
+
+<template>
+  <div class="h-full p-1.5">
+    <SmartTable>
+      <template #table-operation="{ row }">
+        <SmartVxeTableAction :actions="getActions(row)" />
+      </template>
+    </SmartTable>
+  </div>
+</template>
+
+<style lang="less" scoped>
+.smart-table-test {
+  grid-column: -2 / -1;
+}
+</style>
