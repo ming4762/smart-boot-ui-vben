@@ -18,4 +18,4 @@ interface SmartAppProviderProps {
   modal?: SmartModalProviderProps;
 }
 
-export { SmartAppProviderProps };
+export type { SmartAppProviderProps };

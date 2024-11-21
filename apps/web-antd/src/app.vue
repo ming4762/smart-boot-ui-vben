@@ -2,8 +2,11 @@
 import { computed } from 'vue';
 
 import { useAntdDesignTokens } from '@vben/hooks';
-import { preferences, usePreferences } from '@vben/preferences';
-import { SmartAppProvider } from '@vben-core/smart-app-provider';
+import {
+  preferences,
+  SmartAppProvider,
+  usePreferences,
+} from '@vben/preferences';
 
 import { App, ConfigProvider, theme } from 'ant-design-vue';
 

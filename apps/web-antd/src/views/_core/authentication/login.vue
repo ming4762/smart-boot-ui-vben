@@ -1,21 +1,22 @@
 <script lang="tsx" setup>
-import type { LoginAndRegisterParams, VbenFormSchema } from '@vben/common-ui';
+import type { VbenFormSchema } from '@vben/common-ui';
+import type { Recordable } from '@vben/types';
 
 import { computed, ref, unref } from 'vue';
 
-import { AuthenticationLogin, TextCaptcha, z } from '@vben/common-ui';
+import {
+  AuthenticationLogin,
+  TextCaptcha,
+  VbenInput,
+  z,
+} from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { createPassword } from '@vben/utils';
-import { Input as VbenInput } from '@vben-core/shadcn-ui';
 
 import { Col, Row } from 'ant-design-vue';
 
 import { requestClient } from '#/api/request';
 import { useAuthStore } from '#/store';
-
-interface LoginData extends LoginAndRegisterParams {
-  captcha: string;
-}
 
 defineOptions({ name: 'Login' });
 
@@ -126,8 +127,7 @@ const formSchema = computed((): VbenFormSchema[] => {
 /**
  * 执行登录操作
  */
-const handleLogin = (data: LoginAndRegisterParams) => {
-  const loginData = data as LoginData;
+const handleLogin = (loginData: Recordable<any>) => {
   const code = JSON.stringify(
     unref(captchaRef).createValidateParameter(loginData.captcha),
   );
