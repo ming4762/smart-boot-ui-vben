@@ -35,14 +35,14 @@ const getComponent = (componentName: string): Component | undefined => {
 const successMessage = (message: string) => MESSAGE_HANDLER.success(message);
 const warningMessage = (message: string) => MESSAGE_HANDLER.warning(message);
 const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
-const configModal = (option: Record<string, any>) =>
+const confirmModal = (option: Record<string, any>) =>
   MESSAGE_HANDLER.confirm(option);
 
 const hasPermission = (code: string | string[]) =>
   PERMISSION_HANDLE.hasPermission(code);
 
 export {
-  configModal,
+  confirmModal,
   errorMessage,
   getComponent,
   getFormSize,

@@ -29,6 +29,15 @@ interface SmartTableAction {
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;
   setLoading: (loading: boolean) => void;
+  setUseYnByCheckbox: (
+    useYn: boolean,
+    params?: Record<string, any>,
+  ) => Promise<boolean>;
+  setUseYnByRow: (
+    row: any | any[],
+    useYn: boolean,
+    params?: Record<string, any>,
+  ) => Promise<boolean>;
   // 打开添加modal
   showAddModal: (
     selectData?: Record<string, any>,

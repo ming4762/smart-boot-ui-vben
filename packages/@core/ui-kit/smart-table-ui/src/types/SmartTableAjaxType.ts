@@ -62,6 +62,11 @@ interface SmartTableProxyAjax<D = any> {
     params: VxeGridPropTypes.ProxyAjaxResponseParams &
       VxeGridPropTypes.ProxyAjaxSaveParams<D>,
   ): void;
+  useYn?(
+    rows: any[],
+    useYn: boolean,
+    params?: Record<string, any>,
+  ): Promise<any>;
 }
 
 interface SmartTableProxyConfig<T = any>

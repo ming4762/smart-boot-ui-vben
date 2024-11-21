@@ -22,8 +22,12 @@ export default {
       deleteConfirm: '确定要删除吗？',
       deleteSuccess: '删除成功',
       editSuccess: '修改成功',
+      needSelect: '请选择',
       noPermission: '无权限',
+      OperationSucceeded: '操作成功',
       saveSuccess: '保存成功',
+      useYnFalseConfirm: '确认停用所选数据吗？',
+      useYnTrueConfirm: '确认启用所选数据吗？',
     },
     title: {
       add: '添加',

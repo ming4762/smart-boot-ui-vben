@@ -14,8 +14,8 @@ import { merge } from '@vben-core/shared/utils';
 
 import { useSmartTableContext } from '../types/useSmartTableContext';
 import {
-  configModal,
   confirmIcon,
+  confirmModal,
   successMessage,
   warningMessage,
 } from '../utils';
@@ -163,7 +163,7 @@ const useSmartTableAjax = (
     }
     const { getGrid } = useSmartTableContext();
     return new Promise((resolve) => {
-      configModal({
+      confirmModal({
         content: t('smartTable.message.deleteConfirm'),
         icon: h(confirmIcon, { class: ['anticon'] }),
         onCancel: () => {
@@ -215,11 +215,70 @@ const useSmartTableAjax = (
     return doDelete([row]);
   };
 
+  const doSetUseYn = async (
+    rows: any[],
+    useYn: boolean,
+    params?: Record<string, any>,
+  ): Promise<boolean> => {
+    const proxyConfig = unref(tableProps).proxyConfig;
+    const useYnMethod = proxyConfig?.ajax?.useYn;
+    if (!useYnMethod) {
+      throw new Error('proxyConfig.ajax.useYn未配置，无法执行启用停用操作');
+    }
+    if (rows.length === 0) {
+      return false;
+    }
+    return new Promise<boolean>((resolve) => {
+      confirmModal({
+        content: useYn
+          ? t('smartTable.message.useYnTrueConfirm')
+          : t('smartTable.message.useYnFalseConfirm'),
+        iconType: 'warning',
+        onCancel: () => {
+          resolve(false);
+        },
+        onOk: async () => {
+          const result = await useYnMethod(rows, useYn, params);
+          successMessage(t('smartTable.message.OperationSucceeded'));
+          const afterHandler = proxyConfig?.afterUserYn || query;
+          afterHandler && afterHandler(result);
+          resolve(true);
+        },
+      });
+    });
+  };
+
+  const setUseYnByCheckbox = async (
+    useYn: boolean,
+    params?: Record<string, any>,
+  ): Promise<boolean> => {
+    const { getGrid } = useSmartTableContext();
+    const selectRows = getGrid().getCheckboxRecords(false);
+    if (selectRows.length === 0) {
+      warningMessage(t('smartTable.message.needSelect'));
+      return false;
+    }
+    return doSetUseYn(selectRows, useYn, params);
+  };
+
+  const setUseYnByRow = (
+    row: any | any[],
+    useYn: boolean,
+    params?: Record<string, any>,
+  ) => {
+    if (Array.isArray(row)) {
+      return doSetUseYn(row, useYn);
+    }
+    return doSetUseYn([row], useYn, params);
+  };
+
   return {
     computedProxyConfig,
     deleteByCheckbox,
     deleteByRow,
     query,
+    setUseYnByCheckbox,
+    setUseYnByRow,
   };
 };
 

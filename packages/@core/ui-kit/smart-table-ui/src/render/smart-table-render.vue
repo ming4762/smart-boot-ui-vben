@@ -109,10 +109,16 @@ const {
 /**
  * ajax增强
  */
-const { computedProxyConfig, deleteByCheckbox, deleteByRow, query } =
-  useSmartTableAjax(computedTableProps, emitHandler, t, {
-    getSearchFormParameter,
-  });
+const {
+  computedProxyConfig,
+  deleteByCheckbox,
+  deleteByRow,
+  query,
+  setUseYnByCheckbox,
+  setUseYnByRow,
+} = useSmartTableAjax(computedTableProps, emitHandler, t, {
+  getSearchFormParameter,
+});
 
 const {
   AddEditModal,
@@ -174,6 +180,8 @@ const tableAction: SmartTableAction = {
   getSearchForm: () => searchFormApi,
   query: (params) => query(params),
   setLoading: (loading: boolean) => setLoading(loading),
+  setUseYnByCheckbox,
+  setUseYnByRow,
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
 };
 
