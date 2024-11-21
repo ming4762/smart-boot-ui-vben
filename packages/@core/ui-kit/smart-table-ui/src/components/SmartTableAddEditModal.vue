@@ -6,7 +6,7 @@ import type {
 
 import { computed, ref, unref } from 'vue';
 
-import { useVbenForm } from '@vben-core/form-ui';
+import { type ExtendedFormApi, useVbenForm } from '@vben-core/form-ui';
 import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
 import { isBoolean, isFunction, isPromise } from '@vben-core/shared/utils';
 
@@ -15,7 +15,10 @@ import { successMessage } from '../utils';
 interface Props extends SmartTableAddEditModalProps {}
 
 const props = withDefaults(defineProps<Props>(), {});
-const emit = defineEmits<{ afterSaveUpdate: [boolean] }>();
+const emit = defineEmits<{
+  afterSaveUpdate: [boolean];
+  register: [{ formApi: ExtendedFormApi }];
+}>();
 
 const isAddRef = ref(true);
 
@@ -130,6 +133,10 @@ const [Modal, modalApi] = useVbenModal({
       loadEditData(data, modalApi);
     }
   },
+});
+
+emit('register', {
+  formApi,
 });
 </script>
 

@@ -1,4 +1,4 @@
-import type { VbenFormProps } from '@vben-core/form-ui';
+import type { ExtendedFormApi, VbenFormProps } from '@vben-core/form-ui';
 
 import type { SmartTableRenderProps } from '../types';
 import type {
@@ -33,6 +33,8 @@ export const useSmartTableModalAddEditEdit = (
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
 ) => {
+  let formApi: ExtendedFormApi | null = null;
+
   /**
    * 是否有添加修改弹窗
    */
@@ -122,6 +124,9 @@ export const useSmartTableModalAddEditEdit = (
       onAfterSaveUpdate: (isAdd: boolean) => {
         emit('afterSaveUpdate', isAdd);
       },
+      onRegister: ({ formApi: modalFormApi }: any) => {
+        formApi = modalFormApi;
+      },
     });
 
   const doOpenModal = async (
@@ -198,6 +203,8 @@ export const useSmartTableModalAddEditEdit = (
     return doEdit(row, formData);
   };
 
+  const getAddEditForm = () => formApi;
+
   return {
     AddEditModal,
     computeAddEditModalProps,
@@ -205,6 +212,7 @@ export const useSmartTableModalAddEditEdit = (
     computedHasAddEdit,
     editByCheckbox,
     editByRowModal,
+    getAddEditForm,
     showAddModal,
   };
 };

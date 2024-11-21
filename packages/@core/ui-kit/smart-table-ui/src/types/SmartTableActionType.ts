@@ -24,7 +24,7 @@ interface SmartTableAction {
     row: any,
     formData?: Record<string, any>,
   ) => boolean | Promise<boolean>;
-  getAddEditForm: () => ExtendedFormApi;
+  getAddEditForm: () => ExtendedFormApi | null;
   getGrid: () => VxeGridInstance;
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;
