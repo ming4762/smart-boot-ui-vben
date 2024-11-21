@@ -31,6 +31,11 @@ const defaultRowDragConfig: SmartTableRowDragConfig = {
   icon: 'ant-design:menu-outlined',
 };
 
+/**
+ * vxe-table已支持行拖拽
+ * @deprecated
+ * @param tableProps
+ */
 export const useSmartTableRowDrag = (
   tableProps: ComputedRef<SmartTableRenderProps>,
 ) => {

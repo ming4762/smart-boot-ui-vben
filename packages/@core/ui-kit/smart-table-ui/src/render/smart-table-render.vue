@@ -36,7 +36,6 @@ import { useSmartTableColumnConfig } from '../hooks/useSmartTableColumnConfig';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
-import { useSmartTableRowDrag } from '../hooks/useSmartTableRowDrag';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 import { createSmartTableContext } from '../types/useSmartTableContext';
@@ -83,11 +82,6 @@ const setSmartTableProps = (setProps: Partial<SmartTableRenderProps>) => {
  */
 const { computedColumnSort, setColumnSortConfig } =
   useSmartTableColumnConfig(getVxeTableInstance);
-
-/**
- * 表格拖拽支持
- */
-const { getTableDragColumn } = useSmartTableRowDrag(computedTableProps);
 
 /**
  * 表格加载状态
@@ -154,10 +148,7 @@ const computedTableSlots = computed(() => {
 });
 
 const getTableColumns = computed<SmartTableColumn[]>(() => {
-  const columns = [
-    ...unref(getTableDragColumn),
-    ...unref(computedTableColumns),
-  ];
+  const columns = [...unref(computedTableColumns)];
   const columnSort = unref(computedColumnSort);
   if (!columnSort) {
     return columns;

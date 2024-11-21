@@ -42,7 +42,7 @@ function useSmartTable(options: SmartTableProps) {
       { immediate: true },
     );
   }
-  return [SmartTable, extendedApi];
+  return [SmartTable, extendedApi] as const;
 }
 
 export { useSmartTable };
