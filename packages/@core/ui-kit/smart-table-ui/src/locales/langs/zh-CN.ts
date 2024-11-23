@@ -32,6 +32,7 @@ export default {
     title: {
       add: '添加',
       edit: '修改',
+      useYn: '启用状态',
     },
     toolbar: {
       sizeSetting: '尺寸',

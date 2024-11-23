@@ -1,6 +1,8 @@
+import type { VxeGridPropTypes } from 'vxe-table';
+
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, type ComputedRef, unref } from 'vue';
+import { computed, type ComputedRef, ref, unref } from 'vue';
 
 import { isBoolean } from '@vben-core/shared/utils';
 
@@ -13,6 +15,8 @@ import {
 const useSmartTablePagerConfig = (
   tableProps: ComputedRef<SmartTableRenderProps>,
 ) => {
+  const innerPagerConfig = ref<VxeGridPropTypes.PagerConfig>({});
+
   /**
    * 分页配置计算属性
    */
@@ -30,11 +34,20 @@ const useSmartTablePagerConfig = (
       pageSize: DEFAULT_PAGE_SIZE,
       pageSizes: DEFAULT_PAGE_SIZE_OPTIONS,
       ...(isBoolean(pagerConfig) ? {} : pagerConfig),
+      ...unref(innerPagerConfig),
     };
   });
 
+  const setPagerConfig = (info: Partial<VxeGridPropTypes.PagerConfig>) => {
+    innerPagerConfig.value = {
+      ...unref(innerPagerConfig),
+      ...info,
+    };
+  };
+
   return {
     computedPagerConfig,
+    setPagerConfig,
   };
 };
 

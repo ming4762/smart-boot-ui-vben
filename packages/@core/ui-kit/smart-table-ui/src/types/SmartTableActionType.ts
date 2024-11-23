@@ -1,5 +1,5 @@
 import type { ExtendedFormApi } from '@vben-core/form-ui';
-import type { VxeGridInstance } from 'vxe-table';
+import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
 
 import type { SmartTableRenderProps } from './index';
 import type { SmartTableFetchParams } from './SmartTableAjaxType';
@@ -29,6 +29,7 @@ interface SmartTableAction {
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;
   setLoading: (loading: boolean) => void;
+  setPagerConfig: (pagerConfig: Partial<VxeGridPropTypes.PagerConfig>) => void;
   setUseYnByCheckbox: (
     useYn: boolean,
     params?: Record<string, any>,

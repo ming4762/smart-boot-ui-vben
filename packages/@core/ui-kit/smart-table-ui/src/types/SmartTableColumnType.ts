@@ -111,4 +111,45 @@ interface SmartTableColumn
   flag?: 'ACTION' | 'CHECKBOX' | 'DEFAULT' | 'INDEX' | 'RADIO';
 }
 
-export type { SmartTableColumn };
+/**
+ * 表格列动态class
+ */
+type SmartTableColumnDynamicClass =
+  | ((params: {
+      $columnIndex: number;
+      $rowIndex: number;
+      $table: VxeTableConstructor & VxeTablePrivateMethods;
+      _columnIndex: number;
+      _rowIndex: number;
+      column: VxeTableDefines.ColumnInfo;
+      columnIndex: number;
+      row: any;
+      rowIndex: number;
+    }) => { [key: string]: boolean } | null | string)
+  | string;
+
+/**
+ * 表格列动态style
+ */
+type SmartTableColumnDynamicStyle =
+  | ((params: {
+      $columnIndex: number;
+      $rowIndex: number;
+      $table: VxeTableConstructor & VxeTablePrivateMethods;
+      _columnIndex: number;
+      _rowIndex: number;
+      column: VxeTableDefines.ColumnInfo;
+      columnIndex: number;
+      row: any;
+      rowIndex: number;
+    }) => { [key: string]: boolean } | null | string)
+  | any;
+
+type SmartTableColumnAutoClass = 'Boolean';
+
+export type {
+  SmartTableColumn,
+  SmartTableColumnAutoClass,
+  SmartTableColumnDynamicClass,
+  SmartTableColumnDynamicStyle,
+};

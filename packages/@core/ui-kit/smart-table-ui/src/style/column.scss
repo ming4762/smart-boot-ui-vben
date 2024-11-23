@@ -1,0 +1,57 @@
+.smart-table {
+  // 文本颜色
+  .text-color--success {
+    color: green;
+  }
+
+  .text-color--lime {
+    color: #a0d911;
+  }
+
+  .text-color--link {
+    color: #1890ff;
+  }
+
+  .text-color--warning {
+    color: #faad14;
+  }
+
+  .text-color--warning-add {
+    color: #fa8c16;
+  }
+
+  .text-color--danger {
+    color: #f5222d;
+  }
+
+  // 文本颜色加粗
+  .text-color--success-bold {
+    font-weight: bold;
+    color: green;
+  }
+
+  .text-color--lime-bold {
+    font-weight: bold;
+    color: #a0d911;
+  }
+
+  .text-color--link-bold {
+    font-weight: bold;
+    color: #1890ff;
+  }
+
+  .text-color--warning-bold {
+    font-weight: bold;
+    color: #faad14;
+  }
+
+  .text-color--warning-add-bold {
+    font-weight: bold;
+    color: #fa8c16;
+  }
+
+  .text-color--danger-bold {
+    font-weight: bold;
+    color: #f5222d;
+  }
+}

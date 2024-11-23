@@ -33,6 +33,7 @@ import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
 import { useSmartTableColumnConfig } from '../hooks/useSmartTableColumnConfig';
+import { useSmartTableDynamicClassStyle } from '../hooks/useSmartTableDynamicClassStyle';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
@@ -82,6 +83,11 @@ const setSmartTableProps = (setProps: Partial<SmartTableRenderProps>) => {
  */
 const { computedColumnSort, setColumnSortConfig } =
   useSmartTableColumnConfig(getVxeTableInstance);
+/**
+ * 列动态class style支持
+ */
+const { computedTableClassStyle } =
+  useSmartTableDynamicClassStyle(computedTableProps);
 
 /**
  * 表格加载状态
@@ -91,7 +97,8 @@ const { getLoading, setLoading } = useSmartTableLoading(computedTableProps);
 // 列调整
 const { computedTableColumns } = useSmartTableColumn(computedTableProps, t);
 // 分页
-const { computedPagerConfig } = useSmartTablePagerConfig(computedTableProps);
+const { computedPagerConfig, setPagerConfig } =
+  useSmartTablePagerConfig(computedTableProps);
 // 复选框
 const { computeCheckboxTableProps } = useSmartTableCheckbox(
   computedTableProps,
@@ -144,6 +151,7 @@ const getSmartTableBindValues = computed<VxeGridProps>(() => {
     loading: unref(getLoading),
     proxyConfig: unref(computedProxyConfig),
     toolbarConfig: unref(computedToolbarConfig),
+    ...unref(computedTableClassStyle),
   } as VxeGridProps;
 });
 
@@ -180,6 +188,7 @@ const tableAction: SmartTableAction = {
   getSearchForm: () => searchFormApi,
   query: (params) => query(params),
   setLoading: (loading: boolean) => setLoading(loading),
+  setPagerConfig,
   setUseYnByCheckbox,
   setUseYnByRow,
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
