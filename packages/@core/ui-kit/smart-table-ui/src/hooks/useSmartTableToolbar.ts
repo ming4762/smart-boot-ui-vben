@@ -96,6 +96,29 @@ const getDefaultDeleteButtonConfig = (
   };
 };
 
+const getDefaultUseYnButtonConfig = (
+  t: (args: string) => string,
+  useYn: boolean,
+): SmartTableButton => {
+  const icon = useYn
+    ? 'ant-design:check-outlined'
+    : 'ant-design:close-outlined';
+  return {
+    buttonRender: {
+      name: VxeTableToolButtonCustomRenderer,
+    },
+    code: useYn ? 'useYnTrue' : 'useYnFalse',
+    name: useYn ? t('smartTable.common.use') : t('smartTable.common.noUse'),
+    props: {
+      danger: !useYn,
+      icon: h(createIconifyIcon(icon), {
+        class: ['anticon'],
+      }),
+      type: 'primary',
+    },
+  };
+};
+
 export const useSmartTableToolbar = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   t: (args: string) => string,
@@ -112,8 +135,12 @@ export const useSmartTableToolbar = (
     if (!buttonList) {
       return undefined;
     }
-    const { deleteByCheckbox, editByCheckbox, showAddModal } =
-      useSmartTableContext();
+    const {
+      deleteByCheckbox,
+      editByCheckbox,
+      setUseYnByCheckbox,
+      showAddModal,
+    } = useSmartTableContext();
     const buttonSize = tableSize ? tableButtonSizeMap[tableSize] : undefined;
     return buttonList.map((item) => {
       const { code } = item;
@@ -149,6 +176,21 @@ export const useSmartTableToolbar = (
             props: {
               onClick: () => {
                 deleteByCheckbox && deleteByCheckbox();
+              },
+            },
+          },
+          item,
+        ) as SmartTableButton;
+      }
+      if (code === 'useYnTrue' || code === 'useYnFalse') {
+        const useYn = item.code === 'useYnTrue';
+        return merge(
+          { size: buttonSize },
+          getDefaultUseYnButtonConfig(t, useYn),
+          {
+            props: {
+              onClick: () => {
+                setUseYnByCheckbox && setUseYnByCheckbox(useYn);
               },
             },
           },
