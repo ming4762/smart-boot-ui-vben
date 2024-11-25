@@ -9,7 +9,7 @@ import { createIconifyIcon } from '@vben-core/icons';
 import { VxeButton } from 'vxe-pc-ui';
 import { getI18n } from 'vxe-table';
 
-import { injectSmartTableContext } from '../types/useSmartTableContext';
+import { injectSmartTableContext } from '../hooks/useSmartTableContext';
 import { getComponent } from '../utils';
 
 interface Props {

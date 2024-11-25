@@ -5,6 +5,7 @@ import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
+import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { computed, type ComputedRef, h, nextTick, unref } from 'vue';
 
@@ -12,7 +13,6 @@ import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise } from '@vben-core/shared/utils';
 
 import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
-import { useSmartTableContext } from '../types/useSmartTableContext';
 import { warningMessage } from '../utils';
 
 const SizeMap: { [index: string]: 'default' | 'large' | 'small' } = {
@@ -30,6 +30,7 @@ const getDefaultFormConfig = (): Partial<VbenFormProps> => {
 
 export const useSmartTableModalAddEditEdit = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
 ) => {
@@ -81,7 +82,7 @@ export const useSmartTableModalAddEditEdit = (
       afterSave:
         afterSave ||
         (() => {
-          const { query } = useSmartTableContext();
+          const { query } = getSmartTableContext();
           query();
           return true;
         }),
@@ -184,7 +185,7 @@ export const useSmartTableModalAddEditEdit = (
    * checkbox选中更新
    */
   const editByCheckbox = () => {
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     const selectRows = getGrid().getCheckboxRecords(false);
     if (selectRows.length !== 1) {
       warningMessage(t('smartTable.message.choseOne'));

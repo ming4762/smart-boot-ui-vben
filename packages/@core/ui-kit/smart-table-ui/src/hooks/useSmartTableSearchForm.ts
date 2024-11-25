@@ -7,6 +7,7 @@ import type {
   SmartSearchFormProps,
   SmartSearchFormSchema,
 } from '../types/SmartSearchFormType';
+import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import type { ComputedRef } from 'vue';
 import { computed, h, ref, unref, watch } from 'vue';
@@ -15,7 +16,6 @@ import { useVbenForm } from '@vben-core/form-ui';
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
 
-import { useSmartTableContext } from '../types/useSmartTableContext';
 import { getFormSize } from '../utils';
 
 const AntSearchOutlined = createIconifyIcon('ant-design:search-outlined');
@@ -25,11 +25,13 @@ const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
 /**
  * 搜索表单配置
  * @param tableProps
+ * @param getSmartTableContext
  * @param emit
  * @param t
  */
 const useSmartTableSearchForm = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
 ) => {
@@ -60,13 +62,13 @@ const useSmartTableSearchForm = (
    */
   const [SearchForm, searchFormApi] = useVbenForm({
     handleReset: () => {
-      const { query } = useSmartTableContext();
+      const { query } = getSmartTableContext();
       searchFormApi.resetForm();
       query();
       emit('formQuery');
     },
     handleSubmit: () => {
-      const { query } = useSmartTableContext();
+      const { query } = getSmartTableContext();
       query();
       emit('formQuery');
     },

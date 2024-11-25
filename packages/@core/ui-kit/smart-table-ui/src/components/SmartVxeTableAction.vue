@@ -5,7 +5,15 @@ import type {
   SmartTableRowActionProps,
 } from '../types/SmartTableRowActionType';
 
-import { computed, h, toRaw, unref, useSlots, type VNode } from 'vue';
+import {
+  type Component,
+  computed,
+  h,
+  toRaw,
+  unref,
+  useSlots,
+  type VNode,
+} from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
@@ -13,10 +21,7 @@ import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
 import { VxeButton } from 'vxe-pc-ui';
 
 import { ACTION_COLUMN_FLAG } from '../constant';
-import {
-  injectSmartTableContext,
-  useSmartTableContext,
-} from '../types/useSmartTableContext';
+import { injectSmartTableContext } from '../hooks/useSmartTableContext';
 import { getComponent } from '../utils';
 import PopConfirmVxeButton from './PopConfirmVxeButton.vue';
 
@@ -28,6 +33,8 @@ const props = withDefaults(defineProps<Prop>(), {
 });
 
 const slots = useSlots();
+
+const smartTableContext = injectSmartTableContext();
 
 let table: Partial<
   { t: (key: string, args?: any) => string } & SmartTableAction
@@ -41,15 +48,15 @@ const getI18n = (code: string, ...args: any[]) => {
 };
 
 const getTooltipComponent = () => {
-  return getComponent('Tooltip');
+  return getComponent('Tooltip') as Component;
 };
 
 const getDividerComponenet = () => {
-  return getComponent('Divider');
+  return getComponent('Divider') as Component;
 };
 
 const getDropdownComponenet = () => {
-  return getComponent('Dropdown');
+  return getComponent('Dropdown') as Component;
 };
 
 function isIfShow(action: SmartTableActionItem): boolean {
@@ -87,7 +94,7 @@ const getCodeActionProps = (action: SmartTableActionItem) => {
 const getActions = computed(() => {
   const {
     tableInnerAction: { hasPermission },
-  } = useSmartTableContext();
+  } = smartTableContext;
   return (toRaw(props.actions) || [])
     .filter((action) => {
       return isIfShow(action);
@@ -120,7 +127,7 @@ const getActions = computed(() => {
 const getDropdownList = computed((): any[] => {
   const {
     tableInnerAction: { hasPermission },
-  } = useSmartTableContext();
+  } = injectSmartTableContext();
   // 过滤掉隐藏的dropdown,避免出现多余的分割线
   const list = (toRaw(props.dropDownActions) || []).filter((action) => {
     return isIfShow(action);

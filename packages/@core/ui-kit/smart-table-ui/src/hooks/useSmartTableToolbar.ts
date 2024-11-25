@@ -9,6 +9,7 @@ import type {
   SmartTableButton,
   SmartTableToolbarTool,
 } from '../types/SmartTableButtonType';
+import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
 import { computed, type ComputedRef, h, unref } from 'vue';
@@ -24,7 +25,6 @@ import {
   VxeTableToolComponentRenderer,
   VxeTableToolVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
-import { useSmartTableContext } from '../types/useSmartTableContext';
 import { AddIcon, editIcon } from '../utils';
 //
 // interface Action extends SmartTableActions {
@@ -121,6 +121,7 @@ const getDefaultUseYnButtonConfig = (
 
 export const useSmartTableToolbar = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  getSmartTableContext: SmartTableContextHandler,
   t: (args: string) => string,
 ) => {
   /**
@@ -140,7 +141,7 @@ export const useSmartTableToolbar = (
       editByCheckbox,
       setUseYnByCheckbox,
       showAddModal,
-    } = useSmartTableContext();
+    } = getSmartTableContext();
     const buttonSize = tableSize ? tableButtonSizeMap[tableSize] : undefined;
     return buttonList.map((item) => {
       const { code } = item;
@@ -223,7 +224,7 @@ export const useSmartTableToolbar = (
     if (!authHandler) {
       const {
         tableInnerAction: { hasPermission },
-      } = useSmartTableContext();
+      } = getSmartTableContext();
       if (!hasPermission) {
         throw new Error(
           '未设置authConfig.authHandler并且未配置Props.hasPermission',
@@ -261,7 +262,7 @@ export const useSmartTableToolbar = (
   };
 
   const getDefaultRefreshConfig = (): VxeToolbarPropTypes.Refresh => {
-    const { query } = useSmartTableContext();
+    const { query } = getSmartTableContext();
     return {
       queryMethod: (params) => {
         return query(params);
@@ -313,7 +314,7 @@ export const useSmartTableToolbar = (
       if (isBoolean(showSearch)) {
         const {
           tableInnerContext: { computedSearchFormVisible },
-        } = useSmartTableContext();
+        } = getSmartTableContext();
         const props = computed(() => {
           return {
             circle: true,
@@ -339,7 +340,7 @@ export const useSmartTableToolbar = (
       const columnConfig = isBoolean(column) ? undefined : column;
       const {
         tableInnerAction: { setColumnSortConfig },
-      } = useSmartTableContext();
+      } = getSmartTableContext();
       result.push({
         code: SmartTableCode.column,
         component: SmartTableColumnConfig,

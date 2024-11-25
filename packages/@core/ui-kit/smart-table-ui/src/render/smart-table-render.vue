@@ -12,7 +12,11 @@ import type {
   SmartTableRenderProps,
 } from '../types';
 import type { SmartTableInnerActionType } from '../types/SmartTableActionType';
-import type { SmartTableInnerContext } from '../types/SmartTableInnerType';
+import type {
+  SmartTableContext,
+  SmartTableContextHandler,
+  SmartTableInnerContext,
+} from '../types/SmartTableInnerType';
 
 import {
   computed,
@@ -33,13 +37,13 @@ import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
 import { useSmartTableColumnConfig } from '../hooks/useSmartTableColumnConfig';
+import { createSmartTableContext } from '../hooks/useSmartTableContext';
 import { useSmartTableDynamicClassStyle } from '../hooks/useSmartTableDynamicClassStyle';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
-import { createSmartTableContext } from '../types/useSmartTableContext';
 
 interface Props extends SmartTableRenderProps {}
 
@@ -52,6 +56,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<SmartTableRenderListeners>();
 const slots = useSlots();
 const attrs = useAttrs();
+
+const smartTableContext: SmartTableContext = {} as never;
+const getSmartTableContext: SmartTableContextHandler = (): SmartTableContext =>
+  smartTableContext;
 
 // @ts-ignore
 const emitHandler = (code: string, ...args: any[]) => emit(code, args);
@@ -111,7 +119,12 @@ const {
   getSearchFormParameter,
   SearchForm,
   searchFormApi,
-} = useSmartTableSearchForm(computedTableProps, emitHandler, t);
+} = useSmartTableSearchForm(
+  computedTableProps,
+  getSmartTableContext,
+  emitHandler,
+  t,
+);
 
 /**
  * ajax增强
@@ -123,9 +136,7 @@ const {
   query,
   setUseYnByCheckbox,
   setUseYnByRow,
-} = useSmartTableAjax(computedTableProps, emitHandler, t, {
-  getSearchFormParameter,
-});
+} = useSmartTableAjax(computedTableProps, getSmartTableContext, emitHandler, t);
 
 const {
   AddEditModal,
@@ -134,9 +145,18 @@ const {
   editByRowModal,
   getAddEditForm,
   showAddModal,
-} = useSmartTableModalAddEditEdit(computedTableProps, emitHandler, t);
+} = useSmartTableModalAddEditEdit(
+  computedTableProps,
+  getSmartTableContext,
+  emitHandler,
+  t,
+);
 
-const { computedToolbarConfig } = useSmartTableToolbar(computedTableProps, t);
+const { computedToolbarConfig } = useSmartTableToolbar(
+  computedTableProps,
+  getSmartTableContext,
+  t,
+);
 
 /**
  * 表格计算属性
@@ -195,6 +215,7 @@ const tableAction: SmartTableAction = {
 };
 
 const tableInnerAction: SmartTableInnerActionType = {
+  getSearchFormParameter,
   hasPermission: props.hasPermission,
   setColumnSortConfig: () => setColumnSortConfig(),
   setSmartTableProps,
@@ -204,14 +225,17 @@ const tableInnerContext: SmartTableInnerContext = {
   computedSearchFormVisible,
 };
 
-createSmartTableContext({
+Object.assign(smartTableContext, {
   ...tableAction,
   getBindValues: computedTableProps,
+  id: props.id as string,
   t,
   tableInnerAction,
   tableInnerContext,
   wrapRef,
 });
+
+createSmartTableContext(smartTableContext);
 
 /**
  * 渲染表格
@@ -259,6 +283,10 @@ const RenderFunction = () => {
 
 onMounted(() => {
   emit('register', tableAction);
+});
+
+defineExpose({
+  ...tableAction,
 });
 </script>
 

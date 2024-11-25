@@ -19,7 +19,7 @@ import { useSortable } from '@vben-core/composables';
 import { VxeButton, VxePulldown } from 'vxe-pc-ui';
 import { VxeGrid, getI18n as vxeI18n } from 'vxe-table';
 
-import { injectSmartTableContext } from '../types/useSmartTableContext';
+import { injectSmartTableContext } from '../hooks/useSmartTableContext';
 
 interface Props {
   config?: SmartTableToolbarColumnConfig;

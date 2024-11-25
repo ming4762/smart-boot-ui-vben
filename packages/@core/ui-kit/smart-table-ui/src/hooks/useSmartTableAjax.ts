@@ -6,13 +6,12 @@ import type {
   SmartTableProxyAjax,
   SmartTableRenderProps,
 } from '../types';
-import type { SmartSearchFormParameter } from '../types/SmartSearchFormType';
+import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { computed, type ComputedRef, h, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
 
-import { useSmartTableContext } from '../types/useSmartTableContext';
 import {
   confirmIcon,
   confirmModal,
@@ -20,15 +19,11 @@ import {
   warningMessage,
 } from '../utils';
 
-interface SearchFormTableAction {
-  getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
-}
-
 const useSmartTableAjax = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
-  tableAction: SearchFormTableAction,
 ) => {
   let initQuery = false;
 
@@ -78,12 +73,14 @@ const useSmartTableAjax = (
             ajaxParameter.sortName = sortNameList.join(',');
             ajaxParameter.sortOrder = sortOrderList.join(',');
           }
+          const getSearchFormParameter =
+            getSmartTableContext().tableInnerAction.getSearchFormParameter;
           const {
             noSymbolForm,
             searchForm,
             searchSymbolForm,
             searchWithSymbol,
-          } = (await tableAction.getSearchFormParameter()) || {};
+          } = (await getSearchFormParameter()) || {};
           if (useSearchForm) {
             if (searchWithSymbol) {
               // 处理搜索符号
@@ -137,7 +134,7 @@ const useSmartTableAjax = (
    * @param params
    */
   const query = async (params?: SmartTableFetchParams) => {
-    const { getGrid, setLoading } = useSmartTableContext();
+    const { getGrid, setLoading } = getSmartTableContext();
     try {
       setLoading(true);
       const code = initQuery ? 'query' : '_init';
@@ -161,7 +158,7 @@ const useSmartTableAjax = (
     if (rows.length === 0) {
       return false;
     }
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     return new Promise((resolve) => {
       confirmModal({
         content: t('smartTable.message.deleteConfirm'),
@@ -191,7 +188,7 @@ const useSmartTableAjax = (
    * 根据checkbox选中删除
    */
   const deleteByCheckbox = async (): Promise<boolean> => {
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     const tableInstance = getGrid();
     if (!tableInstance) {
       return false;
@@ -252,7 +249,7 @@ const useSmartTableAjax = (
     useYn: boolean,
     params?: Record<string, any>,
   ): Promise<boolean> => {
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     const selectRows = getGrid().getCheckboxRecords(false);
     if (selectRows.length === 0) {
       warningMessage(t('smartTable.message.needSelect'));

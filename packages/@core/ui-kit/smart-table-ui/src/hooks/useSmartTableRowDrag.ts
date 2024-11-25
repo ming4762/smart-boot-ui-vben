@@ -2,6 +2,7 @@ import type { Sortable } from '@vben-core/composables';
 import type { Recordable } from '@vben-core/typings';
 
 import type { SmartTableColumn, SmartTableRenderProps } from '../types';
+import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableRowDragConfig } from '../types/SmartTableRowType';
 
 import {
@@ -19,8 +20,6 @@ import { useSortable } from '@vben-core/composables';
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean } from '@vben-core/shared/utils';
 
-import { useSmartTableContext } from '../types/useSmartTableContext';
-
 export const TABLE_DRAG_SLOT_NAME = 'smart-table-row-drop-slot';
 
 const defaultRowDragConfig: SmartTableRowDragConfig = {
@@ -35,9 +34,11 @@ const defaultRowDragConfig: SmartTableRowDragConfig = {
  * vxe-table已支持行拖拽
  * @deprecated
  * @param tableProps
+ * @param getSmartTableContext
  */
 export const useSmartTableRowDrag = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  getSmartTableContext: SmartTableContextHandler,
 ) => {
   let sortable: null | Sortable = null;
 
@@ -68,7 +69,7 @@ export const useSmartTableRowDrag = (
           ...defaultRowDragConfig,
           ...dragConfig,
         };
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     return {
       ...config,
       handle: `.${config.handle}`,
@@ -156,7 +157,7 @@ export const useSmartTableRowDrag = (
     if (sortable !== null) {
       sortable.destroy();
     }
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     const el = getGrid().$el;
     let sortEl;
     if (unref(getHasFixedLeft)) {
@@ -195,7 +196,7 @@ export const useSmartTableRowDrag = (
   onUnmounted(() => closeRowDrop());
 
   watch(getRowDragConfig, (value) => {
-    const { getGrid } = useSmartTableContext();
+    const { getGrid } = getSmartTableContext();
     if (value) {
       if (sortable === null && getGrid()) {
         openRowDrop();

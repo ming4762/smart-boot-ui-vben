@@ -1,6 +1,7 @@
 export { default as SmartVxeTableAction } from './components/SmartVxeTableAction.vue';
-
 export * from './init';
+
+export { default as SmartTable } from './render/smart-table-render.vue';
 
 export type * from './types';
 

@@ -2,12 +2,14 @@ import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
 
 import type { SmartTableRenderProps } from './index';
+import type { SmartSearchFormParameter } from './SmartSearchFormType';
 import type { SmartTableFetchParams } from './SmartTableAjaxType';
 
 /**
  * 表格内部函数
  */
 interface SmartTableInnerActionType {
+  getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
   hasPermission: (code: string | string[]) => boolean;
   setColumnSortConfig: () => void;
   setSmartTableProps: (props: Partial<SmartTableRenderProps>) => void;
