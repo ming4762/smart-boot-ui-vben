@@ -1,7 +1,6 @@
 import type { Recordable, RouteRecordStringComponent } from '@vben/types';
 
-import { SUPPORT_LANGUAGES } from '@vben/constants';
-import { ApiServiceEnum } from '@vben/request';
+import { ApiServiceEnum, SUPPORT_LANGUAGES } from '@vben/constants';
 import { camelToLine, listToTree } from '@vben/utils';
 
 import { requestClient } from '#/api/request';

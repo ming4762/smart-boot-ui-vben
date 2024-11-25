@@ -134,4 +134,4 @@ export const requestClient = createRequestClient(apiURL);
 
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });
 
-export { ApiServiceEnum } from '@vben/request';
+export { ApiServiceEnum } from '@vben/constants';
