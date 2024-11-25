@@ -48,26 +48,11 @@ interface HttpResponse<T = any> {
  */
 type ErrorMessageMode = 'message' | 'modal' | 'none' | undefined;
 
-enum ApiServiceEnum {
-  NONE = '',
-  SMART_AUTH = 'smart-auth',
-  // 代码生成器
-  SMART_CODE = 'smart-code',
-  SMART_FILE = 'smart-file',
-  // 消息服务，包括短信等
-  SMART_MESSAGE = 'smart-message',
-  SMART_SYSTEM = 'smart-system',
-}
-
-type ApiService = ApiServiceEnum;
-
 interface RequestOptions extends AxiosRequestConfig {
   // 错误信息警告方式
   errorMessageMode?: ErrorMessageMode;
-  service?: ApiService;
+  service?: string;
 }
-
-export { ApiServiceEnum };
 
 export type {
   ErrorMessageMode,
