@@ -1,6 +1,6 @@
 {
   "name": "@vben/web-antd",
-  "version": "5.4.7",
+  "version": "5.4.8",
   "homepage": "https://vben.pro",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -45,8 +45,6 @@
     "dayjs": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "vxe-table": "catalog:",
-    "vxe-pc-ui": "catalog:"
+    "vue-router": "catalog:"
   }
 }

@@ -1,5 +1,3 @@
-import type { VxeUIExport } from 'vxe-table';
-
 import { computed, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
@@ -29,7 +27,7 @@ import { $t } from '#/locales';
 const preference = usePreferences();
 
 setupSmartTable({
-  configSmartTable: (vxeUI: VxeUIExport) => {
+  configSmartTable: (vxeUI) => {
     vxeUI.setConfig({
       size: 'small',
     });
