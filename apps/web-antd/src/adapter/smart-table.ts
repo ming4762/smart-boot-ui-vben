@@ -3,7 +3,11 @@ import type { VxeUIExport } from 'vxe-table';
 import { computed, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
-import { setupSmartTable, useSmartTable } from '@vben/common-ui';
+import {
+  setupSmartTable,
+  type SmartTableAuth,
+  useSmartTable,
+} from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 import { isString } from '@vben/utils';
 
@@ -53,15 +57,19 @@ setupSmartTable({
     error: (message: string) => AntMessage.error(message),
     confirm: (options: Record<string, any>) => Modal.confirm(options),
   },
-  hasPermission: (code: string | string[]) => {
+  hasPermission: (code?: SmartTableAuth) => {
     if (!code) {
       return true;
     }
-    const codes: string | string[] = isString(code)
-      ? [code as string]
-      : (code as string[]);
     const { hasAccessByCodes } = useAccess();
-    return hasAccessByCodes(codes);
+    if (isString(code)) {
+      return hasAccessByCodes([code]);
+    }
+    const { multipleMode, permission } = code;
+    const codes = isString(permission) ? [permission] : permission;
+    return multipleMode === 'or'
+      ? codes.some((item) => hasAccessByCodes([item]))
+      : codes.every((item) => hasAccessByCodes([item]));
   },
 });
 

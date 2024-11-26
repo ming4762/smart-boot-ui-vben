@@ -4,13 +4,14 @@ import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
 import type { SmartTableRenderProps } from './index';
 import type { SmartSearchFormParameter } from './SmartSearchFormType';
 import type { SmartTableFetchParams } from './SmartTableAjaxType';
+import type { SmartAuthType } from './SmartTableAuthType';
 
 /**
  * 表格内部函数
  */
 interface SmartTableInnerActionType {
   getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
-  hasPermission: (code: string | string[]) => boolean;
+  hasPermission: (auth?: SmartAuthType | string) => boolean;
   setColumnSortConfig: () => void;
   setSmartTableProps: (props: Partial<SmartTableRenderProps>) => void;
 }

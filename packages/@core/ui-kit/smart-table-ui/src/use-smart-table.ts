@@ -23,10 +23,15 @@ function useSmartTable(options: SmartTableProps) {
       onBeforeUnmount(() => {
         api.unmounted();
       });
+      // 设置默认的auth handler
+      const authConfig = {
+        authHandler: hasPermission,
+        ...props.authConfig,
+      };
       return () =>
         h(
           SmartUseTable,
-          { ...props, ...attrs, api: extendedApi, hasPermission },
+          { ...props, ...attrs, api: extendedApi, authConfig, hasPermission },
           slots,
         );
     },

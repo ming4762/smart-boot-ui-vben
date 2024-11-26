@@ -21,7 +21,10 @@ import type {
   SmartTableProxyAjax,
   SmartTableProxyConfig,
 } from './SmartTableAjaxType';
-import type { SmartTableAuthConfig } from './SmartTableAuthType';
+import type {
+  SmartTableAuth,
+  SmartTableAuthConfig,
+} from './SmartTableAuthType';
 import type {
   SmartTableButton,
   SmartTableToolbarTool,
@@ -96,8 +99,6 @@ interface SmartTableRenderProps
   // checkbox配置
   checkboxConfig?: boolean | SmartCheckboxConfig;
   columns?: SmartTableColumn[];
-  // 权限函数
-  hasPermission?: (code: string | string[]) => boolean;
   height?: TableHeightType;
   // 分页配置
   pagerConfig?: boolean | VxeGridPropTypes.PagerConfig;
@@ -154,7 +155,7 @@ type ExtendSmartTableApi = {
 interface SetupSmartTable {
   components?: Partial<Record<string, Component>>;
   configSmartTable: (ui: VxeUIExport) => void;
-  hasPermission: (code: string | string[]) => boolean;
+  hasPermission: (code?: SmartTableAuth) => boolean;
   i18nHandler: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
@@ -167,6 +168,7 @@ export type {
   SmartSearchFormSchema,
   SmartTableAction,
   SmartTableAjaxQueryParams,
+  SmartTableAuth,
   SmartTableColumn,
   SmartTableFetchParams,
   SmartTableLayoutProps,

@@ -1,4 +1,5 @@
 import type { SmartTableSize } from '../types';
+import type { SmartTableAuth } from '../types/SmartTableAuthType';
 
 import type { Component } from 'vue';
 
@@ -38,7 +39,7 @@ const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
 const confirmModal = (option: Record<string, any>) =>
   MESSAGE_HANDLER.confirm(option);
 
-const hasPermission = (code: string | string[]) =>
+const hasPermission = (code?: SmartTableAuth) =>
   PERMISSION_HANDLE.hasPermission(code);
 
 export {

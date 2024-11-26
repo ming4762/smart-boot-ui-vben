@@ -7,6 +7,7 @@ import type {
 
 import type {
   SmartTableAction,
+  SmartTableAuth,
   SmartTableColumn,
   SmartTableRenderListeners,
   SmartTableRenderProps,
@@ -49,7 +50,6 @@ interface Props extends SmartTableRenderProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   column: [],
-  hasPermission: (_: string | string[]) => false,
   id: buildUUID(),
   size: () => 'small',
 });
@@ -214,9 +214,13 @@ const tableAction: SmartTableAction = {
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
 };
 
+const defaultAuthHandler = (code?: SmartTableAuth | string) => {
+  return !code;
+};
+
 const tableInnerAction: SmartTableInnerActionType = {
   getSearchFormParameter,
-  hasPermission: props.hasPermission,
+  hasPermission: props.authConfig?.authHandler ?? defaultAuthHandler,
   setColumnSortConfig: () => setColumnSortConfig(),
   setSmartTableProps,
 };

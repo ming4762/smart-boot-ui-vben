@@ -1,4 +1,5 @@
 import type { SetupSmartTable } from './types';
+import type { SmartTableAuth } from './types/SmartTableAuthType';
 import type { SmartTableMessageHandler } from './types/SmartTableMessageType';
 
 import type { Component } from 'vue';
@@ -42,7 +43,7 @@ const MESSAGE_HANDLER: SmartTableMessageHandler = {
 };
 
 const PERMISSION_HANDLE = {
-  hasPermission: (_: string | string[]) => false,
+  hasPermission: (_?: SmartTableAuth) => false,
 };
 
 // 是否加载过

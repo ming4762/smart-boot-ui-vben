@@ -220,7 +220,7 @@ export const useSmartTableToolbar = (
       // 权限未配置，直接返回
       return buttonList;
     }
-    const { authHandler, displayMode, toolbar } = authConfig;
+    const { authHandler, displayMode } = authConfig;
     if (!authHandler) {
       const {
         tableInnerAction: { hasPermission },
@@ -233,14 +233,7 @@ export const useSmartTableToolbar = (
     }
     return buttonList
       .map((button) => {
-        const { auth, code } = button;
-        const configAuth = code && toolbar ? (toolbar as any)[code] : undefined;
-        if (auth && configAuth) {
-          console.warn(
-            'toolbarConfig与AuthConfig权限配置冲突，toolbarConfig配置',
-          );
-        }
-        const buttonAuth = auth || configAuth;
+        const { auth: buttonAuth } = button;
         if (!buttonAuth) {
           return button;
         }
@@ -248,6 +241,7 @@ export const useSmartTableToolbar = (
         if (hasAuth) {
           return button;
         }
+        // todo: 添加tooltip
         return displayMode === 'hide'
           ? null
           : {
