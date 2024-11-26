@@ -1,0 +1,9 @@
+{
+  "smartTableSelect": {
+    "user": {
+      "username": "用户名",
+      "fullName": "姓名",
+      "userType": "类型"
+    }
+  }
+}

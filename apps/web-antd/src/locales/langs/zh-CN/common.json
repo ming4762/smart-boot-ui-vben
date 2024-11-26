@@ -8,5 +8,12 @@
     "updateTime": "更新时间",
     "updateUser": "更新人",
     "operation": "操作"
+  },
+  "form": {
+    "use": "启用",
+    "noUse": "停用"
+  },
+  "message": {
+    "operationSucceeded": "操作成功"
   }
 }
