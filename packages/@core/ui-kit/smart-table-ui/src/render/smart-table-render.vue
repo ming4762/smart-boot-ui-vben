@@ -279,7 +279,11 @@ const RenderFunction = () => {
     slots.search = renderSearchForm;
   }
   return (
-    <TableSearchLayout class="smart-table" ref="wrapRef">
+    <TableSearchLayout
+      class="smart-table"
+      ref="wrapRef"
+      showSearch={unref(computedSearchFormVisible)}
+    >
       {slots}
     </TableSearchLayout>
   );

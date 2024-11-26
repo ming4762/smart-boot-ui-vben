@@ -39,13 +39,18 @@ const useSmartTableSearchForm = (
    * 搜索form显示状态
    */
   const searchFormVisibleRef = ref(
-    unref(tableProps)?.searchFormConfig?.defaultVisible !== false,
+    unref(tableProps)?.searchFormConfig?.defaultVisible !== false &&
+      unref(tableProps).useSearchForm !== undefined &&
+      unref(tableProps).useSearchForm,
   );
 
   watch(
-    () => unref(tableProps)?.searchFormConfig?.visible,
-    (value) => {
-      searchFormVisibleRef.value = !!value;
+    [
+      () => unref(tableProps)?.searchFormConfig?.visible,
+      () => unref(tableProps)?.useSearchForm,
+    ],
+    ([visible, useSearchForm]) => {
+      searchFormVisibleRef.value = (visible && useSearchForm) || false;
     },
   );
   /**
