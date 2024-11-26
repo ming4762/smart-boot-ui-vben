@@ -1747,6 +1747,9 @@ importers:
 
   packages/effects/request:
     dependencies:
+      '@vben-core/typings':
+        specifier: workspace:*
+        version: link:../../@core/base/typings
       '@vben/locales':
         specifier: workspace:*
         version: link:../../locales
