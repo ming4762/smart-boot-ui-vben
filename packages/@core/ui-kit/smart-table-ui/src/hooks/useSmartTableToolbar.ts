@@ -253,6 +253,7 @@ export const useSmartTableToolbar = (
               props: {
                 ...unref(button.props),
                 disabled: true,
+                hasAuth,
               },
             };
       })

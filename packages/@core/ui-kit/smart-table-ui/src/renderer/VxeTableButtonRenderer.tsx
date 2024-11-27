@@ -22,12 +22,34 @@ export const initButtonRenderer = (): void => {
         ...button,
         ...unref(button.props),
       };
+      const hasAuth = unref(button.props)?.hasAuth;
       delete buttonPros.props;
       delete buttonPros.buttonRender;
       const component = getComponent('Button') || VbenButton;
-      return h(component, buttonPros, {
-        default: () => buttonPros.name,
-      });
+
+      if (hasAuth === false) {
+        const tooltipComponent = getComponent('Tooltip');
+        if (!tooltipComponent) {
+          throw new Error('Please install the tooltip component');
+        }
+        return h(
+          tooltipComponent,
+          {
+            color: 'red',
+            title: VXETable.getI18n('smartTable.message.noPermission'),
+          },
+          {
+            default: () =>
+              h(component, buttonPros, {
+                default: () => buttonPros.name,
+              }),
+          },
+        );
+      } else {
+        return h(component, buttonPros, {
+          default: () => buttonPros.name,
+        });
+      }
     },
   });
 };
