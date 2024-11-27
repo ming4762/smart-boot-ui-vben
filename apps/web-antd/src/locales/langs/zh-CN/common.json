@@ -14,6 +14,10 @@
     "noUse": "停用"
   },
   "message": {
-    "operationSucceeded": "操作成功"
+    "operationSucceeded": "操作成功",
+    "noPermission": "无权限"
+  },
+  "button": {
+    "save": "保存"
   }
 }

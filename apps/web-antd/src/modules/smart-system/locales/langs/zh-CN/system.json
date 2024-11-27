@@ -1,0 +1,64 @@
+{
+  "views": {
+    "parameter": {
+      "title": {
+        "id": "id",
+        "code": "参数编码",
+        "name": "参数名字",
+        "parameter": "参数值",
+        "buildIn": "系统内置",
+        "createBy": "createBy",
+        "updateBy": "updateBy"
+      },
+      "validate": {
+        "id": "请输入",
+        "code": "请输入参数编码",
+        "name": "请输入参数名字",
+        "parameter": "请输入参数值"
+      },
+      "rules": {},
+      "search": {
+        "code": "请输入参数编码",
+        "name": "请输入参数名字",
+        "buildIn": "请输入系统内置"
+      }
+    },
+    "userGroup": {
+      "title": "用户组",
+      "table": {
+        "groupCode": "用户组编码",
+        "groupName": "用户组名称",
+        "remark": "备注"
+      },
+      "button": {
+        "setUser": "设置用户"
+      },
+      "search": {
+        "useYnTitle": "启用标志"
+      },
+      "validate": {
+        "groupCode": "请输入用户组编码",
+        "groupName": "请输入用户组名称"
+      }
+    },
+    "role": {
+      "title": {
+        "setFunction": "设置功能"
+      },
+      "table": {
+        "roleName": "角色名称",
+        "roleCode": "角色编码",
+        "roleType": "角色类型",
+        "superAdminYn": "超级管理角色"
+      },
+      "validate": {
+        "roleName": "请输入角色名称",
+        "roleCode": "请输入角色编码",
+        "roleType": "请输入角色类型"
+      },
+      "button": {
+        "setRoleUser": "关联用户"
+      }
+    }
+  }
+}

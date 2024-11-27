@@ -1,0 +1,60 @@
+{
+  "views": {
+    "parameter": {
+      "title": {
+        "code": "Code",
+        "name": "Name",
+        "parameter": "Parameter value",
+        "buildIn": "build in"
+      },
+      "validate": {
+        "code": "Please enter code",
+        "name": "Please enter name",
+        "parameter": "Please enter parameter value"
+      },
+      "rules": {},
+      "search": {
+        "code": "Please enter code",
+        "name": "Please enter name",
+        "buildIn": "Please select"
+      }
+    },
+    "userGroup": {
+      "title": "User group",
+      "table": {
+        "groupCode": "Group code",
+        "groupName": "Group name",
+        "remark": "Remark"
+      },
+      "button": {
+        "setUser": "Set user"
+      },
+      "search": {
+        "useYnTitle": "Use yn"
+      },
+      "validate": {
+        "groupCode": "Please enter group code",
+        "groupName": "Please enter group name"
+      }
+    },
+    "role": {
+      "title": {
+        "setFunction": "Set function"
+      },
+      "table": {
+        "roleName": "Role name",
+        "roleCode": "Role code",
+        "roleType": "Role type",
+        "superAdminYn": "Super admin"
+      },
+      "validate": {
+        "roleName": "Please enter role name",
+        "roleCode": "Please enter role code",
+        "roleType": "Please enter role type"
+      },
+      "button": {
+        "setRoleUser": "Set user"
+      }
+    }
+  }
+}
