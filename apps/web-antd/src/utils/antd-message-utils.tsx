@@ -1,3 +1,5 @@
+import type { HttpResponse } from '@vben/request';
+
 import type { VNode } from 'vue';
 import { h } from 'vue';
 
@@ -5,13 +7,15 @@ import { Check, createIconifyIcon, Info } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { isString } from '@vben/utils';
 
-import { Modal, type ModalFuncProps } from 'ant-design-vue';
+import { message as Message, Modal, type ModalFuncProps } from 'ant-design-vue';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
   iconType: 'error' | 'info' | 'success' | 'warning';
 }
 type ModalOptionsPartial = Partial<ModalOptionsEx> &
   Pick<ModalOptionsEx, 'content'>;
+
+type MessageOptions = { message: string } | string;
 
 const getBaseOptions = () => {
   return {
@@ -64,6 +68,13 @@ function createModalOptions(
   };
 }
 
+const successMessage = (options: MessageOptions) => {
+  if (isString(options)) {
+    return Message.success(options);
+  }
+  return Message.success(options.message);
+};
+
 /**
  * 创建错误信息弹窗
  * @param options
@@ -72,4 +83,24 @@ const createErrorModal = (options: ModalOptionsPartial) => {
   return Modal.error(createModalOptions(options, 'error'));
 };
 
-export { createErrorModal };
+const createError500Modal = (e: HttpResponse) => {
+  console.error(e);
+};
+
+const errorMessage = (e: Error | HttpResponse | string) => {
+  if (isString(e)) {
+    return Message.error(e);
+  }
+  console.error(e);
+  const code = (e as any).code;
+  switch (code) {
+    case 500: {
+      return createError500Modal(e as HttpResponse);
+    }
+    default: {
+      return Message.error(e.message);
+    }
+  }
+};
+
+export { createErrorModal, errorMessage, successMessage };
