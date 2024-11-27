@@ -5,7 +5,6 @@ import { computed, unref } from 'vue';
 import { useAccess } from '@vben/access';
 import { setupSmartTable, useSmartTable } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
-import { isString } from '@vben/utils';
 
 import {
   message as AntMessage,
@@ -57,15 +56,8 @@ setupSmartTable({
     if (!code) {
       return true;
     }
-    const { hasAccessByCodes } = useAccess();
-    if (isString(code)) {
-      return hasAccessByCodes([code]);
-    }
-    const { multipleMode, permission } = code;
-    const codes = isString(permission) ? [permission] : permission;
-    return multipleMode === 'or'
-      ? codes.some((item) => hasAccessByCodes([item]))
-      : codes.every((item) => hasAccessByCodes([item]));
+    const { hasAccessByAuth } = useAccess();
+    return hasAccessByAuth(code);
   },
 });
 

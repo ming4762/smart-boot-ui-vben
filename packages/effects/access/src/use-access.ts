@@ -1,7 +1,10 @@
+import type { SmartAuthType } from '@vben/types';
+
 import { computed } from 'vue';
 
 import { preferences, updatePreferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
+import { isString } from '@vben/utils';
 
 function useAccess() {
   const accessStore = useAccessStore();
@@ -42,6 +45,24 @@ function useAccess() {
     return intersection.length > 0;
   }
 
+  /**
+   * 根据权限判断是否有权限
+   * @param auth
+   */
+  function hasAccessByAuth(auth?: SmartAuthType) {
+    if (!auth) {
+      return true;
+    }
+    if (isString(auth)) {
+      return hasAccessByCodes([auth]);
+    }
+    const { multipleMode, permission } = auth;
+    const codes = isString(permission) ? [permission] : permission;
+    return multipleMode === 'or'
+      ? codes.some((item) => hasAccessByCodes([item]))
+      : codes.every((item) => hasAccessByCodes([item]));
+  }
+
   async function toggleAccessMode() {
     updatePreferences({
       app: {
@@ -55,6 +76,7 @@ function useAccess() {
     accessMode,
     hasAccessByCodes,
     hasAccessByRoles,
+    hasAccessByAuth,
     toggleAccessMode,
     accessNoAuthMode,
   };
