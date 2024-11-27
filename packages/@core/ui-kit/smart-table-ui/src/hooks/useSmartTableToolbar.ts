@@ -146,14 +146,18 @@ export const useSmartTableToolbar = (
     return buttonList.map((item) => {
       const { code } = item;
       if (code === 'ModalAdd') {
-        return merge({ size: buttonSize }, getDefaultAddButtonConfig(t), {
-          item,
-          props: {
-            onClick: () => {
-              showAddModal();
+        return merge(
+          { size: buttonSize },
+          getDefaultAddButtonConfig(t),
+          {
+            props: {
+              onClick: () => {
+                showAddModal();
+              },
             },
           },
-        }) as SmartTableButton;
+          item,
+        ) as SmartTableButton;
       }
       if (code === 'ModalEdit') {
         return merge(
