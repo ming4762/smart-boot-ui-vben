@@ -1,11 +1,9 @@
+import type { SmartAuthType } from '@vben/types';
+
 import { computed, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
-import {
-  setupSmartTable,
-  type SmartTableAuth,
-  useSmartTable,
-} from '@vben/common-ui';
+import { setupSmartTable, useSmartTable } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 import { isString } from '@vben/utils';
 
@@ -55,7 +53,7 @@ setupSmartTable({
     error: (message: string) => AntMessage.error(message),
     confirm: (options: Record<string, any>) => Modal.confirm(options),
   },
-  hasPermission: (code?: SmartTableAuth) => {
+  hasPermission: (code?: SmartAuthType) => {
     if (!code) {
       return true;
     }

@@ -11,13 +11,22 @@ function useAccess() {
   });
 
   /**
+   * 无权限模式
+   */
+  const accessNoAuthMode = computed(() => {
+    return preferences.app.accessNoAuthMode;
+  });
+
+  /**
    * 基于角色判断是否有权限
    * @description: Determine whether there is permission，The role is judged by the user's role
    * @param roles
    */
   function hasAccessByRoles(roles: string[]) {
     const userRoleSet = new Set(userStore.userRoles);
-    const intersection = roles.filter((item) => userRoleSet.has(item));
+    const roleCodesSet = new Set();
+    userRoleSet.forEach((item) => roleCodesSet.add(item.roleCode));
+    const intersection = roles.filter((item) => roleCodesSet.has(item));
     return intersection.length > 0;
   }
 
@@ -47,6 +56,7 @@ function useAccess() {
     hasAccessByCodes,
     hasAccessByRoles,
     toggleAccessMode,
+    accessNoAuthMode,
   };
 }
 

@@ -41,6 +41,10 @@ interface HttpResponse<T = any> {
   code: number;
   data: T;
   message: string;
+  /**
+   * 异常编号
+   */
+  exceptionNo?: number;
 }
 
 /**

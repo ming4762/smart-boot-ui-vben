@@ -1,5 +1,6 @@
 import type {
   AccessModeType,
+  AccessNoAuthModeType,
   AuthPageLayoutType,
   BreadcrumbStyleType,
   BuiltinThemeType,
@@ -20,6 +21,8 @@ type SupportedLanguagesType = 'en-US' | 'zh-CN';
 interface AppPreferences {
   /** 权限模式 */
   accessMode: AccessModeType;
+  /** 无权限模式 */
+  accessNoAuthMode: AccessNoAuthModeType;
   /** 登录注册页面布局 */
   authPageLayout: AuthPageLayoutType;
   /** 检查更新轮询时间 */
