@@ -1,4 +1,5 @@
 import type { SupportedLanguagesType } from '@vben-core/preferences';
+import type { SmartAuthType } from '@vben-core/typings';
 import type {
   VxeComponentSizeType,
   VxeGridDefines,
@@ -21,10 +22,7 @@ import type {
   SmartTableProxyAjax,
   SmartTableProxyConfig,
 } from './SmartTableAjaxType';
-import type {
-  SmartTableAuth,
-  SmartTableAuthConfig,
-} from './SmartTableAuthType';
+import type { SmartTableAuthConfig } from './SmartTableAuthType';
 import type {
   SmartTableButton,
   SmartTableToolbarTool,
@@ -155,7 +153,7 @@ type ExtendSmartTableApi = {
 interface SetupSmartTable {
   components?: Partial<Record<string, Component>>;
   configSmartTable: (ui: VxeUIExport) => void;
-  hasPermission: (code?: SmartTableAuth) => boolean;
+  hasPermission: (code?: SmartAuthType) => boolean;
   i18nHandler: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
@@ -168,7 +166,6 @@ export type {
   SmartSearchFormSchema,
   SmartTableAction,
   SmartTableAjaxQueryParams,
-  SmartTableAuth,
   SmartTableColumn,
   SmartTableFetchParams,
   SmartTableLayoutProps,

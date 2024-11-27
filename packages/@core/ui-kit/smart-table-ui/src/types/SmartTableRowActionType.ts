@@ -1,7 +1,5 @@
 import type { VbenButtonProps } from '@vben-core/shadcn-ui';
-import type { AnyNormalFunction } from '@vben-core/typings';
-
-import type { SmartTableAuth } from './SmartTableAuthType';
+import type { AnyNormalFunction, SmartAuthType } from '@vben-core/typings';
 
 interface PopConfirm {
   cancel?: AnyNormalFunction;
@@ -20,7 +18,7 @@ type SmartTableRowButtonCode = 'delete' | 'edit';
 
 interface SmartTableActionItem extends VbenButtonProps {
   // 权限编码控制是否显示
-  auth?: SmartTableAuth;
+  auth?: SmartAuthType;
   // 自定义类名
   class?: any[] | Record<string, boolean> | string;
   code?: SmartTableRowButtonCode;

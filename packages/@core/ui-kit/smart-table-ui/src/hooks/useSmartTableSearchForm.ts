@@ -41,7 +41,7 @@ const useSmartTableSearchForm = (
   const searchFormVisibleRef = ref(
     unref(tableProps)?.searchFormConfig?.defaultVisible !== false &&
       unref(tableProps).useSearchForm !== undefined &&
-      unref(tableProps).useSearchForm,
+      unref(tableProps).useSearchForm === true,
   );
 
   watch(

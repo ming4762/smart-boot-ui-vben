@@ -1,5 +1,6 @@
+import type { SmartAuthType } from '@vben-core/typings';
+
 import type { SetupSmartTable } from './types';
-import type { SmartTableAuth } from './types/SmartTableAuthType';
 import type { SmartTableMessageHandler } from './types/SmartTableMessageType';
 
 import type { Component } from 'vue';
@@ -43,7 +44,7 @@ const MESSAGE_HANDLER: SmartTableMessageHandler = {
 };
 
 const PERMISSION_HANDLE = {
-  hasPermission: (_?: SmartTableAuth) => false,
+  hasPermission: (_?: SmartAuthType) => false,
 };
 
 // 是否加载过

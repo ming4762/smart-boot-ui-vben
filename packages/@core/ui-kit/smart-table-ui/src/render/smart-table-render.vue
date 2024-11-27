@@ -1,4 +1,5 @@
 <script setup lang="tsx">
+import type { SmartAuthType } from '@vben-core/typings';
 import type {
   VxeGridInstance,
   VxeGridProps,
@@ -7,7 +8,6 @@ import type {
 
 import type {
   SmartTableAction,
-  SmartTableAuth,
   SmartTableColumn,
   SmartTableRenderListeners,
   SmartTableRenderProps,
@@ -214,7 +214,7 @@ const tableAction: SmartTableAction = {
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
 };
 
-const defaultAuthHandler = (code?: SmartTableAuth | string) => {
+const defaultAuthHandler = (code?: SmartAuthType) => {
   return !code;
 };
 

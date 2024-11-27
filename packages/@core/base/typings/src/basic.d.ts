@@ -84,11 +84,21 @@ interface BasicUserInfo {
 }
 
 type ClassType = Array<object | string> | object | string;
+
+interface SmartBasicAuthType {
+  displayMode?: SmartAuthDisplayMode;
+  multipleMode?: 'and' | 'or';
+  permission: string | string[];
+}
+
+type SmartAuthType = SmartBasicAuthType | string;
+
 export type {
   BasicOption,
   BasicUserInfo,
   ClassType,
   SelectOption,
+  SmartAuthType,
   TabOption,
   UserRole,
   UserTenant,

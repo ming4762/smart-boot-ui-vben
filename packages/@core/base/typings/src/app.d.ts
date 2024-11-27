@@ -61,6 +61,13 @@ type BreadcrumbStyleType = 'background' | 'normal';
 type AccessModeType = 'backend' | 'frontend';
 
 /**
+ * 无权限模式
+ * hide 隐藏
+ * disabled 禁用
+ */
+type AccessNoAuthModeType = 'disabled' | 'hide';
+
+/**
  * 导航风格
  * plain 朴素
  * rounded 圆润
@@ -91,6 +98,7 @@ type AuthPageLayoutType = 'panel-center' | 'panel-left' | 'panel-right';
 
 export type {
   AccessModeType,
+  AccessNoAuthModeType,
   AuthPageLayoutType,
   BreadcrumbStyleType,
   BuiltinThemeType,
