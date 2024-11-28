@@ -18,6 +18,7 @@ export * from './render-content';
 export * from './scrollbar';
 export * from './segmented';
 export * from './select';
+export * from './smart-layout-separate';
 export * from './spine-text';
 export * from './spinner';
 export * from './tooltip';

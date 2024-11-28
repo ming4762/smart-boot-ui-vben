@@ -101,10 +101,6 @@
       "path": "packages/@core/ui-kit/shadcn-ui",
     },
     {
-      "name": "@vben-core/smart-form-ui",
-      "path": "packages/@core/ui-kit/smart-form-ui",
-    },
-    {
       "name": "@vben-core/smart-table-ui",
       "path": "packages/@core/ui-kit/smart-table-ui",
     },

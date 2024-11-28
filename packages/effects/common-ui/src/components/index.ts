@@ -9,6 +9,7 @@ export * from '@vben-core/popup-ui';
 // 给文档用
 export {
   Input as VbenInput,
+  SmartLayoutSeparate,
   VbenButton,
   VbenCountToAnimator,
   VbenInputPassword,
