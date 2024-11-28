@@ -55,6 +55,119 @@
       "button": {
         "setRoleUser": "Set user"
       }
+    },
+    "user": {
+      "title": {
+        "dataAll": "All permissions",
+        "dataDept": "Dept permission",
+        "dataDeptAll": "Dept and children permission",
+        "dataPersonal": "Personal data permission"
+      },
+      "form": {
+        "systemUser": "System user",
+        "businessUser": "Business user",
+        "dept": "Department",
+        "dataScope": "Data scope"
+      },
+      "table": {
+        "username": "Username",
+        "fullName": "Full name",
+        "email": "Email",
+        "mobile": "Mobile",
+        "userType": "User type",
+        "accountStatus": "Status",
+        "buildIn": "Build-in"
+      },
+      "button": {
+        "createAccount": "Create account",
+        "showAccount": "Account info",
+        "unlockUserAccount": "Unlock account",
+        "resetPassword": "Rest password",
+        "setRole": "Set role",
+        "copyPassword": "Copy password"
+      },
+      "account": {
+        "title": "Account info",
+        "accountSet": "Account setting",
+        "createTime": "Account create Time",
+        "accountStatus": "Status",
+        "passwordModifyTime": "Password modify time",
+        "lockTime": "Locked time",
+        "loginFailTime": "Login fail number",
+        "initialPasswordYn": "Initial Password",
+        "ipWhiteList": "IP white list",
+        "maxConnections": "Maximum access connections",
+        "maxDaysSinceLogin": "Maximum days since login",
+        "passwordLifeDays": "Password life days",
+        "maxConnectionsPolicy": "Maximum connections policy",
+        "loginFailTimeLimit": "Login fail limit",
+        "passwordErrorUnlockSecond": "Password error unlock",
+        "loginNotAllow": "Login not allowed",
+        "firstUserLogout": "Earliest login user logout",
+        "ipWhiteListPlaceholder": "IP white list, multiple IPS separated by commas"
+      },
+      "validate": {
+        "username": "Please enter username",
+        "fullName": "Please enter full name",
+        "email": "Please enter email",
+        "mobile": "Please enter mobile",
+        "selectUser": "Please select user",
+        "sysUserNoDelete": "System user cannot delete!",
+        "setUserUseYn": "Are you sure you want to {msg} user？",
+        "createAccountConfirm": "Are you sure you want to create account?",
+        "noSysUserUpdatePermission": "Operation failed, no permission to modify system user!",
+        "selectDept": "Please select dept",
+        "selectDataScope": "Please select data scope",
+        "selectUserType": "Please select user type",
+        "resetPassword": "Are you sure you want to reset your password?"
+      },
+      "message": {
+        "deleteUserNotCreateAccount": "Deleted user cannot create account",
+        "noUseUserNotCreateAccount": "Disabled user cannot create account",
+        "createAccountSuccess": "Account created successfully",
+        "deleteValidate": "Are you sure you want to {msg} this user?",
+        "noAccount": "The user has not created an account",
+        "resetSavePassword": "Please save password!",
+        "setRoleSuccess": "Set role success!"
+      }
+    },
+    "dept": {
+      "title": {
+        "deptId": "部门ID",
+        "parent": "Parent org",
+        "deptCode": "Org code",
+        "deptType": "Org type",
+        "deptName": "Org name",
+        "email": "Email",
+        "director": "Director",
+        "phone": "Phone",
+        "baseMessage": "Basic message"
+      },
+      "validate": {
+        "deptId": "请输入部门ID",
+        "parentId": "请输入上级ID",
+        "deptCode": "Please enter org code",
+        "deptType": "Please select org type",
+        "deptName": "Please enter org name",
+        "email": "Please enter email",
+        "director": "Please enter director",
+        "phone": "Please enter phone"
+      },
+      "rules": {
+        "deptCode_NOT_EMPTY": "Org code cannot be empty",
+        "deptType_NOT_EMPTY": "Please select org type",
+        "deptName_NOT_EMPTY": "Org name cannot be empty"
+      },
+      "search": {
+        "deptCode": "Please enter org code",
+        "deptName": "Please enter org name"
+      },
+      "button": {
+        "addChild": "Add child"
+      },
+      "message": {
+        "selectDeptError": "Please select parent org"
+      }
     }
   }
 }

@@ -15,7 +15,8 @@
   },
   "message": {
     "operationSucceeded": "操作成功",
-    "noPermission": "无权限"
+    "noPermission": "无权限",
+    "copySuccess": "复制成功"
   },
   "button": {
     "save": "保存"
