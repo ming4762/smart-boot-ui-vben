@@ -1,4 +1,5 @@
 import type { HttpResponse } from '@vben/request';
+import type { Recordable } from '@vben/types';
 
 import type { VNode } from 'vue';
 import { h } from 'vue';
@@ -7,10 +8,17 @@ import { Check, createIconifyIcon, Info } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { isString } from '@vben/utils';
 
-import { message as Message, Modal, type ModalFuncProps } from 'ant-design-vue';
+import {
+  type ButtonProps,
+  message as Message,
+  Modal,
+  type ModalFuncProps,
+} from 'ant-design-vue';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
   iconType: 'error' | 'info' | 'success' | 'warning';
+  buttons?: Array<({ name: string } & ButtonProps) | string>;
+  footerProps?: Recordable<any>;
 }
 type ModalOptionsPartial = Partial<ModalOptionsEx> &
   Pick<ModalOptionsEx, 'content'>;
@@ -41,13 +49,13 @@ const CloseOutline = createIconifyIcon('carbon:close-outline');
 function getIcon(iconType: string): () => VNode {
   switch (iconType) {
     case 'info': {
-      return () => <Info class="modal-icon-info" />;
+      return () => <Info class="modal-icon-info anticon" />;
     }
     case 'success': {
-      return () => <Check class="modal-icon-success" />;
+      return () => <Check class="modal-icon-success anticon" />;
     }
     case 'warning': {
-      return () => <Info class="modal-icon-warning" />;
+      return () => <Info class="modal-icon-warning anticon" />;
     }
     default: {
       return () => h(CloseOutline);
@@ -83,6 +91,28 @@ const createErrorModal = (options: ModalOptionsPartial) => {
   return Modal.error(createModalOptions(options, 'error'));
 };
 
+/**
+ * 确认弹窗
+ * @param options
+ */
+const createConfirm = (options: ModalOptionsEx) => {
+  const iconType = options.iconType || 'warning';
+  Reflect.deleteProperty(options, 'iconType');
+  const modalOptions = createModalOptions(
+    {
+      ...options,
+      footerProps: {
+        ...options.footerProps,
+        class: ['ant-modal-confirm-btns'],
+      },
+    },
+    iconType,
+  );
+  return Modal.confirm({
+    ...modalOptions,
+  });
+};
+
 const createError500Modal = (e: HttpResponse) => {
   console.error(e);
 };
@@ -103,4 +133,17 @@ const errorMessage = (e: Error | HttpResponse | string) => {
   }
 };
 
-export { createErrorModal, errorMessage, successMessage };
+const warnMessage = (options: MessageOptions | string) => {
+  if (isString(options)) {
+    return Message.warning(options);
+  }
+  return Message.warning(options.message);
+};
+
+export {
+  createConfirm,
+  createErrorModal,
+  errorMessage,
+  successMessage,
+  warnMessage,
+};
