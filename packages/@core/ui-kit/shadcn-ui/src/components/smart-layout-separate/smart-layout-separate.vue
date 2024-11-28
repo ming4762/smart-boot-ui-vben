@@ -1,4 +1,7 @@
 <script setup lang="ts">
+/**
+ * todo:切换上下左右布局 宽度高度不联动
+ */
 import type { StyleValue } from 'vue';
 import { computed, unref, useCssModule, useTemplateRef } from 'vue';
 
@@ -26,11 +29,18 @@ const props = withDefaults(defineProps<Props>(), {
   showLine: true,
 });
 
-const cssModule = useCssModule(props.layout);
-
 const dividerRef = useTemplateRef<HTMLElement | null>('dividerRef');
+
+const leftRightCssModule = useCssModule('leftRight');
+const topBottomCssModule = useCssModule('topBottom');
+
 // 是否是左右布局
 const isLeftRight = computed(() => props.layout === 'leftRight');
+
+const cssModule = computed(() => {
+  return unref(isLeftRight) ? leftRightCssModule : topBottomCssModule;
+});
+
 // 是否是设置了第一尺寸
 const computedIsFirstSize = computed(() => props.firstSize !== undefined);
 
@@ -99,13 +109,16 @@ const layoutStyle = computed(() => {
  */
 const computedLineClass = computed(() => {
   // 分割线样式
-  const dividerClassList: Array<string> = [cssModule['drag-line'], 'drag-line'];
+  const dividerClassList: Array<string> = [
+    unref(cssModule)['drag-line'],
+    'drag-line',
+  ];
   // 添加高亮设置
   if (unref(isMouseDown) === true) {
     dividerClassList.push('high-light');
   }
   if (props.draggable) {
-    dividerClassList.push(cssModule.draggable);
+    dividerClassList.push(unref(cssModule).draggable);
   }
   return dividerClassList;
 });
@@ -113,7 +126,7 @@ const computedLineClass = computed(() => {
 const computedFirstContainerClass = computed(() => {
   const classList = ['h-full'];
   if (props.showLine) {
-    classList.push(cssModule['first-outer']);
+    classList.push(unref(cssModule)['first-outer']);
   }
   return classList;
 });
@@ -121,7 +134,7 @@ const computedFirstContainerClass = computed(() => {
 const computedSecondContainerClass = computed(() => {
   const classList: string[] = [];
   if (props.showLine) {
-    classList.push(cssModule['second-outer']);
+    classList.push(unref(cssModule)['second-outer']);
   }
   return classList;
 });
