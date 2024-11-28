@@ -1,4 +1,4 @@
-import type { BasicUserInfo, UserRole } from '@vben-core/typings';
+import type { BasicUserInfo, UserRole, UserTenant } from '@vben-core/typings';
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
@@ -27,6 +27,24 @@ export const useUserStore = defineStore('core-user', {
     },
     setUserRoles(roles: UserRole[]) {
       this.userRoles = roles;
+    },
+  },
+  getters: {
+    /**
+     * 是否是平台租户
+     */
+    getIsPlatformTenant(): boolean {
+      return this.getUserTenant?.platformYn || false;
+    },
+    /**
+     * 是否是超级管理员用户
+     * @param state
+     */
+    getIsSuperAdmin(state): boolean {
+      return state.userRoles.some((role) => role.superAdminYn);
+    },
+    getUserTenant(): undefined | UserTenant {
+      return this.userInfo?.userTenant;
     },
   },
   state: (): AccessState => ({
