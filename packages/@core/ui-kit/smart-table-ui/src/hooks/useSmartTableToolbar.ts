@@ -12,10 +12,10 @@ import type {
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
-import { computed, type ComputedRef, h, unref } from 'vue';
+import { computed, type ComputedRef, h, ref, unref } from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
-import { isBoolean, merge } from '@vben-core/shared/utils';
+import { isBoolean, isPromise, merge } from '@vben-core/shared/utils';
 
 import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
 import SmartTableSizeSetting from '../components/SmartTableSizeSetting.vue';
@@ -201,6 +201,46 @@ export const useSmartTableToolbar = (
           },
           item,
         ) as SmartTableButton;
+      }
+      // props添加响应性
+      const loading = ref(false);
+      const props = computed<any>(() => {
+        const buttonProps = unref(item.props) as any;
+        const result: any = {
+          ...buttonProps,
+        };
+        // 点击事件加载状态添加操作
+        if (item.clickLoading && buttonProps?.loading === undefined) {
+          result.loading = unref(loading);
+          const defaultClickHandler = buttonProps?.onClick;
+          if (defaultClickHandler) {
+            const handler = Array.isArray(defaultClickHandler)
+              ? defaultClickHandler[0]
+              : defaultClickHandler;
+            result.onClick = async () => {
+              try {
+                loading.value = true;
+                const handlerResult = handler();
+                if (isPromise(handlerResult)) {
+                  await handlerResult;
+                }
+              } finally {
+                loading.value = false;
+              }
+            };
+          }
+        }
+        return result;
+      });
+      if (item.customRender) {
+        return {
+          buttonRender: {
+            name: VxeTableToolButtonCustomRenderer,
+          },
+          size: tableSize ? tableButtonSizeMap[tableSize] : undefined,
+          ...item,
+          props,
+        };
       }
       return {};
     });

@@ -1,7 +1,6 @@
 import type { VbenButtonProps } from '@vben-core/shadcn-ui';
+import type { SmartAuthType } from '@vben-core/typings';
 import type { VxeToolbarPropTypes } from 'vxe-table';
-
-import type { SmartAuthType } from './SmartTableAuthType';
 
 import type { Component, ComputedRef, Ref, VNode } from 'vue';
 
