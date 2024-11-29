@@ -139,7 +139,7 @@ const computedSchema = computed(
 
 <template>
   <component :is="formComponent" v-bind="formComponentProps">
-    <div ref="wrapperRef" :class="wrapperClass" class="grid">
+    <div ref="wrapperRef" :class="wrapperClass">
       <template v-for="cSchema in computedSchema" :key="cSchema.fieldName">
         <!-- <div v-if="$slots[cSchema.fieldName]" :class="cSchema.formItemClass">
           <slot :definition="cSchema" :name="cSchema.fieldName"> </slot>
@@ -150,7 +150,8 @@ const computedSchema = computed(
           :rules="cSchema.rules"
         >
           <template #default="slotProps">
-            <slot v-bind="slotProps" :name="cSchema.fieldName"> </slot>
+            <slot v-bind="slotProps" :name="cSchema.slot || cSchema.fieldName">
+            </slot>
           </template>
         </FormField>
       </template>

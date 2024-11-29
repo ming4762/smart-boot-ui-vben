@@ -36,6 +36,8 @@ import {
   Upload,
 } from 'ant-design-vue';
 
+import { IconPicker } from '#/components';
+
 import { doSetupVbenForm } from '../form';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -56,6 +58,7 @@ export type ComponentType =
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
+  | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
@@ -108,6 +111,7 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    IconPicker,
   };
 
   // 将组件注册到全局共享状态中

@@ -237,8 +237,8 @@ function fieldBindEvent(slotProps: Record<string, any>) {
 
 function createComponentProps(slotProps: Record<string, any>) {
   const bindEvents = fieldBindEvent(slotProps);
-
   const binds = {
+    model: values.value,
     ...slotProps.componentField,
     ...computedProps.value,
     ...bindEvents,
