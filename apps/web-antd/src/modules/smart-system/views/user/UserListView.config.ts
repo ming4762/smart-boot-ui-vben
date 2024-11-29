@@ -304,6 +304,8 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.maxConnections'),
       fieldName: 'maxConnections',
       component: 'InputNumber',
+      labelWidth: 204,
+      formItemClass: 'mr-[10px]',
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         style: {
@@ -315,6 +317,7 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.maxDaysSinceLogin'),
       fieldName: 'maxDaysSinceLogin',
       component: 'InputNumber',
+      labelWidth: 246,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         style: {
@@ -326,6 +329,8 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.passwordLifeDays'),
       fieldName: 'passwordLifeDays',
       component: 'InputNumber',
+      formItemClass: 'mr-[10px]',
+      labelWidth: 204,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         style: {
@@ -337,6 +342,7 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.maxConnectionsPolicy'),
       fieldName: 'maxConnectionsPolicy',
       component: 'Select',
+      labelWidth: 246,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         options: [
@@ -358,6 +364,8 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.loginFailTimeLimit'),
       fieldName: 'loginFailTimeLimit',
       component: 'InputNumber',
+      formItemClass: 'mr-[10px]',
+      labelWidth: 204,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         style: {
@@ -369,6 +377,7 @@ export const getAccountFormSchemas = (
       label: t('system.views.user.account.passwordErrorUnlockSecond'),
       fieldName: 'passwordErrorUnlockSecond',
       component: 'InputNumber',
+      labelWidth: 400,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         style: {
@@ -379,7 +388,9 @@ export const getAccountFormSchemas = (
     {
       label: t('system.views.user.account.ipWhiteList'),
       fieldName: 'ipWhiteList',
-      component: 'InputTextArea',
+      component: 'Textarea',
+      formItemClass: 'mr-[10px]',
+      labelWidth: 204,
       componentProps: {
         disabled: !unref(computedHasEditPermission),
         rows: 4,

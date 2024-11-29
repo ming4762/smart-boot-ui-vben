@@ -7,7 +7,7 @@ import { useAccess } from '@vben/access';
 import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Descriptions, DescriptionsItem, Divider } from 'ant-design-vue';
+import { Descriptions, DescriptionsItem, Divider, Tag } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { errorMessage, successMessage } from '#/utils';
@@ -29,30 +29,40 @@ const computedHasEditPermission = computed(() =>
 
 const [VbenForm, formApi] = useVbenForm({
   schema: getAccountFormSchemas(computedHasEditPermission),
+  wrapperClass: 'grid grid-cols-2',
+  showDefaultActions: false,
+  commonConfig: {
+    formItemClass: 'pb-2',
+  },
 });
 
 const handleSave = async (modalApi: ExtendedModalApi) => {
-  const data = await formApi.validate();
+  await formApi.validate();
+  const data = await formApi.getValues();
   try {
     modalApi.setState({ confirmLoading: true });
     await saveAccountSettingApi(data);
-    successMessage($t('common.message.OperationSucceeded'));
+    successMessage($t('common.message.operationSucceeded'));
     modalApi.close();
   } finally {
-    modalApi.setState({ confirmLoading: true });
+    modalApi.setState({ confirmLoading: false });
   }
 };
 
 const [Modal, modalApi] = useVbenModal({
   title: $t('system.views.user.account.title'),
+  class: 'w-[1200px]',
   onConfirm: () => handleSave(modalApi),
-  onOpened: async () => {
+  onClosed: () => {
     userData.value = {};
     accountData.value = {};
+  },
+  onOpened: async () => {
     const user = modalApi.getData();
     modalApi.setState({ loading: true });
     try {
       const result = await getByIdApi(user.userId);
+      userData.value = result;
       if (result.userAccount) {
         accountData.value = result.userAccount;
         formApi.setValues({
@@ -71,11 +81,21 @@ const [Modal, modalApi] = useVbenModal({
 <template>
   <Modal clas="w-[1200px]">
     <Descriptions :title="$t('system.views.user.account.title')" bordered>
-      <DescriptionsItem :label="$t('system.views.user.table.username')">
-        {{ userData.username }}
+      <DescriptionsItem
+        :label="$t('system.views.user.table.username')"
+        class="w-[135px]"
+      >
+        <div class="w-[140px]">
+          {{ userData.username }}
+        </div>
       </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.user.table.fullName')">
-        {{ userData.fullName }}
+      <DescriptionsItem
+        :label="$t('system.views.user.table.fullName')"
+        class="w-[135px]"
+      >
+        <div class="w-[140px]">
+          {{ userData.fullName }}
+        </div>
       </DescriptionsItem>
       <DescriptionsItem :label="$t('system.views.user.table.userType')">
         {{ userData.userType }}
@@ -97,10 +117,10 @@ const [Modal, modalApi] = useVbenModal({
       <DescriptionsItem
         :label="$t('system.views.user.account.initialPasswordYn')"
       >
-        <ATag v-if="accountData.initialPasswordYn" color="#f50">
-          {{ $t('common.form.yes') }}
-        </ATag>
-        <ATag v-else color="#108ee9">{{ $t('common.form.no') }}</ATag>
+        <Tag v-if="accountData.initialPasswordYn" color="#f50">
+          {{ $t('common.title.yes') }}
+        </Tag>
+        <Tag v-else color="#108ee9">{{ $t('common.title.no') }}</Tag>
       </DescriptionsItem>
 
       <DescriptionsItem :label="$t('system.views.user.account.loginFailTime')">
