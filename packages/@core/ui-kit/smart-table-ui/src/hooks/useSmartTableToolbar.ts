@@ -147,8 +147,7 @@ export const useSmartTableToolbar = (
       const { code } = item;
       if (code === 'ModalAdd') {
         return merge(
-          { size: buttonSize },
-          getDefaultAddButtonConfig(t),
+          item,
           {
             props: {
               onClick: () => {
@@ -156,13 +155,13 @@ export const useSmartTableToolbar = (
               },
             },
           },
-          item,
+          getDefaultAddButtonConfig(t),
+          { size: buttonSize },
         ) as SmartTableButton;
       }
       if (code === 'ModalEdit') {
         return merge(
-          { size: buttonSize },
-          getDefaultEditButtonConfig(t),
+          item,
           {
             props: {
               onClick: () => {
@@ -170,13 +169,13 @@ export const useSmartTableToolbar = (
               },
             },
           },
-          item,
+          getDefaultEditButtonConfig(t),
+          { size: buttonSize },
         ) as SmartTableButton;
       }
       if (code === 'delete') {
         return merge(
-          { size: buttonSize },
-          getDefaultDeleteButtonConfig(t),
+          item,
           {
             props: {
               onClick: () => {
@@ -184,14 +183,14 @@ export const useSmartTableToolbar = (
               },
             },
           },
-          item,
+          getDefaultDeleteButtonConfig(t),
+          { size: buttonSize },
         ) as SmartTableButton;
       }
       if (code === 'useYnTrue' || code === 'useYnFalse') {
         const useYn = item.code === 'useYnTrue';
         return merge(
-          { size: buttonSize },
-          getDefaultUseYnButtonConfig(t, useYn),
+          item,
           {
             props: {
               onClick: () => {
@@ -199,7 +198,8 @@ export const useSmartTableToolbar = (
               },
             },
           },
-          item,
+          getDefaultUseYnButtonConfig(t, useYn),
+          { size: buttonSize },
         ) as SmartTableButton;
       }
       // props添加响应性
