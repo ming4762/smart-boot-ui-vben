@@ -47,6 +47,9 @@ export const useUserStore = defineStore('core-user', {
       return this.userInfo?.userTenant;
     },
   },
+  persist: {
+    pick: ['userInfo', 'userRoles'],
+  },
   state: (): AccessState => ({
     userInfo: null,
     userRoles: [],
