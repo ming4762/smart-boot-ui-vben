@@ -181,6 +181,90 @@
       "message": {
         "selectDeptError": "请选择上级组织"
       }
+    },
+    "tenant": {
+      "manager": {
+        "title": {
+          "tenantCode": "租户编号",
+          "tenantName": "租户名字",
+          "tenantShortName": "简称",
+          "type": "类型",
+          "contacts": "联系人",
+          "contactPhone": "联系人电话",
+          "email": "邮箱",
+          "isolationStrategy": "隔离策略",
+          "industry": "行业",
+          "domain": "域名",
+          "availableUserNum": "可用人数",
+          "region": "地区",
+          "address": "地址",
+          "logoId": "LOGO",
+          "effectTime": "生效时间",
+          "expireTime": "过期时间",
+          "setPackage": "设置套餐",
+          "tabUser": "绑定用户",
+          "tabSubscribe": "订阅套餐",
+          "platformYn": "平台管理",
+          "user": {
+            "username": "用户名",
+            "fullName": "姓名",
+            "email": "Email",
+            "mobile": "电话",
+            "bindTime": "绑定时间",
+            "bindBy": "绑定人",
+            "hasAccount": "是否创建账户"
+          },
+          "subscribe": {
+            "tenantId": "租户",
+            "packageId": "套餐包",
+            "effectTime": "生效日期",
+            "expireTime": "失效日期",
+            "userNumber": "用户数"
+          }
+        },
+        "validate": {
+          "tenantCode": "请输入租户编号",
+          "tenantName": "请输入租户名字",
+          "tenantShortName": "请输入简称",
+          "type": "请输入类型",
+          "contacts": "请输入联系人",
+          "contactPhone": "请输入联系人电话",
+          "email": "请输入邮箱",
+          "isolationStrategy": "请输入隔离策略",
+          "industry": "请输入行业",
+          "domain": "请输入域名",
+          "availableUserNum": "请输入可用人数",
+          "region": "请输入地区",
+          "address": "请输入地址",
+          "logoId": "请输入LOGO",
+          "effectTime": "请输入生效时间",
+          "expireTime": "请输入过期时间"
+        },
+        "rules": {},
+        "search": {
+          "tenantCode": "请输入租户编号",
+          "tenantName": "请输入租户名字",
+          "tenantShortName": "请输入简称",
+          "type": "请输入类型",
+          "isolationStrategy": "请输入隔离策略",
+          "effectTime": "请输入生效时间",
+          "expireTime": "请输入过期时间"
+        },
+        "message": {
+          "selectOneRow": "请选择一条数据",
+          "bindUserSuccess": "绑定用户成功",
+          "selectUser": "请先选择用户",
+          "hasCreateAccount": "选择用户存在已创建账户，是否跳过？",
+          "createAccountConfirm": "确定要创建账户吗？",
+          "noCreateAccountUser": "所选用户已全部创建账户",
+          "createAccountSuccess": "创建账户成功"
+        },
+        "button": {
+          "user": {
+            "createAccount": "创建账户"
+          }
+        }
+      }
     }
   }
 }
