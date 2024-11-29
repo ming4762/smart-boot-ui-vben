@@ -149,7 +149,7 @@ const getDropdownList = computed((): any[] => {
 });
 
 const getAlign = computed(() => {
-  const columns = (table as SmartTableAction)?.getColumns?.() || [];
+  const columns = (table as SmartTableAction)?.getGrid()?.getColumns?.() || [];
   const actionColumn = columns.find(
     (item: any) => item.flag === ACTION_COLUMN_FLAG,
   );
@@ -174,6 +174,8 @@ function onCellClick(e: MouseEvent) {
   isInButton && e.stopPropagation();
 }
 
+const moreI18n = getI18n('smartTable.button.more');
+
 /**
  * 渲染drop down
  * @constructor
@@ -184,6 +186,7 @@ const RenderDropdown = () => {
   }
   const slotMore = slots.more;
   const children: { [index: string]: () => VNode } = {};
+  // TODO: 插槽不支持?
   if (slotMore) {
     children.more = () => slotMore();
   } else {
@@ -197,7 +200,7 @@ const RenderDropdown = () => {
         },
         {
           default: () => [
-            '更多',
+            moreI18n,
             h(createIconifyIcon('mdi-light:chevron-down')),
           ],
         },
@@ -230,12 +233,16 @@ const RenderPopConfirmVxeButton = (action: any) => {
     disabled: !action.hasAuth,
     t: getI18n,
   };
+  delete props.icon;
   return h(PopConfirmVxeButton, props, {
     default: () => {
       if (action.icon) {
-        return h(
-          createIconifyIcon(action.icon, { class: { 'mr-1': !!action.label } }),
-        );
+        return [
+          h(createIconifyIcon(action.icon), {
+            class: { anticon: true, 'mr-1': !!action.label },
+          }),
+          action.label,
+        ];
       } else if (action.label) {
         return action.label;
       }
@@ -275,7 +282,7 @@ const RenderFunction = () => {
       {unref(getActions).map((action, index) => {
         const result = [];
         if (action.slot) {
-          result.push(this.$slots.customButton && this.$slots.customButton());
+          result.push(slots.customButton && slots.customButton());
         } else {
           result.push(RenderTooltip(action));
         }
