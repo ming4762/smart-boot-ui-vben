@@ -150,6 +150,7 @@ const {
   getSmartTableContext,
   emitHandler,
   t,
+  slots,
 );
 
 const { computedToolbarConfig } = useSmartTableToolbar(

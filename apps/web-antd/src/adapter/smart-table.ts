@@ -62,3 +62,16 @@ setupSmartTable({
 });
 
 export { useSmartTable };
+
+export type {
+  SmartSearchFormSchema,
+  SmartTableActionItem,
+  SmartTableColumn,
+  SmartTableProps,
+} from '@vben/common-ui';
+
+export {
+  getTableBooleanColumnClass,
+  getTableUseYnColumnClass,
+  SmartVxeTableAction,
+} from '@vben/common-ui';

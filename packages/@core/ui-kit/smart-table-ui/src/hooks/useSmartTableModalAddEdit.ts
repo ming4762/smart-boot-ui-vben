@@ -7,10 +7,18 @@ import type {
 } from '../types/SmartTableAddEditType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import { computed, type ComputedRef, h, nextTick, unref } from 'vue';
+import {
+  computed,
+  type ComputedRef,
+  h,
+  nextTick,
+  type Slot,
+  type Slots,
+  unref,
+} from 'vue';
 
 import { useVbenModal } from '@vben-core/popup-ui';
-import { isPromise } from '@vben-core/shared/utils';
+import { isPromise, isString } from '@vben-core/shared/utils';
 
 import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
 import { warningMessage } from '../utils';
@@ -33,6 +41,7 @@ export const useSmartTableModalAddEditEdit = (
   getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
+  slots: Slots,
 ) => {
   let formApi: ExtendedFormApi | null = null;
 
@@ -112,6 +121,63 @@ export const useSmartTableModalAddEditEdit = (
   };
 
   /**
+   * 添加修改插槽
+   */
+  const computedAddEditModalFormSlots = computed(() => {
+    const { formConfig, modalConfig } = unref(tableProps)?.addEditConfig || {};
+    // 处理form slots
+    const configFormSlots = formConfig?.slots;
+    const formSlots: Record<string, Slot | undefined> = {};
+    if (configFormSlots) {
+      if (Array.isArray(configFormSlots)) {
+        configFormSlots.forEach((item) => {
+          formSlots[item] = slots[item];
+        });
+      } else {
+        for (const key of Object.keys(configFormSlots)) {
+          const value = configFormSlots[key];
+          if (!value) {
+            continue;
+          }
+          formSlots[key] = isString(value) ? slots[key] : (value as never);
+        }
+      }
+    }
+    // 处理 column slots
+    const columnSlots: Record<string, Slot | undefined> = {};
+    const schemaList = formConfig?.schema || [];
+    schemaList
+      .map((item) => item.slot)
+      .filter((item) => item !== undefined)
+      .forEach((item) => {
+        columnSlots[item] = slots[item];
+      });
+    const result = {
+      ...formSlots,
+      ...columnSlots,
+    };
+    if (
+      Object.keys(formSlots).length + Object.keys(columnSlots).length >
+      Object.keys(result).length
+    ) {
+      throw new Error('添加修改表单插槽命名重复');
+    }
+    // 处理modal slots
+    const modalSlots: Record<string, Slot | undefined> = {};
+    const configModalSlots = modalConfig?.slots;
+    if (configModalSlots) {
+      for (const key of Object.keys(configModalSlots)) {
+        const value = configModalSlots[key as never];
+        modalSlots[`modelSlot_${key}`] = isString(value) ? slots[key] : value;
+      }
+    }
+    return {
+      ...result,
+      ...modalSlots,
+    };
+  });
+
+  /**
    * 创建modal
    */
   const [Modal, modalApi] = useVbenModal({
@@ -120,15 +186,19 @@ export const useSmartTableModalAddEditEdit = (
   });
 
   const AddEditModal = () =>
-    h(Modal, {
-      ...unref(computeAddEditModalProps),
-      onAfterSaveUpdate: (isAdd: boolean) => {
-        emit('afterSaveUpdate', isAdd);
+    h(
+      Modal,
+      {
+        ...unref(computeAddEditModalProps),
+        onAfterSaveUpdate: (isAdd: boolean) => {
+          emit('afterSaveUpdate', isAdd);
+        },
+        onRegister: ({ formApi: modalFormApi }: any) => {
+          formApi = modalFormApi;
+        },
       },
-      onRegister: ({ formApi: modalFormApi }: any) => {
-        formApi = modalFormApi;
-      },
-    });
+      unref(computedAddEditModalFormSlots),
+    );
 
   const doOpenModal = async (
     isAdd: boolean,

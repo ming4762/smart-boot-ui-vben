@@ -81,3 +81,7 @@
     transform: translateY(0);
   }
 }
+
+.page-container {
+  padding: 5px;
+}

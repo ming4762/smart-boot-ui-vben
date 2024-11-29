@@ -11,10 +11,12 @@ interface SmartTableModalSlotProps {
  * 添加修改弹窗
  */
 interface SmartTableModalSlots {
-  appendFooter?: ((data: SmartTableModalSlotProps) => VNode | VNode[]) | string;
-  centerFooter?: ((data: SmartTableModalSlotProps) => VNode | VNode[]) | string;
-  footer?: ((data: SmartTableModalSlotProps) => VNode | VNode[]) | string;
-  insertFooter?: ((data: SmartTableModalSlotProps) => VNode | VNode[]) | string;
+  'append-footer'?:
+    | ((data: SmartTableModalSlotProps) => VNode | VNode[])
+    | string;
+  'prepend-footer'?:
+    | ((data: SmartTableModalSlotProps) => VNode | VNode[])
+    | string;
 }
 
 /**
@@ -24,11 +26,16 @@ interface SmartTableAddEditModalConfig extends ModalProps {
   slots?: SmartTableModalSlots;
 }
 
+type SmartTableFormSlots =
+  | Record<string, (data: any) => VNode | VNode[]>
+  | string[];
+
 /**
  * 添加修改表单配置
  */
 interface SmartTableAddEditFormConfig extends VbenFormProps {
   size?: string;
+  slots?: SmartTableFormSlots;
 }
 
 /**

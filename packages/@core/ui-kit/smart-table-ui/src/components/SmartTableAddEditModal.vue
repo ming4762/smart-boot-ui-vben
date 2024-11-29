@@ -4,7 +4,7 @@ import type {
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
 
-import { computed, ref, unref } from 'vue';
+import { computed, ref, unref, useSlots } from 'vue';
 
 import { type ExtendedFormApi, useVbenForm } from '@vben-core/form-ui';
 import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
@@ -19,6 +19,7 @@ const emit = defineEmits<{
   afterSaveUpdate: [boolean];
   register: [{ formApi: ExtendedFormApi }];
 }>();
+const slots = useSlots();
 
 const isAddRef = ref(true);
 
@@ -135,6 +136,19 @@ const [Modal, modalApi] = useVbenModal({
   },
 });
 
+const formSlots: string[] = [];
+const modalSlots: string[] = [];
+Object.keys(slots).forEach((key) => {
+  const value = slots[key];
+  if (value) {
+    if (key.startsWith('modelSlot_')) {
+      modalSlots.push(key.replace('modelSlot_', ''));
+    } else {
+      formSlots.push(key);
+    }
+  }
+});
+
 emit('register', {
   formApi,
 });
@@ -142,7 +156,26 @@ emit('register', {
 
 <template>
   <Modal :title="computedTitle">
-    <From v-bind="props.formConfig" />
+    <From v-bind="props.formConfig">
+      <template
+        v-for="formSlotName in formSlots"
+        :key="formSlotName"
+        #[formSlotName]="formSlotProps"
+      >
+        <slot :name="formSlotName" v-bind="formSlotProps"></slot>
+      </template>
+    </From>
+    <template
+      v-for="modalSlotName in modalSlots"
+      :key="modalSlotName"
+      #[modalSlotName]="modalSlotProps"
+    >
+      <slot
+        :name="modalSlotName"
+        v-bind="modalSlotProps"
+        :is-add="isAddRef"
+      ></slot>
+    </template>
   </Modal>
 </template>
 
