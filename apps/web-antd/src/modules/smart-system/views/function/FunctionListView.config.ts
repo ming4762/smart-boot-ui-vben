@@ -185,7 +185,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           if (!(value.functionType === 'MENU')) {
             return null;
           }
-          return z.string({
+          return z.string().min(1, {
             message: t('system.views.function.validate.componentName'),
           });
         },
@@ -195,19 +195,18 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       fieldName: 'component',
       label: t('system.views.function.table.component'),
       component: 'Input',
-      dynamicRules: ({ model }) => {
-        return [
-          {
-            required: model.functionType === 'MENU',
-            trigger: 'blur',
-            message: t('system.views.function.validate.component'),
-          },
-        ];
-      },
       dependencies: {
         triggerFields: ['functionType'],
         show: (value) => {
           return value.functionType !== 'FUNCTION';
+        },
+        rules: (value) => {
+          if (!(value.functionType === 'MENU')) {
+            return null;
+          }
+          return z.string().min(1, {
+            message: t('system.views.function.validate.component'),
+          });
         },
       },
     },
@@ -215,14 +214,16 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       fieldName: 'url',
       label: 'URL',
       component: 'Input',
-      dynamicRules: ({ model }) => {
-        return [
-          {
-            required: model.functionType === 'MENU',
-            trigger: 'blur',
+      dependencies: {
+        triggerFields: ['functionType'],
+        rules: (value) => {
+          if (!(value.functionType === 'MENU')) {
+            return null;
+          }
+          return z.string().min(1, {
             message: t('system.views.function.validate.url'),
-          },
-        ];
+          });
+        },
       },
     },
     {
@@ -258,19 +259,18 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       fieldName: 'permission',
       label: t('system.views.function.table.permission'),
       component: 'Input',
-      dynamicRules: ({ model }) => {
-        return [
-          {
-            required: model.functionType === 'FUNCTION',
-            message: t('system.views.function.validate.permission'),
-            trigger: 'blur',
-          },
-        ];
-      },
       dependencies: {
         triggerFields: ['functionType'],
         show: (value) => {
           return value.functionType === 'FUNCTION';
+        },
+        rules: (value) => {
+          if (!(value.functionType === 'FUNCTION')) {
+            return null;
+          }
+          return z.string().min(1, {
+            message: t('system.views.function.validate.permission'),
+          });
         },
       },
     },
