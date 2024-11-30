@@ -69,6 +69,7 @@ export const useSmartTableModalAddEditEdit = (
       commonConfig: {
         ...formConfig.commonConfig,
         componentProps: {
+          allowClear: true,
           size: formSize,
           ...formConfig.commonConfig?.componentProps,
         },
