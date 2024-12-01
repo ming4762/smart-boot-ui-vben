@@ -15,4 +15,4 @@ function defineOverridesPreferences(preferences: DeepPartial<Preferences>) {
 export { defineOverridesPreferences };
 
 export * from '@vben-core/preferences';
-export * from '@vben-core/smart-app-provider';
+export * from '@vben-core/smart-provider';

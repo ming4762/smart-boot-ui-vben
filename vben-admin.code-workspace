@@ -77,8 +77,8 @@
       "path": "packages/@core/preferences",
     },
     {
-      "name": "@vben-core/smart-app-provider",
-      "path": "packages/@core/smart-app-provider",
+      "name": "@vben-core/smart-provider",
+      "path": "packages/@core/smart-provider",
     },
     {
       "name": "@vben-core/form-ui",

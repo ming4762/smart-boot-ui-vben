@@ -10,12 +10,19 @@ interface SmartModalProviderProps {
   maskClosable?: boolean;
 }
 
+interface SizeSetting {
+  button?: string;
+  form?: string;
+  table?: string;
+}
+
 /**
  * APP配置
  */
 interface SmartAppProviderProps {
   form?: SmartFormProviderProps;
   modal?: SmartModalProviderProps;
+  size?: SizeSetting;
 }
 
 export type { SmartAppProviderProps };

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { SmartAppProviderProps } from './types';
+import type { SmartAppProviderProps } from '../types';
 
 import { useSlots } from 'vue';
 
-import { useInjectSmartAppContext } from './useSmartAppProvider';
+import { useProviderSmartAppContext } from './useSmartAppProvider';
 
 interface Props extends SmartAppProviderProps {}
 
@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 
 const slots = useSlots();
 
-useInjectSmartAppContext(props);
+useProviderSmartAppContext(props);
 
 const RenderFunction = () => slots.default?.();
 </script>
