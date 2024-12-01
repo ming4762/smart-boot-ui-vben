@@ -73,7 +73,10 @@ const loadEditData = async (
 const [Modal, modalApi] = useVbenModal({
   onConfirm: async () => {
     try {
-      await formApi.validate();
+      const { valid } = await formApi.validate();
+      if (!valid) {
+        throw new Error('validate error');
+      }
       let data = await formApi.getValues();
       modalApi.setState({ confirmLoading: true });
       // 保存前对参数进行处理
