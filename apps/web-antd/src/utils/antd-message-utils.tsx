@@ -16,7 +16,7 @@ import {
 } from 'ant-design-vue';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
-  iconType: 'error' | 'info' | 'success' | 'warning';
+  iconType?: 'error' | 'info' | 'success' | 'warning';
   buttons?: Array<({ name: string } & ButtonProps) | string>;
   footerProps?: Recordable<any>;
 }
@@ -66,14 +66,17 @@ function getIcon(iconType: string): () => VNode {
 
 function createModalOptions(
   options: ModalOptionsPartial,
-  icon: string,
+  icon?: string,
 ): ModalOptionsPartial {
-  return {
+  const result: ModalOptionsPartial = {
     ...getBaseOptions(),
     ...options,
     content: renderContent(options),
-    icon: getIcon(icon),
   };
+  if (icon) {
+    result.icon = getIcon(icon);
+  }
+  return result;
 }
 
 const successMessage = (options: MessageOptions) => {
@@ -88,7 +91,12 @@ const successMessage = (options: MessageOptions) => {
  * @param options
  */
 const createErrorModal = (options: ModalOptionsPartial) => {
-  return Modal.error(createModalOptions(options, 'error'));
+  return Modal.error(
+    createModalOptions({
+      title: $t('common.message.errorTip'),
+      ...options,
+    }),
+  );
 };
 
 /**
