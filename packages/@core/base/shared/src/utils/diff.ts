@@ -93,4 +93,8 @@ function diff<T extends Record<string, any>>(obj1: T, obj2: T): DiffResult<T> {
   return findDifferences(obj1, obj2);
 }
 
-export { arraysEqual, diff };
+const deepEqual = (a: any, b: any) => {
+  return structuredClone(a) === structuredClone(b);
+};
+
+export { arraysEqual, deepEqual, diff };
