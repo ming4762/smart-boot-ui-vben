@@ -36,7 +36,7 @@ import {
   Upload,
 } from 'ant-design-vue';
 
-import { IconPicker } from '#/components';
+import { ApiDictSelect, ApiSelect, IconPicker } from '#/components';
 
 import { doSetupVbenForm } from '../form';
 
@@ -52,6 +52,8 @@ const withDefaultPlaceholder = <T extends Component>(
 
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
+  | 'ApiDictSelect'
+  | 'ApiSelect'
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
@@ -112,6 +114,8 @@ async function initComponentAdapter() {
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
     IconPicker,
+    ApiDictSelect,
+    ApiSelect,
   };
 
   // 将组件注册到全局共享状态中
