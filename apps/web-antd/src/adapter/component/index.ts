@@ -113,9 +113,9 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
-    IconPicker,
-    ApiDictSelect,
-    ApiSelect,
+    IconPicker: withDefaultPlaceholder(IconPicker, 'select'),
+    ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
+    ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
   };
 
   // 将组件注册到全局共享状态中

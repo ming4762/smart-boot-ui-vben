@@ -5,5 +5,8 @@
       "fullName": "姓名",
       "userType": "类型"
     }
+  },
+  "form": {
+    "apiSelectNotFound": "请等待数据加载完成..."
   }
 }

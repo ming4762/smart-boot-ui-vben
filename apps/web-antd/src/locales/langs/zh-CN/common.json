@@ -16,7 +16,11 @@
   "message": {
     "operationSucceeded": "操作成功",
     "noPermission": "无权限",
-    "copySuccess": "复制成功"
+    "copySuccess": "复制成功",
+    "deleteConfirm": "确定要删除吗？",
+    "deleteSuccess": "删除成功",
+    "errorTip": "错误提示",
+    "saveSuccess": "保存成功"
   },
   "button": {
     "save": "保存",

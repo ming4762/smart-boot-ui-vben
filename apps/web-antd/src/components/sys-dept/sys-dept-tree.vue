@@ -133,6 +133,10 @@ onMounted(() => {
   }
   loadData(parentId);
 });
+
+defineExpose({
+  reload: () => loadData(),
+});
 </script>
 
 <template>
