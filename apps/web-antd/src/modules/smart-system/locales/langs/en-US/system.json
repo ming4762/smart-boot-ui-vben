@@ -298,6 +298,27 @@
       "message": {
         "dictCodeNull": "Please select a dict first"
       }
+    },
+    "category": {
+      "title": {
+        "categoryCode": "Category code",
+        "categoryName": "Category name",
+        "createBy": "Create user",
+        "updateBy": "Update user",
+        "parentName": "Parent name"
+      },
+      "validate": {
+        "categoryCode": "Please enter category code",
+        "categoryName": "Please enter category name"
+      },
+      "rules": {},
+      "search": {
+        "categoryCode": "Please enter category code",
+        "categoryName": "Please enter category name"
+      },
+      "button": {
+        "addChild": "Add Child"
+      }
     }
   }
 }
