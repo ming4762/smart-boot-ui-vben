@@ -1,15 +1,19 @@
 <script setup lang="tsx">
 import type { SmartAuthType } from '@vben/types';
-import type { ButtonProps, TooltipProps } from 'ant-design-vue';
+import type { TooltipProps } from 'ant-design-vue';
+
+import type { SmartIconButtonProps } from '../type';
 
 import { computed, unref, useAttrs, useSlots } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { $t } from '@vben/locales';
 
-import { Button, Tooltip } from 'ant-design-vue';
+import { Tooltip } from 'ant-design-vue';
 
-interface Props extends ButtonProps {
+import SmartIconButton from './smart-icon-button.vue';
+
+interface Props extends SmartIconButtonProps {
   auth?: SmartAuthType;
   tooltipProps?: TooltipProps;
 }
@@ -32,7 +36,7 @@ const computedHasAuth = computed(() => {
 });
 
 const RenderButton = () => {
-  return <Button {...{ ...attrs, ...props }}>{slots}</Button>;
+  return <SmartIconButton {...{ ...attrs, ...props }}>{slots}</SmartIconButton>;
 };
 
 const RenderFunction = () => {
