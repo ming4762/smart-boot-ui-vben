@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { SmartAppProviderProps } from '@vben/preferences';
+
 import { computed } from 'vue';
 
 import { useAntdDesignTokens } from '@vben/hooks';
@@ -32,12 +34,20 @@ const tokenTheme = computed(() => {
     token: tokens,
   };
 });
+
+const smartAppConfig: SmartAppProviderProps = {
+  size: {
+    table: 'small',
+    button: 'small',
+    form: 'small',
+  },
+};
 </script>
 
 <template>
   <ConfigProvider :locale="antdLocale" :theme="tokenTheme">
     <App>
-      <SmartAppProvider>
+      <SmartAppProvider v-bind="smartAppConfig">
         <RouterView />
       </SmartAppProvider>
     </App>
