@@ -1,9 +1,12 @@
-import type { SmartSearchFormSchema, SmartTableColumn } from '@vben/common-ui';
-
 import type { VbenFormSchema } from '#/adapter/form';
+import type {
+  SmartSearchFormSchema,
+  SmartTableColumn,
+} from '#/adapter/smart-table';
 
-import { getTableUseYnColumnClass } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+
+import { getTableUseYnColumnClass } from '#/adapter/smart-table';
 
 export const Permission = {
   add: 'sys:userGroup:save',
