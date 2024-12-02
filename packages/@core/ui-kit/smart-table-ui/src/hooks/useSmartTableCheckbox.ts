@@ -1,4 +1,8 @@
-import type { VxeGridDefines, VxeGridInstance } from 'vxe-table';
+import type {
+  VxeGridDefines,
+  VxeGridInstance,
+  VxeTableDefines,
+} from 'vxe-table';
 
 import type { SmartTableRenderProps } from '../types';
 
@@ -25,7 +29,7 @@ export const useSmartTableCheckbox = (
    * 单元格被点击事件
    */
   const handleCellClick = async (
-    params: VxeGridDefines.CellClickEventParams,
+    params: VxeTableDefines.CellClickEventParams,
     rowShift: boolean | undefined,
     rowCtrl: boolean | undefined,
   ) => {
@@ -66,41 +70,41 @@ export const useSmartTableCheckbox = (
     }
   };
 
-  const computeCheckboxTableProps = computed<SmartTableRenderProps | undefined>(
-    () => {
-      const propCheckboxConfig = unref(tableProps).checkboxConfig;
-      if (!propCheckboxConfig) {
-        return undefined;
-      }
-      const checkboxConfig = isBoolean(propCheckboxConfig)
-        ? defaultCheckboxConfig
-        : propCheckboxConfig;
-      const { rowCtrl, rowShift, rowTrigger } = checkboxConfig;
-      if (!rowTrigger) {
-        return {
-          onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-            emit('cellClick', params),
-        };
-      }
-      if (rowTrigger === 'multiple') {
-        return {
-          checkboxConfig: {
-            ...checkboxConfig,
-            trigger: 'row',
-          },
-          onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-            emit('cellClick', params),
-        };
-      }
+  const computeCheckboxTableProps = computed(() => {
+    const propCheckboxConfig = unref(tableProps).checkboxConfig;
+    if (!propCheckboxConfig) {
+      return {
+        checkboxConfig: undefined,
+      };
+    }
+    const checkboxConfig = isBoolean(propCheckboxConfig)
+      ? defaultCheckboxConfig
+      : propCheckboxConfig;
+    const { rowCtrl, rowShift, rowTrigger } = checkboxConfig;
+    if (!rowTrigger) {
+      return {
+        onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
+          emit('cellClick', params),
+      };
+    }
+    if (rowTrigger === 'multiple') {
       return {
         checkboxConfig: {
           ...checkboxConfig,
+          trigger: 'row',
         },
         onCellClick: (params: VxeGridDefines.CellClickEventParams) =>
-          handleCellClick(params, rowShift, rowCtrl),
+          emit('cellClick', params),
       };
-    },
-  );
+    }
+    return {
+      checkboxConfig: {
+        ...checkboxConfig,
+      },
+      onCellClick: (params: VxeTableDefines.CellClickEventParams) =>
+        handleCellClick(params, rowShift, rowCtrl),
+    } as Partial<SmartTableRenderProps>;
+  });
 
   return {
     computeCheckboxTableProps,

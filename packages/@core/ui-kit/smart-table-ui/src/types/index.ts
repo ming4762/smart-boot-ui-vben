@@ -5,6 +5,7 @@ import type {
   VxeGridDefines,
   VxeGridProps,
   VxeGridPropTypes,
+  VxeTableEventProps,
   VxeTablePropTypes,
   VxeUIExport,
 } from 'vxe-table';
@@ -81,16 +82,7 @@ interface SmartTableToolbarConfig
  */
 type SmartTableSize = 'tiny' | VxeComponentSizeType;
 
-interface SmartTableRenderProps
-  extends Omit<
-    VxeGridProps,
-    | 'checkboxConfig'
-    | 'columns'
-    | 'pagerConfig'
-    | 'seqConfig'
-    | 'size'
-    | 'toolbarConfig'
-  > {
+interface SmartTableBasicProps {
   // 添加修改配置
   addEditConfig?: SmartTableAddEditConfig;
   authConfig?: SmartTableAuthConfig;
@@ -110,6 +102,20 @@ interface SmartTableRenderProps
   // 是否使用搜索表单
   useSearchForm?: boolean;
 }
+
+type SmartTableRenderProps = Omit<
+  VxeGridProps,
+  | 'checkboxConfig'
+  | 'columns'
+  | 'pagerConfig'
+  | 'proxyConfig'
+  | 'rowConfig'
+  | 'seqConfig'
+  | 'size'
+  | 'toolbarConfig'
+> &
+  SmartTableBasicProps &
+  VxeTableEventProps;
 
 /**
  * SmartTable事件
