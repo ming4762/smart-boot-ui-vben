@@ -9,7 +9,7 @@ import type {
 import { computed, toRaw, unref, useSlots } from 'vue';
 
 import { useForwardPriorityValues } from '@vben-core/composables';
-import { cloneDeep, mergeWithArrayOverride } from '@vben-core/shared/utils';
+import { mergeWithArrayOverride } from '@vben-core/shared/utils';
 
 import SmartTableRender from './render/smart-table-render.vue';
 
@@ -27,7 +27,7 @@ const forward = useForwardPriorityValues(
   computed(() => unref(state)),
 );
 const computedProps = computed<SmartTableRenderProps>(() => {
-  return cloneDeep(mergeWithArrayOverride({}, toRaw(unref(forward))));
+  return mergeWithArrayOverride({}, toRaw(unref(forward)));
 });
 
 const handleRegister = (tableAction: SmartTableAction) => {
