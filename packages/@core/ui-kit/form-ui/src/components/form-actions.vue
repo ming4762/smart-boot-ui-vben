@@ -137,9 +137,7 @@ defineExpose({
 </script>
 <template>
   <div
-    :class="
-      cn('col-span-full w-full pb-6 text-right', rootProps.actionWrapperClass)
-    "
+    :class="cn('col-span-full pb-6 text-right', rootProps.actionWrapperClass)"
     :style="queryFormStyle"
   >
     <!-- 重置按钮前 -->
