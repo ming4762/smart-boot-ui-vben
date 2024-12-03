@@ -231,6 +231,19 @@
             "createAccount": "Create account"
           }
         }
+      },
+      "package": {
+        "title": {
+          "packageCode": "Package Code",
+          "packageName": "Package Name",
+          "effectTime": "Effect time",
+          "expireTime": "Expire time",
+          "setFunction": "Set Function"
+        },
+        "message": {
+          "chosePackage": "Please select the tenant package first",
+          "saveFunctionSuccess": "Menu setup successful"
+        }
       }
     },
     "function": {
