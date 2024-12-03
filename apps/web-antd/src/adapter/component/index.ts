@@ -8,12 +8,13 @@ import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
-import { globalShareState } from '@vben/common-ui';
+import { globalShareState, SmartPulldownTable } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
   AutoComplete,
   Button,
+  Cascader,
   Checkbox,
   CheckboxGroup,
   DatePicker,
@@ -71,6 +72,7 @@ export type ComponentType =
   | 'RangePicker'
   | 'Rate'
   | 'Select'
+  | 'SmartPulldownTable'
   | 'Space'
   | 'Switch'
   | 'Textarea'
@@ -116,6 +118,8 @@ async function initComponentAdapter() {
     IconPicker: withDefaultPlaceholder(IconPicker, 'select'),
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
     ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
+    Cascader,
+    SmartPulldownTable,
   };
 
   // 将组件注册到全局共享状态中

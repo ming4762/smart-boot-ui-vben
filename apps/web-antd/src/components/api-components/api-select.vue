@@ -4,13 +4,12 @@ import type { SelectValue } from 'ant-design-vue/es/select';
 
 import { computed, ref, unref, watch } from 'vue';
 
+import { useRuleFormItem } from '@vben/hooks';
 import { createIconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 import { deepEqual, isFunction, omit } from '@vben/utils';
 
 import { Select } from 'ant-design-vue';
-
-import { useRuleFormItem } from './hooks/useFormItem';
 
 type OptionsItem = {
   [name: string]: any;

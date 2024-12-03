@@ -14,6 +14,7 @@ import {
   Menu,
   Modal,
   Popconfirm,
+  Select,
   Switch,
   Tag,
   Tooltip,
@@ -44,6 +45,7 @@ setupSmartTable({
     Divider,
     Menu,
     Dropdown,
+    Select,
   },
   i18nHandler: (key: string, args?: any) => $t(key, args),
   messageHandler: {
