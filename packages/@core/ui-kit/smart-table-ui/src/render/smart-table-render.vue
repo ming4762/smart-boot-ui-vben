@@ -124,6 +124,7 @@ const {
   getSmartTableContext,
   emitHandler,
   t,
+  slots,
 );
 
 /**

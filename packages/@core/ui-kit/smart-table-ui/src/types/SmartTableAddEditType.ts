@@ -1,5 +1,6 @@
-import type { VbenFormProps } from '@vben-core/form-ui';
 import type { ModalProps } from '@vben-core/popup-ui';
+
+import type { SmartTableBasicFormConfig } from './SmartTableCommon';
 
 import type { VNode } from 'vue';
 
@@ -26,16 +27,11 @@ interface SmartTableAddEditModalConfig extends ModalProps {
   slots?: SmartTableModalSlots;
 }
 
-type SmartTableFormSlots =
-  | Record<string, (data: any) => VNode | VNode[]>
-  | string[];
-
 /**
  * 添加修改表单配置
  */
-interface SmartTableAddEditFormConfig extends VbenFormProps {
+interface SmartTableAddEditFormConfig extends SmartTableBasicFormConfig {
   size?: string;
-  slots?: SmartTableFormSlots;
 }
 
 /**

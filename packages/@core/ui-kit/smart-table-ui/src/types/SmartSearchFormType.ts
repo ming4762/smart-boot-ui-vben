@@ -1,4 +1,6 @@
-import type { VbenFormProps, VbenFormSchema } from '@vben-core/form-ui';
+import type { VbenFormSchema } from '@vben-core/form-ui';
+
+import type { SmartTableBasicFormConfig } from './SmartTableCommon';
 
 /**
  * 支持的搜索符号
@@ -46,7 +48,7 @@ interface SmartSearchFormParameter {
 /**
  * 搜索表单配置
  */
-interface SmartSearchFormProps extends VbenFormProps {
+interface SmartSearchFormProps extends SmartTableBasicFormConfig {
   // 是否默认隐藏搜索
   defaultVisible?: boolean;
   // 搜索表单项配置

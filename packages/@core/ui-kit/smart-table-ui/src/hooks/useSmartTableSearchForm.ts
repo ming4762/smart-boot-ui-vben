@@ -9,7 +9,7 @@ import type {
 } from '../types/SmartSearchFormType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import type { ComputedRef } from 'vue';
+import type { ComputedRef, Slots } from 'vue';
 import { computed, h, ref, unref, watch } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
@@ -17,6 +17,7 @@ import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
 
 import { getFormSize } from '../utils';
+import { getFormSlots } from '../utils/slots';
 
 const AntSearchOutlined = createIconifyIcon('ant-design:search-outlined');
 
@@ -34,6 +35,7 @@ const useSmartTableSearchForm = (
   getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
+  slots: Slots,
 ) => {
   /**
    * 搜索form显示状态
@@ -135,6 +137,11 @@ const useSmartTableSearchForm = (
       },
     };
     return props;
+  });
+
+  const computedSearchFormSlots = computed(() => {
+    const { searchFormConfig } = unref(tableProps);
+    return getFormSlots(slots, searchFormConfig);
   });
 
   // /**
@@ -239,7 +246,12 @@ const useSmartTableSearchForm = (
   return {
     computedSearchFormVisible: computed(() => unref(searchFormVisibleRef)),
     getSearchFormParameter,
-    SearchForm: () => h(SearchForm, { ...unref(computedSearchFormProps) }),
+    SearchForm: () =>
+      h(
+        SearchForm,
+        { ...unref(computedSearchFormProps) },
+        unref(computedSearchFormSlots),
+      ),
     searchFormApi,
     setSearchFormVisible,
   };
