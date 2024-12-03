@@ -483,6 +483,35 @@
         "errorMessage": "异常信息",
         "tenant": "租户"
       }
+    },
+    "system": {
+      "title": {
+        "id": "ID",
+        "code": "系统编码",
+        "name": "系统名称",
+        "enterprise": "所属公司",
+        "version": "系统版本",
+        "createBy": "创建人",
+        "updateBy": "更新人"
+      },
+      "validate": {
+        "id": "请输入",
+        "code": "请输入系统编码",
+        "name": "请输入系统名称",
+        "enterprise": "请输入所属公司",
+        "version": "请输入系统版本"
+      },
+      "rules": {
+        "code_NOT_EMPTY": "请输入系统编码",
+        "name_NOT_EMPTY": "请输入系统名称"
+      },
+      "search": {
+        "code": "请输入系统编码",
+        "name": "请输入系统名称"
+      },
+      "button": {
+        "setUser": "设置人员"
+      }
     }
   }
 }

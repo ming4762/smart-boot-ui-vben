@@ -443,6 +443,31 @@
         "result": "Return results",
         "errorMessage": "Error message"
       }
+    },
+    "system": {
+      "title": {
+        "code": "Code",
+        "name": "Name",
+        "enterprise": "Enterprise",
+        "version": "Version"
+      },
+      "validate": {
+        "code": "Please enter code",
+        "name": "Please enter name",
+        "enterprise": "Please enter enterprise",
+        "version": "Please enter version"
+      },
+      "rules": {
+        "code_NOT_EMPTY": "Please enter code",
+        "name_NOT_EMPTY": "Please enter name"
+      },
+      "search": {
+        "code": "Please enter code",
+        "name": "Please enter name"
+      },
+      "button": {
+        "setUser": "Set user"
+      }
     }
   }
 }
