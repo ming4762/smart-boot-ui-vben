@@ -26,11 +26,13 @@
     "save": "保存",
     "add": "新增",
     "edit": "编辑",
-    "delete": "删除"
+    "delete": "删除",
+    "close": "关闭"
   },
   "title": {
     "useYn": "启用状态",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "details": "详情"
   }
 }
