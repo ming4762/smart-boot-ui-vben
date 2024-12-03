@@ -365,6 +365,58 @@
         "valueValidate": "Please enter locale",
         "i18nIdValidate": "Please select i18n before adding"
       }
+    },
+    "onlineUser": {
+      "title": {
+        "authType": "Auth type",
+        "loginType": "Login type",
+        "loginTime": "Login time",
+        "loginIp": "Login IP",
+        "bindIp": "Bind IP",
+        "loginDuration": "Login duration"
+      },
+      "button": {
+        "offline": "Offline"
+      },
+      "message": {
+        "offlineConfirm": "Are you sure you want to go offline?",
+        "offlineSuccess": "Offline success"
+      }
+    },
+    "exception": {
+      "title": {
+        "exceptionMessage": "Error message",
+        "requestIp": "Request IP",
+        "serverIp": "Server IP",
+        "requestPath": "Request path",
+        "operateUser": "Operate user",
+        "userFeedback": "Feedback",
+        "feedbackMessage": "Feedback Message",
+        "feedbackTime": "Feedback time",
+        "resolved": "Resolved",
+        "resolvedMessage": "Resolved message",
+        "resolvedUserId": "Resolved user",
+        "resolvedTime": "Resolved time",
+        "showStackTrace": "Show stackTrace",
+        "stackTrace": "Stack trace",
+        "tenant": "Tenant"
+      },
+      "validate": {
+        "resolvedMessage": "Please enter processing information"
+      },
+      "rules": {},
+      "search": {
+        "exceptionMessage": "Please select the error message",
+        "requestIp": "Please select the request IP",
+        "serverIp": "Please select the server IP"
+      },
+      "button": {
+        "markResolved": "Processed"
+      },
+      "message": {
+        "noSelect": "Please select record",
+        "resolvedSuccess": "Mark success"
+      }
     }
   }
 }
