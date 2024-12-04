@@ -161,7 +161,7 @@ const computedDropdownContainerStyle = computed(() => {
  */
 const setCurrentRow = () => {
   nextTick(() => {
-    const tableInstance: VxeGridInstance = tableApi.getGrid();
+    const tableInstance: VxeGridInstance = tableApi.getGrid?.();
     if (!tableInstance) {
       return;
     }
