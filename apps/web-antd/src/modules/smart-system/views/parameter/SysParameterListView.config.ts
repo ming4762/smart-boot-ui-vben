@@ -4,6 +4,8 @@ import type {
   SmartTableColumn,
 } from '@vben/common-ui';
 
+import { $t as t } from '@vben/locales';
+
 export enum Permissions {
   delete = 'sys:parameter:delete',
   query = 'sys:parameter:query',
@@ -162,9 +164,7 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
   ];
 };
 
-export const getSearchFormSchemas = (
-  t: (key: string, ...args: any[]) => string,
-): SmartSearchFormSchema[] => {
+export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
   return [
     {
       fieldName: 'code',
@@ -211,11 +211,11 @@ export const getSearchFormSchemas = (
         },
         options: [
           {
-            label: 'Y',
+            label: t('common.form.use'),
             value: 1,
           },
           {
-            label: 'N',
+            label: t('common.form.noUse'),
             value: 0,
           },
         ],

@@ -46,7 +46,6 @@ export const setUserApi = (data: {
   systemId: number;
   userIdList: number[];
 }) => {
-  f;
   return requestClient.post(Api.setUser, data, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });

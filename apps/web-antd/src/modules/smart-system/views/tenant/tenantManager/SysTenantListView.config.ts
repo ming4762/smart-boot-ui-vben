@@ -597,7 +597,6 @@ export const getSubscribeFormSchemas = (
           immediate: false,
           showFunction: (row: any) => `${row.packageCode}-${row.packageName}`,
           valueField: 'id',
-          showHeader: true,
           pulldownProps: {
             destroyOnClose: false,
           },

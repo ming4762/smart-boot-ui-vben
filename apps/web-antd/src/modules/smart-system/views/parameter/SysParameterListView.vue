@@ -46,18 +46,18 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   searchFormConfig: {
     searchWithSymbol: true,
-    schema: getSearchFormSchemas(t),
-    wrapperClass: 'grid-cols-5',
+    schema: getSearchFormSchemas(),
+    wrapperClass: 'flex',
     commonConfig: {
       componentProps: {
         style: {
           maxWidth: '150px',
         },
       },
-      labelWidth: 60,
+      labelWidth: 70,
       formItemClass: 'pb-2',
     },
-    actionWrapperClass: 'text-left col-span-1 pb-2',
+    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
   },
   addEditConfig: {
     formConfig: {
@@ -123,6 +123,6 @@ const getActions = (row: any) => {
 
 <style lang="less" scoped>
 .smart-table-test {
-  grid-column: -2 / -1;
+  display: flex;
 }
 </style>

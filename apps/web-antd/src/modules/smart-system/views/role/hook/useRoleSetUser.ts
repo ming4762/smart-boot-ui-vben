@@ -1,3 +1,5 @@
+import type { Recordable } from '@vben/types';
+
 import { h, ref, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
@@ -17,13 +19,13 @@ export const useRoleSetUser = () => {
   const currentRole = ref<null | Recordable<any>>(null);
   const selectUserList = ref<number[]>([]);
 
-  const handleShowSetUser = async (role: Recordable) => {
+  const handleShowSetUser = async (role: Recordable<any>) => {
     currentRole.value = role;
     modalApi.open();
     try {
       modalApi.setState({ loading: true });
       const result = await listUserByRoleIdApi([role.roleId]);
-      selectUserList.value = result.map((item) => item.userId);
+      selectUserList.value = result.map((item: any) => item.userId);
     } finally {
       modalApi.setState({ loading: false });
     }
@@ -33,7 +35,7 @@ export const useRoleSetUser = () => {
     selectUserList.value = userId;
     try {
       modalApi.setState({ confirmLoading: true });
-      await setRoleUserApi(unref(currentRole).roleId, userId);
+      await setRoleUserApi(unref(currentRole)?.roleId, userId);
       message.success($t('common.message.operationSucceeded'));
       modalApi.close();
     } finally {
@@ -44,7 +46,7 @@ export const useRoleSetUser = () => {
   const SelectUserModal = () => {
     return h(Modal, {
       showSelect: true,
-      class: ['w-[1200px]'],
+      class: 'w-[1200px]',
       onSelected: handleSetUser,
       selectValues: unref(selectUserList),
     });
