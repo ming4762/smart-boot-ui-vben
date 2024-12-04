@@ -10,7 +10,6 @@ import {
   message as AntMessage,
   Button,
   Divider,
-  Dropdown,
   Menu,
   Modal,
   Popconfirm,
@@ -20,6 +19,7 @@ import {
   Tooltip,
 } from 'ant-design-vue';
 
+import { SmartDropdown } from '#/components';
 import { $t } from '#/locales';
 
 const preference = usePreferences();
@@ -44,7 +44,7 @@ setupSmartTable({
     Popconfirm,
     Divider,
     Menu,
-    Dropdown,
+    Dropdown: SmartDropdown,
     Select,
   },
   i18nHandler: (key: string, args?: any) => $t(key, args),
