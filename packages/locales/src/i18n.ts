@@ -45,6 +45,14 @@ function loadLocalesMap(modules: Record<string, () => Promise<unknown>>) {
   return localesMap;
 }
 
+function arrayToNestedObject(pathArray: string[], value: any) {
+  let result = value;
+  for (const key of pathArray.toReversed()) {
+    result = { [key]: result };
+  }
+  return result;
+}
+
 /**
  * Load locale modules with directory structure
  * @param regexp - Regular expression to match language and file names
@@ -57,7 +65,6 @@ function loadLocalesMapFromDir(
 ): Record<Locale, ImportLocaleFn> {
   const localesRaw: Record<Locale, Record<string, () => Promise<unknown>>> = {};
   const localesMap: Record<Locale, ImportLocaleFn> = {};
-
   // Iterate over the modules to extract language and file names
   for (const path in modules) {
     const match = path.match(regexp);
@@ -79,7 +86,13 @@ function loadLocalesMapFromDir(
     localesMap[locale] = async () => {
       const messages: Record<string, any> = {};
       for (const [fileName, importFn] of Object.entries(files)) {
-        messages[fileName] = ((await importFn()) as any)?.default;
+        const value = ((await importFn()) as any)?.default;
+        if (fileName.includes('.')) {
+          const filePath = fileName.split('.');
+          Object.assign(messages, arrayToNestedObject(filePath, value));
+        } else {
+          messages[fileName] = value;
+        }
       }
       return { default: messages };
     };
