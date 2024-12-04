@@ -33,6 +33,10 @@ export default {
     title: {
       add: '添加',
       edit: '修改',
+      sizeMiddle: '大',
+      sizeMini: '紧凑',
+      sizeSmall: '中等',
+      sizeTiny: '极小',
       useYn: '启用状态',
     },
     toolbar: {

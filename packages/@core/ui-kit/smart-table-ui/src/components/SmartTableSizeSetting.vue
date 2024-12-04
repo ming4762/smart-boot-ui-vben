@@ -2,7 +2,7 @@
 import type { SmartTableSize } from '../types';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
-import { computed, onMounted, unref } from 'vue';
+import { computed, onMounted, reactive, unref } from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
 
@@ -27,9 +27,6 @@ const ButtonIcon = createIconifyIcon('ant-design:column-height-outlined');
 const tableContext = injectSmartTableContext();
 
 const getDropdownComponent = () => getComponent('Dropdown');
-const getMenuComponent = () => getComponent('Menu');
-const getMenuItemComponent = () =>
-  (getMenuComponent() as any | undefined)?.Item;
 
 const computedSize = computed(() => {
   return [unref(tableContext.getBindValues).size];
@@ -75,17 +72,42 @@ onMounted(() => {
   }
 });
 
-const handleChangeSize = (e: any) => {
+const handleChangeSize = ({ event }: any) => {
   const { setSmartTableProps } = tableContext.tableInnerAction;
   setSmartTableProps({
-    size: e.key,
+    size: event,
   });
-  setTableSize(e.key);
+  setTableSize(event);
 };
+
+const menuList = reactive([
+  {
+    event: 'middle',
+    text: getI18n('smartTable.title.sizeMiddle'),
+  },
+  {
+    event: 'small',
+    text: getI18n('smartTable.title.sizeSmall'),
+  },
+  {
+    event: 'mini',
+    text: getI18n('smartTable.title.sizeMini'),
+  },
+  {
+    event: 'tiny',
+    text: getI18n('smartTable.title.sizeTiny'),
+  },
+]);
 </script>
 
 <template>
-  <component :is="getDropdownComponent()">
+  <component
+    :is="getDropdownComponent()"
+    :drop-menu-list="menuList"
+    :selected-keys="computedSize"
+    :trigger="['hover']"
+    @menu-event="handleChangeSize"
+  >
     <VxeButton
       :title="getI18n('smartTable.toolbar.sizeSetting')"
       v-bind="config.buttonProps"
@@ -95,17 +117,17 @@ const handleChangeSize = (e: any) => {
         <ButtonIcon />
       </template>
     </VxeButton>
-    <template #overlay>
-      <component
-        :is="getMenuComponent()"
-        :selected-keys="computedSize"
-        @click="handleChangeSize"
-      >
-        <component :is="getMenuItemComponent()" key="middle">大</component>
-        <component :is="getMenuItemComponent()" key="small">中等</component>
-        <component :is="getMenuItemComponent()" key="mini">紧凑</component>
-      </component>
-    </template>
+    <!--    <template #overlay>-->
+    <!--      <component-->
+    <!--        :is="getMenuComponent()"-->
+    <!--        :selected-keys="computedSize"-->
+    <!--        @click="handleChangeSize"-->
+    <!--      >-->
+    <!--        <component :is="getMenuItemComponent()" key="middle">大</component>-->
+    <!--        <component :is="getMenuItemComponent()" key="small">中等</component>-->
+    <!--        <component :is="getMenuItemComponent()" key="mini">紧凑</component>-->
+    <!--      </component>-->
+    <!--    </template>-->
   </component>
 </template>
 
