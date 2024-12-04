@@ -119,7 +119,7 @@ async function initComponentAdapter() {
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
     ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
     Cascader,
-    SmartPulldownTable,
+    SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
   };
 
   // 将组件注册到全局共享状态中
