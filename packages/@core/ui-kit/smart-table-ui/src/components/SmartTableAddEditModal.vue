@@ -4,7 +4,7 @@ import type {
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
 
-import { computed, ref, unref, useSlots } from 'vue';
+import { computed, ref, unref, useAttrs, useSlots } from 'vue';
 
 import { type ExtendedFormApi, useVbenForm } from '@vben-core/form-ui';
 import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
@@ -20,6 +20,8 @@ const emit = defineEmits<{
   register: [{ formApi: ExtendedFormApi }];
 }>();
 const slots = useSlots();
+
+const attrs = useAttrs();
 
 const isAddRef = ref(true);
 
@@ -158,7 +160,7 @@ emit('register', {
 </script>
 
 <template>
-  <Modal :title="computedTitle">
+  <Modal :title="computedTitle" v-bind="attrs">
     <From v-bind="props.formConfig">
       <template
         v-for="formSlotName in formSlots"

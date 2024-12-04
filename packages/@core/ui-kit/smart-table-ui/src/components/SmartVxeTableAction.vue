@@ -176,6 +176,8 @@ function onCellClick(e: MouseEvent) {
 
 const moreI18n = getI18n('smartTable.button.more');
 
+let chevronDownIcon: any = null;
+
 /**
  * 渲染drop down
  * @constructor
@@ -190,8 +192,11 @@ const RenderDropdown = () => {
   if (slotMore) {
     children.more = () => slotMore();
   } else {
-    children.default = () =>
-      h(
+    children.default = () => {
+      if (!chevronDownIcon) {
+        chevronDownIcon = createIconifyIcon('mdi-light:chevron-down');
+      }
+      return h(
         VxeButton,
         {
           mode: 'text',
@@ -201,10 +206,13 @@ const RenderDropdown = () => {
         {
           default: () => [
             moreI18n,
-            h(createIconifyIcon('mdi-light:chevron-down')),
+            h(chevronDownIcon, {
+              class: 'anticon',
+            }),
           ],
         },
       );
+    };
   }
   return h(
     getDropdownComponenet(),

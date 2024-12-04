@@ -245,8 +245,6 @@ export const useSmartTableModalAddEditEdit = (
 
   return {
     AddEditModal,
-    computeAddEditModalProps,
-    computedAddEditFormProps,
     computedHasAddEdit,
     editByCheckbox,
     editByRowModal,

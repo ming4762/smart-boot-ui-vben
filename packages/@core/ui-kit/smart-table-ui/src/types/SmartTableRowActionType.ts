@@ -32,6 +32,7 @@ interface SmartTableActionItem extends VbenButtonProps {
   label?: string;
   onClick?: AnyNormalFunction;
   popConfirm?: PopConfirm;
+  preIcon?: string;
   // TODO: tooltip props类型未定义
   tooltip?: Record<string, any> | string;
 }
