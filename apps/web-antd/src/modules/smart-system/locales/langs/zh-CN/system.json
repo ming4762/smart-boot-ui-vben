@@ -512,6 +512,27 @@
       "button": {
         "setUser": "设置人员"
       }
+    },
+    "accessSecret": {
+      "title": {
+        "accessKey": "Access Key",
+        "secretKey": "Secret Key",
+        "expireDate": "过期时间",
+        "accessIp": "授权IP或域名",
+        "createBy": "创建人",
+        "updateBy": "更新人",
+        "tenantId": "所属租户"
+      },
+      "validate": {
+        "accessKey": "请输入Access Key",
+        "secretKey": "请输入Secret Key",
+        "expireDate": "请选择过期时间",
+        "accessIp": "请输入授权IP或域名（多个请用逗号分隔）"
+      },
+      "search": {
+        "accessKey": "请输入Access Key进行搜索",
+        "secretKey": "请输入Secret Key进行搜索"
+      }
     }
   }
 }
