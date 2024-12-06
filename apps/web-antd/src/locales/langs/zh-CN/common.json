@@ -28,7 +28,8 @@
     "edit": "编辑",
     "delete": "删除",
     "close": "关闭",
-    "download": "下载"
+    "download": "下载",
+    "look": "查看"
   },
   "title": {
     "useYn": "启用状态",
