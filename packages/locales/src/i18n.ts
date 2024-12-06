@@ -11,6 +11,7 @@ import { type App, unref } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 import { useSimpleLocale } from '@vben-core/composables';
+import { mergeWithArrayOverride } from '@vben-core/shared/utils';
 
 const i18n = createI18n({
   globalInjection: true,
@@ -84,12 +85,15 @@ function loadLocalesMapFromDir(
   // Convert raw locale data into async import functions
   for (const [locale, files] of Object.entries(localesRaw)) {
     localesMap[locale] = async () => {
-      const messages: Record<string, any> = {};
+      let messages: Record<string, any> = {};
       for (const [fileName, importFn] of Object.entries(files)) {
         const value = ((await importFn()) as any)?.default;
         if (fileName.includes('.')) {
           const filePath = fileName.split('.');
-          Object.assign(messages, arrayToNestedObject(filePath, value));
+          messages = mergeWithArrayOverride(
+            arrayToNestedObject(filePath, value),
+            messages,
+          );
         } else {
           messages[fileName] = value;
         }
