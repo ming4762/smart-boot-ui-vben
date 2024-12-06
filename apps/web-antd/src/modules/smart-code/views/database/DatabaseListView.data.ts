@@ -131,12 +131,13 @@ export const addEditForm = (): Array<VbenFormSchema> => {
           };
         }),
       },
+      controlClass: 'w-full',
       rules: z.string().min(1, t('smart.code.views.database.validate.type')),
     },
     {
       label: t('smart.code.views.database.table.url'),
       fieldName: 'url',
-      component: 'InputTextArea',
+      component: 'Textarea',
       componentProps: {
         placeholder: t('smart.code.views.database.validate.url'),
         rows: 4,

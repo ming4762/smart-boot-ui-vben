@@ -48,6 +48,7 @@ const [SmartTable, tableApi] = useSmartTable({
       formItemClass: 'pb-2',
     },
   },
+  checkboxConfig: true,
   addEditConfig: {
     modalConfig: {
       class: 'w-[600px]',
