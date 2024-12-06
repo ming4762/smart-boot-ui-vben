@@ -15,7 +15,7 @@ interface SmartTableSelectCommonProps {
  * 弹窗modal
  */
 interface SmartTableSelectModalProps extends SmartTableSelectCommonProps {
-  selectTableProps: Partial<SmartTableProps>;
+  selectTableProps?: Partial<SmartTableProps>;
   // 是否显示选中
   showSelect?: boolean;
   selectValues?: any[];

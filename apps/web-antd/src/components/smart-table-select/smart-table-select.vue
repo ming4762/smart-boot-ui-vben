@@ -67,7 +67,7 @@ const handleOpen = () => {
 </script>
 
 <template>
-  <div class="smart-table-select">
+  <div class="smart-table-select w-full">
     <div class="flex">
       <div class="select">
         <Select
@@ -89,21 +89,22 @@ const handleOpen = () => {
           type="primary"
           @click="handleOpen"
         >
-          {{ t('common.button.choose') }}}
+          {{ t('common.button.choose') }}
         </Button>
       </div>
     </div>
     <Modal
+      v-bind="$attrs"
       :label-field="labelField"
       :multiple="multiple"
       :select-values="computedSelectValue"
       :table-props="tableProps"
-      value-field="valueField"
+      :value-field="valueField"
       @option-change="handleOptionChange"
       @select-data="handleSelectData"
     >
-      <template #table>
-        <slot name="table"></slot>
+      <template #table="slotProps">
+        <slot name="table" v-bind="slotProps"></slot>
       </template>
     </Modal>
   </div>
@@ -115,9 +116,11 @@ const handleOpen = () => {
 
   .select {
     width: calc(100% - @width - 8px);
+    margin-right: 4px;
   }
 
   .button {
+    margin-left: 4px;
     width: @width;
   }
 }
