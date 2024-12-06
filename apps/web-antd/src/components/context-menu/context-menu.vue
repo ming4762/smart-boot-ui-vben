@@ -1,5 +1,9 @@
 <script setup lang="tsx">
-import type { Axis, ContextMenuItem, ItemContentProps } from './type';
+import type {
+  ContextMenuItem,
+  ContextMenuProps,
+  ItemContentProps,
+} from './type';
 
 import {
   computed,
@@ -10,6 +14,7 @@ import {
   onMounted,
   onUnmounted,
   ref,
+  unref,
   useTemplateRef,
 } from 'vue';
 
@@ -17,14 +22,7 @@ import { createIconifyIcon } from '@vben/icons';
 
 import { Divider, Menu } from 'ant-design-vue';
 
-interface Props {
-  width?: number;
-  customEvent?: Event;
-  styles?: CSSProperties;
-  showIcon?: boolean;
-  axis?: Axis;
-  items?: ContextMenuItem[];
-}
+interface Props extends ContextMenuProps {}
 
 defineOptions({
   name: 'ContextMenu',
@@ -36,12 +34,12 @@ const props = withDefaults(defineProps<Props>(), {
   axis: () => ({ x: 0, y: 0 }),
   items: () => [],
   styles: undefined,
-  customEvent: null,
+  customEvent: undefined,
 });
 
 const prefixCls = 'context-menu';
 
-const wrapRef = useTemplateRef('wrapRef');
+const wrapRef = useTemplateRef<typeof Menu>('wrapRef');
 const showRef = ref(false);
 
 const getStyle = computed((): CSSProperties => {

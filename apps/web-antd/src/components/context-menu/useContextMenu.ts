@@ -8,5 +8,8 @@ export function useContextMenu(authRemove = true) {
       destroyContextMenu();
     });
   }
-  return [createContextMenu, destroyContextMenu];
+  return {
+    createContextMenu,
+    destroyContextMenu,
+  };
 }

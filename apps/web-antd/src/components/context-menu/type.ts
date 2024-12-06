@@ -1,5 +1,7 @@
 import type { AnyFunction } from '@vben/types';
 
+import type { CSSProperties } from 'vue';
+
 interface Axis {
   x: number;
   y: number;
@@ -28,4 +30,19 @@ interface CreateContextOptions {
   items?: ContextMenuItem[];
 }
 
-export type { Axis, ContextMenuItem, CreateContextOptions, ItemContentProps };
+interface ContextMenuProps {
+  width?: number;
+  customEvent?: Event;
+  styles?: CSSProperties;
+  showIcon?: boolean;
+  axis?: Axis;
+  items?: ContextMenuItem[];
+}
+
+export type {
+  Axis,
+  ContextMenuItem,
+  ContextMenuProps,
+  CreateContextOptions,
+  ItemContentProps,
+};

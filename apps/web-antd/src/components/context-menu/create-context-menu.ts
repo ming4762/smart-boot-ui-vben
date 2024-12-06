@@ -1,6 +1,6 @@
 import type { AnyFunction } from '@vben/types';
 
-import type { CreateContextOptions } from './types';
+import type { ContextMenuProps, CreateContextOptions } from './type';
 
 import { createVNode, render } from 'vue';
 
