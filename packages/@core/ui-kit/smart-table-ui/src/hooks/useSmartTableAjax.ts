@@ -1,5 +1,3 @@
-import type { VxeGridPropTypes } from 'vxe-table';
-
 import type {
   SmartTableAjaxQueryParams,
   SmartTableFetchParams,
@@ -8,9 +6,11 @@ import type {
 } from '../types';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import { computed, type ComputedRef, h, unref } from 'vue';
+import { computed, type ComputedRef, h, nextTick, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
+
+import { type VxeGridPropTypes } from 'vxe-table';
 
 import {
   confirmIcon,
@@ -26,14 +26,14 @@ const useSmartTableAjax = (
   t: (args: string) => string,
 ) => {
   let initQuery = false;
-
+  // 是否自动加载，这么做的目的
   const computedProxyConfig = computed(() => {
     const { proxyConfig, sortConfig, useSearchForm } = unref(tableProps);
     if (!proxyConfig) {
       return undefined;
     }
     const ajax: SmartTableProxyAjax = proxyConfig.ajax || {};
-    let queryAjax: any = {};
+    let queryAjax: SmartTableProxyAjax = {};
 
     if (ajax.query) {
       queryAjax = {
@@ -111,6 +111,14 @@ const useSmartTableAjax = (
           }
           return result;
         },
+        querySuccess(params) {
+          if (ajax.querySuccess) {
+            ajax.querySuccess(params);
+          }
+          nextTick(() => {
+            emit('proxy-query', params);
+          });
+        },
       };
     }
     const sort = sortConfig?.remote === true;
@@ -138,8 +146,7 @@ const useSmartTableAjax = (
     try {
       setLoading(true);
       const code = initQuery ? 'query' : '_init';
-      getGrid().commitProxy(code, params);
-      emit('proxy-query', { isInited: false, isReload: false, status: true });
+      await getGrid().commitProxy(code, params);
     } finally {
       setLoading(false);
     }
