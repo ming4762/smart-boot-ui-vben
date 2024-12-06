@@ -19,5 +19,6 @@ export function useAppConfig(
 
   return {
     apiURL: VITE_GLOB_API_URL,
+    apiMode: config.VITE_GLOB_API_MODE,
   };
 }

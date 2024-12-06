@@ -16,11 +16,12 @@ import { createErrorModal } from '#/utils';
 
 import { refreshTokenApi } from './core';
 
-const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
+const { apiURL, apiMode } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
 function createRequestClient(baseURL: string) {
   const client = new RequestClient({
     baseURL,
+    isStandalone: apiMode === 'standalone',
   });
 
   /**

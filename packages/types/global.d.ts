@@ -7,12 +7,16 @@ declare module 'vue-router' {
   interface RouteMeta extends IRouteMeta {}
 }
 
+type ApiMode = 'cloud' | 'standalone';
+
 export interface VbenAdminProAppConfigRaw {
   VITE_GLOB_API_URL: string;
+  VITE_GLOB_API_MODE: ApiMode;
 }
 
 export interface ApplicationConfig {
   apiURL: string;
+  apiMode: ApiMode;
 }
 
 declare global {

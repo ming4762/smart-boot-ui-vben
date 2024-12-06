@@ -10,13 +10,16 @@ import { FileUploader } from './modules/uploader';
 import { type RequestClientOptions, type RequestOptions } from './types';
 
 class RequestClient {
+  private baseUrl: string = '';
   // 异常处理器
   private errorHandler?: (error: any, options: RequestOptions) => void;
+
   private readonly instance: AxiosInstance;
+  // 是否单体架构
+  private isStandalone = true;
 
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
-
   public download: FileDownloader['download'];
   // 是否正在刷新token
   public isRefreshing = false;
@@ -46,6 +49,8 @@ class RequestClient {
     const { ...axiosConfig } = options;
     const requestConfig = merge(axiosConfig, defaultConfig);
     this.instance = axios.create(requestConfig);
+    this.isStandalone = options.isStandalone === true;
+    this.baseUrl = requestConfig.baseURL ?? '';
 
     bindMethods(this);
 
@@ -76,6 +81,17 @@ class RequestClient {
    */
   public get<T = any>(url: string, config?: RequestOptions): Promise<T> {
     return this.request<T>(url, { ...config, method: 'GET' });
+  }
+
+  /**
+   * 获取后台API请求地址
+   * @param service
+   */
+  public getApiUrlByService(service?: string): string {
+    if (!this.isStandalone && service) {
+      return `${this.baseUrl}/${service}`;
+    }
+    return this.baseUrl;
   }
 
   /**
