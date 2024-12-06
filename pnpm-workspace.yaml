@@ -18,6 +18,13 @@ catalog:
   '@changesets/cli': ^2.27.10
   '@changesets/git': ^3.0.2
   '@clack/prompts': ^0.8.2
+  '@codemirror/lang-html': ^6.0.1
+  '@codemirror/lang-java': ^6.0.1
+  '@codemirror/lang-javascript': ^6.0.1
+  '@codemirror/lang-json': ^6.0.1
+  '@codemirror/lang-xml': ^6.0.1
+  '@codemirror/state': ^6.4.1
+  '@codemirror/view': ^6.35.0
   '@commitlint/cli': ^19.6.0
   '@commitlint/config-conventional': ^19.6.0
   '@ctrl/tinycolor': ^4.1.0
@@ -71,6 +78,7 @@ catalog:
   circular-dependency-scanner: ^2.3.0
   class-variance-authority: ^0.7.1
   clsx: ^2.1.1
+  codemirror: ^6.0.1
   commitlint-plugin-function-rules: ^4.0.1
   consola: ^3.2.3
   cross-env: ^7.0.3

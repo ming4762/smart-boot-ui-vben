@@ -8,7 +8,11 @@ import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
-import { globalShareState, SmartPulldownTable } from '@vben/common-ui';
+import {
+  CodeEditor,
+  globalShareState,
+  SmartPulldownTable,
+} from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
@@ -58,6 +62,7 @@ export type ComponentType =
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
+  | 'CodeEditor'
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
@@ -120,6 +125,7 @@ async function initComponentAdapter() {
     ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
     Cascader,
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
+    CodeEditor,
   };
 
   // 将组件注册到全局共享状态中

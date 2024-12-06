@@ -81,6 +81,10 @@
       "path": "packages/@core/smart-provider",
     },
     {
+      "name": "@vben-core/code-editor-ui",
+      "path": "packages/@core/ui-kit/code-editor-ui",
+    },
+    {
       "name": "@vben-core/form-ui",
       "path": "packages/@core/ui-kit/form-ui",
     },
