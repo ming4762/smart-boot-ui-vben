@@ -73,7 +73,6 @@ interface SmartTableProxyConfig<T = any>
   extends Omit<VxeGridPropTypes.ProxyConfig, 'ajax'> {
   // 删除回调
   afterDelete?: (result?: any) => void;
-  afterLoad?: (result: any) => any;
   afterUserYn?: (result: any) => void;
   ajax?: SmartTableProxyAjax<T>;
 }

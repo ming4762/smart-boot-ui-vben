@@ -101,10 +101,7 @@ const useSmartTableAjax = (
           ajaxParameter = merge(ajaxParameter, searchParameter.searchInfo);
           // 添加额外的查询条件
           searchParameter.ajaxParameter = ajaxParameter;
-          let result = await ajax.query?.(searchParameter);
-          if (proxyConfig.afterLoad) {
-            result = proxyConfig.afterLoad(result);
-          }
+          const result = await ajax.query?.(searchParameter);
           // 标记已经初始化
           if (!initQuery) {
             initQuery = true;
