@@ -1,72 +1,87 @@
+import { $t as t } from '@vben/locales';
+
 /**
  * 控件列表
  */
-export const CONTROL_LIST = [
+const CONTROL_LIST = [
   {
     key: 'INPUT',
-    value: 'generator.views.code.title.controlList.input',
+    value: 'smart.code.views.codeManager.title.controlList.input',
   },
   {
     key: 'TEXTAREA',
-    value: 'generator.views.code.title.controlList.textarea',
+    value: 'smart.code.views.codeManager.title.controlList.textarea',
   },
   {
     key: 'NUMBER',
-    value: 'generator.views.code.title.controlList.number',
+    value: 'smart.code.views.codeManager.title.controlList.number',
   },
   {
     key: 'PASSWORD',
-    value: 'generator.views.code.title.controlList.password',
+    value: 'smart.code.views.codeManager.title.controlList.password',
   },
   {
     key: 'SELECT',
-    value: 'generator.views.code.title.controlList.select',
+    value: 'smart.code.views.codeManager.title.controlList.select',
   },
   {
     key: 'TRANSFER',
-    value: 'generator.views.code.title.controlList.transfer',
+    value: 'smart.code.views.codeManager.title.controlList.transfer',
   },
   {
     key: 'SELECT_TABLE',
-    value: 'generator.views.code.title.controlList.selectTable',
+    value: 'smart.code.views.codeManager.title.controlList.selectTable',
   },
   {
     key: 'RADIO',
-    value: 'generator.views.code.title.controlList.radio',
+    value: 'smart.code.views.codeManager.title.controlList.radio',
   },
   {
     key: 'CHECKBOX',
-    value: 'generator.views.code.title.controlList.checkbox',
+    value: 'smart.code.views.codeManager.title.controlList.checkbox',
   },
   {
     key: 'SWITCH_TYPE',
-    value: 'generator.views.code.title.controlList.switch_type',
+    value: 'smart.code.views.codeManager.title.controlList.switch_type',
   },
   {
     key: 'DATE',
-    value: 'generator.views.code.title.controlList.date',
+    value: 'smart.code.views.codeManager.title.controlList.date',
   },
   {
     key: 'TIME',
-    value: 'generator.views.code.title.controlList.time',
+    value: 'smart.code.views.codeManager.title.controlList.time',
   },
   {
     key: 'DATETIME',
-    value: 'generator.views.code.title.controlList.datetime',
+    value: 'smart.code.views.codeManager.title.controlList.datetime',
   },
   {
     key: 'FILE',
-    value: 'generator.views.code.title.controlList.file',
+    value: 'smart.code.views.codeManager.title.controlList.file',
   },
   {
     key: 'DATA_DICT',
-    value: 'generator.views.design.title.controlList.dataDict',
+    value: 'smart.code.views.design.title.controlList.dataDict',
   },
   {
     key: 'CATEGORY_DICT',
-    value: 'generator.views.design.title.controlList.categoryDict',
+    value: 'smart.code.views.design.title.controlList.categoryDict',
   },
 ];
+let controlList: { label: string; value: string }[] = [];
+export const getControlList = () => {
+  if (controlList.length > 0) {
+    return controlList;
+  }
+  controlList = CONTROL_LIST.map((item) => {
+    return {
+      label: t(item.value),
+      value: item.key,
+    };
+  });
+  return controlList;
+};
 
 /**
  * 查询标识列表

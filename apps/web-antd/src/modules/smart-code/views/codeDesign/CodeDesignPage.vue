@@ -7,6 +7,8 @@ import { $t as t } from '@vben/locales';
 import { Divider, Spin, TabPane, Tabs } from 'ant-design-vue';
 
 import CodeDesignForm from './componenets/CodeDesignForm.vue';
+import PageFormSetting from './componenets/PageFromSetting/PageFormSetting.vue';
+import PageSearchSetting from './componenets/PageSearchSetting/PageSearchSetting.vue';
 import PageTableSetting from './componenets/PageTableSetting/PageTableSetting.vue';
 import TableFieldTable from './componenets/TableFieldTable/TableFieldTable.vue';
 import { useProvideCodeDesignContext } from './useContext';
@@ -44,6 +46,18 @@ provideCodeDesignContext();
               :tab="t('smart.code.views.codeManager.title.tableSetting')"
             >
               <PageTableSetting :size="getTableSize" />
+            </TabPane>
+            <TabPane
+              key="3"
+              :tab="t('smart.code.views.codeManager.title.formSetting')"
+            >
+              <PageFormSetting :size="getTableSize" />
+            </TabPane>
+            <TabPane
+              key="4"
+              :tab="t('smart.code.views.codeManager.title.searchSetting')"
+            >
+              <PageSearchSetting :size="getTableSize" />
             </TabPane>
           </Tabs>
         </Spin>

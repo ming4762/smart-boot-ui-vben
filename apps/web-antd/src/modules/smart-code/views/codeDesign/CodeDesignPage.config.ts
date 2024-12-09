@@ -3,7 +3,7 @@ import type { SmartTableColumn } from '#/adapter/smart-table';
 
 import { $t as t } from '@vben/locales';
 
-import { CONTROL_LIST, SEARCH_SYMBOL_LIST } from './constants';
+import { getControlList, SEARCH_SYMBOL_LIST } from './constants';
 
 type ButtonType =
   | 'ADD'
@@ -451,12 +451,11 @@ export const getTableFiledColumns = (): SmartTableColumn[] => {
 
 export const getPageSearchSettingColumn = (): SmartTableColumn[] => {
   const controlFormatMap: Record<string, any> = {};
-  const controlFormatList = CONTROL_LIST.map(({ key, value }) => {
-    const label = t(value);
-    controlFormatMap[key] = label;
+  const controlFormatList = getControlList().map(({ label, value }) => {
+    controlFormatMap[value] = label;
     return {
       label,
-      value: key,
+      value,
     };
   });
 
