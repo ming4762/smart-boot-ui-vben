@@ -28,14 +28,23 @@ const getTableUseYnColumnClass = (field = 'useYn'): SmartTableColumn => {
   };
 };
 
-const getTableBooleanColumnClass = (field: string): SmartTableColumn => {
+const getTableBooleanColumnClass = (
+  field: string,
+  showFalse = true,
+): SmartTableColumn => {
   return {
     dynamicClass: ({ row }) => {
       const value = row[field] as boolean | null;
       if (value === null) {
         return '';
       }
-      return value ? 'text-color--success-bold' : 'text-color--danger-bold';
+      if (value) {
+        return 'text-color--success-bold';
+      }
+      if (showFalse) {
+        return 'text-color--danger-bold';
+      }
+      return '';
     },
     field,
     formatter({ row }) {
@@ -43,7 +52,13 @@ const getTableBooleanColumnClass = (field: string): SmartTableColumn => {
       if (value === null) {
         return '';
       }
-      return value ? t('smartTable.common.yes') : t('smartTable.common.no');
+      if (value) {
+        return t('smartTable.common.yes');
+      }
+      if (showFalse) {
+        return t('smartTable.common.no');
+      }
+      return '';
     },
     width: 100,
   };
