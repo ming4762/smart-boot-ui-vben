@@ -193,7 +193,7 @@
         "fixed": "列冻结",
         "width": "宽度",
         "align": "对齐方式",
-        "resizable": "支持拖动",
+        "resizable": "列宽可调",
         "visible": "是否渲染",
         "hidden": "是否隐藏",
         "editable": "是否可编辑",
@@ -224,6 +224,22 @@
       "validate": {
         "relatedColumn": "请选择关联字段",
         "relatedColumnWithConfig": "请设置关联字段，配置：{0}"
+      }
+    },
+    "design": {
+      "title": {
+        "controlList": {
+          "dataDict": "数据字典",
+          "categoryDict": "分类字典"
+        },
+        "colNum": {
+          "zero": "单行"
+        }
+      },
+      "formSetting": {
+        "title": {
+          "tableName": "实体类名"
+        }
       }
     }
   }

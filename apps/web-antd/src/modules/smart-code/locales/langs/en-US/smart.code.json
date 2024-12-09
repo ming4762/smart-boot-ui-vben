@@ -224,6 +224,22 @@
         "relatedColumn": "Please select an associated field",
         "relatedColumnWithConfig": "Please set the associated field, configuration: {0}"
       }
+    },
+    "design": {
+      "title": {
+        "controlList": {
+          "dataDict": "Data dict",
+          "categoryDict": "Category dict"
+        },
+        "colNum": {
+          "zero": "inline"
+        }
+      },
+      "formSetting": {
+        "title": {
+          "tableName": "Model class"
+        }
+      }
     }
   }
 }

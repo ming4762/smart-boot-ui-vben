@@ -42,6 +42,7 @@
     "@vben/utils": "workspace:*",
     "@vben-core/code-editor-ui": "workspace:*",
     "@vueuse/core": "catalog:",
+    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
