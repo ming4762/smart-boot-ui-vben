@@ -30,21 +30,26 @@ import 'vxe-table/styles/cssvar.scss';
 import 'vxe-pc-ui/styles/cssvar.scss';
 import './style/index.scss';
 
-const COMPONENT_MAP: Record<string, Component> = {};
+interface SmartSetupHandler {
+  getComponent: (name: string) => Component | string | undefined;
+  hasPermission: (auth?: SmartAuthType) => boolean;
+  messageHandler: SmartTableMessageHandler;
+}
 
 /**
  * 消息处理功能
  */
 const defaultMessageHandle = () => console.warn('请设置messageHandler');
-const MESSAGE_HANDLER: SmartTableMessageHandler = {
-  confirm: defaultMessageHandle,
-  error: defaultMessageHandle,
-  success: defaultMessageHandle,
-  warning: defaultMessageHandle,
-};
 
-const PERMISSION_HANDLE = {
+const DEFAULT_SETUP_HANDLER: SmartSetupHandler = {
+  getComponent: (_: string) => undefined,
   hasPermission: (_?: SmartAuthType) => false,
+  messageHandler: {
+    confirm: defaultMessageHandle,
+    error: defaultMessageHandle,
+    success: defaultMessageHandle,
+    warning: defaultMessageHandle,
+  },
 };
 
 // 是否加载过
@@ -87,11 +92,11 @@ const initSmartTableComponent = () => {
  */
 const setupSmartTable = (setupOptions: SetupSmartTable) => {
   const {
-    components,
+    componentHandler,
     configSmartTable,
-    hasPermission,
     i18nHandler,
     messageHandler,
+    permissionHandler,
     watcherField,
   } = setupOptions;
 
@@ -117,18 +122,15 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
     { immediate: true },
   );
 
-  if (components) {
-    for (const componentName of Object.keys(components)) {
-      COMPONENT_MAP[componentName] = components[componentName] as Component;
-    }
-  }
-
   if (messageHandler) {
-    Object.assign(MESSAGE_HANDLER, messageHandler);
+    Object.assign(DEFAULT_SETUP_HANDLER.messageHandler, messageHandler);
   }
 
-  if (hasPermission) {
-    PERMISSION_HANDLE.hasPermission = hasPermission;
+  if (permissionHandler) {
+    DEFAULT_SETUP_HANDLER.hasPermission = permissionHandler;
+  }
+  if (componentHandler) {
+    DEFAULT_SETUP_HANDLER.getComponent = componentHandler;
   }
 
   configSmartTable(VxeUI);
@@ -137,4 +139,4 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   initSmartTableRender();
 };
 
-export { COMPONENT_MAP, MESSAGE_HANDLER, PERMISSION_HANDLE, setupSmartTable };
+export { DEFAULT_SETUP_HANDLER, setupSmartTable };

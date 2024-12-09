@@ -157,11 +157,11 @@ type ExtendSmartTableApi = {
  * 初始化表格接口
  */
 interface SetupSmartTable {
-  components?: Partial<Record<string, Component>>;
+  componentHandler?: (name: string) => Component | string | undefined;
   configSmartTable: (ui: VxeUIExport) => void;
-  hasPermission: (code?: SmartAuthType) => boolean;
   i18nHandler: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
+  permissionHandler?: (code?: SmartAuthType) => boolean;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
 }
 

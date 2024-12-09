@@ -4,7 +4,7 @@ import type { SmartTableSize } from '../types';
 
 import type { Component } from 'vue';
 
-import { COMPONENT_MAP, MESSAGE_HANDLER, PERMISSION_HANDLE } from '../init';
+import { DEFAULT_SETUP_HANDLER } from '../init';
 
 const FormSizeMap: Record<string, 'default' | 'large' | 'small'> = {
   midum: 'default',
@@ -30,18 +30,23 @@ const getFormSize = (
  * 获取组件
  * @param componentName  组件名称
  */
-const getComponent = (componentName: string): Component | undefined => {
-  return COMPONENT_MAP[componentName];
+const getComponent = (
+  componentName: string,
+): Component | string | undefined => {
+  return DEFAULT_SETUP_HANDLER.getComponent(componentName);
 };
 
-const successMessage = (message: string) => MESSAGE_HANDLER.success(message);
-const warningMessage = (message: string) => MESSAGE_HANDLER.warning(message);
-const errorMessage = (message: string) => MESSAGE_HANDLER.error(message);
+const successMessage = (message: string) =>
+  DEFAULT_SETUP_HANDLER.messageHandler.success(message);
+const warningMessage = (message: string) =>
+  DEFAULT_SETUP_HANDLER.messageHandler.warning(message);
+const errorMessage = (message: string) =>
+  DEFAULT_SETUP_HANDLER.messageHandler.error(message);
 const confirmModal = (option: Record<string, any>) =>
-  MESSAGE_HANDLER.confirm(option);
+  DEFAULT_SETUP_HANDLER.messageHandler.confirm(option);
 
 const hasPermission = (code?: SmartAuthType) =>
-  PERMISSION_HANDLE.hasPermission(code);
+  DEFAULT_SETUP_HANDLER.hasPermission(code);
 
 export {
   confirmModal,
