@@ -113,6 +113,10 @@ interface RouteMeta {
    */
   query?: Recordable;
   /**
+   * 是否将路由参数作为props传递给子组件
+   */
+  queryToProps?: boolean;
+  /**
    * 标题名称
    */
   title: string;

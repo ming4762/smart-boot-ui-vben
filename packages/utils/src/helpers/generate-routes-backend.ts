@@ -5,7 +5,7 @@ import type {
 } from '@vben-core/typings';
 import type { RouteRecordRaw } from 'vue-router';
 
-import { mapTree } from '@vben-core/shared/utils';
+import { isFunction, mapTree } from '@vben-core/shared/utils';
 
 /**
  * 动态生成路由 - 后端方式
@@ -26,7 +26,6 @@ async function generateRoutesByBackend(
     for (const [key, value] of Object.entries(pageMap)) {
       normalizePageMap[normalizeViewPath(key)] = value;
     }
-
     const routes = convertRoutes(menuRoutes, layoutMap, normalizePageMap);
 
     return routes;
@@ -43,8 +42,7 @@ function convertRoutes(
 ): RouteRecordRaw[] {
   return mapTree(routes, (node) => {
     const route = node as unknown as RouteRecordRaw;
-    const { component, name } = node;
-
+    const { component, name, meta } = node;
     if (!name) {
       console.error('route name is required', route);
     }
@@ -61,6 +59,19 @@ function convertRoutes(
             ? normalizePath
             : `${normalizePath}.vue`
         ];
+    }
+    // 路由参数处理
+    if (meta?.queryToProps) {
+      const originalPropsHandler = route.props || {};
+      route.props = (route) => {
+        const originalProps = isFunction(originalPropsHandler)
+          ? originalPropsHandler(route)
+          : originalPropsHandler;
+        return {
+          ...originalProps,
+          ...route.query,
+        };
+      };
     }
 
     return route;
