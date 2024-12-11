@@ -9,8 +9,10 @@ import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
 import {
+  ApiComponent,
   CodeEditor,
   globalShareState,
+  IconPicker,
   SmartPulldownTable,
 } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -41,7 +43,7 @@ import {
   Upload,
 } from 'ant-design-vue';
 
-import { ApiDictSelect, ApiSelect, IconPicker } from '#/components';
+import { ApiDictSelect } from '#/components';
 
 import { doSetupVbenForm } from '../form';
 
@@ -58,7 +60,7 @@ const withDefaultPlaceholder = <T extends Component>(
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
   | 'ApiDictSelect'
-  | 'ApiSelect'
+  | 'ApiTreeSelect'
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
@@ -91,7 +93,38 @@ async function initComponentAdapter() {
     // 如果你的组件体积比较大，可以使用异步加载
     // Button: () =>
     // import('xxx').then((res) => res.Button),
-
+    ApiSelect: (props, { attrs, slots }) => {
+      return h(
+        ApiComponent,
+        {
+          placeholder: $t('ui.placeholder.select'),
+          ...props,
+          ...attrs,
+          component: Select,
+          loadingSlot: 'suffixIcon',
+          visibleEvent: 'onDropdownVisibleChange',
+          modelPropName: 'value',
+        },
+        slots,
+      );
+    },
+    ApiTreeSelect: (props, { attrs, slots }) => {
+      return h(
+        ApiComponent,
+        {
+          placeholder: $t('ui.placeholder.select'),
+          ...props,
+          ...attrs,
+          component: TreeSelect,
+          fieldNames: { label: 'label', value: 'value', children: 'children' },
+          loadingSlot: 'suffixIcon',
+          modelPropName: 'value',
+          optionsPropName: 'treeData',
+          visibleEvent: 'onVisibleChange',
+        },
+        slots,
+      );
+    },
     AutoComplete,
     Checkbox,
     CheckboxGroup,
@@ -101,6 +134,13 @@ async function initComponentAdapter() {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
     Divider,
+    IconPicker: (props, { attrs, slots }) => {
+      return h(
+        IconPicker,
+        { iconSlot: 'addonAfter', inputComponent: Input, ...props, ...attrs },
+        slots,
+      );
+    },
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
@@ -120,9 +160,9 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
-    IconPicker: withDefaultPlaceholder(IconPicker, 'select'),
+    // IconPicker: withDefaultPlaceholder(IconPicker, 'select'),
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
-    ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
+    // ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
     Cascader,
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
     CodeEditor,
