@@ -1,18 +1,4 @@
-import type { Options as SortableOptions } from 'sortablejs';
 import type { VxeTablePropTypes } from 'vxe-table';
-
-/**
- * 行拖拽配置
- */
-interface SmartTableRowDragConfig extends SortableOptions {
-  // 是否自定义
-  custom?: boolean;
-  icon?: string;
-}
-
-interface SmartTableRowConfig extends VxeTablePropTypes.RowConfig {
-  dragConfig?: boolean | SmartTableRowDragConfig;
-}
 
 /**
  * 行触发模式，单选/多选
@@ -27,9 +13,4 @@ interface SmartTableSeqConfig extends VxeTablePropTypes.SeqConfig {
   seqBindPage?: boolean;
 }
 
-export type {
-  RowTriggerMode,
-  SmartTableRowConfig,
-  SmartTableRowDragConfig,
-  SmartTableSeqConfig,
-};
+export type { RowTriggerMode, SmartTableSeqConfig };

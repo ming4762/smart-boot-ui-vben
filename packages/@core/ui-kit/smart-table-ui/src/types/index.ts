@@ -30,11 +30,7 @@ import type {
 } from './SmartTableButtonType';
 import type { SmartTableColumn } from './SmartTableColumnType';
 import type { SmartTableMessageHandler } from './SmartTableMessageType';
-import type {
-  RowTriggerMode,
-  SmartTableRowConfig,
-  SmartTableSeqConfig,
-} from './SmartTableRowType';
+import type { RowTriggerMode, SmartTableSeqConfig } from './SmartTableRowType';
 import type {
   SmartTableToolbarColumnConfig,
   SmartTableToolbarSizeSetting,
@@ -93,7 +89,6 @@ interface SmartTableBasicProps {
   // 分页配置
   pagerConfig?: boolean | VxeGridPropTypes.PagerConfig;
   proxyConfig?: SmartTableProxyConfig;
-  rowConfig?: SmartTableRowConfig;
   // 搜索表单配置
   searchFormConfig?: SmartSearchFormProps;
   seqConfig?: SmartTableSeqConfig;
@@ -109,7 +104,6 @@ type SmartTableRenderProps = Omit<
   | 'columns'
   | 'pagerConfig'
   | 'proxyConfig'
-  | 'rowConfig'
   | 'seqConfig'
   | 'size'
   | 'toolbarConfig'
