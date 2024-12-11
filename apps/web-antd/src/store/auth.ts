@@ -3,13 +3,14 @@ import type { Recordable, UserInfo } from '@vben/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { ApiServiceEnum, DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
 import { loginApi, logoutApi } from '#/api';
+import { requestClient } from '#/api/request';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -33,7 +34,9 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { permissions, roles, token, user } = await loginApi(params);
+      const { permissions, roles, token, user } = await loginApi(
+        params as never,
+      );
 
       // 如果成功获取到 accessToken
       if (token) {
@@ -110,11 +113,30 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading.value = false;
   }
 
+  /**
+   * 申请临时 token
+   * @param resource 申请资源
+   * @param once 是否只使用一次
+   */
+  const applyTempToken = async (
+    resource: string,
+    once = true,
+  ): Promise<string> => {
+    return requestClient.post(
+      'auth/tempToken/apply',
+      { resource, once },
+      {
+        service: ApiServiceEnum.SMART_AUTH,
+      },
+    );
+  };
+
   return {
     $reset,
     authLogin,
     // fetchUserInfo,
     loginLoading,
     logout,
+    applyTempToken,
   };
 });
