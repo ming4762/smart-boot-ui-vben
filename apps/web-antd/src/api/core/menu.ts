@@ -90,6 +90,8 @@ export async function getUserMenusApi(): Promise<
           locales,
           parentKey: parentId,
           title: functionName,
+          // TODO: 由后台传送?
+          queryToProps: true,
         },
         name: componentName || functionName,
         path: url || '',
