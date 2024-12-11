@@ -1,4 +1,4 @@
-import vxeZhCN from 'vxe-table/lib/locale/lang/zh-CN';
+import vxeZhCN from 'vxe-pc-ui/lib/language/zh-CN';
 
 export default {
   ...vxeZhCN,

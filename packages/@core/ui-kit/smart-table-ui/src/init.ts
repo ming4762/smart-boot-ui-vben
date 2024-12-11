@@ -13,6 +13,7 @@ import {
   VxePager,
   VxeSelect,
   VxeTooltip,
+  VxeUI,
 } from 'vxe-pc-ui';
 import {
   VxeColgroup,
@@ -20,7 +21,6 @@ import {
   VxeGrid,
   VxeTable,
   VxeToolbar,
-  VxeUI,
 } from 'vxe-table';
 
 import { getI18nData } from './locales';

@@ -1,4 +1,4 @@
-import vxeEnUS from 'vxe-table/lib/locale/lang/en-US';
+import vxeEnUS from 'vxe-pc-ui/lib/language/en-US';
 
 export default {
   ...vxeEnUS,
