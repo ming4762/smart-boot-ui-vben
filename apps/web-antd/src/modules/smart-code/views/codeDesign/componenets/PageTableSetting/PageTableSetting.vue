@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, unref, watch } from 'vue';
+import { ref, toRaw, unref, watchEffect } from 'vue';
 
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
@@ -12,15 +12,14 @@ import {
 } from '#/adapter/smart-table';
 import { vueTableHeaderCheckboxSupport } from '#/modules/smart-code/views/codeDesign/componenets/PageSettingSupport';
 
-import { injectCodeDesignContext } from '../../useContext';
-
-interface Props {
-  editData?: any[];
-}
-
-const props = defineProps<Props>();
+import {
+  injectCodeDesignContext,
+  injectCodeDesignHandler,
+} from '../../useContext';
 
 const { contextData } = injectCodeDesignContext();
+
+const { registerSaveDataHandler } = injectCodeDesignHandler();
 
 const { getFormSize } = useSizeSetting();
 
@@ -100,22 +99,24 @@ const createDataFromTableData = (
 };
 
 const data = ref<Array<any>>([]);
-watch(
-  [() => unref(contextData).tableData, () => props.editData],
-  ([tableData, editData]) => {
-    data.value = createDataFromTableData(tableData, editData);
-  },
-);
-onMounted(() => {
+
+watchEffect(() => {
   data.value = createDataFromTableData(
     unref(contextData).tableData,
-    props.editData,
+    unref(contextData).editConfigData?.codePageConfigList,
   );
+});
+
+registerSaveDataHandler(() => {
+  return {
+    codePageConfigList: toRaw(unref(data)),
+  };
 });
 
 const [SmartTable] = useSmartTable({
   rowConfig: {
     isHover: true,
+    drag: true,
   },
   stripe: true,
   border: true,
@@ -124,6 +125,13 @@ const [SmartTable] = useSmartTable({
     mode: 'row',
   },
   columns: [
+    {
+      title: '#',
+      field: 'drag',
+      dragSort: true,
+      width: 60,
+      align: 'center',
+    },
     {
       title: '{smart.code.views.tableField.title.columnName}',
       field: 'columnName',
@@ -274,7 +282,7 @@ const [SmartTable] = useSmartTable({
       title: '{smart.code.views.tableSetting.title.editable}',
       ...getTableBooleanColumnClass('editable', false),
       field: 'editable',
-      width: 130,
+      width: 140,
       editRender: {
         name: 'ASwitch',
       },

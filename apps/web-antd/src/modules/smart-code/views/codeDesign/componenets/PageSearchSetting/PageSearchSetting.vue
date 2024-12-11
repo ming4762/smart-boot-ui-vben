@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, unref, watchEffect } from 'vue';
+import { ref, toRaw, unref, watchEffect } from 'vue';
 
 import { useSizeSetting } from '@vben/hooks';
 
@@ -11,18 +11,16 @@ import {
 } from '#/adapter/smart-table';
 
 import { getControlList, SEARCH_SYMBOL_LIST } from '../../constants';
-import { injectCodeDesignContext } from '../../useContext';
+import {
+  injectCodeDesignContext,
+  injectCodeDesignHandler,
+} from '../../useContext';
 import { vueTableHeaderCheckboxSupport } from '../PageSettingSupport';
-
-interface Props {
-  editData?: any[];
-}
-
-const props = defineProps<Props>();
 
 const { getFormSize } = useSizeSetting();
 
 const { contextData } = injectCodeDesignContext();
+const { registerSaveDataHandler } = injectCodeDesignHandler();
 
 const [SmartTable] = useSmartTable({
   align: 'center',
@@ -30,6 +28,7 @@ const [SmartTable] = useSmartTable({
   rowConfig: {
     isHover: true,
     useKey: true,
+    drag: true,
   },
   editConfig: {
     trigger: 'click',
@@ -37,6 +36,13 @@ const [SmartTable] = useSmartTable({
   },
   border: true,
   columns: [
+    {
+      title: '#',
+      field: 'drag',
+      dragSort: true,
+      width: 60,
+      align: 'center',
+    },
     {
       title: '{smart.code.views.tableField.title.columnName}',
       field: 'columnName',
@@ -242,8 +248,14 @@ const dataList = ref<Array<any>>([]);
 watchEffect(() => {
   dataList.value = createDataFromTableData(
     unref(contextData).tableData,
-    props.editData,
+    unref(contextData).editConfigData?.codeSearchConfigList,
   );
+});
+
+registerSaveDataHandler(() => {
+  return {
+    codeSearchConfigList: toRaw(unref(dataList)),
+  };
 });
 
 const headerReadonlyCheckboxChecked = vueTableHeaderCheckboxSupport(

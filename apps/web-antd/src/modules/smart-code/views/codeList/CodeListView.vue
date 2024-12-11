@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
+import { useRouter } from 'vue-router';
+
 import {
   SmartLayoutSeparate,
   type SmartTableActionItem,
@@ -11,12 +13,15 @@ import { $t as t } from '@vben/locales';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysSystemSimpleList } from '#/components';
+import { errorMessage } from '#/utils';
 
 import { deleteApi, listBySystemApi } from './CodeListView.api';
 import { searchFormColumns, tableColumns } from './CodeListView.config';
 import CodeCreateModal from './components/CodeCreateModal.vue';
 
 const { getTableSize } = useSizeSetting();
+
+const router = useRouter();
 
 let currentSystem: Recordable<any> = {};
 
@@ -25,7 +30,17 @@ const [RenderCodeCreateModal, modalApi] = useVbenModal({
 });
 
 const toDesign = (configId?: number) => {
-  console.warn(configId);
+  if (!currentSystem?.id) {
+    errorMessage(t('smart.code.views.code.message.noSelectSystem'));
+    return false;
+  }
+  router.push({
+    path: '/code/codeDesign',
+    query: {
+      configId,
+      systemId: currentSystem.id,
+    },
+  });
 };
 
 const [SmartTable, tableApi] = useSmartTable({

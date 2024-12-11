@@ -147,7 +147,7 @@
         "i18nPrefix": "请输入国际化前缀"
       },
       "message": {
-        "saveConfirmContent": "非空字段：【{0}】未设置form",
+        "saveConfirmContent": "非空字段：【{nonNullField}】未设置form",
         "noSelectSystem": "请选择系统"
       }
     },
@@ -223,7 +223,7 @@
       },
       "validate": {
         "relatedColumn": "请选择关联字段",
-        "relatedColumnWithConfig": "请设置关联字段，配置：{0}"
+        "relatedColumnWithConfig": "请设置关联字段，配置：{relatedColumn}"
       }
     },
     "design": {

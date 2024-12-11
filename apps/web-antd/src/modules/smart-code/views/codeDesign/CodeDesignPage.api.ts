@@ -1,5 +1,7 @@
 import type { Recordable } from '@vben/types';
 
+import type { EditConfigData } from './useContext';
+
 import { ApiServiceEnum, requestClient } from '#/api/request';
 
 enum Api {
@@ -23,14 +25,14 @@ export const queryDbTableApi = (connectionId: number, tableName: number) => {
   );
 };
 
-export const getConfigByIdApi = (configId: number) => {
-  return requestClient.post(Api.getConfigById, configId, {
+export const getConfigByIdApi = (configId: number | string) => {
+  return requestClient.post<EditConfigData>(Api.getConfigById, configId, {
     service: ApiServiceEnum.SMART_CODE,
   });
 };
 
 export const saveConfigApi = (model: Recordable<any>) => {
-  return requestClient.post(Api.saveConfig, model, {
+  return requestClient.post<number>(Api.saveConfig, model, {
     service: ApiServiceEnum.SMART_CODE,
   });
 };

@@ -8,7 +8,6 @@ import { Input } from 'ant-design-vue';
 
 import { type SmartTableColumn, useSmartTable } from '#/adapter/smart-table';
 import { ApiServiceEnum, requestClient } from '#/api/request';
-import { errorMessage } from '#/utils';
 
 interface Props {
   multiple?: boolean;
@@ -44,8 +43,8 @@ const columns = [
     title: '{smart.code.views.addendumTable.title.relatedColumn}',
     field: 'relatedColumn',
     width: 120,
-    slots: {
-      default: 'table-relatedColumn',
+    editRender: {
+      name: 'AInput',
     },
   },
   {
@@ -68,14 +67,38 @@ const computedColumns = computed<Partial<SmartTableColumn>[]>(() => {
   if (!props.multiple) {
     firstColumn.type = 'radio';
   }
-  return [firstColumn, ...columns];
+  return [firstColumn, ...columns] as Partial<SmartTableColumn>[];
 });
 
 const [SmartTable, tableApi] = useSmartTable({
   pagerConfig: false,
   height: 'auto',
   size: 'small',
+  checkboxConfig: true,
   useSearchForm: true,
+  editConfig: {
+    trigger: 'click',
+    mode: 'row',
+  },
+  editRules: {
+    relatedColumn: [
+      {
+        required: true,
+        validator: ({ cellValue, row }) => {
+          if (!cellValue || cellValue.trim().length === 0) {
+            return new Error(
+              t(
+                'smart.code.views.addendumTable.validate.relatedColumnWithConfig',
+                {
+                  relatedColumn: row.configName,
+                },
+              ),
+            );
+          }
+        },
+      },
+    ],
+  },
   searchFormConfig: {
     actionWrapperClass: 'pb-2 ml-1.5',
     wrapperClass: 'flex flex-wrap',
@@ -150,7 +173,7 @@ const [Modal, modalApi] = useVbenModal({
   onOpened: () => {
     tableApi.query();
   },
-  onConfirm: () => {
+  onConfirm: async () => {
     const data: any[] = [];
     const grid = tableApi.getGrid();
     if (props.multiple) {
@@ -161,21 +184,8 @@ const [Modal, modalApi] = useVbenModal({
         data.push(row);
       }
     }
-    const errorDataList = data.filter(
-      (item) =>
-        item.relatedColumn === undefined ||
-        item.relatedColumn === null ||
-        item.relatedColumn.trim() === '',
-    );
-    if (errorDataList.length > 0) {
-      errorDataList.forEach((item) => {
-        errorMessage(
-          t(
-            'generator.views.addendumTable.validate.relatedColumnWithConfig',
-            item.configName,
-          ),
-        );
-      });
+    const validateResult = await grid.validate(data);
+    if (validateResult) {
       return false;
     }
     const dealData = data.map((item) => {
@@ -196,7 +206,7 @@ const [Modal, modalApi] = useVbenModal({
   <Modal v-bind="$attrs">
     <SmartTable :columns="computedColumns" :size="props.size as never">
       <template #table-relatedColumn="{ row }">
-        <Input v-model:value="row.relatedColumn" :size="formSize" />
+        <Input v-model:value="row.relatedColumn" :size="formSize as never" />
       </template>
     </SmartTable>
   </Modal>

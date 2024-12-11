@@ -1,23 +1,38 @@
 import type { ExtendedFormApi } from '@vben/common-ui';
-import type { Recordable } from '@vben/types';
 
-import { ref, unref } from 'vue';
+import { onMounted, type Ref, ref, unref, watch } from 'vue';
 
-import { queryDbTableApi } from './CodeDesignPage.api';
-import { injectCodeDesignContext } from './useContext';
+import { $t as t } from '@vben/locales';
+
+import { errorMessage, successMessage, warnMessage } from '#/utils';
+
+import {
+  getConfigByIdApi,
+  queryDbTableApi,
+  saveConfigApi,
+} from './CodeDesignPage.api';
+import {
+  type CodeDesignContextData,
+  type CodeDesignHandler,
+  injectCodeDesignContext,
+  injectCodeDesignHandler,
+} from './useContext';
 
 /**
  * 加载数据库数据
  */
-export const useLoadDbData = (formApi: ExtendedFormApi) => {
+export const useLoadDbData = (
+  formApi: ExtendedFormApi,
+  configIdRef: Ref<number | string | undefined>,
+  systemIdRef: Ref<number | string | undefined>,
+) => {
   const { setContext } = injectCodeDesignContext();
+  const { registerHandler } = injectCodeDesignHandler();
 
   // 数据库数据加载状态
-  const dbDataRef = ref<Recordable<any>>({});
   const isSyncRef = ref(false);
 
-  const getConvertTableData = () => {
-    const dbData = unref(dbDataRef);
+  const getConvertTableData = (dbData: any) => {
     if (!dbData.tableName) {
       return [];
     }
@@ -36,119 +51,145 @@ export const useLoadDbData = (formApi: ExtendedFormApi) => {
       throw new Error('表单校验失败');
     }
     const { connectionId, tableName } = await formApi.getValues();
-    dbDataRef.value = await queryDbTableApi(connectionId, tableName);
+    const dbData = await queryDbTableApi(connectionId, tableName);
     setContext({
-      tableData: getConvertTableData(),
+      tableData: getConvertTableData(dbData),
+      dbData,
+      isSyncDb: true,
     });
     isSyncRef.value = true;
   };
 
+  // 注册函数
+  registerHandler({
+    handleSyncTableData,
+  });
+
+  /**
+   * 加载配置数据
+   */
+  const configLoadingRef = ref(false);
+  const loadConfigData = async () => {
+    try {
+      configLoadingRef.value = true;
+      const configId = unref(configIdRef);
+      if (!configId) {
+        return;
+      }
+      const result = await getConfigByIdApi(configId);
+      await formApi.setValues(result);
+      // 加载表格数据
+      await handleSyncTableData();
+      const { codePageConfigList, codeFormConfigList, codeSearchConfigList } =
+        result;
+      setContext({
+        editConfigData: {
+          codePageConfigList,
+          codeFormConfigList,
+          codeSearchConfigList,
+        },
+      });
+    } finally {
+      configLoadingRef.value = false;
+    }
+  };
+  // 注册函数
+  registerHandler({
+    loadConfigData,
+  });
+  onMounted(() => {
+    /**
+     * 监控configId变化，更新数据
+     */
+    watch(
+      configIdRef,
+      (value) => {
+        if (value) {
+          loadConfigData();
+        } else {
+          formApi.setFieldValue('systemId', unref(systemIdRef));
+        }
+      },
+      {
+        immediate: true,
+      },
+    );
+  });
+
   return {
-    dbDataRef,
     isSyncRef,
     handleSyncTableData,
+    configLoadingRef,
+    loadConfigData,
   };
 };
-//
-// /**
-//  * 保存操作hook
-//  */
-// export const useSaveConfig = (
-//   isSync: Ref<boolean>,
-//   validate: Function,
-//   dbDataRef: Ref<Recordable>,
-//   afterSave?: Function,
-// ) => {
-//   const pageTableSettingRef = ref();
-//   const pageSearchSettingRef = ref();
-//   const pageFormSettingRef = ref();
-//
-//   const saveLoading = ref(false);
-//
-//   const handleSave = () => {
-//     if (!unref(isSync)) {
-//       message.warn(t('generator.views.code.validate.syncTable'));
-//       return false;
-//     }
-//     if (!unref(pageTableSettingRef)) {
-//       message.warn(t('generator.views.code.validate.tableSetting'));
-//       return false;
-//     }
-//     if (!unref(pageFormSettingRef)) {
-//       message.warn(t('generator.views.code.validate.formSetting'));
-//       return false;
-//     }
-//     // 搜索配置实体
-//     if (!unref(pageSearchSettingRef)) {
-//       message.warn(t('generator.views.code.validate.searchSetting'));
-//       return false;
-//     }
-//     // 验证必填字段是否设置表单
-//     const pageFormSettingData = unref(
-//       pageFormSettingRef,
-//     ).getData() as Array<Recordable>;
-//     const nonNullField: Array<string> = [];
-//     pageFormSettingData.forEach((item) => {
-//       if (
-//         item.nullable === 0 &&
-//         (item.visible === false || item.used === false)
-//       ) {
-//         nonNullField.push(item.columnName);
-//       }
-//     });
-//     if (nonNullField.length > 0) {
-//       Modal.confirm({
-//         title: t('common.notice.confirmSave'),
-//         // icon: createVNode(ExclamationCircleOutlined),
-//         content: t(
-//           'generator.views.code.message.saveConfirmContent',
-//           nonNullField.join(','),
-//         ),
-//         onCancel() {
-//           return false;
-//         },
-//         onOk() {
-//           doSave();
-//         },
-//       });
-//     } else {
-//       doSave();
-//     }
-//   };
-//
-//   const doSave = async () => {
-//     const formModel = await validate();
-//     const dbData = unref(dbDataRef);
-//     const saveData = {
-//       ...formModel,
-//       codePageConfigList: unref(pageTableSettingRef).getData(),
-//       codeFormConfigList: unref(pageFormSettingRef).getData(),
-//       codeSearchConfigList: unref(pageSearchSettingRef).getData(),
-//       className: dbData.className,
-//       remarks: dbData.remarks,
-//     };
-//     try {
-//       saveLoading.value = true;
-//       const configId = await saveConfigApi(saveData);
-//       successMessage('保存成功');
-//       afterSave && afterSave(configId);
-//     } catch (error: any) {
-//       if (error.code === 400) {
-//         error.data.forEach((item: string) => {
-//           message.error(item);
-//         });
-//       }
-//       return false;
-//     } finally {
-//       saveLoading.value = false;
-//     }
-//   };
-//
-//   return {
-//     handleSave,
-//     pageTableSettingRef,
-//     pageSearchSettingRef,
-//     pageFormSettingRef,
-//     saveLoading,
-//   };
-// };
+
+export const useSaveConfig = (
+  configIdRef: Ref<number | string | undefined>,
+  getHandlerContext: () => CodeDesignHandler,
+  contextData: Ref<CodeDesignContextData>,
+  afterSave?: (configId: number) => void,
+) => {
+  const saveLoading = ref(false);
+
+  const validateData = (data: any) => {
+    if (unref(configIdRef) !== undefined) {
+      return;
+    }
+    const { codePageConfigList, codeFormConfigList, codeSearchConfigList } =
+      data;
+    const errorMessageList: string[] = [];
+    if (codeFormConfigList === undefined) {
+      errorMessageList.push(
+        t('smart.code.views.codeManager.validate.formSetting'),
+      );
+    }
+    if (codePageConfigList === undefined) {
+      errorMessageList.push(
+        t('smart.code.views.codeManager.validate.tableSetting'),
+      );
+    }
+    if (codeSearchConfigList === undefined) {
+      errorMessageList.push(
+        t('smart.code.views.codeManager.validate.searchSetting'),
+      );
+    }
+    if (errorMessageList.length > 0) {
+      const errorMessageStr = errorMessageList.join('\n');
+      errorMessage(errorMessageStr);
+      throw new Error(`error:${errorMessageStr}`);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!unref(contextData).isSyncDb) {
+      warnMessage(t('smart.code.views.codeManager.validate.syncTable'));
+      return false;
+    }
+    const handlerContext = getHandlerContext();
+    const data: any = {};
+    const resultList = await Promise.all(
+      handlerContext.saveDataHandler.map(async (handler) => {
+        return handler();
+      }),
+    );
+    resultList.forEach((item) => {
+      Object.assign(data, item);
+    });
+    // 校验数据
+    validateData(data);
+    try {
+      saveLoading.value = true;
+      const configId = await saveConfigApi(data);
+      successMessage(t('common.message.saveSuccess'));
+      afterSave && afterSave(configId);
+    } finally {
+      saveLoading.value = false;
+    }
+  };
+
+  return {
+    saveLoading,
+    handleSave,
+  };
+};

@@ -30,7 +30,8 @@
     "close": "关闭",
     "download": "下载",
     "look": "查看",
-    "choose": "选择"
+    "choose": "选择",
+    "reload": "刷新"
   },
   "title": {
     "useYn": "启用状态",

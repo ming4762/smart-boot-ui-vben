@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, unref, watchEffect } from 'vue';
+import { ref, toRaw, unref, watchEffect } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { IconifyIcon } from '@vben/icons';
+import { $t as t } from '@vben/locales';
 
 import { Switch } from 'ant-design-vue';
 
@@ -12,21 +13,20 @@ import {
   useSmartTable,
 } from '#/adapter/smart-table';
 import { SmartIconButton } from '#/components';
+import { createConfirm } from '#/utils';
 
 import { getControlList } from '../../constants';
-import { injectCodeDesignContext } from '../../useContext';
+import {
+  injectCodeDesignContext,
+  injectCodeDesignHandler,
+} from '../../useContext';
 import { vueTableHeaderCheckboxSupport } from '../PageSettingSupport';
 import FormRuleSetModal from './FormRuleSetModal.vue';
-
-interface Props {
-  editData?: any[];
-}
-
-const props = defineProps<Props>();
 
 const { getFormSize, getButtonSize } = useSizeSetting();
 
 const { contextData } = injectCodeDesignContext();
+const { registerSaveDataHandler } = injectCodeDesignHandler();
 
 const [RenderFormRuleSetModal, modalApi] = useVbenModal({
   connectedComponent: FormRuleSetModal,
@@ -41,9 +41,11 @@ const [SmartTable] = useSmartTable({
   rowConfig: {
     useKey: true,
     isHover: true,
+    drag: true,
   },
   align: 'center',
   stripe: true,
+  border: true,
   editConfig: {
     trigger: 'click',
     mode: 'row',
@@ -51,11 +53,10 @@ const [SmartTable] = useSmartTable({
   columns: [
     {
       title: '#',
-      field: 'drop',
-      width: 80,
-      slots: {
-        default: 'table-drop',
-      },
+      field: 'drag',
+      dragSort: true,
+      width: 60,
+      align: 'center',
     },
     {
       title: '{smart.code.views.tableField.title.columnName}',
@@ -249,8 +250,44 @@ const data = ref<Array<any>>([]);
 watchEffect(() => {
   data.value = createDataFromTableData(
     unref(contextData).tableData,
-    props.editData,
+    unref(contextData).editConfigData?.codeFormConfigList,
   );
+});
+
+registerSaveDataHandler(() => {
+  const dataList = toRaw(unref(data));
+  const nonNullField: Array<string> = [];
+  dataList.forEach((item) => {
+    if (
+      item.nullable === 0 &&
+      (item.visible === false || item.used === false)
+    ) {
+      nonNullField.push(item.columnName);
+    }
+  });
+  return nonNullField.length > 0
+    ? new Promise((resolve) => {
+        const modal = createConfirm({
+          content: t(
+            'smart.code.views.codeManager.message.saveConfirmContent',
+            {
+              nonNullField: nonNullField.join(','),
+            },
+          ),
+          onCancel: () => {
+            modal.destroy();
+            throw new Error('取消保存');
+          },
+          onOk: () => {
+            resolve({
+              codeFormConfigList: dataList,
+            });
+          },
+        });
+      })
+    : {
+        codeFormConfigList: dataList,
+      };
 });
 
 const headerReadonlyCheckboxChecked = vueTableHeaderCheckboxSupport(
@@ -311,6 +348,7 @@ const headerUseCheckboxChecked = vueTableHeaderCheckboxSupport(
             row.autoValidate === true ||
             (row.ruleList && row.ruleList.length > 0)
           "
+          class="anticon"
           color="red"
           icon="ant-design:info-circle-outlined"
         />

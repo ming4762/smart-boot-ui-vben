@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed, unref } from 'vue';
+
 import { useSmartTable } from '#/adapter/smart-table';
 
 import { getTableFiledColumns } from '../../CodeDesignPage.config';
-import { injectCodeDesignContext } from '../../useContext';
+import {
+  injectCodeDesignContext,
+  injectCodeDesignHandler,
+} from '../../useContext';
 
 const { contextData } = injectCodeDesignContext();
+const { registerSaveDataHandler } = injectCodeDesignHandler();
 
 const [SmartTable] = useSmartTable({
   columns: getTableFiledColumns(),
@@ -15,11 +21,24 @@ const [SmartTable] = useSmartTable({
     isHover: true,
   },
 });
+
+const computedTableData = computed(() => {
+  return unref(contextData).tableData;
+});
+
+registerSaveDataHandler(() => {
+  const { className, remarks } = unref(contextData).dbData;
+
+  return {
+    className,
+    remarks,
+  };
+});
 </script>
 
 <template>
   <div>
-    <SmartTable v-bind="$attrs" :data="contextData.tableData" />
+    <SmartTable v-bind="$attrs" :data="computedTableData" />
   </div>
 </template>
 
