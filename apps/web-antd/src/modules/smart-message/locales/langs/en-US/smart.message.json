@@ -41,5 +41,87 @@
       "templateCode": "Please enter the template code",
       "templateName": "Please enter the template name"
     }
+  },
+  "smartMessage": {
+    "title": {
+      "sendUserName": "Sender",
+      "sendTime": "Send Time",
+      "readYn": "Read Status",
+      "readTime": "Read Time"
+    },
+    "validate": {
+      "receiveUserType": "Please enter the notification user type"
+    },
+    "rules": {},
+    "search": {},
+    "form": {},
+    "message": {
+      "selectRows": "Please select at least one record",
+      "noRead": "No unread messages",
+      "confirmMarkRead": "Are you sure you want to mark as read?",
+      "markReadSuccess": "Successfully marked as read"
+    },
+    "button": {
+      "markRead": "Mark as Read"
+    }
+  },
+  "systemMessage": {
+    "title": {
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "abstract": "Abstract",
+      "messageType": "Message Type",
+      "sendStatus": "Send Status",
+      "priority": "Priority",
+      "receiveUserType": "Notification User Type",
+      "sendTime": "Send Time",
+      "cancelTime": "Cancel Time",
+      "userIds": "Specified Users"
+    },
+    "validate": {
+      "id": "Please enter the ID",
+      "title": "Please enter the title",
+      "abstract": "Please enter the abstract",
+      "content": "Please enter the content",
+      "messageType": "Please enter the message type",
+      "priority": "Please enter the priority",
+      "receiveUserType": "Please enter the notification user type"
+    },
+    "rules": {},
+    "search": {
+      "title": "Please enter the title",
+      "messageType": "Please enter the message type",
+      "sendStatus": "Please enter the send status",
+      "priority": "Please enter the priority",
+      "receiveUserType": "Please enter the notification user type"
+    },
+    "form": {
+      "messageType": {
+        "announcement": "Announcement",
+        "systemMessage": "System Message"
+      },
+      "messagePriority": {
+        "LOW": "Low",
+        "MIDDLE": "Medium",
+        "HIGH": "High"
+      },
+      "receiveUserType": {
+        "ALL_USER": "All Users",
+        "SPECIFY_USER": "Specified Users",
+        "BUSINESS_USER": "Business Users"
+      },
+      "sendStatus": {
+        "NO_SEND": "Not Sent",
+        "SEND": "Sent",
+        "CANCEL": "Cancelled"
+      }
+    },
+    "message": {
+      "confirmPublish": "Are you sure you want to publish?",
+      "publishSuccess": "Published successfully",
+      "confirmRevoke": "Are you sure you want to revoke?",
+      "revokeSuccess": "Revoked successfully"
+    }
   }
 }
