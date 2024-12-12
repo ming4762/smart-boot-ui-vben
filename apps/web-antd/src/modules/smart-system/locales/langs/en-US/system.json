@@ -565,6 +565,30 @@
         "generatorSuccess": "Generator success",
         "reGeneratorConfirm": "The license has been generated. Are you sure you want to regenerate it?"
       }
+    },
+    "secret":{
+      "title": {
+        "keyName": "Key Name",
+        "fileStorageId": "File Storage ID",
+        "alias": "Private Key Alias",
+        "storePassword": "Keystore Password",
+        "keyPassword": "Private Key Password",
+        "publicKeyFile": "Public Key",
+        "privateKeyFile": "Private Key"
+      },
+      "validate": {
+        "keyName": "Please enter the key name",
+        "fileStorageId": "Please enter the file storage ID",
+        "storePassword": "Please enter the keystore password",
+        "keyPassword": "Please enter the private key password",
+        "alias": "Please enter the private key alias",
+        "publicKeyFileId": "Please enter the public key file ID",
+        "privateKeyFileId": "Please enter the private key file ID"
+      },
+      "rules": {},
+      "search": {
+        "keyName": "Please enter the key name"
+      }
     }
   }
 }

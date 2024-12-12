@@ -37,6 +37,7 @@
     "useYn": "启用状态",
     "yes": "是",
     "no": "否",
-    "details": "详情"
+    "details": "详情",
+    "tenantCommonYn": "平台通用"
   }
 }
