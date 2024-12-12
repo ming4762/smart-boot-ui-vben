@@ -145,7 +145,7 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
   <div class="page-container h-full">
     <SmartLayoutSeparate :show-line="false" class="h-full" first-size="240px">
       <template #first>
-        <div class="full-height system-container">
+        <div class="full-height system-container bg-background">
           <SysSystemSimpleList
             :row-config="{ isHover: true, isCurrent: true }"
             height="auto"
@@ -187,6 +187,5 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
 <style scoped>
 .system-container {
   margin-right: 5px;
-  background: white;
 }
 </style>
