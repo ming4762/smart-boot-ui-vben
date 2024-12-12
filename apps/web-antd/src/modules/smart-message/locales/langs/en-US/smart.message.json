@@ -9,20 +9,37 @@
       "builtInYn": "Built-In"
     },
     "validate": {
-      "channelCode": "请输入通道编码",
-      "channelName": "请输入通道名称",
-      "channelType1": "请输入一级通道类型",
-      "channelType2": "请输入二级通道类型",
-      "channelProperties": "请输入通道参数"
+      "channelCode": "Please enter the channel code",
+      "channelName": "Please enter the channel name",
+      "channelType1": "Please enter the primary channel type",
+      "channelType2": "Please enter the secondary channel type",
+      "channelProperties": "Please enter the channel properties"
     },
     "rules": {},
     "search": {
-      "channelCode": "请输入通道编码",
-      "channelName": "请输入通道名称",
-      "channelType1": "请输入一级通道类型，SYSTEM系统消息、SMS短信、EMAIL邮件、WECHAT微信、DINGDING钉钉、WEB_SOCKET"
+      "channelCode": "Please enter the channel code",
+      "channelName": "Please enter the channel name",
+      "channelType1": "Please enter the primary channel type, options are SYSTEM system messages, SMS text messages, EMAIL emails, WECHAT WeChat, DINGDING DingTalk, WEB_SOCKET"
     },
     "message": {
-      "builtInValidateMessage": "内置的消息通道不能编辑或删除"
+      "builtInValidateMessage": "Built-in channels cannot be edited or deleted"
+    }
+  },
+  "template": {
+    "title": {
+      "templateCode": "Template Code",
+      "templateName": "Template Name",
+      "templateContent": "Template Content"
+    },
+    "validate": {
+      "templateCode": "Please enter the template code",
+      "templateName": "Please enter the template name",
+      "templateContent": "Please enter the template content"
+    },
+    "rules": {},
+    "search": {
+      "templateCode": "Please enter the template code",
+      "templateName": "Please enter the template name"
     }
   }
 }

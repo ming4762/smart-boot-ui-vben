@@ -24,5 +24,22 @@
     "message": {
       "builtInValidateMessage": "内置的消息通道不能编辑或删除"
     }
+  },
+  "template": {
+    "title": {
+      "templateCode": "模板编码",
+      "templateName": "模板名称",
+      "templateContent": "模板内容"
+    },
+    "validate": {
+      "templateCode": "请输入模板编码",
+      "templateName": "请输入模板名称",
+      "templateContent": "请输入模板内容"
+    },
+    "rules": {},
+    "search": {
+      "templateCode": "请输入模板编码",
+      "templateName": "请输入模板名称"
+    }
   }
 }
