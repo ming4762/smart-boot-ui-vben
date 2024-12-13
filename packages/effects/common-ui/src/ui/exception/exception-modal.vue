@@ -139,7 +139,7 @@ const handleSubmit = async () => {
     .title {
       display: inline;
       overflow: hidden;
-      color: #000000d9;
+      //color: #000000d9;
       font-size: 16px;
       font-weight: 500;
       line-height: 1.4;
