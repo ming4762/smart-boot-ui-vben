@@ -36,6 +36,7 @@ export namespace AuthApi {
 export async function loginApi(data: AuthApi.LoginParams) {
   return requestClient.postForm<AuthApi.LoginResult>('/auth/login', data, {
     errorMessageMode: 'modal',
+    authErrorProcessed: false,
   });
 }
 

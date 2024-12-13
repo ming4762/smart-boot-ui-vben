@@ -3,7 +3,10 @@ import type { SmartAppProviderProps } from '@vben/preferences';
 
 import { computed, toRefs } from 'vue';
 
-import { ExceptionModal as ApiExceptionModal } from '@vben/common-ui';
+import {
+  ExceptionModal as ApiExceptionModal,
+  LoginExpiredModal,
+} from '@vben/common-ui';
 import { useAntdDesignTokens } from '@vben/hooks';
 import {
   preferences,
@@ -16,6 +19,7 @@ import { App, ConfigProvider, theme } from 'ant-design-vue';
 
 import { feedbackExceptionApi } from '#/api';
 import { antdLocale } from '#/locales';
+import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'App' });
 
@@ -46,9 +50,14 @@ const smartAppConfig: SmartAppProviderProps = {
   },
 };
 
+/**
+ * 异常反馈
+ */
 const { handleHide, exceptionNoList, modalShow } = toRefs(
   useApiExceptionStore(),
 );
+
+const { showLoginExpired, loginExpired } = toRefs(useAuthStore());
 </script>
 
 <template>
@@ -64,6 +73,12 @@ const { handleHide, exceptionNoList, modalShow } = toRefs(
       :feedback-api="feedbackExceptionApi"
       :open="modalShow"
       @hide="handleHide"
+    />
+    <!--  登录过期弹窗  -->
+    <LoginExpiredModal
+      :open="showLoginExpired"
+      @cancel="() => loginExpired(false, false)"
+      @confirm="() => loginExpired(false, true)"
     />
   </ConfigProvider>
 </template>

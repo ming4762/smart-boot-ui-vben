@@ -58,6 +58,8 @@ interface RequestOptions extends AxiosRequestConfig {
   // 错误信息警告方式
   errorMessageMode?: ErrorMessageMode;
   service?: string;
+  // 是否处理认证错误
+  authErrorProcessed?: boolean;
 }
 
 export type {

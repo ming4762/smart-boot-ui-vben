@@ -11,8 +11,6 @@ import { type RequestClientOptions, type RequestOptions } from './types';
 
 class RequestClient {
   private baseUrl: string = '';
-  // 异常处理器
-  private errorHandler?: (error: any, options: RequestOptions) => void;
 
   private readonly instance: AxiosInstance;
   // 是否单体架构
@@ -25,11 +23,6 @@ class RequestClient {
   public isRefreshing = false;
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
-  public setErrorHandler = (
-    errorHandler: (error: any, options: RequestOptions) => void,
-  ) => {
-    this.errorHandler = errorHandler;
-  };
 
   public upload: FileUploader['upload'];
 
@@ -140,7 +133,6 @@ class RequestClient {
       });
       return response as T;
     } catch (error: any) {
-      this.errorHandler && this.errorHandler(error, config);
       throw error.response ? error.response.data : error;
     }
   }

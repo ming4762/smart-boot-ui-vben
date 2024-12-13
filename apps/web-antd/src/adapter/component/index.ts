@@ -44,6 +44,7 @@ import {
 } from 'ant-design-vue';
 
 import { ApiDictSelect } from '#/components';
+import { createConfirm } from '#/utils';
 
 import { doSetupVbenForm } from '../form';
 
@@ -181,6 +182,7 @@ async function initComponentAdapter() {
         placement: 'bottomRight',
       });
     },
+    confirm: createConfirm,
   });
   doSetupVbenForm();
 }

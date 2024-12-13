@@ -87,7 +87,7 @@ function createRequestClient(baseURL: string) {
     },
   });
 
-  // token过期的处理
+  // token过期的处理（基于刷新token）
   client.addResponseInterceptor(
     authenticateResponseInterceptor({
       client,
@@ -98,9 +98,29 @@ function createRequestClient(baseURL: string) {
     }),
   );
 
+  // token过期的处理（基于jwt后台过期）
+  client.addResponseInterceptor({
+    rejected: (error) => {
+      const { response } = error;
+      // 如果不是 401 错误，直接抛出异常
+      if (
+        response?.data?.code !== 401 ||
+        error.config?.authErrorProcessed === false
+      ) {
+        throw error;
+      }
+      const authStore = useAuthStore();
+      authStore.loginExpired(true, false);
+      return Promise.reject(Object.assign(error, { isProcessed: true }));
+    },
+  });
+
   // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
   client.addResponseInterceptor(
     errorMessageResponseInterceptor((msg: string, error) => {
+      if (error.isProcessed) {
+        return;
+      }
       // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
       // 当前mock接口返回的错误字段是 error 或者 message
       const responseData = error?.response?.data ?? {};
