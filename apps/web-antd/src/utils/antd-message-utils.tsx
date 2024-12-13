@@ -6,6 +6,7 @@ import { h } from 'vue';
 
 import { Check, createIconifyIcon, Info } from '@vben/icons';
 import { $t } from '@vben/locales';
+import { useApiExceptionStore } from '@vben/stores';
 import { isString } from '@vben/utils';
 
 import {
@@ -122,7 +123,12 @@ const createConfirm = (options: ModalOptionsEx) => {
 };
 
 const createError500Modal = (e: HttpResponse) => {
-  console.error(e);
+  const { exceptionNo } = e;
+  if (!exceptionNo) {
+    return false;
+  }
+  const { handleShow } = useApiExceptionStore();
+  handleShow(exceptionNo);
 };
 
 const errorMessage = (e: Error | HttpResponse | string) => {

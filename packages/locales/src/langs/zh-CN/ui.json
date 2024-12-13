@@ -44,7 +44,8 @@
       "forbidden": "禁止访问, 您没有权限访问此资源。",
       "notFound": "未找到, 请求的资源不存在。",
       "internalServerError": "内部服务器错误，请稍后再试。"
-    }
+    },
+    "exceptionTitle": "系统发生错误，请提交错误，并联系管理员"
   },
   "widgets": {
     "document": "文档",

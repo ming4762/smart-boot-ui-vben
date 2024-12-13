@@ -1,17 +1,20 @@
 <script lang="ts" setup>
 import type { SmartAppProviderProps } from '@vben/preferences';
 
-import { computed } from 'vue';
+import { computed, toRefs } from 'vue';
 
+import { ExceptionModal as ApiExceptionModal } from '@vben/common-ui';
 import { useAntdDesignTokens } from '@vben/hooks';
 import {
   preferences,
   SmartAppProvider,
   usePreferences,
 } from '@vben/preferences';
+import { useApiExceptionStore } from '@vben/stores';
 
 import { App, ConfigProvider, theme } from 'ant-design-vue';
 
+import { feedbackExceptionApi } from '#/api';
 import { antdLocale } from '#/locales';
 
 defineOptions({ name: 'App' });
@@ -42,6 +45,10 @@ const smartAppConfig: SmartAppProviderProps = {
     form: 'small',
   },
 };
+
+const { handleHide, exceptionNoList, modalShow } = toRefs(
+  useApiExceptionStore(),
+);
 </script>
 
 <template>
@@ -51,5 +58,12 @@ const smartAppConfig: SmartAppProviderProps = {
         <RouterView />
       </SmartAppProvider>
     </App>
+    <!--  接口异常弹窗  -->
+    <ApiExceptionModal
+      :exception-no-list="exceptionNoList"
+      :feedback-api="feedbackExceptionApi"
+      :open="modalShow"
+      @hide="handleHide"
+    />
   </ConfigProvider>
 </template>
