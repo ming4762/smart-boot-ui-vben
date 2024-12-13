@@ -48,12 +48,21 @@ import { createConfirm } from '#/utils';
 
 import { doSetupVbenForm } from '../form';
 
+const placeholderI18nMap: Record<string, string> = {};
+
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
 ) => {
   return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
-    const placeholder = props?.placeholder || $t(`ui.placeholder.${type}`);
+    let placeholder = props?.placeholder;
+    if (!placeholder) {
+      const i18nKey = `ui.placeholder.${type}`;
+      if (!placeholderI18nMap[i18nKey]) {
+        placeholderI18nMap[i18nKey] = $t(i18nKey);
+      }
+      placeholder = placeholderI18nMap[i18nKey];
+    }
     return h(component, { ...props, ...attrs, placeholder }, slots);
   };
 };
