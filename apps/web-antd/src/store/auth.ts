@@ -19,6 +19,8 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+  // 是否显示登录过去期的弹窗
+  const showLoginExpired = ref(false);
 
   /**
    * 异步处理登录操作
@@ -102,6 +104,18 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
+  /**
+   * 登录过期函数
+   * @param show 是否显示弹窗
+   * @param isConfirm 是否是确认操作
+   */
+  const loginExpired = (show: boolean, isConfirm: boolean) => {
+    showLoginExpired.value = show;
+    if (isConfirm) {
+      logout();
+    }
+  };
+
   // async function fetchUserInfo() {
   //   let userInfo: null | UserInfo = null;
   //   userInfo = await getUserInfoApi();
@@ -138,5 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading,
     logout,
     applyTempToken,
+    loginExpired,
+    showLoginExpired,
   };
 });
