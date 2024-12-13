@@ -29,6 +29,7 @@ const AntRedoOutlined = createIconifyIcon('ant-design:redo-outlined');
  * @param getSmartTableContext
  * @param emit
  * @param t
+ * @param slots
  */
 const useSmartTableSearchForm = (
   tableProps: ComputedRef<SmartTableRenderProps>,

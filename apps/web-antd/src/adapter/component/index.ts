@@ -29,7 +29,9 @@ import {
   InputNumber,
   InputPassword,
   Mentions,
+  Menu,
   notification,
+  Popconfirm,
   Radio,
   RadioGroup,
   RangePicker,
@@ -37,13 +39,15 @@ import {
   Select,
   Space,
   Switch,
+  Tag,
   Textarea,
   TimePicker,
+  Tooltip,
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
 
-import { ApiDictSelect } from '#/components';
+import { ApiDictSelect, SmartDropdown, SmartIconButton } from '#/components';
 import { createConfirm } from '#/utils';
 
 import { doSetupVbenForm } from '../form';
@@ -78,11 +82,15 @@ export type ComponentType =
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
+  | 'Dropdown'
+  | 'IconButton'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
   | 'Mentions'
+  | 'Menu'
+  | 'Popconfirm'
   | 'PrimaryButton'
   | 'Radio'
   | 'RadioGroup'
@@ -92,8 +100,10 @@ export type ComponentType =
   | 'SmartPulldownTable'
   | 'Space'
   | 'Switch'
+  | 'Tag'
   | 'Textarea'
   | 'TimePicker'
+  | 'Tooltip'
   | 'TreeSelect'
   | 'Upload'
   | BaseFormComponentType;
@@ -118,6 +128,12 @@ async function initComponentAdapter() {
         slots,
       );
     },
+    AInput: Input,
+    ASelect: Select,
+    ASwitch: Switch,
+    Tag,
+    Popconfirm,
+    Dropdown: SmartDropdown,
     ApiTreeSelect: (props, { attrs, slots }) => {
       return h(
         ApiComponent,
@@ -139,6 +155,7 @@ async function initComponentAdapter() {
     Checkbox,
     CheckboxGroup,
     DatePicker,
+    Menu,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
@@ -151,6 +168,7 @@ async function initComponentAdapter() {
         slots,
       );
     },
+    IconButton: SmartIconButton,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
@@ -176,6 +194,7 @@ async function initComponentAdapter() {
     Cascader,
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
     CodeEditor,
+    Tooltip,
   };
 
   // 将组件注册到全局共享状态中

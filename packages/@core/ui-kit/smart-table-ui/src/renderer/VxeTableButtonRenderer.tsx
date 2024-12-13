@@ -25,7 +25,7 @@ export const initButtonRenderer = (): void => {
       const hasAuth = unref(button.props)?.hasAuth;
       delete buttonPros.props;
       delete buttonPros.buttonRender;
-      const component = getComponent('Button') || VbenButton;
+      const component = getComponent('IconButton') || VbenButton;
 
       if (hasAuth === false) {
         const tooltipComponent = getComponent('Tooltip');

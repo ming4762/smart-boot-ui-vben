@@ -25,7 +25,6 @@ import {
   VxeTableToolComponentRenderer,
   VxeTableToolVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
-import { AddIcon, editIcon } from '../utils';
 //
 // interface Action extends SmartTableActions {
 // }
@@ -51,9 +50,7 @@ const getDefaultAddButtonConfig = (
     code: 'ModalAdd',
     name: t('smartTable.button.add'),
     props: {
-      icon: h(AddIcon, {
-        class: ['anticon'],
-      }),
+      preIcon: 'ant-design:plus-outlined',
       type: 'primary',
     },
   };
@@ -69,9 +66,7 @@ const getDefaultEditButtonConfig = (
     code: 'ModalEdit',
     name: t('smartTable.button.edit'),
     props: {
-      icon: h(editIcon, {
-        class: ['anticon'],
-      }),
+      preIcon: 'ant-design:edit-outlined',
       type: 'primary',
     },
   };
@@ -88,9 +83,7 @@ const getDefaultDeleteButtonConfig = (
     name: t('smartTable.button.delete'),
     props: {
       danger: true,
-      icon: h(createIconifyIcon('ant-design:delete-outlined'), {
-        class: ['anticon'],
-      }),
+      preIcon: 'ant-design:delete-outlined',
       type: 'primary',
     },
   };
