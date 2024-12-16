@@ -48,7 +48,12 @@ import {
 } from 'ant-design-vue';
 
 import { ApiDictSelect, SmartDropdown, SmartIconButton } from '#/components';
-import { createConfirm } from '#/utils';
+import {
+  createConfirm,
+  errorMessage,
+  successMessage,
+  warnMessage,
+} from '#/utils';
 
 import { doSetupVbenForm } from '../form';
 
@@ -211,6 +216,9 @@ async function initComponentAdapter() {
       });
     },
     confirm: createConfirm,
+    success: successMessage,
+    error: errorMessage,
+    warning: warnMessage,
   });
   doSetupVbenForm();
 }

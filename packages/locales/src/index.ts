@@ -8,7 +8,30 @@ import {
 
 const $t = i18n.global.t;
 
+/**
+ * 国际化缓存，用户提升性能
+ */
+const I18N_CACHE = new Map<string, string>();
+
+const getKey = (key: string, args?: any[] | Record<string, any>) => {
+  if (!args) {
+    return key;
+  }
+  return `${key}${JSON.stringify(args)}`;
+};
+
+const $ct = (key: string, args?: any[] | Record<string, any>) => {
+  const cacheKey = getKey(key, args);
+  if (I18N_CACHE.has(cacheKey)) {
+    return I18N_CACHE.get(cacheKey);
+  }
+  const text = $t(key, args);
+  I18N_CACHE.set(cacheKey, text);
+  return text;
+};
+
 export {
+  $ct,
   $t,
   i18n,
   loadLocaleMessages,

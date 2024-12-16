@@ -10,6 +10,9 @@ interface ComponentsState {
 interface MessageState {
   confirm?: (options: any) => any;
   copyPreferencesSuccess?: (title: string, content?: string) => void;
+  error?: (options: any) => any;
+  success?: (options: any) => any;
+  warning?: (options: any) => any;
 }
 
 export interface IGlobalSharedState {

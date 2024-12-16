@@ -36,10 +36,13 @@ setupSmartTable({
   componentHandler: (name) => globalShareState.getComponents()[name],
   i18nHandler: (key: string, args?: any) => $t(key, args),
   messageHandler: {
-    success: (message: string) => AntMessage.success(message),
-    warning: (message: string) => AntMessage.warning(message),
-    error: (message: string) => AntMessage.error(message),
-    confirm: (options: Record<string, any>) => Modal.confirm(options),
+    success: (message: string) =>
+      globalShareState.getMessage().success?.(message),
+    warning: (message: string) =>
+      globalShareState.getMessage().warning?.(message),
+    error: (message: string) => globalShareState.getMessage().error?.(message),
+    confirm: (options: Record<string, any>) =>
+      globalShareState.getMessage().confirm?.(options),
   },
   permissionHandler: (code?: SmartAuthType) => {
     if (!code) {
