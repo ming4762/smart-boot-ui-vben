@@ -62,6 +62,22 @@ interface RequestOptions extends AxiosRequestConfig {
   authErrorProcessed?: boolean;
 }
 
+interface UploadFileItemParams {
+  // File parameter interface field name
+  name?: string;
+  // file name
+  file: Blob | File;
+  // file name
+  filename?: string;
+}
+
+interface UploadFileParams {
+  data?: Recordable;
+  file: UploadFileItemParams | UploadFileItemParams[];
+  filename?: string;
+  [key: string]: any;
+}
+
 export type {
   ErrorMessageMode,
   HttpResponse,
@@ -72,4 +88,5 @@ export type {
   RequestOptions,
   RequestResponse,
   ResponseInterceptorConfig,
+  UploadFileParams,
 };

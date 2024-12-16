@@ -18,12 +18,13 @@ class RequestClient {
 
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
+  public batchUpload: FileUploader['batchUpload'];
   public download: FileDownloader['download'];
   // 是否正在刷新token
   public isRefreshing = false;
+
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
-
   public upload: FileUploader['upload'];
 
   /**
@@ -57,6 +58,7 @@ class RequestClient {
     // 实例化文件上传器
     const fileUploader = new FileUploader(this);
     this.upload = fileUploader.upload.bind(fileUploader);
+    this.batchUpload = fileUploader.batchUpload.bind(fileUploader);
     // 实例化文件下载器
     const fileDownloader = new FileDownloader(this);
     this.download = fileDownloader.download.bind(fileDownloader);
