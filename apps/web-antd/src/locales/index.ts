@@ -5,6 +5,7 @@ import type { App } from 'vue';
 import { ref } from 'vue';
 
 import {
+  $ct,
   $t,
   setupI18n as coreSetup,
   loadLocalesMapFromDir,
@@ -113,4 +114,4 @@ async function setupI18n(app: App, options: LocaleSetupOptions = {}) {
   });
 }
 
-export { $t, antdLocale, setupI18n };
+export { $ct, $t, antdLocale, setupI18n };
