@@ -13,7 +13,7 @@ import {
   SmartVxeTableAction,
   useSmartTable,
 } from '#/adapter/smart-table';
-import { $t as t } from '#/locales';
+import { $ct as t } from '#/locales';
 
 import {
   deleteApi,
@@ -212,7 +212,7 @@ const getTableActions = (row: Recordable<any>): SmartTableActionItem[] => {
             break;
           }
         }
-        tableApi.showAddModal(data, row);
+        tableApi.showAddModal(row, data);
       },
     },
     {

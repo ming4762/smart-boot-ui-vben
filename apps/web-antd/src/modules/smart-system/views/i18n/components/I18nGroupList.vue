@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Recordable } from '@vben/types';
+
 import { nextTick, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
@@ -96,8 +98,8 @@ const [SmartTable, tableApi] = useSmartTable({
   },
 });
 
-const [createContextMenu] = useContextMenu();
-const handleContext = (e: MouseEvent, row: Recordable) => {
+const { createContextMenu } = useContextMenu();
+const handleContext = (e: MouseEvent, row: Recordable<any>) => {
   createContextMenu({
     event: e,
     items: [
@@ -119,7 +121,7 @@ const handleContext = (e: MouseEvent, row: Recordable) => {
   });
 };
 
-const handleCellClick = ({ row }) => {
+const handleCellClick = ({ row }: any) => {
   currentRowRef.value = unref(currentRowRef)?.id === row.id ? null : row;
   nextTick(() => {
     const tableInstance = tableApi.getGrid();

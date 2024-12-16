@@ -43,7 +43,9 @@ const [SmartTable, tableApi] = useSmartTable({
   height: 'auto',
   stripe: true,
   showOverflow: 'tooltip',
-  highlightHoverRow: true,
+  rowConfig: {
+    isHover: true,
+  },
   columnConfig: {
     resizable: true,
   },
@@ -214,7 +216,7 @@ const getTableDropDownActions = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate :show-line="false" class="h-full" first-size="240px">
+    <SmartLayoutSeparate class="h-full" draggable first-size="240px">
       <template #first>
         <div class="system-container h-full">
           <SysSystemSimpleList
