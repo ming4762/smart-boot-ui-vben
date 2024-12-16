@@ -4,7 +4,7 @@ import type {
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
 
-import { computed, ref, unref, useAttrs, useSlots } from 'vue';
+import { computed, nextTick, ref, unref, useAttrs, useSlots } from 'vue';
 
 import { type ExtendedFormApi, useVbenForm } from '@vben-core/form-ui';
 import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
@@ -126,18 +126,20 @@ const [Modal, modalApi] = useVbenModal({
     if (!isOpen) {
       return false;
     }
-    const data = modalApi.getData<SmartAddEditModalCallbackData>();
-    const { formData, isAdd } = data;
-    formApi.resetForm();
-    isAddRef.value = isAdd;
-    if (isAdd) {
-      formApi.setValues({
-        ...formData,
-        isAdd,
-      });
-    } else {
-      loadEditData(data, modalApi);
-    }
+    nextTick(() => {
+      const data = modalApi.getData<SmartAddEditModalCallbackData>();
+      const { formData, isAdd } = data;
+      formApi.resetForm();
+      isAddRef.value = isAdd;
+      if (isAdd) {
+        formApi.setValues({
+          ...formData,
+          isAdd,
+        });
+      } else {
+        loadEditData(data, modalApi);
+      }
+    });
   },
 });
 
