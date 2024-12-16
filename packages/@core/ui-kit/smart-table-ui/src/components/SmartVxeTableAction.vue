@@ -109,6 +109,7 @@ const getActions = computed(() => {
       const { popConfirm } = action;
       return {
         ...getCodeActionProps(action),
+        disabled: !hasPermission(action.auth) || action.disabled,
         getPopupContainer: () =>
           unref((table as any)?.wrapRef.value) ?? document.body,
         mode: 'text',
@@ -238,7 +239,6 @@ const RenderDivider = (index: number) => {
 const RenderPopConfirmVxeButton = (action: any) => {
   const props = {
     ...action,
-    disabled: !action.hasAuth,
     t: getI18n,
   };
   delete props.icon;
@@ -290,7 +290,7 @@ const RenderFunction = () => {
       {unref(getActions).map((action, index) => {
         const result = [];
         if (action.slot) {
-          result.push(slots.customButton && slots.customButton());
+          result.push(slots.customButton && slots.customButton(action));
         } else {
           result.push(RenderTooltip(action));
         }
