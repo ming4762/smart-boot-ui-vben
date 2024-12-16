@@ -135,7 +135,7 @@ function createRequestClient(baseURL: string) {
           content: errorMessageStr,
         });
       } else if (!errorMessageMode || errorMessageMode === 'message') {
-        errorMessage(error?.response.data || errorMessageStr);
+        errorMessage(errorMessageStr);
       } else {
         console.error(errorMessageStr);
       }
