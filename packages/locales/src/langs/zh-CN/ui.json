@@ -45,7 +45,8 @@
       "notFound": "未找到, 请求的资源不存在。",
       "internalServerError": "内部服务器错误，请稍后再试。"
     },
-    "exceptionTitle": "系统发生错误，请提交错误，并联系管理员"
+    "exceptionTitle": "系统发生错误，请提交错误，并联系管理员",
+    "loginExpired": "登录过期"
   },
   "widgets": {
     "document": "文档",

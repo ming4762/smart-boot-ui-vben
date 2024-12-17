@@ -4,6 +4,7 @@
 import type { ErrorMessageMode, HttpResponse } from '@vben/request';
 
 import { useAppConfig } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import {
   authenticateResponseInterceptor,
@@ -110,7 +111,12 @@ function createRequestClient(baseURL: string) {
         throw error;
       }
       const authStore = useAuthStore();
-      authStore.loginExpired(true, false);
+      if (preferences.app.loginExpiredMode === 'modal') {
+        authStore.loginExpired(true, false);
+      } else {
+        errorMessage(t('ui.fallback.http.unauthorized'));
+        authStore.logout();
+      }
       return Promise.reject(Object.assign(error, { isProcessed: true }));
     },
   });

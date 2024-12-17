@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 
+import { $t as t } from '@vben/locales';
 import { globalShareState } from '@vben-core/shared/global-state';
 
 interface Props {
@@ -28,8 +29,8 @@ watch(
   (val) => {
     if (val) {
       messageInstance = globalShareState.getMessage().confirm({
-        title: '登录过期',
-        content: '登录过期，请重新登录',
+        title: t('ui.fallback.loginExpired'),
+        content: t('ui.fallback.http.unauthorized'),
         onOk: () => {
           handleConfirm();
         },
