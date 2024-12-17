@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { AnyFunction } from '@vben/types';
+import type { AnyFunction, UserTenant } from '@vben/types';
 
 import type { Component } from 'vue';
 import { computed, ref } from 'vue';
 
-import { LockKeyhole, LogOut } from '@vben/icons';
+import { IconifyIcon, LockKeyhole, LogOut } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useLockStore } from '@vben/stores';
@@ -25,6 +25,7 @@ import {
 
 import { useMagicKeys, whenever } from '@vueuse/core';
 
+import { ChangeTenantModal } from '../change-tenant';
 import { LockScreenModal } from '../lock-screen';
 
 interface Props {
@@ -53,6 +54,15 @@ interface Props {
    * 文本
    */
   text?: string;
+  /**
+   * 查询用户租户API
+   */
+  userTenantApi?: () => Promise<UserTenant[]>;
+  /**
+   * 切换租户
+   * @param tenantId
+   */
+  changeTenantHandler?: (tenantId: number) => Promise<void>;
 }
 
 defineOptions({
@@ -67,6 +77,8 @@ const props = withDefaults(defineProps<Props>(), {
   showShortcutKey: true,
   tagText: '',
   text: '',
+  userTenantApi: () => Promise.resolve([]),
+  changeTenantHandler: undefined,
 });
 
 const emit = defineEmits<{ logout: [] }>();
@@ -82,6 +94,9 @@ const [LogoutModal, logoutModalApi] = useVbenModal({
   onConfirm() {
     handleSubmitLogout();
   },
+});
+const [RenderChangeTenantModal, changeTenantModalApi] = useVbenModal({
+  connectedComponent: ChangeTenantModal,
 });
 
 const altView = computed(() => (isWindowsOs() ? 'Alt' : '⌥'));
@@ -155,6 +170,12 @@ if (enableShortcutKey.value) {
     {{ $t('ui.widgets.logoutTip') }}
   </LogoutModal>
 
+  <!-- 租户变更弹窗 -->
+  <RenderChangeTenantModal
+    :change-tenant-handler="props.changeTenantHandler"
+    :user-tenant-api="props.userTenantApi"
+  />
+
   <DropdownMenu>
     <DropdownMenuTrigger>
       <div class="hover:bg-accent ml-1 mr-2 cursor-pointer rounded-full p-1.5">
@@ -198,6 +219,18 @@ if (enableShortcutKey.value) {
       >
         <VbenIcon :icon="menu.icon" class="mr-2 size-4" />
         {{ menu.text }}
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <!--   切换租户/修改密码   -->
+      <DropdownMenuItem
+        class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+        @click="() => changeTenantModalApi.open()"
+      >
+        <IconifyIcon
+          class="mr-2 size-4"
+          icon="ant-design:usergroup-add-outlined"
+        />
+        {{ $t('ui.widgets.changeTenant.title') }}
       </DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem

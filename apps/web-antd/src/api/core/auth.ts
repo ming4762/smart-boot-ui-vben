@@ -1,6 +1,14 @@
 import type { UserInfo } from '@vben/types';
 
-import { baseRequestClient, requestClient } from '#/api/request';
+import {
+  ApiServiceEnum,
+  baseRequestClient,
+  requestClient,
+} from '#/api/request';
+
+enum Api {
+  changeTenant = '/auth/tenant/change',
+}
 
 export namespace AuthApi {
   /** 登录接口参数 */
@@ -64,3 +72,17 @@ export async function logoutApi() {
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
 }
+
+/**
+ * 切换租户API
+ * @param tenantId 租户ID
+ */
+export const changeTenantApi = (tenantId: number) => {
+  return requestClient.postForm<AuthApi.LoginResult>(
+    Api.changeTenant,
+    { tenantId },
+    {
+      service: ApiServiceEnum.SMART_AUTH,
+    },
+  );
+};

@@ -9,7 +9,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { loginApi, logoutApi } from '#/api';
+import { type AuthApi, changeTenantApi, loginApi, logoutApi } from '#/api';
 import { requestClient } from '#/api/request';
 import { $t } from '#/locales';
 
@@ -21,6 +21,69 @@ export const useAuthStore = defineStore('auth', () => {
   const loginLoading = ref(false);
   // 是否显示登录过去期的弹窗
   const showLoginExpired = ref(false);
+
+  /**
+   * 解决刷新路由，store持久化丢失问题
+   * @param userInfo
+   * @param permissions
+   */
+  const loginSetStore = (userInfo: UserInfo, permissions: string[]) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        userStore.setUserInfo(userInfo);
+        accessStore.setAccessCodes(permissions);
+        resolve('');
+      }, 1);
+    });
+  };
+
+  const afterLogin = async (
+    loginData: AuthApi.LoginResult,
+    changeTenant = false,
+    onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
+  ) => {
+    const { permissions, roles, token, user } = loginData;
+
+    let userInfo: null | UserInfo = null;
+    // 如果成功获取到 accessToken
+    if (token) {
+      accessStore.setAccessToken(token);
+
+      // 获取用户信息并存储到 accessStore 中
+      // const [fetchUserInfoResult, accessCodes] = await Promise.all([
+      //   fetchUserInfo(),
+      //   getAccessCodesApi(),
+      // ]);
+
+      userInfo = {
+        ...user,
+        realName: user.fullName,
+        roles,
+      };
+      await loginSetStore(userInfo, permissions);
+      // userStore.setUserInfo(userInfo);
+      // accessStore.setAccessCodes(permissions);
+
+      if (accessStore.loginExpired) {
+        accessStore.setLoginExpired(false);
+      } else {
+        onSuccess
+          ? await onSuccess?.(userInfo)
+          : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+      }
+
+      if (userInfo?.realName) {
+        notification.success({
+          description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+          duration: 3,
+          message: changeTenant
+            ? $t('authentication.changeTenantSuccess')
+            : $t('authentication.loginSuccess'),
+        });
+      }
+    }
+    return userInfo;
+  };
 
   /**
    * 异步处理登录操作
@@ -36,45 +99,8 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { permissions, roles, token, user } = await loginApi(
-        params as never,
-      );
-
-      // 如果成功获取到 accessToken
-      if (token) {
-        accessStore.setAccessToken(token);
-
-        // 获取用户信息并存储到 accessStore 中
-        // const [fetchUserInfoResult, accessCodes] = await Promise.all([
-        //   fetchUserInfo(),
-        //   getAccessCodesApi(),
-        // ]);
-
-        userInfo = {
-          ...user,
-          realName: user.fullName,
-          roles,
-        };
-
-        userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(permissions);
-
-        if (accessStore.loginExpired) {
-          accessStore.setLoginExpired(false);
-        } else {
-          onSuccess
-            ? await onSuccess?.()
-            : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
-        }
-
-        if (userInfo?.realName) {
-          notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-            duration: 3,
-            message: $t('authentication.loginSuccess'),
-          });
-        }
-      }
+      const loginData = await loginApi(params as never);
+      userInfo = await afterLogin(loginData, false, onSuccess);
     } finally {
       loginLoading.value = false;
     }
@@ -83,6 +109,26 @@ export const useAuthStore = defineStore('auth', () => {
       userInfo,
     };
   }
+
+  /**
+   * 切换租户
+   * @param tenantId 租户ID
+   */
+  const changeTenant = async (tenantId: number) => {
+    const data = await changeTenantApi(tenantId);
+    // 重置store
+    resetAllStores();
+    accessStore.setLoginExpired(false);
+
+    afterLogin(data, true, async (userInfo) => {
+      await router.replace({
+        path: userInfo.homePath || DEFAULT_HOME_PATH,
+        query: {
+          timestamp: Date.now(),
+        },
+      });
+    });
+  };
 
   async function logout(redirect: boolean = true) {
     try {
@@ -154,5 +200,6 @@ export const useAuthStore = defineStore('auth', () => {
     applyTempToken,
     loginExpired,
     showLoginExpired,
+    changeTenant,
   };
 });

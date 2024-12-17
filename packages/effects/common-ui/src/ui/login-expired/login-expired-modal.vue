@@ -28,7 +28,7 @@ watch(
   () => props.open,
   (val) => {
     if (val) {
-      messageInstance = globalShareState.getMessage().confirm({
+      messageInstance = globalShareState.getMessage().confirm?.({
         title: t('ui.fallback.loginExpired'),
         content: t('ui.fallback.http.unauthorized'),
         onOk: () => {
@@ -47,6 +47,11 @@ watch(
     immediate: true,
   },
 );
+
+const Render = () => null;
 </script>
 
+<template>
+  <Render />
+</template>
 <style lang="less" scoped></style>

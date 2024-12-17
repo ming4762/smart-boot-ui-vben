@@ -17,6 +17,7 @@ import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
+import { listCurrentUserTenantApi } from '#/api';
 import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
 import LoginForm from '#/views/_core/authentication/login.vue';
@@ -60,35 +61,41 @@ const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
 );
 
-const menus = computed(() => [
-  {
-    handler: () => {
-      openWindow(VBEN_DOC_URL, {
-        target: '_blank',
-      });
-    },
-    icon: BookOpenText,
-    text: $t('ui.widgets.document'),
-  },
-  {
-    handler: () => {
-      openWindow(VBEN_GITHUB_URL, {
-        target: '_blank',
-      });
-    },
-    icon: MdiGithub,
-    text: 'GitHub',
-  },
-  {
-    handler: () => {
-      openWindow(`${VBEN_GITHUB_URL}/issues`, {
-        target: '_blank',
-      });
-    },
-    icon: CircleHelp,
-    text: $t('ui.widgets.qa'),
-  },
-]);
+const menus = computed(() => {
+  const menus: any[] = [];
+  if (import.meta.env.DEV) {
+    menus.push(
+      {
+        handler: () => {
+          openWindow(VBEN_DOC_URL, {
+            target: '_blank',
+          });
+        },
+        icon: BookOpenText,
+        text: $t('ui.widgets.document'),
+      },
+      {
+        handler: () => {
+          openWindow(VBEN_GITHUB_URL, {
+            target: '_blank',
+          });
+        },
+        icon: MdiGithub,
+        text: 'GitHub',
+      },
+      {
+        handler: () => {
+          openWindow(`${VBEN_GITHUB_URL}/issues`, {
+            target: '_blank',
+          });
+        },
+        icon: CircleHelp,
+        text: $t('ui.widgets.qa'),
+      },
+    );
+  }
+  return menus;
+});
 
 const avatar = computed(() => {
   return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
@@ -105,6 +112,10 @@ function handleNoticeClear() {
 function handleMakeAll() {
   notifications.value.forEach((item) => (item.isRead = true));
 }
+
+const handleChangeTenant = (tenantId: number) => {
+  return authStore.changeTenant(tenantId);
+};
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -127,8 +138,10 @@ watch(
     <template #user-dropdown>
       <UserDropdown
         :avatar
+        :change-tenant-handler="handleChangeTenant"
         :menus
         :text="userStore.userInfo?.realName"
+        :user-tenant-api="listCurrentUserTenantApi"
         description="ann.vben@gmail.com"
         tag-text="Pro"
         @logout="handleLogout"

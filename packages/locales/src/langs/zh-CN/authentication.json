@@ -52,5 +52,6 @@
     "center": "居中",
     "alignLeft": "居左",
     "alignRight": "居右"
-  }
+  },
+  "changeTenantSuccess": "切换租户成功"
 }
