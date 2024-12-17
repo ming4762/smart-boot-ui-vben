@@ -10,5 +10,6 @@
   "refresh": "刷新",
   "loadingMenu": "加载菜单中",
   "query": "查询",
-  "submit": "提交"
+  "submit": "提交",
+  "search": "搜索"
 }

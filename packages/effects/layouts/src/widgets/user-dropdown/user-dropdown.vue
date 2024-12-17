@@ -2,8 +2,9 @@
 import type { AnyFunction, UserTenant } from '@vben/types';
 
 import type { Component } from 'vue';
-import { computed, ref } from 'vue';
+import { computed, useTemplateRef, watch } from 'vue';
 
+import { useHoverToggle } from '@vben/hooks';
 import { IconifyIcon, LockKeyhole, LogOut } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences, usePreferences } from '@vben/preferences';
@@ -63,6 +64,10 @@ interface Props {
    * @param tenantId
    */
   changeTenantHandler?: (tenantId: number) => Promise<void>;
+  /** 触发方式 */
+  trigger?: 'both' | 'click' | 'hover';
+  /** hover触发时，延迟响应的时间 */
+  hoverDelay?: number;
 }
 
 defineOptions({
@@ -79,10 +84,11 @@ const props = withDefaults(defineProps<Props>(), {
   text: '',
   userTenantApi: () => Promise.resolve([]),
   changeTenantHandler: undefined,
+  trigger: 'click',
+  hoverDelay: 500,
 });
 
 const emit = defineEmits<{ logout: [] }>();
-const openPopover = ref(false);
 
 const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
   usePreferences();
@@ -98,6 +104,27 @@ const [LogoutModal, logoutModalApi] = useVbenModal({
 const [RenderChangeTenantModal, changeTenantModalApi] = useVbenModal({
   connectedComponent: ChangeTenantModal,
 });
+
+const refTrigger = useTemplateRef('refTrigger');
+const refContent = useTemplateRef('refContent');
+const [openPopover, hoverWatcher] = useHoverToggle(
+  [refTrigger, refContent],
+  () => props.hoverDelay,
+);
+
+watch(
+  () => props.trigger === 'hover' || props.trigger === 'both',
+  (val) => {
+    if (val) {
+      hoverWatcher.enable();
+    } else {
+      hoverWatcher.disable();
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 
 const altView = computed(() => (isWindowsOs() ? 'Alt' : '⌥'));
 
@@ -176,8 +203,8 @@ if (enableShortcutKey.value) {
     :user-tenant-api="props.userTenantApi"
   />
 
-  <DropdownMenu>
-    <DropdownMenuTrigger>
+  <DropdownMenu v-model:open="openPopover">
+    <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="hover:bg-accent ml-1 mr-2 cursor-pointer rounded-full p-1.5">
         <div class="hover:text-accent-foreground flex-center">
           <VbenAvatar :alt="text" :src="avatar" class="size-8" dot />
@@ -185,76 +212,78 @@ if (enableShortcutKey.value) {
       </div>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="mr-2 min-w-[240px] p-0 pb-1">
-      <DropdownMenuLabel class="flex items-center p-3">
-        <VbenAvatar
-          :alt="text"
-          :src="avatar"
-          class="size-12"
-          dot
-          dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
-        />
-        <div class="ml-2 w-full">
-          <div
-            v-if="tagText || text || $slots.tagText"
-            class="text-foreground mb-1 flex items-center text-sm font-medium"
-          >
-            {{ text }}
-            <slot name="tagText">
-              <Badge v-if="tagText" class="ml-2 text-green-400">
-                {{ tagText }}
-              </Badge>
-            </slot>
+      <div ref="refContent">
+        <DropdownMenuLabel class="flex items-center p-3">
+          <VbenAvatar
+            :alt="text"
+            :src="avatar"
+            class="size-12"
+            dot
+            dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
+          />
+          <div class="ml-2 w-full">
+            <div
+              v-if="tagText || text || $slots.tagText"
+              class="text-foreground mb-1 flex items-center text-sm font-medium"
+            >
+              {{ text }}
+              <slot name="tagText">
+                <Badge v-if="tagText" class="ml-2 text-green-400">
+                  {{ tagText }}
+                </Badge>
+              </slot>
+            </div>
+            <div class="text-muted-foreground text-xs font-normal">
+              {{ description }}
+            </div>
           </div>
-          <div class="text-muted-foreground text-xs font-normal">
-            {{ description }}
-          </div>
-        </div>
-      </DropdownMenuLabel>
-      <DropdownMenuSeparator v-if="menus?.length" />
-      <DropdownMenuItem
-        v-for="menu in menus"
-        :key="menu.text"
-        class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
-        @click="menu.handler"
-      >
-        <VbenIcon :icon="menu.icon" class="mr-2 size-4" />
-        {{ menu.text }}
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <!--   切换租户/修改密码   -->
-      <DropdownMenuItem
-        class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
-        @click="() => changeTenantModalApi.open()"
-      >
-        <IconifyIcon
-          class="mr-2 size-4"
-          icon="ant-design:usergroup-add-outlined"
-        />
-        {{ $t('ui.widgets.changeTenant.title') }}
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem
-        v-if="preferences.widget.lockScreen"
-        class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
-        @click="handleOpenLock"
-      >
-        <LockKeyhole class="mr-2 size-4" />
-        {{ $t('ui.widgets.lockScreen.title') }}
-        <DropdownMenuShortcut v-if="enableLockScreenShortcutKey">
-          {{ altView }} L
-        </DropdownMenuShortcut>
-      </DropdownMenuItem>
-      <DropdownMenuSeparator v-if="preferences.widget.lockScreen" />
-      <DropdownMenuItem
-        class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
-        @click="handleLogout"
-      >
-        <LogOut class="mr-2 size-4" />
-        {{ $t('common.logout') }}
-        <DropdownMenuShortcut v-if="enableLogoutShortcutKey">
-          {{ altView }} Q
-        </DropdownMenuShortcut>
-      </DropdownMenuItem>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator v-if="menus?.length" />
+        <DropdownMenuItem
+          v-for="menu in menus"
+          :key="menu.text"
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="menu.handler"
+        >
+          <VbenIcon :icon="menu.icon" class="mr-2 size-4" />
+          {{ menu.text }}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <!--   切换租户/修改密码   -->
+        <DropdownMenuItem
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="() => changeTenantModalApi.open()"
+        >
+          <IconifyIcon
+            class="mr-2 size-4"
+            icon="ant-design:usergroup-add-outlined"
+          />
+          {{ $t('ui.widgets.changeTenant.title') }}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          v-if="preferences.widget.lockScreen"
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="handleOpenLock"
+        >
+          <LockKeyhole class="mr-2 size-4" />
+          {{ $t('ui.widgets.lockScreen.title') }}
+          <DropdownMenuShortcut v-if="enableLockScreenShortcutKey">
+            {{ altView }} L
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator v-if="preferences.widget.lockScreen" />
+        <DropdownMenuItem
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="handleLogout"
+        >
+          <LogOut class="mr-2 size-4" />
+          {{ $t('common.logout') }}
+          <DropdownMenuShortcut v-if="enableLogoutShortcutKey">
+            {{ altView }} Q
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </div>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

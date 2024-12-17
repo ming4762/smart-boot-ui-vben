@@ -10,5 +10,6 @@
   "refresh": "Refresh",
   "loadingMenu": "Loading Menu",
   "query": "Search",
-  "submit": "Submit"
+  "submit": "Submit",
+  "search": "Search"
 }
