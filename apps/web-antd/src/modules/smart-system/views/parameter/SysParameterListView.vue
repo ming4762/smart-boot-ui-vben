@@ -40,7 +40,6 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   rowConfig: {
     isHover: true,
-    drag: true,
   },
   showOverflow: 'tooltip',
   columns: getTableColumns(),
@@ -80,7 +79,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
     zoom: true,
-    column: { columnOrder: true },
+    column: true,
     sizeSetting: true,
     buttons: [{ code: 'ModalAdd' }, { code: 'ModalEdit' }, { code: 'delete' }],
   },

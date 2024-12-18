@@ -116,11 +116,28 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
       },
     },
     {
+      fieldName: 'buildIn',
+      label: '',
+      component: 'Radio',
+      componentProps: {},
+      dependencies: {
+        triggerFields: ['id'],
+        show: false,
+      },
+    },
+    {
       fieldName: 'code',
       label: t('system.views.parameter.title.code'),
       component: 'Input',
       componentProps: {},
       rules: 'required',
+      dependencies: {
+        triggerFields: ['code'],
+        disabled: (value) => {
+          const { buildIn } = value;
+          return buildIn === true;
+        },
+      },
     },
     {
       fieldName: 'name',
