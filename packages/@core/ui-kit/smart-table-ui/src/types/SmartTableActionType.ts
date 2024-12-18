@@ -12,7 +12,6 @@ import type { SmartTableFetchParams } from './SmartTableAjaxType';
 interface SmartTableInnerActionType {
   getSearchFormParameter: () => Promise<SmartSearchFormParameter | undefined>;
   hasPermission: (auth?: SmartAuthType | string) => boolean;
-  setColumnSortConfig: () => void;
   setSmartTableProps: (props: Partial<SmartTableRenderProps>) => void;
 }
 

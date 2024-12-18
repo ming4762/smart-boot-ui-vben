@@ -8,7 +8,6 @@ import type {
 
 import type {
   SmartTableAction,
-  SmartTableColumn,
   SmartTableRenderListeners,
   SmartTableRenderProps,
 } from '../types';
@@ -37,7 +36,6 @@ import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
-import { useSmartTableColumnConfig } from '../hooks/useSmartTableColumnConfig';
 import { createSmartTableContext } from '../hooks/useSmartTableContext';
 import { useSmartTableDynamicClassStyle } from '../hooks/useSmartTableDynamicClassStyle';
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
@@ -86,11 +84,6 @@ const setSmartTableProps = (setProps: Partial<SmartTableRenderProps>) => {
   innerPropsRef.value = { ...unref(innerPropsRef), ...setProps };
 };
 
-/**
- * 列排序存储
- */
-const { computedColumnSort, setColumnSortConfig } =
-  useSmartTableColumnConfig(getVxeTableInstance);
 /**
  * 列动态class style支持
  */
@@ -183,23 +176,6 @@ const computedTableSlots = computed(() => {
   };
 });
 
-const getTableColumns = computed<SmartTableColumn[]>(() => {
-  const columns = [...unref(computedTableColumns)];
-  const columnSort = unref(computedColumnSort);
-  if (!columnSort) {
-    return columns;
-  }
-  return columns.sort((a, b) => {
-    if (!a.field) {
-      return 0;
-    }
-    if (!columnSort.includes(a.field)) {
-      return 0;
-    }
-    return columnSort.indexOf(a.field) - columnSort.indexOf(b.field);
-  });
-});
-
 const tableAction: SmartTableAction = {
   deleteByCheckbox: () => deleteByCheckbox(),
   deleteByRow: (row) => deleteByRow(row),
@@ -223,7 +199,6 @@ const defaultAuthHandler = (code?: SmartAuthType) => {
 const tableInnerAction: SmartTableInnerActionType = {
   getSearchFormParameter,
   hasPermission: props.authConfig?.authHandler ?? defaultAuthHandler,
-  setColumnSortConfig: () => setColumnSortConfig(),
   setSmartTableProps,
 };
 
@@ -249,7 +224,7 @@ createSmartTableContext(smartTableContext);
 const renderTable = () => {
   const vNodeList = [
     <VxeGrid
-      columns={unref(getTableColumns) as VxeGridPropTypes.Column[]}
+      columns={unref(computedTableColumns) as VxeGridPropTypes.Column[]}
       ref={vxeTableInstance}
       {...unref(getSmartTableBindValues)}
     >

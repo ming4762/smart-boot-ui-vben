@@ -1,5 +1,4 @@
 <script setup lang="tsx">
-import type { Sortable } from '@vben-core/composables';
 import type { Recordable } from '@vben-core/typings';
 import type {
   VxeColumnPropTypes,
@@ -12,9 +11,7 @@ import type {
 
 import type { SmartTableToolbarColumnConfig } from '../types/SmartTableToolbarConfigType';
 
-import { computed, nextTick, ref, unref, useTemplateRef } from 'vue';
-
-import { useSortable } from '@vben-core/composables';
+import { computed, ref, unref, useTemplateRef } from 'vue';
 
 import { VxeButton, VxePulldown } from 'vxe-pc-ui';
 import { VxeGrid, getI18n as vxeI18n } from 'vxe-table';
@@ -23,7 +20,6 @@ import { injectSmartTableContext } from '../hooks/useSmartTableContext';
 
 interface Props {
   config?: SmartTableToolbarColumnConfig;
-  setColumnSortConfig: () => void;
 }
 
 interface ChangeColumn {
@@ -46,8 +42,6 @@ const props = withDefaults(defineProps<Props>(), {
     };
   },
 });
-
-const DRAG_CLASS = 'smart-table-column-config--drag';
 
 const pullDownRef = useTemplateRef<VxePulldownInstance>('pullDownRef');
 const configGridRef = useTemplateRef<VxeGridInstance>('configGridRef');
@@ -87,36 +81,8 @@ const handleShowHideOk = () => {
   changeColumnsRef.value = {};
 };
 
-const getGridColumns = (
-  columnOrder: boolean,
-  changeFixed: Function,
-): VxeGridPropTypes.Columns => {
+const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
   const columns: VxeGridPropTypes.Columns = [];
-
-  if (columnOrder) {
-    columns.push({
-      align: 'left',
-      field: 'drag',
-      slots: {
-        default: ({ row, rowIndex }) => {
-          const fixed = !(row.fixed === undefined || row.fixed === null);
-          return (
-            <div
-              class={
-                fixed ? 'smart-table-column-config--drag-fixed' : DRAG_CLASS
-              }
-              data-id={rowIndex}
-              title={fixed ? '锁定列不可调整顺序' : '拖动调整顺序'}
-            >
-              <i class="vxe-icon-num-list" data-id={rowIndex} />
-            </div>
-          );
-        },
-      },
-      title: '#',
-      width: '40',
-    });
-  }
   columns.push(
     ...([
       {
@@ -206,8 +172,8 @@ const handleFixedChange = (
 
 /**
  * 显示隐藏变更触发
- * @param row
  * @param checked
+ * @param row
  */
 const handleCheckboxChange = ({ checked, row }: any) => {
   const { column } = row;
@@ -228,10 +194,7 @@ const computedGridProps = computed<VxeGridProps>(() => {
       // trigger: 'row',
       checkField: 'checked',
     },
-    columns: getGridColumns(
-      unref(props).config.columnOrder || false,
-      handleFixedChange,
-    ),
+    columns: getGridColumns(handleFixedChange),
     data: unref(computedTableColumns)?.map((item) => {
       const { field, fixed, visible } = item;
       return {
@@ -253,60 +216,11 @@ const computedGridProps = computed<VxeGridProps>(() => {
   };
 });
 
-const useDrag = (
-  getTable: () => VxeGridInstance,
-  setColumnSortConfig: Function,
-) => {
-  const selector = '.body--wrapper>.vxe-table--body tbody';
-  let sortable: null | Sortable = null;
-  const openDrag = async () => {
-    if (sortable !== null) {
-      return false;
-    }
-    const sortEl = unref(configGridRef)?.$el.querySelector(selector);
-    const { initializeSortable } = useSortable(sortEl, {
-      dataIdAttr: 'rowid',
-      handle: `.${DRAG_CLASS}`,
-      onEnd: ({ newIndex, oldIndex }) => {
-        const table = getTable();
-        const fullColumn = table.getTableColumn().fullColumn;
-        const keySorts = fullColumn.map((item) => item.field);
-        const currentRow = fullColumn.splice(
-          oldIndex!,
-          1,
-        )[0] as VxeTableDefines.ColumnInfo;
-        fullColumn.splice(newIndex!, 0, currentRow);
-        sortable?.sort(keySorts);
-        table.reloadColumn(fullColumn);
-        nextTick(() => {
-          if (table.id && table.customConfig?.storage === true) {
-            setColumnSortConfig();
-          }
-        });
-      },
-    });
-    sortable = await initializeSortable();
-  };
-  return {
-    openDrag,
-  };
-};
-
-/**
- * 添加行顺序调整
- */
-const { openDrag } = useDrag(getGrid, props.setColumnSortConfig);
-
 /**
  * 显示弹窗面板
  */
 const showPanel = () => {
   unref(pullDownRef)?.showPanel();
-  nextTick(() => {
-    if (props.config.columnOrder) {
-      openDrag();
-    }
-  });
 };
 
 const computedToolButtonProps = computed(() => {
@@ -386,14 +300,6 @@ const computedToolButtonProps = computed(() => {
     .vxe-button {
       width: 50%;
     }
-  }
-
-  .smart-table-column-config--drag {
-    cursor: pointer;
-  }
-
-  .smart-table-column-config--drag-fixed {
-    cursor: no-drop;
   }
 }
 </style>

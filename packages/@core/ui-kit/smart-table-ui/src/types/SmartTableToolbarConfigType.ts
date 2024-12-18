@@ -5,8 +5,6 @@ import type { VxeButtonProps } from 'vxe-table';
  */
 interface SmartTableToolbarColumnConfig {
   buttonProps?: VxeButtonProps;
-  // 是否支持列排序
-  columnOrder?: boolean;
   trigger?: 'click' | 'hover' | 'manual';
 }
 
