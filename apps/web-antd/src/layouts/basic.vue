@@ -20,6 +20,7 @@ import { openWindow } from '@vben/utils';
 import { listCurrentUserTenantApi } from '#/api';
 import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
+import { createConfirm } from '#/utils';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([
@@ -116,6 +117,22 @@ function handleMakeAll() {
 const handleChangeTenant = (tenantId: number) => {
   return authStore.changeTenant(tenantId);
 };
+
+/**
+ * 修改密码
+ * @param data
+ */
+const handleChangePassword = async (data: {
+  newPassword: string;
+  newPasswordConfirm: string;
+  oldPassword: string;
+}) => {
+  await authStore.changePassword(data);
+  createConfirm({
+    content: $t('ui.widgets.changePassword.changePasswordSuccess'),
+    onOk: () => authStore.logout(),
+  });
+};
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -138,6 +155,7 @@ watch(
     <template #user-dropdown>
       <UserDropdown
         :avatar
+        :change-password-handler="handleChangePassword"
         :change-tenant-handler="handleChangeTenant"
         :menus
         :text="userStore.userInfo?.realName"

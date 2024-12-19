@@ -1,15 +1,22 @@
-import type { Recordable, UserInfo } from '@vben/types';
+import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { ApiServiceEnum, DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
+import { createPassword } from '@vben/utils';
 
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { type AuthApi, changeTenantApi, loginApi, logoutApi } from '#/api';
+import {
+  type AuthApi,
+  changePasswordApi,
+  changeTenantApi,
+  loginApi,
+  logoutApi,
+} from '#/api';
 import { requestClient } from '#/api/request';
 import { $t } from '#/locales';
 
@@ -191,6 +198,19 @@ export const useAuthStore = defineStore('auth', () => {
     );
   };
 
+  /**
+   * 修改密码
+   * @param data
+   */
+  const changePassword = (data: ChangePasswordParams) => {
+    const { username } = userStore.userInfo;
+    return changePasswordApi({
+      oldPassword: createPassword(username, data.oldPassword),
+      newPassword: createPassword(username, data.newPassword),
+      newPasswordConfirm: createPassword(username, data.newPasswordConfirm),
+    });
+  };
+
   return {
     $reset,
     authLogin,
@@ -201,5 +221,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginExpired,
     showLoginExpired,
     changeTenant,
+    changePassword,
   };
 });

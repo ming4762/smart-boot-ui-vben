@@ -26,6 +26,7 @@ import {
 
 import { useMagicKeys, whenever } from '@vueuse/core';
 
+import { ChangePasswordModal } from '../change-password';
 import { ChangeTenantModal } from '../change-tenant';
 import { LockScreenModal } from '../lock-screen';
 
@@ -68,6 +69,11 @@ interface Props {
   trigger?: 'both' | 'click' | 'hover';
   /** hover触发时，延迟响应的时间 */
   hoverDelay?: number;
+  changePasswordHandler?: (data: {
+    newPassword: string;
+    newPasswordConfirm: string;
+    oldPassword: string;
+  }) => Promise<boolean>;
 }
 
 defineOptions({
@@ -86,6 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
   changeTenantHandler: undefined,
   trigger: 'click',
   hoverDelay: 500,
+  changePasswordHandler: undefined,
 });
 
 const emit = defineEmits<{ logout: [] }>();
@@ -103,6 +110,9 @@ const [LogoutModal, logoutModalApi] = useVbenModal({
 });
 const [RenderChangeTenantModal, changeTenantModalApi] = useVbenModal({
   connectedComponent: ChangeTenantModal,
+});
+const [RenderChangePasswordModal, changePasswordModalApi] = useVbenModal({
+  connectedComponent: ChangePasswordModal,
 });
 
 const refTrigger = useTemplateRef('refTrigger');
@@ -202,6 +212,10 @@ if (enableShortcutKey.value) {
     :change-tenant-handler="props.changeTenantHandler"
     :user-tenant-api="props.userTenantApi"
   />
+  <!-- 修改密码弹窗 -->
+  <RenderChangePasswordModal
+    :change-password-handler="props.changePasswordHandler"
+  />
 
   <DropdownMenu v-model:open="openPopover">
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
@@ -259,6 +273,13 @@ if (enableShortcutKey.value) {
             icon="ant-design:usergroup-add-outlined"
           />
           {{ $t('ui.widgets.changeTenant.title') }}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="() => changePasswordModalApi.open()"
+        >
+          <IconifyIcon class="mr-2 size-4" icon="ant-design:key-outlined" />
+          {{ $t('ui.widgets.changePassword.title') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

@@ -17,4 +17,10 @@ interface UserInfo extends BasicUserInfo {
   // token: string;
 }
 
-export type { UserInfo };
+interface ChangePasswordParams {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+}
+
+export type { ChangePasswordParams, UserInfo };

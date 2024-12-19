@@ -1,8 +1,9 @@
-import type { UserInfo, UserTenant } from '@vben/types';
+import type { ChangePasswordParams, UserInfo, UserTenant } from '@vben/types';
 
 import { ApiServiceEnum, requestClient } from '#/api/request';
 
 enum Api {
+  changePassword = 'sys/auth/changePassword',
   listCurrentUserTenant = 'sys/tenant/manager/listCurrentUserTenant',
 }
 
@@ -35,4 +36,14 @@ export const listCurrentUserTenantApi = async () => {
       } as UserTenant;
     },
   );
+};
+
+/**
+ * 修改密码API
+ * @param params
+ */
+export const changePasswordApi = async (params: ChangePasswordParams) => {
+  return requestClient.post(Api.changePassword, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };

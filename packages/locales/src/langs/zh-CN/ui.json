@@ -82,6 +82,17 @@
     "changeTenant": {
       "title": "切换租户",
       "changeTenantSuccess": "切换租户成功"
+    },
+    "changePassword": {
+      "title": "修改密码",
+      "oldPassword": "原密码",
+      "newPassword": "新密码",
+      "oldPasswordPlaceholder": "请输入原密码",
+      "newPasswordPlaceholder": "请输入新密码",
+      "confirmPassword": "确认密码",
+      "placeholderConfirm": "请再次输入密码",
+      "errorPasswordTip": "两次密码不一致，请重新输入",
+      "changePasswordSuccess": "修改密码成功，请重新登录"
     }
   }
 }
