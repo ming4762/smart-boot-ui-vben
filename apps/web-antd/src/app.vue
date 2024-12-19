@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SmartAppProviderProps } from '@vben/preferences';
 
-import { computed, toRefs } from 'vue';
+import { computed, onMounted, toRefs } from 'vue';
 
 import {
   ExceptionModal as ApiExceptionModal,
@@ -13,11 +13,15 @@ import {
   SmartAppProvider,
   usePreferences,
 } from '@vben/preferences';
-import { useApiExceptionStore } from '@vben/stores';
+import { useApiExceptionStore, useSysPropertiesStore } from '@vben/stores';
 
 import { App, ConfigProvider, theme } from 'ant-design-vue';
 
-import { feedbackExceptionApi } from '#/api';
+import {
+  feedbackExceptionApi,
+  getAuthPropertiesApi,
+  getSystemPropertiesApi,
+} from '#/api';
 import { antdLocale } from '#/locales';
 import { useAuthStore } from '#/store';
 
@@ -58,6 +62,18 @@ const { handleHide, exceptionNoList, modalShow } = toRefs(
 );
 
 const { showLoginExpired, loginExpired } = toRefs(useAuthStore());
+onMounted(async () => {
+  // 加载系统参数
+  const sysPropertiesStore = useSysPropertiesStore();
+  const [authProperties, systemProperties] = await Promise.all([
+    getAuthPropertiesApi(),
+    getSystemPropertiesApi(),
+  ]);
+  sysPropertiesStore.setProperties({
+    ...authProperties,
+    sysParameter: systemProperties,
+  });
+});
 </script>
 
 <template>

@@ -8,7 +8,7 @@ interface ApiExceptionState {
 /**
  * 接口异常处理
  */
-export const useApiExceptionStore = defineStore('api-exception', {
+export const useApiExceptionStore = defineStore('core-api-exception', {
   actions: {
     handleHide() {
       this.exceptionNoList = [];

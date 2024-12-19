@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { computed, unref } from 'vue';
+
 import { $ct as t } from '@vben/locales';
+import { storeToRefs, useSysPropertiesStore } from '@vben/stores';
 import { useVbenForm, z } from '@vben-core/form-ui';
 import { useVbenModal } from '@vben-core/popup-ui';
 
@@ -12,6 +15,18 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { sysParameter } = storeToRefs(useSysPropertiesStore());
+
+const computedPasswordValidate = computed(() => {
+  const passwordValidate =
+    unref(sysParameter)?.['sys.auth.account.passwordValidate'];
+  return passwordValidate?.replaceAll('\\\\', '\\');
+});
+
+const computedPasswordValidateErrorMessage = computed(() => {
+  return unref(sysParameter)?.['sys.auth.account.passwordValidateErrorMessage'];
+});
 
 const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
@@ -32,7 +47,15 @@ const [Form, formApi] = useVbenForm({
       componentProps: {
         placeholder: t('ui.widgets.changePassword.newPasswordPlaceholder'),
       },
-      rules: 'required',
+      rules: z.string().refine(
+        (value) => {
+          const reg = new RegExp(unref(computedPasswordValidate));
+          return reg.test(value);
+        },
+        {
+          message: unref(computedPasswordValidateErrorMessage),
+        },
+      ),
     },
     {
       fieldName: 'newPasswordConfirm',
@@ -41,7 +64,6 @@ const [Form, formApi] = useVbenForm({
       componentProps: {
         placeholder: t('ui.widgets.changePassword.placeholderConfirm'),
       },
-      rules: 'required',
       dependencies: {
         triggerFields: ['newPassword'],
         rules: (value) => {

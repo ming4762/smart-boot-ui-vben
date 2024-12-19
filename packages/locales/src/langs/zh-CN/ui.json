@@ -92,7 +92,8 @@
       "confirmPassword": "确认密码",
       "placeholderConfirm": "请再次输入密码",
       "errorPasswordTip": "两次密码不一致，请重新输入",
-      "changePasswordSuccess": "修改密码成功，请重新登录"
+      "changePasswordSuccess": "修改密码成功，请重新登录",
+      "passwordStrength": "密码强度不匹配"
     }
   }
 }
