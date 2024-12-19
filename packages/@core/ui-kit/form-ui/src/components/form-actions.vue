@@ -137,7 +137,13 @@ defineExpose({
 </script>
 <template>
   <div
-    :class="cn('col-span-full pb-6 text-right', rootProps.actionWrapperClass)"
+    :class="
+      cn(
+        'col-span-full w-full text-right',
+        rootProps.compact ? 'pb-2' : 'pb-6',
+        rootProps.actionWrapperClass,
+      )
+    "
     :style="queryFormStyle"
   >
     <template v-if="rootProps.actionButtonsReverse">
