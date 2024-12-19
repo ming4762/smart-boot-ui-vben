@@ -72,7 +72,8 @@ const [SmartTable, tableApi] = useSmartTable({
   searchFormConfig: {
     schema: getSearchFormSchemas(),
     searchWithSymbol: true,
-    actionWrapperClass: 'pb-2 ml-1.5',
+    compact: true,
+    actionWrapperClass: 'text-left',
     wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
@@ -86,9 +87,7 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   toolbarConfig: {
     zoom: true,
-    column: {
-      columnOrder: true,
-    },
+    column: true,
     refresh: true,
     buttons: [
       {

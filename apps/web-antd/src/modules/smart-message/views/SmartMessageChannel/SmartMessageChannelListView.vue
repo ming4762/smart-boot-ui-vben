@@ -54,7 +54,8 @@ const [SmartTable] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
-    actionWrapperClass: 'pb-2 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
     wrapperClass: 'flex flex-wrap',
     schema: getSearchFormSchemas(messageType1List),
     searchWithSymbol: true,
@@ -126,9 +127,7 @@ const [SmartTable] = useSmartTable({
   toolbarConfig: {
     zoom: true,
     refresh: true,
-    column: {
-      columnOrder: true,
-    },
+    column: true,
     sizeSetting: true,
     buttons: [
       {

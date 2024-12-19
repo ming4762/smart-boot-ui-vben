@@ -141,11 +141,11 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
         },
         options: [
           {
-            label: t('common.form.yes'),
+            label: t('common.title.yes'),
             value: 1,
           },
           {
-            label: t('common.form.no'),
+            label: t('common.title.no'),
             value: 0,
           },
         ],

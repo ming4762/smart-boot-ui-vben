@@ -139,7 +139,7 @@ defineExpose({
   <div
     :class="
       cn(
-        'col-span-full w-full text-right',
+        'col-span-full text-right',
         rootProps.compact ? 'pb-2' : 'pb-6',
         rootProps.actionWrapperClass,
       )
