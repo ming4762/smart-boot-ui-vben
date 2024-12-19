@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { ApiComponent } from '@vben/common-ui';
 import { useInjectPageDict } from '@vben/preferences';
+
+import { Select } from 'ant-design-vue';
 
 import { ApiServiceEnum, requestClient } from '#/api/request';
 
-import ApiSelect from './api-select.vue';
 import ApiDictSelectInject from './components/api-dict-select-inject.vue';
 
 interface Props {
@@ -39,12 +41,16 @@ const api = () => {
     v-bind="$attrs"
     :dict-code="dictCode"
   />
-  <ApiSelect
+  <ApiComponent
     v-else
     v-bind="$attrs"
     :api="api"
+    :component="Select"
     label-field="dictItemName"
+    loading-slot="suffixIcon"
+    model-prop-name="value"
     value-field="dictItemCode"
+    visible-event="onDropdownVisibleChange"
   />
 </template>
 
