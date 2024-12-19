@@ -104,7 +104,7 @@ const handleCreateAccount = (tableApi: ExtendSmartTableApi) => {
     title: t('system.views.user.validate.createAccountConfirm'),
     onOk: async () => {
       await createAccountApi(userList);
-      successMessage(t('common.message.OperationSucceeded'));
+      successMessage(t('common.message.operationSucceeded'));
       tableApi.query();
     },
   });

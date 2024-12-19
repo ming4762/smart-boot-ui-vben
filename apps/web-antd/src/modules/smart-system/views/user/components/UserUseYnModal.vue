@@ -67,7 +67,7 @@ const handleOk = async (modalApi: ExtendedModalApi) => {
     await setUseYnApi(selectRows, useYnValue!, {
       tenantIdList: selectTenants.map((item) => item.id),
     });
-    successMessage(t('common.message.OperationSucceeded'));
+    successMessage(t('common.message.operationSucceeded'));
     modalApi.close();
   } finally {
     modalApi.setState({ confirmLoading: false });

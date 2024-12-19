@@ -18,17 +18,13 @@ export const listApi = (params: any) => {
 };
 
 export const uploadFileApi = (data: any, file: File) => {
-  return requestClient.post(
+  return requestClient.upload(
     Api.uploadFile,
     {
-      data,
-      file: {
-        file,
-      },
+      ...data,
+      file,
     },
-    {
-      service: ApiServiceEnum.SMART_FILE,
-    },
+    { service: ApiServiceEnum.SMART_FILE },
   );
 };
 
