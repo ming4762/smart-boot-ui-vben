@@ -111,7 +111,7 @@ const tableColumns: Array<{ ident?: LoginIdent[] } & SmartTableColumn> = [
 export const getTableColumns = (ident: LoginIdent): SmartTableColumn[] => {
   return tableColumns.filter((item) => {
     return item.ident === undefined || item.ident.includes(ident);
-  }) as SmartColumn[];
+  }) as SmartTableColumn[];
 };
 
 const logSourceEnum = [
@@ -186,7 +186,6 @@ export const getOperationTypeEnum = () => {
 };
 /**
  * 获取搜索表单
- * @param t
  * @param ident
  * @param getIsPlatformTenant
  */
@@ -208,7 +207,7 @@ export const getSearchFormSchemas = (
       componentProps: {
         mode: 'multiple',
         style: { width: '200px' },
-        options: getLogSourceEnum(ident, t),
+        options: getLogSourceEnum(ident),
       },
       searchSymbol: 'in',
     },
@@ -243,7 +242,7 @@ export const getSearchFormSchemas = (
         optionLabelProp: 'children',
         mode: 'multiple',
         style: { width: '120px' },
-        options: getOperationTypeEnum(t),
+        options: getOperationTypeEnum(),
       },
     },
     {
@@ -252,8 +251,9 @@ export const getSearchFormSchemas = (
       slot: 'search-tenantId',
       component: 'Input',
       searchSymbol: '=',
-      ifShow() {
-        return unref(getIsPlatformTenant);
+      dependencies: {
+        triggerFields: ['tenantId'],
+        show: unref(getIsPlatformTenant),
       },
     },
   ];

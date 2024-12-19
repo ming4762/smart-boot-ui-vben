@@ -73,7 +73,8 @@ const [SmartTable, tableApi] = useSmartTable({
   searchFormConfig: {
     schema: getSearchFormSchemas(getIsPlatformTenant),
     wrapperClass: 'grid-cols-5 grid',
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
     commonConfig: {
       componentProps: {
         style: {
@@ -88,7 +89,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
     zoom: true,
-    column: { columnOrder: true },
+    column: true,
     buttons: [
       {
         name: t('system.views.exception.button.markResolved'),

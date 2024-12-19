@@ -83,7 +83,8 @@ const [SmartTable] = useSmartTable({
       labelWidth: 90,
       formItemClass: 'pb-1.5',
     },
-    actionWrapperClass: 'text-left col-span-1 pb-1.5 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
     wrapperClass: 'grid grid-cols-4',
   },
   addEditConfig: {
@@ -116,9 +117,7 @@ const [SmartTable] = useSmartTable({
   toolbarConfig: {
     zoom: true,
     refresh: true,
-    column: {
-      columnOrder: true,
-    },
+    column: true,
     sizeSetting: true,
     buttons: [
       {

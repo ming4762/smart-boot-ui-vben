@@ -164,7 +164,8 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   showOverflow: 'tooltip',
   searchFormConfig: {
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
     wrapperClass: 'flex',
     schema: getSearchSchemas(),
     commonConfig: {
@@ -207,6 +208,9 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
     resizable: true,
+    column: true,
+    sizeSetting: true,
+    zoom: true,
     buttons: [
       {
         code: 'ModalAdd',

@@ -42,8 +42,9 @@ const [SmartTable] = useSmartTable({
     defaultSort: { field: 'seq', order: 'asc' },
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex',
+    actionWrapperClass: 'text-left',
+    compact: true,
+    wrapperClass: 'flex flex-wrap',
     searchWithSymbol: true,
     schema: getDataDictGroupSearchSchemas(),
     commonConfig: {
@@ -78,7 +79,7 @@ const [SmartTable] = useSmartTable({
     refresh: true,
     zoom: true,
     sizeSetting: true,
-    column: { columnOrder: true },
+    column: true,
     buttons: [{ code: 'ModalAdd' }, { code: 'ModalEdit' }, { code: 'delete' }],
   },
 });

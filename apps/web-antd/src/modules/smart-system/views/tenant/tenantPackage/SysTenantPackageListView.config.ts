@@ -96,7 +96,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
   return [
     {
       fieldName: 'id',
-      label: t('system.views.tenant.package.title.id'),
+      label: '',
       component: 'Input',
       componentProps: {},
       dependencies: {

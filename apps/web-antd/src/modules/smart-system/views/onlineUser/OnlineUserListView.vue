@@ -30,8 +30,9 @@ const [SmartTable, tableApi] = useSmartTable({
     isHover: true,
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex',
+    actionWrapperClass: 'text-left',
+    compact: true,
+    wrapperClass: 'flex flex-wrap',
     schema: getSearchFormSchemas(getIsPlatformTenant),
     commonConfig: {
       componentProps: {

@@ -75,8 +75,9 @@ const [SmartTable, tableApi] = useSmartTable({
         searchSymbol: 'like',
       },
     ],
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex',
+    actionWrapperClass: 'text-left',
+    compact: true,
+    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {
@@ -96,9 +97,7 @@ const [SmartTable, tableApi] = useSmartTable({
     refresh: true,
     resizable: true,
     zoom: true,
-    column: {
-      columnOrder: true,
-    },
+    column: true,
     buttons: [
       {
         name: t('system.views.i18n.i18n.button.reload'),

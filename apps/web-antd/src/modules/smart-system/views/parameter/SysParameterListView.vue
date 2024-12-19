@@ -56,7 +56,8 @@ const [SmartTable, tableApi] = useSmartTable({
       labelWidth: 70,
       formItemClass: 'pb-2',
     },
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
   },
   addEditConfig: {
     formConfig: {

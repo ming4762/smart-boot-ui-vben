@@ -20,10 +20,11 @@ import { listApi } from './SystemLogComponent.api';
 import {
   getSearchFormSchemas,
   getTableColumns,
+  type LoginIdent,
 } from './SystemLogComponent.config';
 
 interface Props {
-  ident: string;
+  ident: LoginIdent;
 }
 
 const props = defineProps<Props>();
@@ -55,7 +56,8 @@ const [SmartTable] = useSmartTable({
   useSearchForm: true,
   searchFormConfig: {
     schema: getSearchFormSchemas(props.ident, getIsPlatformTenant),
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    actionWrapperClass: 'text-left',
+    compact: true,
     wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
@@ -80,7 +82,7 @@ const [SmartTable] = useSmartTable({
   },
   toolbarConfig: {
     refresh: true,
-    column: { columnOrder: true },
+    column: true,
     zoom: true,
   },
   proxyConfig: {
@@ -99,7 +101,7 @@ const [SmartTable] = useSmartTable({
   },
 });
 
-const getTableActions = (row): SmartTableActionItem[] => {
+const getTableActions = (row: any): SmartTableActionItem[] => {
   return [
     {
       label: t('common.title.details'),
