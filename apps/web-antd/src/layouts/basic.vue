@@ -102,6 +102,10 @@ const avatar = computed(() => {
   return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
 });
 
+const computedUsername = computed(() => {
+  return userStore.userInfo?.username;
+});
+
 async function handleLogout() {
   await authStore.logout(false);
 }
@@ -132,6 +136,7 @@ const handleChangePassword = async (data: {
     content: $t('ui.widgets.changePassword.changePasswordSuccess'),
     onOk: () => authStore.logout(),
   });
+  return true;
 };
 watch(
   () => preferences.app.watermark,
@@ -157,10 +162,10 @@ watch(
         :avatar
         :change-password-handler="handleChangePassword"
         :change-tenant-handler="handleChangeTenant"
+        :description="computedUsername"
         :menus
         :text="userStore.userInfo?.realName"
         :user-tenant-api="listCurrentUserTenantApi"
-        description="ann.vben@gmail.com"
         tag-text="Pro"
         @logout="handleLogout"
       />
