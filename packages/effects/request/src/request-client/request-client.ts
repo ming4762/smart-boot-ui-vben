@@ -6,22 +6,24 @@ import axios from 'axios';
 
 import { FileDownloader } from './modules/downloader';
 import { InterceptorManager } from './modules/interceptor';
+import { Stream } from './modules/stream';
 import { FileUploader } from './modules/uploader';
 import { type RequestClientOptions, type RequestOptions } from './types';
 
 class RequestClient {
   private baseUrl: string = '';
 
-  private readonly instance: AxiosInstance;
   // 是否单体架构
   private isStandalone = true;
-
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
+
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
   public batchUpload: FileUploader['batchUpload'];
   public download: FileDownloader['download'];
+  public readonly instance: AxiosInstance;
   // 是否正在刷新token
   public isRefreshing = false;
+  public postStream: Stream['postStream'];
 
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
@@ -62,6 +64,9 @@ class RequestClient {
     // 实例化文件下载器
     const fileDownloader = new FileDownloader(this);
     this.download = fileDownloader.download.bind(fileDownloader);
+    // 实例化流请求功能
+    const stream = new Stream(this);
+    this.postStream = stream.postStream.bind(stream);
   }
 
   /**

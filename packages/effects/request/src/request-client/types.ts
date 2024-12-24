@@ -62,6 +62,12 @@ interface RequestOptions extends AxiosRequestConfig {
   authErrorProcessed?: boolean;
 }
 
+interface StreamRequestOptions extends RequestInit {
+  service?: string;
+  onMessage?: (message: string) => void;
+  onEnd?: () => void;
+}
+
 interface UploadFileItemParams {
   // File parameter interface field name
   name?: string;
@@ -72,7 +78,7 @@ interface UploadFileItemParams {
 }
 
 interface UploadFileParams {
-  data?: Recordable;
+  data?: any;
   file: UploadFileItemParams | UploadFileItemParams[];
   filename?: string;
   [key: string]: any;
@@ -88,5 +94,6 @@ export type {
   RequestOptions,
   RequestResponse,
   ResponseInterceptorConfig,
+  StreamRequestOptions,
   UploadFileParams,
 };
