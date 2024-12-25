@@ -21,6 +21,10 @@
     "./vxe-table": {
       "types": "./src/vxe-table/index.ts",
       "default": "./src/vxe-table/index.ts"
+    },
+    "./smart-markdown": {
+      "types": "./src/smart-markdown/index.ts",
+      "default": "./src/smart-markdown/index.ts"
     }
   },
   "dependencies": {
@@ -35,6 +39,7 @@
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
     "echarts": "catalog:",
+    "vditor": "catalog:",
     "vue": "catalog:",
     "vxe-pc-ui": "catalog:",
     "vxe-table": "catalog:"

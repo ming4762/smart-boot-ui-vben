@@ -18,6 +18,27 @@ catalogs:
     '@clack/prompts':
       specifier: ^0.9.0
       version: 0.9.0
+    '@codemirror/lang-html':
+      specifier: ^6.0.1
+      version: 6.4.9
+    '@codemirror/lang-java':
+      specifier: ^6.0.1
+      version: 6.0.1
+    '@codemirror/lang-javascript':
+      specifier: ^6.0.1
+      version: 6.2.2
+    '@codemirror/lang-json':
+      specifier: ^6.0.1
+      version: 6.0.1
+    '@codemirror/lang-xml':
+      specifier: ^6.0.1
+      version: 6.1.0
+    '@codemirror/state':
+      specifier: ^6.4.1
+      version: 6.4.1
+    '@codemirror/view':
+      specifier: ^6.35.0
+      version: 6.35.0
     '@commitlint/cli':
       specifier: ^19.6.1
       version: 19.6.1
@@ -75,6 +96,21 @@ catalogs:
     '@tanstack/vue-store':
       specifier: ^0.6.0
       version: 0.6.0
+    '@types/archiver':
+      specifier: ^6.0.3
+      version: 6.0.3
+    '@types/crypto-js':
+      specifier: ^4.2.2
+      version: 4.2.2
+    '@types/eslint':
+      specifier: ^9.6.1
+      version: 9.6.1
+    '@types/html-minifier-terser':
+      specifier: ^7.0.2
+      version: 7.0.2
+    '@types/jsonwebtoken':
+      specifier: ^9.0.7
+      version: 9.0.7
     '@types/lodash.clonedeep':
       specifier: ^4.5.9
       version: 4.5.9
@@ -129,6 +165,9 @@ catalogs:
     '@vueuse/integrations':
       specifier: ^12.0.0
       version: 12.0.0
+    '@vxe-ui/plugin-render-antd-smart-boot':
+      specifier: ^4.0.7-v2
+      version: 4.0.7
     ant-design-vue:
       specifier: ^4.2.6
       version: 4.2.6
@@ -159,6 +198,9 @@ catalogs:
     class-variance-authority:
       specifier: ^0.7.1
       version: 0.7.1
+    codemirror:
+      specifier: ^6.0.1
+      version: 6.0.1
     commitlint-plugin-function-rules:
       specifier: ^4.0.1
       version: 4.0.1
@@ -168,6 +210,9 @@ catalogs:
     cross-env:
       specifier: ^7.0.3
       version: 7.0.3
+    crypto-js:
+      specifier: ^4.2.0
+      version: 4.2.0
     cspell:
       specifier: ^8.17.1
       version: 8.17.1
@@ -420,6 +465,9 @@ catalogs:
     unplugin-element-plus:
       specifier: ^0.8.0
       version: 0.8.0
+    vditor:
+      specifier: ^3.10.8
+      version: 3.10.8
     vee-validate:
       specifier: ^4.14.7
       version: 4.14.7
@@ -1502,10 +1550,10 @@ importers:
         version: 3.5.13(typescript@5.7.2)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.27(vue@3.5.13(typescript@5.7.2))
+        version: 4.3.40(vue@3.5.13(typescript@5.7.2))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.9.23(vue@3.5.13(typescript@5.7.2))
+        version: 4.9.33(vue@3.5.13(typescript@5.7.2))
       zod:
         specifier: 'catalog:'
         version: 3.24.1
@@ -1745,6 +1793,9 @@ importers:
       echarts:
         specifier: 'catalog:'
         version: 5.5.1
+      vditor:
+        specifier: 'catalog:'
+        version: 3.10.8
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.2)
@@ -4327,6 +4378,7 @@ packages:
 
   '@types/crypto-js@4.2.2':
     resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
+
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -5817,6 +5869,9 @@ packages:
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
+
+  diff-match-patch@1.0.5:
+    resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
 
   dijkstrajs@1.0.3:
     resolution: {integrity: sha512-qiSlmBq9+BCdCA/L46dw8Uy93mloxsPSbwnm5yrKn2vMPiy8KyAskTF6zuV/j5BMsmOGZDPs7KjU+mjb670kfA==}
@@ -9907,6 +9962,9 @@ packages:
     peerDependencies:
       vue: ^3.5.13
 
+  vditor@3.10.8:
+    resolution: {integrity: sha512-u9npjvMuGJVk0QGbpqiGAmvgiR4QvMVpNQYrvFYZ/yWDtTFLZrHmLxuUbtswotR6KY10u5kVuaoSEoBGGWQGjQ==}
+
   vee-validate@4.14.7:
     resolution: {integrity: sha512-XVb1gBFJR57equ11HEI8uxNqFJkwvCP/b+p+saDPQYaW7k45cdF5jsYPEJud1o29GD6h2y7Awm7Qfm89yKi74A==}
     peerDependencies:
@@ -13253,9 +13311,9 @@ snapshots:
     dependencies:
       '@types/node': 22.10.2
 
-  '@types/doctrine@0.0.9': {}
-
   '@types/crypto-js@4.2.2': {}
+
+  '@types/doctrine@0.0.9': {}
 
   '@types/eslint@9.6.1':
     dependencies:
@@ -15009,6 +15067,8 @@ snapshots:
       dequal: 2.0.3
 
   didyoumean@1.2.2: {}
+
+  diff-match-patch@1.0.5: {}
 
   dijkstrajs@1.0.3: {}
 
@@ -19448,6 +19508,10 @@ snapshots:
     dependencies:
       evtd: 0.2.4
       vue: 3.5.13(typescript@5.7.2)
+
+  vditor@3.10.8:
+    dependencies:
+      diff-match-patch: 1.0.5
 
   vee-validate@4.14.7(vue@3.5.13(typescript@5.7.2)):
     dependencies:
