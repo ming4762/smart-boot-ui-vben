@@ -17,5 +17,11 @@ export default defineBuildConfig({
       loaders: ['js'],
       pattern: ['**/*.ts'],
     },
+    {
+      builder: 'copy',
+      input: './src/style', // 假设 SCSS 文件在 src/style 目录下
+      outDir: './dist/style',
+      pattern: ['**/*.scss'],
+    },
   ],
 });
