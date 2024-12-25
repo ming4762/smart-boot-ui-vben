@@ -50,12 +50,17 @@ const componentMap: {
   },
   button: (column) => {
     return (params: VxeColumnSlotTypes.DefaultSlotParams) => {
+      const ButtonComponent = getComponent('Button');
+      if (!ButtonComponent) {
+        console.warn('component Button not register');
+        return '';
+      }
       const props: Record<string, any> = {
         size: params.$table.props.size,
         ...getComponentProps(params, column),
       };
       const defaultValue = props?.default || params.row[params.column.field];
-      return <a-button {...props}>{defaultValue}</a-button>;
+      return h(ButtonComponent, props, { default: () => defaultValue });
     };
   },
   switch: (column) => {
