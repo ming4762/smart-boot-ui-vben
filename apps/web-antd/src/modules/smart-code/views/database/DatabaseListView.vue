@@ -96,7 +96,7 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   toolbarConfig: {
     refresh: true,
-    column: { columnOrder: true },
+    column: true,
     zoom: true,
     buttons: [
       {
@@ -104,9 +104,12 @@ const [SmartTable, tableApi] = useSmartTable({
         code: 'ModalAdd',
         props: {
           onClick: () =>
-            tableApi.showAddModal({
-              systemId: currentSystem.id,
-            }),
+            tableApi.showAddModal(
+              {},
+              {
+                systemId: currentSystem.id,
+              },
+            ),
         },
       },
       {
