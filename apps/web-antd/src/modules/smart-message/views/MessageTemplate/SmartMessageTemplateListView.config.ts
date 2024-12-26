@@ -43,7 +43,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
     {
       field: 'useYn',
       component: 'booleanTag',
-      title: '{common.table.useYn}',
+      title: '{common.title.useYn}',
       width: 120,
     },
     {
@@ -122,7 +122,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     // },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Switch',
       defaultValue: true,
       componentProps: {},

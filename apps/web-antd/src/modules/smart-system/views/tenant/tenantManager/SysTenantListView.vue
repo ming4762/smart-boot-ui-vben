@@ -66,6 +66,7 @@ const [SmartTable] = useSmartTable({
   },
   customConfig: { storage: true },
   showOverflow: 'tooltip',
+  showHeaderOverflow: 'tooltip',
   rowConfig: {
     isHover: true,
     isCurrent: true,

@@ -84,7 +84,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
     {
       field: 'useYn',
       sortable: true,
-      title: '{common.table.useYn}',
+      title: '{common.title.useYn}',
       component: 'booleanTag',
       width: 120,
     },
@@ -173,7 +173,7 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Switch',
       componentProps: {},
       defaultValue: true,
@@ -220,7 +220,7 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Select',
       componentProps: {
         style: {

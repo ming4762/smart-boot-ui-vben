@@ -3,7 +3,11 @@ import type {
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
+import { h } from 'vue';
+
 import { $t as t } from '@vben/locales';
+
+import { Tag } from 'ant-design-vue';
 
 import {
   getMessagePriorityEnum,
@@ -91,14 +95,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
           } else if (data.value === 'LOW') {
             color = 'green';
           }
-          return <a-tag color={color}>{data.label}</a-tag>;
+          return h(Tag, { color }, { default: () => data.label });
         },
       },
     },
     {
       field: 'readYn',
       title: '{smart.message.smartMyMessage.title.readYn}',
-      width: 100,
+      width: 120,
       autoClass: 'Boolean',
       formatter: ({ row }) => {
         return row.readYn === true ? t('common.form.yes') : t('common.form.no');

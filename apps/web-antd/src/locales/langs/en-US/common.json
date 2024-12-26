@@ -1,12 +1,42 @@
 {
   "table": {
-    "useYn": "Use Yn",
     "remark": "Remark",
     "seq": "Seq",
-    "createTime": "Create time",
-    "createUser": "Create user",
-    "updateTime": "Update time",
-    "updateUser": "Update user",
-    "operation": "Operation"
+    "createTime": "Creation Time",
+    "createUser": "Created By",
+    "updateTime": "Update Time",
+    "updateUser": "Updated By",
+    "operation": "Action"
+  },
+  "form": {
+    "use": "Enable",
+    "noUse": "Disable"
+  },
+  "message": {
+    "operationSucceeded": "Operation successful",
+    "noPermission": "No permission",
+    "copySuccess": "Copy successful",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "deleteSuccess": "Delete successful",
+    "errorTip": "Error message",
+    "saveSuccess": "Save successful"
+  },
+  "button": {
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "download": "Download",
+    "look": "View",
+    "choose": "Select",
+    "reload": "Refresh"
+  },
+  "title": {
+    "useYn": "Enabled",
+    "yes": "Yes",
+    "no": "No",
+    "details": "Details",
+    "tenantCommonYn": "Platform Common"
   }
 }

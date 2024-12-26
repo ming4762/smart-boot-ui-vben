@@ -13,7 +13,7 @@ import { ApiServiceEnum, requestClient } from '#/api/request';
 let dataLoaded = false;
 const { getIsPlatformTenant } = storeToRefs(useUserStore());
 
-const dataListRef = ref<Recordable[]>([]);
+const dataListRef = ref<Recordable<any>[]>([]);
 const computedOptions = computed(() => {
   if (!unref(getIsPlatformTenant)) {
     return [];

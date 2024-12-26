@@ -373,6 +373,10 @@
         "loginTime": "Login time",
         "loginIp": "Login IP",
         "bindIp": "Bind IP",
+        "timeout": "Duration",
+        "tenantCode": "Tenant Code",
+        "tenantName": "Tenant Name",
+        "tenant": "Tenant",
         "loginDuration": "Login duration"
       },
       "button": {
@@ -441,7 +445,8 @@
         "operationTypeQuery": "Query",
         "params": "Request parameters",
         "result": "Return results",
-        "errorMessage": "Error message"
+        "errorMessage": "Error message",
+        "tenant": "Tenant"
       }
     },
     "system": {
@@ -467,6 +472,27 @@
       },
       "button": {
         "setUser": "Set user"
+      }
+    },
+    "accessSecret": {
+      "title": {
+        "accessKey": "Access Key",
+        "secretKey": "Secret Key",
+        "expireDate": "Expiration Date",
+        "accessIp": "Authorized IP or Domain",
+        "createBy": "Created By",
+        "updateBy": "Updated By",
+        "tenantId": "Belongs To Tenant"
+      },
+      "validate": {
+        "accessKey": "Please enter the Access Key",
+        "secretKey": "Please enter the Secret Key",
+        "expireDate": "Please select the expiration date",
+        "accessIp": "Please enter the authorized IP or domain (use commas to separate multiple entries)"
+      },
+      "search": {
+        "accessKey": "Please enter the Access Key to search",
+        "secretKey": "Please enter the Secret Key to search"
       }
     },
     "serial": {

@@ -1,0 +1,12 @@
+{
+  "smartTableSelect": {
+    "user": {
+      "username": "Username",
+      "fullName": "Full Name",
+      "userType": "Type"
+    }
+  },
+  "form": {
+    "apiSelectNotFound": "Please wait for the data to load..."
+  }
+}

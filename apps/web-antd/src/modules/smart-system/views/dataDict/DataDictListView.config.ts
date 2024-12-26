@@ -151,7 +151,7 @@ export const getDataDictGroupAddEditSchemas = (
       defaultValue: 1,
     },
     {
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       fieldName: 'useYn',
       component: 'Switch',
       defaultValue: true,
@@ -262,7 +262,7 @@ export const getDataDictItemAddEditSchemas = (): VbenFormSchema[] => {
       defaultValue: 1,
     },
     {
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       fieldName: 'useYn',
       component: 'Switch',
       defaultValue: true,

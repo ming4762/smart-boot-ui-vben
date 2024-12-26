@@ -243,7 +243,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Switch',
       rules: 'required',
       defaultValue: true,

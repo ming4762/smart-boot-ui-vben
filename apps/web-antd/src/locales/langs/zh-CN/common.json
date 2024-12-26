@@ -1,6 +1,5 @@
 {
   "table": {
-    "useYn": "启用标志",
     "remark": "备注",
     "seq": "序号",
     "createTime": "创建时间",

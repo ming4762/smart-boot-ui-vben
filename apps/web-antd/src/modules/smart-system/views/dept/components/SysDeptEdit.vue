@@ -69,7 +69,7 @@ const formSchemas: Array<{ filter?: boolean } & VbenFormSchema> = [
     component: 'Input',
   },
   {
-    label: t('common.table.useYn'),
+    label: t('common.title.useYn'),
     fieldName: 'useYn',
     component: 'Switch',
     defaultValue: true,

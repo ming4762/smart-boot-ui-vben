@@ -155,7 +155,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Switch',
       componentProps: {},
       defaultValue: true,
@@ -194,7 +194,7 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Select',
       searchSymbol: '=',
       defaultValue: 1,

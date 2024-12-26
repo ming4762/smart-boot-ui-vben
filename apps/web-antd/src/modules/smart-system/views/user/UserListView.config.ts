@@ -260,7 +260,7 @@ export const getSearchSchemas = (): SmartSearchFormSchema[] => {
       },
     },
     {
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       fieldName: 'useYn',
       component: 'Select',
       defaultValue: 1,

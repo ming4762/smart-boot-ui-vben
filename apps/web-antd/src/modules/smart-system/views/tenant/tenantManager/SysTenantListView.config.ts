@@ -87,7 +87,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
     {
       field: 'isolationStrategy',
       title: '{system.views.tenant.manager.title.isolationStrategy}',
-      width: 120,
+      width: 130,
       slots: {
         default: 'table-isolationStrategy',
       },
@@ -105,7 +105,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
     {
       field: 'availableUserNum',
       title: '{system.views.tenant.manager.title.availableUserNum}',
-      width: 120,
+      width: 135,
     },
     {
       field: 'region',

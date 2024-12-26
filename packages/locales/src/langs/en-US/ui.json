@@ -76,6 +76,22 @@
       "errorPasswordTip": "Password error, please re-enter",
       "backToLogin": "Back to login",
       "entry": "Enter the system"
+    },
+    "changeTenant": {
+      "title": "Switch Tenant",
+      "changeTenantSuccess": "Tenant switch successful"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "oldPasswordPlaceholder": "Please enter your old password",
+      "newPasswordPlaceholder": "Please enter your new password",
+      "confirmPassword": "Confirm Password",
+      "placeholderConfirm": "Please enter your password again",
+      "errorPasswordTip": "Passwords do not match, please re-enter",
+      "changePasswordSuccess": "Password changed successfully, please log in again",
+      "passwordStrength": "Password does not meet strength requirements"
     }
   }
 }

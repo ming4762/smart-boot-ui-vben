@@ -31,7 +31,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'packageCode',
       sortable: true,
       title: '{system.views.tenant.package.title.packageCode}',
-      width: 120,
+      width: 130,
     },
     {
       field: 'packageName',
@@ -168,7 +168,7 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Select',
       componentProps: {
         options: getUseYnSelectOptions(),

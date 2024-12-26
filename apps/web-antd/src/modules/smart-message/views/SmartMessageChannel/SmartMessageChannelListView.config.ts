@@ -465,7 +465,7 @@ export const getSearchFormSchemas = (
     },
     {
       fieldName: 'useYn',
-      label: t('common.table.useYn'),
+      label: t('common.title.useYn'),
       component: 'Select',
       componentProps: {
         options: getUseYnSelectOptions(),
