@@ -38,7 +38,7 @@ const handleReload = () => {
   getHandlerContext().loadConfigData?.();
 };
 
-const { handleSave } = useSaveConfig(
+const { handleSave, saveLoading } = useSaveConfig(
   configId,
   getHandlerContext,
   contextData,
@@ -97,6 +97,7 @@ const { handleSave } = useSaveConfig(
           {{ t('common.button.reload') }}
         </SmartIconButton>
         <SmartAuthButton
+          :loading="saveLoading"
           auth="db:codeConfig:save"
           class="ml-[5px]"
           pre-icon="ant-design:save-outlined"
