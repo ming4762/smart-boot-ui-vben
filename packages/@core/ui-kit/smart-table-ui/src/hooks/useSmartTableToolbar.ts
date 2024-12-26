@@ -370,9 +370,6 @@ export const useSmartTableToolbar = (
     // 处理列配置
     if (column) {
       const columnConfig = isBoolean(column) ? undefined : column;
-      const {
-        tableInnerAction: { setColumnSortConfig },
-      } = getSmartTableContext();
       result.push({
         code: SmartTableCode.column,
         component: SmartTableColumnConfig,
@@ -380,7 +377,6 @@ export const useSmartTableToolbar = (
           name: VxeTableToolComponentRenderer,
           props: {
             config: columnConfig,
-            setColumnSortConfig,
           },
         },
       });
