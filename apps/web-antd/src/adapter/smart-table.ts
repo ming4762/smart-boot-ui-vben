@@ -21,7 +21,12 @@ setupSmartTable({
     // 引入 antd 渲染器
     vxeUI
       .use(VxeUIPluginRenderAntd, {
-        componentProvider: globalShareState.getComponents()[name],
+        componentProvider: (name: string) => {
+          if (name.startsWith('A')) {
+            return globalShareState.getComponents()[name.slice(1)];
+          }
+          return globalShareState.getComponents()[name];
+        },
       })
       .setConfig({
         size: 'small',
