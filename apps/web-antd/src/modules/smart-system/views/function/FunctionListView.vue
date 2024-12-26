@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { onMounted, reactive, ref, unref } from 'vue';
+import { nextTick, onMounted, reactive, ref, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { listToTree } from '@vben/utils';
@@ -62,6 +62,16 @@ const setTypeDisabled = (keys: Array<string>) => {
   });
 };
 
+const functionTreeData = ref<Recordable<any>[]>([]);
+const loadFunctionTreeData = async () => {
+  functionTreeData.value = await listApi({
+    parameter: {
+      'functionType@in': ['10', '20'],
+    },
+  });
+};
+onMounted(() => loadFunctionTreeData());
+
 const [SmartTable, tableApi] = useSmartTable({
   id: 'FunctionListView',
   columns: tableColumns,
@@ -114,6 +124,11 @@ const [SmartTable, tableApi] = useSmartTable({
       },
       schema: getAddEditForm(),
     },
+    afterSave: () => {
+      nextTick(() => loadFunctionTreeData());
+      tableApi.query();
+      return true;
+    },
   },
   proxyConfig: {
     ajax: {
@@ -147,10 +162,13 @@ const [SmartTable, tableApi] = useSmartTable({
         props: {
           onClick: () => {
             setTypeDisabled(['function']);
-            tableApi.showAddModal({
-              isTopAdd: true,
-              parentId: 0,
-            });
+            tableApi.showAddModal(
+              {},
+              {
+                isTopAdd: true,
+                parentId: 0,
+              },
+            );
           },
         },
       },
@@ -241,15 +259,6 @@ const getTableActions = (row: Recordable<any>): SmartTableActionItem[] => {
   ];
 };
 
-const functionTreeData = ref<Recordable<any>[]>([]);
-const loadFunctionTreeData = async () => {
-  functionTreeData.value = await listApi({
-    parameter: {
-      'functionType@in': ['10', '20'],
-    },
-  });
-};
-onMounted(() => loadFunctionTreeData());
 const getTreeData = (model: Recordable<any>) => {
   const { functionType, isTopAdd } = model;
   let treeData: Recordable<any>[] = [];

@@ -14,7 +14,7 @@ import {
   useSmartTable,
 } from '#/adapter/smart-table';
 import { SysTenantSelect } from '#/components';
-import { createConfirm, successMessage } from '#/utils';
+import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import ExceptionDetailModal from './components/ExceptionDetailModal.vue';
 import { listApi, markResolvedApi } from './SysExceptionListView.api';
@@ -129,7 +129,7 @@ const [Modal, modalApi] = useVbenModal({
   connectedComponent: ExceptionDetailModal,
 });
 
-const getTableActions = (row): SmartTableActionItem[] => {
+const getTableActions = (row: any): SmartTableActionItem[] => {
   return [
     {
       label: t('system.views.exception.title.showStackTrace'),

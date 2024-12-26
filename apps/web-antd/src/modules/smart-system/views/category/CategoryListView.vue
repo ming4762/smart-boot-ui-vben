@@ -73,7 +73,7 @@ const [SmartTable, tableApi] = useSmartTable({
         code: 'ModalAdd',
         props: {
           onClick: () =>
-            tableApi.showAddModal({ parentId: 0, parentName: '根节点' }),
+            tableApi.showAddModal({}, { parentId: 0, parentName: '根节点' }),
         },
       },
     ],
@@ -102,11 +102,14 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
     {
       label: t('system.views.category.button.addChild'),
       onClick: () =>
-        tableApi.showAddModal({
-          parentId: row.id,
-          parentName: row.categoryName,
-          tenantCommonYn: row.tenantCommonYn,
-        }),
+        tableApi.showAddModal(
+          {},
+          {
+            parentId: row.id,
+            parentName: row.categoryName,
+            tenantCommonYn: row.tenantCommonYn,
+          },
+        ),
     },
     {
       code: 'edit',

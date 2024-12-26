@@ -71,9 +71,12 @@ const [SmartTable, tableApi] = useSmartTable({
               warnMessage(t('smart.code.views.template.notice.choseGroup'));
               return false;
             }
-            tableApi.showAddModal({
-              groupId: currentGroupId,
-            });
+            tableApi.showAddModal(
+              {},
+              {
+                groupId: currentGroupId,
+              },
+            );
           },
         },
       },

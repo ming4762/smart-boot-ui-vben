@@ -217,7 +217,7 @@ const [SmartTable, tableApi] = useSmartTable({
         auth: Permission.add,
         props: {
           onClick: () => {
-            tableApi.showAddModal({ deptId: unref(currentDeptId) });
+            tableApi.showAddModal({}, { deptId: unref(currentDeptId) });
           },
         },
       },

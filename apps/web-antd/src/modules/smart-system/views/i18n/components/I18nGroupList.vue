@@ -142,7 +142,7 @@ const handleAdd = () => {
     currentRow === null
       ? { parentId: 0, parentName: 'Root' }
       : { parentId: currentRow.id, parentName: currentRow.text };
-  tableApi.showAddModal(parentData);
+  tableApi.showAddModal({}, parentData);
 };
 </script>
 
