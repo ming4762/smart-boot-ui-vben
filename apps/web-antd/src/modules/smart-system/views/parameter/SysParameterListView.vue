@@ -32,7 +32,6 @@ const [SmartTable, tableApi] = useSmartTable({
     remote: true,
     defaultSort: { field: 'seq', order: 'asc' },
   },
-  size: 'small',
   pagerConfig: true,
   checkboxConfig: true,
   columnConfig: {
@@ -112,7 +111,7 @@ const getActions = (row: any) => {
 </script>
 
 <template>
-  <div class="h-full p-1.5">
+  <div class="page-container h-full">
     <SmartTable>
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />

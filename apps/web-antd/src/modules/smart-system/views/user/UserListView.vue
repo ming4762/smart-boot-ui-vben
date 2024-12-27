@@ -438,7 +438,7 @@ const getAccountData = (status: null | string | undefined) => {
 </script>
 
 <template>
-  <div class="h-full p-1.5">
+  <div class="page-container h-full">
     <SmartLayoutSeparate class="h-full" first-size="280px">
       <template #first>
         <div class="dept-container bg-background h-full">

@@ -130,7 +130,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="h-full p-1.5">
+  <div class="page-container h-full">
     <SmartTable>
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />
