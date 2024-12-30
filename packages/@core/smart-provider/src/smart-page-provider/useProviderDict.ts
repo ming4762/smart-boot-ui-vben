@@ -1,9 +1,8 @@
-import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
+import { computed, provide, reactive, ref, watch } from 'vue';
 
 import { SmartProviderConstants } from '../constants';
 
 export const useProviderDict = (api: (args: any) => Promise<any>) => {
-  let hasInitLoad = false;
   const dictCodeList = reactive<Set<string>>(new Set<string>());
   const dictDataMap = reactive(new Map<string, Record<string, any>>());
 
@@ -60,16 +59,13 @@ export const useProviderDict = (api: (args: any) => Promise<any>) => {
     }
   };
 
-  onMounted(async () => {
-    await loadDictData();
-    hasInitLoad = true;
-  });
-
-  watch(dictCodeList, () => {
-    if (hasInitLoad) {
+  watch(
+    dictCodeList,
+    () => {
       loadDictData();
-    }
-  });
+    },
+    { immediate: true },
+  );
 
   /**
    * 注入注册函数

@@ -79,7 +79,7 @@ function handleChange(_: any, ...args: any[]) {
   <Select
     v-bind="$attrs"
     v-model:value="state"
-    :option="computedOptions"
+    :options="computedOptions"
     @change="handleChange"
   >
     <template v-for="item in Object.keys($slots)" #[item]="data">

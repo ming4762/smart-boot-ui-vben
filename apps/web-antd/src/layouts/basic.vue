@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NotificationItem } from '@vben/layouts';
 
-import { computed, ref, watch } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
@@ -17,7 +17,7 @@ import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
-import { listCurrentUserTenantApi } from '#/api';
+import { listCurrentUserTenantApi, listDictItemByCodeApi } from '#/api';
 import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
 import { createConfirm } from '#/utils';
@@ -153,6 +153,8 @@ watch(
     immediate: true,
   },
 );
+
+provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
 </script>
 
 <template>

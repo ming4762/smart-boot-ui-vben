@@ -4,10 +4,14 @@ import type {
   RouteLocationNormalizedLoadedGeneric,
 } from 'vue-router';
 
-import { type VNode } from 'vue';
+import { inject, type VNode } from 'vue';
 import { RouterView } from 'vue-router';
 
-import { preferences, usePreferences } from '@vben/preferences';
+import {
+  preferences,
+  SmartPageProvider,
+  usePreferences,
+} from '@vben/preferences';
 import { storeToRefs, useTabbarStore } from '@vben/stores';
 
 import { IFrameRouterView } from '../../iframe';
@@ -48,6 +52,7 @@ function getTransitionName(_route: RouteLocationNormalizedLoaded) {
 /**
  * 转换组件，自动添加 name
  * @param component
+ * @param route
  */
 function transformComponent(
   component: VNode,
@@ -84,31 +89,37 @@ function transformComponent(
 
   return component;
 }
+
+const dictApi = inject<(args: any) => Promise<any>>('dict-api', () =>
+  Promise.resolve({}),
+);
 </script>
 
 <template>
   <div class="relative h-full">
     <IFrameRouterView />
     <RouterView v-slot="{ Component, route }">
-      <Transition :name="getTransitionName(route)" appear mode="out-in">
-        <KeepAlive
-          v-if="keepAlive"
-          :exclude="getExcludeCachedTabs"
-          :include="getCachedTabs"
-        >
+      <SmartPageProvider :api="dictApi">
+        <Transition :name="getTransitionName(route)" appear mode="out-in">
+          <KeepAlive
+            v-if="keepAlive"
+            :exclude="getExcludeCachedTabs"
+            :include="getCachedTabs"
+          >
+            <component
+              :is="transformComponent(Component, route)"
+              v-if="renderRouteView"
+              v-show="!route.meta.iframeSrc"
+              :key="route.fullPath"
+            />
+          </KeepAlive>
           <component
-            :is="transformComponent(Component, route)"
-            v-if="renderRouteView"
-            v-show="!route.meta.iframeSrc"
+            :is="Component"
+            v-else-if="renderRouteView"
             :key="route.fullPath"
           />
-        </KeepAlive>
-        <component
-          :is="Component"
-          v-else-if="renderRouteView"
-          :key="route.fullPath"
-        />
-      </Transition>
+        </Transition>
+      </SmartPageProvider>
     </RouterView>
   </div>
 </template>
