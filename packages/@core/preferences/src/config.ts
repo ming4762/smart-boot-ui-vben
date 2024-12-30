@@ -47,6 +47,7 @@ const defaultPreferences: Preferences = {
   header: {
     enable: true,
     hidden: false,
+    menuAlign: 'start',
     mode: 'fixed',
   },
   logo: {
@@ -71,7 +72,7 @@ const defaultPreferences: Preferences = {
     collapsedShowTitle: false,
     enable: true,
     expandOnHover: true,
-    extraCollapse: true,
+    extraCollapse: false,
     hidden: false,
     width: 224,
   },
