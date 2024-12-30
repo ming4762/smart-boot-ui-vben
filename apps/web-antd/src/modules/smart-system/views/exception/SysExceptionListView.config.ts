@@ -137,27 +137,18 @@ export const getSearchFormSchemas = (
       fieldName: 'exceptionMessage',
       component: 'Input',
       searchSymbol: 'like',
-      componentProps: {
-        style: { width: '150px' },
-      },
     },
     {
       label: t('system.views.exception.title.requestIp'),
       fieldName: 'requestIp',
       component: 'Input',
       searchSymbol: 'like',
-      componentProps: {
-        style: { width: '150px' },
-      },
     },
     {
       label: t('system.views.exception.title.serverIp'),
       fieldName: 'serverIp',
       component: 'Input',
       searchSymbol: 'like',
-      componentProps: {
-        style: { width: '150px' },
-      },
     },
     {
       label: t('system.views.exception.title.userFeedback'),
@@ -165,8 +156,8 @@ export const getSearchFormSchemas = (
       component: 'Select',
       searchSymbol: '=',
       componentProps: {
+        class: 'w-full',
         options: getYesNoOptions(),
-        style: { width: '150px' },
       },
     },
     {
@@ -174,9 +165,10 @@ export const getSearchFormSchemas = (
       fieldName: 'resolved',
       component: 'Select',
       searchSymbol: '=',
+      defaultValue: 0,
       componentProps: {
         options: getYesNoOptions(),
-        style: { width: '150px' },
+        class: 'w-full',
       },
     },
     {

@@ -73,13 +73,11 @@ const [SmartTable, tableApi] = useSmartTable({
   searchFormConfig: {
     schema: getSearchFormSchemas(getIsPlatformTenant),
     wrapperClass: 'grid-cols-5 grid',
-    actionWrapperClass: 'text-left',
+    actionWrapperClass: 'col-span-1 text-left',
     compact: true,
     commonConfig: {
       componentProps: {
-        style: {
-          maxWidth: '150px',
-        },
+        controlClass: 'w-full',
       },
       labelWidth: 90,
       formItemClass: 'pb-2',
@@ -153,7 +151,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
           v-model:value="model.tenantId"
           :size="size"
           allow-clear
-          style="width: 150px"
+          class="w-full"
         />
       </template>
     </SmartTable>
