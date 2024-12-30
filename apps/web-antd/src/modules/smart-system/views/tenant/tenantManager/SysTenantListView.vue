@@ -82,9 +82,8 @@ const [SmartTable] = useSmartTable({
     searchWithSymbol: true,
     commonConfig: {
       labelWidth: 90,
-      formItemClass: 'pb-1.5',
     },
-    actionWrapperClass: 'text-left',
+    actionWrapperClass: 'col-span-1 text-left',
     compact: true,
     wrapperClass: 'grid grid-cols-4',
   },

@@ -53,7 +53,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       labelWidth: 70,
-      formItemClass: 'pb-2',
     },
     actionWrapperClass: 'text-left',
     compact: true,

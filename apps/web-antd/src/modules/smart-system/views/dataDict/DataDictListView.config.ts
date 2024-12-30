@@ -149,6 +149,7 @@ export const getDataDictGroupAddEditSchemas = (
       component: 'InputNumber',
       rules: 'required',
       defaultValue: 1,
+      controlClass: 'w-full',
     },
     {
       label: t('common.title.useYn'),
@@ -159,7 +160,7 @@ export const getDataDictGroupAddEditSchemas = (
     {
       label: t('common.table.remark'),
       fieldName: 'remark',
-      component: 'InputTextArea',
+      component: 'Textarea',
     },
     {
       label: t('common.title.tenantCommonYn'),
@@ -260,6 +261,7 @@ export const getDataDictItemAddEditSchemas = (): VbenFormSchema[] => {
       component: 'InputNumber',
       rules: 'required',
       defaultValue: 1,
+      controlClass: 'w-full',
     },
     {
       label: t('common.title.useYn'),
@@ -270,7 +272,7 @@ export const getDataDictItemAddEditSchemas = (): VbenFormSchema[] => {
     {
       label: t('common.table.remark'),
       fieldName: 'remark',
-      component: 'Input',
+      component: 'Textarea',
     },
   ];
 };

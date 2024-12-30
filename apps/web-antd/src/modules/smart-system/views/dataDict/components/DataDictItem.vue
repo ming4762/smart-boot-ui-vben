@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { toRaw, watch } from 'vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
 
@@ -24,6 +24,7 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getDataDictItemColumns(),
   border: true,
   height: 'auto',
+  checkboxConfig: true,
   stripe: true,
   rowConfig: {
     isHover: true,
@@ -56,8 +57,13 @@ const [SmartTable, tableApi] = useSmartTable({
         return listDictItemApi(parameter);
       },
       save: ({ body: { insertRecords, updateRecords } }) => {
-        insertRecords.forEach((item) => (item.dictId = props.dictId));
-        return batchSaveUpdateDictItemApi([...insertRecords, ...updateRecords]);
+        const insertList = insertRecords.map((item) => {
+          return {
+            ...toRaw(item),
+            dictId: props.dictId,
+          };
+        });
+        return batchSaveUpdateDictItemApi([...insertList, ...updateRecords]);
       },
       delete: ({ body: { removeRecords } }) => deleteDictItemApi(removeRecords),
       getById: (params) => getByIdDictItemApi(params),
