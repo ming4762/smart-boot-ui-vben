@@ -3,7 +3,7 @@ import type { SmartIconButtonProps } from '../type';
 
 import { computed, h, unref, useAttrs, useSlots } from 'vue';
 
-import { createIconifyIcon } from '@vben/icons';
+import { IconifyIcon } from '@vben/icons';
 
 import { Button } from 'ant-design-vue';
 
@@ -23,7 +23,7 @@ const computedSlots = computed(() => {
   };
   if (unref(computedHasIcon)) {
     result.icon = () =>
-      h(createIconifyIcon(props.preIcon!), { class: 'anticon' });
+      h(IconifyIcon, { class: 'anticon', icon: props.preIcon! });
   }
   return result;
 });
