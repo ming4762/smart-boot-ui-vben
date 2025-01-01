@@ -87,7 +87,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
     zoom: true,
-    column: true,
+    custom: true,
     buttons: [
       {
         name: t('system.views.exception.button.markResolved'),

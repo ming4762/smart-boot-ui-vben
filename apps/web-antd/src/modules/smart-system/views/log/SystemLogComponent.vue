@@ -82,7 +82,7 @@ const [SmartTable] = useSmartTable({
   },
   toolbarConfig: {
     refresh: true,
-    column: true,
+    custom: true,
     zoom: true,
   },
   proxyConfig: {

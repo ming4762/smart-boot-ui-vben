@@ -97,7 +97,7 @@ const [SmartTable, tableApi] = useSmartTable({
     refresh: true,
     resizable: true,
     zoom: true,
-    column: true,
+    custom: true,
     buttons: [
       {
         name: t('system.views.i18n.i18n.button.reload'),

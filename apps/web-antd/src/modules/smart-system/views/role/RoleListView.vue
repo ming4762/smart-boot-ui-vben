@@ -41,6 +41,7 @@ const [SmartTable, tableApi] = useSmartTable({
   border: true,
   stripe: true,
   height: 'auto',
+  customConfig: { storage: true },
   pagerConfig: true,
   columnConfig: {
     resizable: true,
@@ -78,7 +79,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     zoom: true,
     refresh: true,
-    column: true,
+    custom: true,
     buttons: [
       { code: 'ModalAdd', auth: Permission.add },
       { code: 'delete', auth: Permission.delete },

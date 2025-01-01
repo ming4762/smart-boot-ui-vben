@@ -203,7 +203,11 @@ export const useAuthStore = defineStore('auth', () => {
    * @param data
    */
   const changePassword = (data: ChangePasswordParams) => {
-    const { username } = userStore.userInfo;
+    const userInfo = userStore.userInfo;
+    if (!userInfo) {
+      throw new Error('用户信息不存在');
+    }
+    const { username } = userInfo;
     return changePasswordApi({
       oldPassword: createPassword(username, data.oldPassword),
       newPassword: createPassword(username, data.newPassword),

@@ -87,7 +87,7 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   toolbarConfig: {
     zoom: true,
-    column: true,
+    custom: true,
     refresh: true,
     buttons: [
       {
