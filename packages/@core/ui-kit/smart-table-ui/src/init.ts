@@ -10,7 +10,10 @@ import {
   VxeButton,
   VxeIcon,
   VxeInput,
+  VxeModal,
+  VxeNumberInput,
   VxePager,
+  VxeRadioGroup,
   VxeSelect,
   VxeTooltip,
   VxeUI,
@@ -80,6 +83,9 @@ const initSmartTableComponent = () => {
   VxeUI.component(VxeTooltip);
   VxeUI.component(VxeButton);
   VxeUI.component(VxeInput);
+  VxeUI.component(VxeNumberInput);
+  VxeUI.component(VxeModal);
+  VxeUI.component(VxeRadioGroup);
 
   VxeUI.component(createVirtualComponent('VxeForm'));
 

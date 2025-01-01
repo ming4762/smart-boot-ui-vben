@@ -9,3 +9,5 @@ export type * from './types';
 export * from './use-smart-table';
 
 export * from './utils/table-class-column';
+
+export type { VxeUIPluginObject } from 'vxe-pc-ui';

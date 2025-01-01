@@ -14,51 +14,58 @@ import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
 
 import { $t } from '#/locales';
 
+import { SmartTableCustomStorageDBPlugin } from './plugins/smart-table-custom-storage-plugin';
+
 const preference = usePreferences();
 
-setupSmartTable({
-  configSmartTable: (vxeUI) => {
-    // 引入 antd 渲染器
-    vxeUI
-      .use(VxeUIPluginRenderAntd, {
-        componentProvider: (name: string) => {
-          if (name.startsWith('A')) {
-            return globalShareState.getComponents()[name.slice(1)];
-          }
-          return globalShareState.getComponents()[name];
-        },
-      })
-      .setConfig({
-        size: 'small',
-      });
-  },
-  watcherField: computed(() => {
-    return {
-      locale: unref(preference.locale),
-      theme: unref(preference.theme),
-    };
-  }),
-  componentHandler: (name) => globalShareState.getComponents()[name],
-  i18nHandler: (key: string, args?: any) => $t(key, args),
-  messageHandler: {
-    success: (message: string) =>
-      globalShareState.getMessage().success?.(message),
-    warning: (message: string) =>
-      globalShareState.getMessage().warning?.(message),
-    error: (message: string) => globalShareState.getMessage().error?.(message),
-    confirm: (options: Record<string, any>) =>
-      globalShareState.getMessage().confirm?.(options),
-  },
-  permissionHandler: (code?: SmartAuthType) => {
-    if (!code) {
-      return true;
-    }
-    const { hasAccessByAuth } = useAccess();
-    return hasAccessByAuth(code);
-  },
-});
+const doSetupSmartTable = () => {
+  setupSmartTable({
+    configSmartTable: (vxeUI) => {
+      // 引入 antd 渲染器
+      vxeUI
+        .use(VxeUIPluginRenderAntd, {
+          componentProvider: (name: string) => {
+            if (name.startsWith('A')) {
+              return globalShareState.getComponents()[name.slice(1)];
+            }
+            return globalShareState.getComponents()[name];
+          },
+        })
+        // 用户配置信息存储到数据库中
+        .use(SmartTableCustomStorageDBPlugin)
+        .setConfig({
+          size: 'small',
+        });
+    },
+    watcherField: computed(() => {
+      return {
+        locale: unref(preference.locale),
+        theme: unref(preference.theme),
+      };
+    }),
+    componentHandler: (name) => globalShareState.getComponents()[name],
+    i18nHandler: (key: string, args?: any) => $t(key, args),
+    messageHandler: {
+      success: (message: string) =>
+        globalShareState.getMessage().success?.(message),
+      warning: (message: string) =>
+        globalShareState.getMessage().warning?.(message),
+      error: (message: string) =>
+        globalShareState.getMessage().error?.(message),
+      confirm: (options: Record<string, any>) =>
+        globalShareState.getMessage().confirm?.(options),
+    },
+    permissionHandler: (code?: SmartAuthType) => {
+      if (!code) {
+        return true;
+      }
+      const { hasAccessByAuth } = useAccess();
+      return hasAccessByAuth(code);
+    },
+  });
+};
 
-export { useSmartTable };
+export { doSetupSmartTable, useSmartTable };
 
 export type {
   SmartSearchFormSchema,

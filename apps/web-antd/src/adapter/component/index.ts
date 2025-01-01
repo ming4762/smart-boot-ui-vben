@@ -56,6 +56,7 @@ import {
 } from '#/utils';
 
 import { doSetupVbenForm } from '../form';
+import { doSetupSmartTable } from '../smart-table';
 
 const placeholderI18nMap: Record<string, string> = {};
 
@@ -221,6 +222,7 @@ async function initComponentAdapter() {
     warning: warnMessage,
   });
   doSetupVbenForm();
+  doSetupSmartTable();
 }
 
 export { initComponentAdapter };
