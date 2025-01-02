@@ -15,7 +15,7 @@ import {
   IconPicker,
   SmartPulldownTable,
 } from '@vben/common-ui';
-import { $t } from '@vben/locales';
+import { $ct as t } from '@vben/locales';
 
 import {
   AutoComplete,
@@ -58,21 +58,12 @@ import {
 import { doSetupVbenForm } from '../form';
 import { doSetupSmartTable } from '../smart-table';
 
-const placeholderI18nMap: Record<string, string> = {};
-
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
 ) => {
   return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
-    let placeholder = props?.placeholder;
-    if (!placeholder) {
-      const i18nKey = `ui.placeholder.${type}`;
-      if (!placeholderI18nMap[i18nKey]) {
-        placeholderI18nMap[i18nKey] = $t(i18nKey);
-      }
-      placeholder = placeholderI18nMap[i18nKey];
-    }
+    const placeholder = props?.placeholder || t(`ui.placeholder.${type}`);
     return h(component, { ...props, ...attrs, placeholder }, slots);
   };
 };
@@ -123,7 +114,7 @@ async function initComponentAdapter() {
       return h(
         ApiComponent,
         {
-          placeholder: $t('ui.placeholder.select'),
+          placeholder: t('ui.placeholder.select'),
           ...props,
           ...attrs,
           component: Select,
@@ -144,7 +135,7 @@ async function initComponentAdapter() {
       return h(
         ApiComponent,
         {
-          placeholder: $t('ui.placeholder.select'),
+          placeholder: t('ui.placeholder.select'),
           ...props,
           ...attrs,
           component: TreeSelect,
