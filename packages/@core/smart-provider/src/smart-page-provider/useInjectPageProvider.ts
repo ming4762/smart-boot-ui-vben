@@ -6,7 +6,7 @@ import { SmartProviderConstants } from '../constants';
  * 注入页面字典
  */
 export const useInjectPageDict = () => {
-  const pageDictRegister: (code: string) => void = inject(
+  const pageDictRegister: (...code: string[]) => void = inject(
     SmartProviderConstants.dictRegisterKey,
     () => {},
   );

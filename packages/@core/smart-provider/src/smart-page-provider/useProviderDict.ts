@@ -70,8 +70,8 @@ export const useProviderDict = (api: (args: any) => Promise<any>) => {
   /**
    * 注入注册函数
    */
-  provide(SmartProviderConstants.dictRegisterKey, (code: string) => {
-    dictCodeList.add(code);
+  provide(SmartProviderConstants.dictRegisterKey, (...code: string[]) => {
+    code.forEach((item) => dictCodeList.add(item));
   });
 
   /**
