@@ -1,7 +1,7 @@
-import vxeEnUS from 'vxe-pc-ui/lib/language/en-US';
+import vxeZhCN from 'vxe-pc-ui/lib/language/zh-CN';
 
 export default {
-  ...vxeEnUS,
+  ...vxeZhCN,
   smartTable: {
     button: {
       add: 'Add',
@@ -12,14 +12,14 @@ export default {
     },
     common: {
       no: 'No',
-      noUse: 'Disable',
-      use: 'Enable',
+      noUse: 'Disabled',
+      use: 'Enabled',
       yes: 'Yes',
     },
     message: {
-      choseOne: 'Please select one piece of data',
+      choseOne: 'Please select one record',
       confirm: 'Confirm',
-      deleteChoose: 'Please select the data to delete',
+      deleteChoose: 'Please select the record to delete',
       deleteConfirm: 'Are you sure you want to delete?',
       deleteSuccess: 'Delete successful',
       editSuccess: 'Edit successful',
@@ -27,8 +27,9 @@ export default {
       noPermission: 'No permission',
       OperationSucceeded: 'Operation successful',
       saveSuccess: 'Save successful',
-      useYnFalseConfirm: 'Are you sure you want to disable the selected data?',
-      useYnTrueConfirm: 'Are you sure you want to enable the selected data?',
+      useYnFalseConfirm:
+        'Are you sure you want to disable the selected record?',
+      useYnTrueConfirm: 'Are you sure you want to enable the selected record?',
     },
     title: {
       add: 'Add',

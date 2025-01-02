@@ -11,5 +11,46 @@
   "loadingMenu": "加载菜单中",
   "query": "查询",
   "submit": "提交",
-  "search": "搜索"
+  "search": "搜索",
+  "table": {
+    "useYn": "启用标志",
+    "remark": "备注",
+    "seq": "序号",
+    "createTime": "创建时间",
+    "createUser": "创建人",
+    "updateTime": "更新时间",
+    "updateUser": "更新人",
+    "operation": "操作"
+  },
+  "form": {
+    "use": "启用",
+    "noUse": "停用"
+  },
+  "message": {
+    "operationSucceeded": "操作成功",
+    "noPermission": "无权限",
+    "copySuccess": "复制成功",
+    "deleteConfirm": "确定要删除吗？",
+    "deleteSuccess": "删除成功",
+    "errorTip": "错误提示",
+    "saveSuccess": "保存成功"
+  },
+  "button": {
+    "save": "保存",
+    "add": "新增",
+    "edit": "编辑",
+    "delete": "删除",
+    "close": "关闭",
+    "download": "下载",
+    "look": "查看",
+    "choose": "选择",
+    "reload": "刷新"
+  },
+  "title": {
+    "useYn": "启用状态",
+    "yes": "是",
+    "no": "否",
+    "details": "详情",
+    "tenantCommonYn": "平台通用"
+  }
 }

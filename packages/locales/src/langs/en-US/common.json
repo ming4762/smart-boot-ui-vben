@@ -1,15 +1,56 @@
 {
   "back": "Back",
-  "backToHome": "Back To Home",
+  "backToHome": "Back to Home",
   "login": "Login",
   "logout": "Logout",
   "prompt": "Prompt",
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "noData": "No Data",
+  "noData": "No Data Available",
   "refresh": "Refresh",
   "loadingMenu": "Loading Menu",
   "query": "Search",
   "submit": "Submit",
-  "search": "Search"
+  "search": "Search",
+  "table": {
+    "useYn": "Enabled Flag",
+    "remark": "Remarks",
+    "seq": "Serial No.",
+    "createTime": "Creation Time",
+    "createUser": "Created By",
+    "updateTime": "Last Updated",
+    "updateUser": "Updated By",
+    "operation": "Action"
+  },
+  "form": {
+    "use": "Enable",
+    "noUse": "Disable"
+  },
+  "message": {
+    "operationSucceeded": "Operation Successful",
+    "noPermission": "Permission Denied",
+    "copySuccess": "Copy Successful",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "deleteSuccess": "Delete Successful",
+    "errorTip": "Error Message",
+    "saveSuccess": "Save Successful"
+  },
+  "button": {
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "download": "Download",
+    "look": "View",
+    "choose": "Select",
+    "reload": "Refresh"
+  },
+  "title": {
+    "useYn": "Enabled",
+    "yes": "Yes",
+    "no": "No",
+    "details": "Details",
+    "tenantCommonYn": "Platform Common"
+  }
 }

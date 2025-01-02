@@ -1,3 +1,5 @@
+import { unref } from 'vue';
+
 import {
   i18n,
   loadLocaleMessages,
@@ -11,22 +13,27 @@ const $t = i18n.global.t;
 /**
  * 国际化缓存，用户提升性能
  */
-const I18N_CACHE = new Map<string, string>();
+const I18N_CACHE = new Map<string, Map<string, string>>();
 
-const getKey = (key: string, args?: any[] | Record<string, any>) => {
+const getKey = (key: string, args?: any) => {
   if (!args) {
     return key;
   }
   return `${key}${JSON.stringify(args)}`;
 };
 
-const $ct = (key: string, args?: any[] | Record<string, any>) => {
+const $ct = (key: string, args?: any): string => {
+  const locale = unref(i18n.global.locale);
+  if (!I18N_CACHE.has(locale)) {
+    I18N_CACHE.set(locale, new Map<string, string>());
+  }
   const cacheKey = getKey(key, args);
-  if (I18N_CACHE.has(cacheKey)) {
-    return I18N_CACHE.get(cacheKey);
+  const localMap = I18N_CACHE.get(locale) as Map<string, string>;
+  if (localMap.has(cacheKey)) {
+    return localMap.get(cacheKey) as string;
   }
   const text = $t(key, args);
-  I18N_CACHE.set(cacheKey, text);
+  localMap.set(cacheKey, text);
   return text;
 };
 

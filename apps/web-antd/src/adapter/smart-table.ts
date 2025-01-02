@@ -12,7 +12,7 @@ import { usePreferences } from '@vben/preferences';
 
 import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
 
-import { $t } from '#/locales';
+import { $ct as t } from '#/locales';
 
 import { SmartTableCustomStorageDBPlugin } from './plugins/smart-table-custom-storage-plugin';
 
@@ -44,7 +44,7 @@ const doSetupSmartTable = () => {
       };
     }),
     componentHandler: (name) => globalShareState.getComponents()[name],
-    i18nHandler: (key: string, args?: any) => $t(key, args),
+    i18nHandler: (key: string, args?: any) => t(key, args),
     messageHandler: {
       success: (message: string) =>
         globalShareState.getMessage().success?.(message),
