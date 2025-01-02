@@ -14,6 +14,7 @@ export const listCurrentUserVxeConfigApi = () => {
     {},
     {
       service: ApiServiceEnum.SMART_SYSTEM,
+      errorMessageMode: 'none',
     },
   );
 };
