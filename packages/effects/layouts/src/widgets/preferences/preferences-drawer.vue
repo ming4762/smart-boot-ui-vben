@@ -13,8 +13,6 @@ import type {
 } from '@vben/types';
 import type { SegmentedItem } from '@vben-core/shadcn-ui';
 
-import { computed, ref } from 'vue';
-
 import { Copy, RotateCw } from '@vben/icons';
 import { $t, loadLocaleMessages } from '@vben/locales';
 import {
@@ -30,8 +28,8 @@ import {
   VbenSegmented,
 } from '@vben-core/shadcn-ui';
 import { globalShareState } from '@vben-core/shared/global-state';
-
 import { useClipboard } from '@vueuse/core';
+import { computed, ref } from 'vue';
 
 import {
   Animation,
@@ -162,6 +160,7 @@ const {
   isDark,
   isFullContent,
   isHeaderNav,
+  isHeaderSidebarNav,
   isMixedNav,
   isSideMixedNav,
   isSideMode,
@@ -344,7 +343,8 @@ async function handleReset() {
                 v-model:breadcrumb-show-icon="breadcrumbShowIcon"
                 v-model:breadcrumb-style-type="breadcrumbStyleType"
                 :disabled="
-                  !showBreadcrumbConfig || !(isSideNav || isSideMixedNav)
+                  !showBreadcrumbConfig ||
+                  !(isSideNav || isSideMixedNav || isHeaderSidebarNav)
                 "
               />
             </Block>

@@ -93,11 +93,6 @@ export class ModalApi {
     bindMethods(this);
   }
 
-  // 如果需要多次更新状态，可以使用 batch 方法
-  batchStore(cb: () => void) {
-    this.store.batch(cb);
-  }
-
   /**
    * 关闭弹窗
    */

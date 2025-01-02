@@ -1,12 +1,9 @@
 import type { EChartsOption } from 'echarts';
+import type { Ref } from 'vue';
 
 import type EchartsUI from './echarts-ui.vue';
 
-import type { Ref } from 'vue';
-import { computed, nextTick, watch } from 'vue';
-
 import { usePreferences } from '@vben/preferences';
-
 import {
   tryOnUnmounted,
   useDebounceFn,
@@ -14,6 +11,7 @@ import {
   useTimeoutFn,
   useWindowSize,
 } from '@vueuse/core';
+import { computed, nextTick, watch } from 'vue';
 
 import echarts from './echarts';
 

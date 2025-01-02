@@ -8,9 +8,8 @@ import type {
 
 import type { IContextMenuItem } from './interface';
 
-import { computed } from 'vue';
-
 import { useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 import {
   ContextMenu,

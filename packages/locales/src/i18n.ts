@@ -1,3 +1,4 @@
+import type { App } from 'vue';
 import type { Locale } from 'vue-i18n';
 
 import type {
@@ -7,11 +8,10 @@ import type {
   SupportedLanguagesType,
 } from './typing';
 
-import { type App, unref } from 'vue';
-import { createI18n } from 'vue-i18n';
-
 import { useSimpleLocale } from '@vben-core/composables';
 import { mergeWithArrayOverride } from '@vben-core/shared/utils';
+import { unref } from 'vue';
+import { createI18n } from 'vue-i18n';
 
 const i18n = createI18n({
   globalInjection: true,

@@ -4,6 +4,7 @@ import type {
   ExtendedDrawerApi,
 } from './drawer';
 
+import { useStore } from '@vben-core/shared/store';
 import {
   defineComponent,
   h,
@@ -13,8 +14,6 @@ import {
   reactive,
   ref,
 } from 'vue';
-
-import { useStore } from '@vben-core/shared/store';
 
 import VbenDrawer from './drawer.vue';
 import { DrawerApi } from './drawer-api';

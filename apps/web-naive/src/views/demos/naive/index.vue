@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Page } from '@vben/common-ui';
+import type { NotificationType } from 'naive-ui';
 
-import { type NotificationType } from 'naive-ui';
+import { Page } from '@vben/common-ui';
 import { NButton, NCard, NSpace, useMessage, useNotification } from 'naive-ui';
 
 const notification = useNotification();

@@ -1,6 +1,6 @@
-import type { ModalApi } from './modal-api';
-
 import type { Component, Ref } from 'vue';
+
+import type { ModalApi } from './modal-api';
 
 export interface ModalProps {
   /**

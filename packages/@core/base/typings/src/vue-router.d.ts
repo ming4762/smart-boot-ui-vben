@@ -1,8 +1,7 @@
+import type { Component } from 'vue';
 import type { Router, RouteRecordRaw } from 'vue-router';
 
 import type { UserRole } from './basic';
-
-import type { Component } from 'vue';
 
 interface RouteMeta {
   /**

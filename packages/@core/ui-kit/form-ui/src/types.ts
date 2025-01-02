@@ -1,11 +1,10 @@
 import type { VbenButtonProps } from '@vben-core/shadcn-ui';
 import type { ClassType } from '@vben-core/typings';
 import type { FieldOptions, FormContext, GenericObject } from 'vee-validate';
+import type { Component, HtmlHTMLAttributes, Ref } from 'vue';
 import type { ZodTypeAny } from 'zod';
 
 import type { FormApi } from './form-api';
-
-import type { Component, HtmlHTMLAttributes, Ref } from 'vue';
 
 export type FormLayout = 'horizontal' | 'vertical';
 

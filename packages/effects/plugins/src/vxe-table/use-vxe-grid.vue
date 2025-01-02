@@ -11,6 +11,12 @@ import type {
 
 import type { ExtendedVxeGridApi, VxeGridProps } from './types';
 
+import { usePriorityValues } from '@vben/hooks';
+import { EmptyIcon } from '@vben/icons';
+import { $t } from '@vben/locales';
+import { usePreferences } from '@vben/preferences';
+import { cloneDeep, cn, mergeWithArrayOverride } from '@vben/utils';
+import { VbenHelpTooltip, VbenLoading } from '@vben-core/shadcn-ui';
 import {
   computed,
   nextTick,
@@ -21,14 +27,6 @@ import {
   useTemplateRef,
   watch,
 } from 'vue';
-
-import { usePriorityValues } from '@vben/hooks';
-import { EmptyIcon } from '@vben/icons';
-import { $t } from '@vben/locales';
-import { usePreferences } from '@vben/preferences';
-import { cloneDeep, cn, mergeWithArrayOverride } from '@vben/utils';
-import { VbenHelpTooltip, VbenLoading } from '@vben-core/shadcn-ui';
-
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import { extendProxyOptions } from './extends';

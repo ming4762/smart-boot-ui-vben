@@ -1,30 +1,31 @@
 import type { AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 
-import { bindMethods, merge } from '@vben/utils';
+import type { RequestClientOptions, RequestOptions } from './types';
 
+import { bindMethods, merge } from '@vben/utils';
 import axios from 'axios';
 
 import { FileDownloader } from './modules/downloader';
 import { InterceptorManager } from './modules/interceptor';
 import { Stream } from './modules/stream';
 import { FileUploader } from './modules/uploader';
-import { type RequestClientOptions, type RequestOptions } from './types';
 
 class RequestClient {
   private baseUrl: string = '';
 
+  private readonly instance: AxiosInstance;
   // 是否单体架构
   private isStandalone = true;
-  public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
 
+  public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
   public batchUpload: FileUploader['batchUpload'];
+
   public download: FileDownloader['download'];
-  public readonly instance: AxiosInstance;
   // 是否正在刷新token
   public isRefreshing = false;
-  public postStream: Stream['postStream'];
 
+  public postStream: Stream['postStream'];
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
   public upload: FileUploader['upload'];

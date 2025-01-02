@@ -6,9 +6,8 @@ import type {
   HoverCardRootProps,
 } from 'radix-vue';
 
-import { computed } from 'vue';
-
 import { useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../../ui';
 

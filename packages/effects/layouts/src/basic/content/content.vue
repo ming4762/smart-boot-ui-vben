@@ -1,11 +1,9 @@
 <script lang="ts" setup>
+import type { VNode } from 'vue';
 import type {
   RouteLocationNormalizedLoaded,
   RouteLocationNormalizedLoadedGeneric,
 } from 'vue-router';
-
-import { inject, type VNode } from 'vue';
-import { RouterView } from 'vue-router';
 
 import {
   preferences,
@@ -13,6 +11,8 @@ import {
   usePreferences,
 } from '@vben/preferences';
 import { storeToRefs, useTabbarStore } from '@vben/stores';
+import { inject } from 'vue';
+import { RouterView } from 'vue-router';
 
 import { IFrameRouterView } from '../../iframe';
 

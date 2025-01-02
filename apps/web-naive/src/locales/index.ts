@@ -1,5 +1,4 @@
 import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
-
 import type { App } from 'vue';
 
 import {

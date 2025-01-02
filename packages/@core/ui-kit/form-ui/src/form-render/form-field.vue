@@ -3,8 +3,6 @@ import type { ZodType } from 'zod';
 
 import type { FormSchema, MaybeComponentProps } from '../types';
 
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
-
 import {
   FormControl,
   FormDescription,
@@ -14,9 +12,9 @@ import {
   VbenRenderContent,
 } from '@vben-core/shadcn-ui';
 import { cn, isFunction, isObject, isString } from '@vben-core/shared/utils';
-
 import { toTypedSchema } from '@vee-validate/zod';
 import { useFieldError, useFormValues } from 'vee-validate';
+import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
 import { injectRenderFormProps, useFormContext } from './context';
 import useDependencies from './dependencies';

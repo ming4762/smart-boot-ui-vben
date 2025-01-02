@@ -4,10 +4,15 @@
  */
 
 import type { BaseFormComponentType } from '@vben/common-ui';
-
 import type { Component, SetupContext } from 'vue';
-import { h } from 'vue';
 
+import { ApiDictSelect, SmartDropdown, SmartIconButton } from '#/components';
+import {
+  createConfirm,
+  errorMessage,
+  successMessage,
+  warnMessage,
+} from '#/utils';
 import {
   ApiComponent,
   CodeEditor,
@@ -16,7 +21,6 @@ import {
   SmartPulldownTable,
 } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
-
 import {
   AutoComplete,
   Button,
@@ -46,14 +50,7 @@ import {
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
-
-import { ApiDictSelect, SmartDropdown, SmartIconButton } from '#/components';
-import {
-  createConfirm,
-  errorMessage,
-  successMessage,
-  warnMessage,
-} from '#/utils';
+import { h } from 'vue';
 
 import { doSetupVbenForm } from '../form';
 import { doSetupSmartTable } from '../smart-table';

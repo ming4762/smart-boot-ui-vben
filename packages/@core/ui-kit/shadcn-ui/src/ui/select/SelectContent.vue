@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { SelectContentEmits, SelectContentProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import {
   SelectContent,
-  type SelectContentEmits,
-  type SelectContentProps,
   SelectPortal,
   SelectViewport,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 import SelectScrollDownButton from './SelectScrollDownButton.vue';
 import SelectScrollUpButton from './SelectScrollUpButton.vue';

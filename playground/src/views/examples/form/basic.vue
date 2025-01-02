@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import { h, ref } from 'vue';
-
+import { useVbenForm } from '#/adapter/form';
+import { getAllMenusApi } from '#/api';
 import { Page } from '@vben/common-ui';
-
 import { useDebounceFn } from '@vueuse/core';
 import { Button, Card, message, Spin, TabPane, Tabs } from 'ant-design-vue';
 import dayjs from 'dayjs';
-
-import { useVbenForm } from '#/adapter/form';
-import { getAllMenusApi } from '#/api';
+import { h, ref } from 'vue';
 
 import DocButton from '../doc-button.vue';
 

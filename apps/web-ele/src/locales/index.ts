@@ -1,8 +1,6 @@
 import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
 import type { Language } from 'element-plus/es/locale';
-
 import type { App } from 'vue';
-import { ref } from 'vue';
 
 import {
   $t,
@@ -10,10 +8,10 @@ import {
   loadLocalesMapFromDir,
 } from '@vben/locales';
 import { preferences } from '@vben/preferences';
-
 import dayjs from 'dayjs';
 import enLocale from 'element-plus/es/locale/lang/en';
 import defaultLocale from 'element-plus/es/locale/lang/zh-cn';
+import { ref } from 'vue';
 
 const elementLocale = ref<Language>(defaultLocale);
 

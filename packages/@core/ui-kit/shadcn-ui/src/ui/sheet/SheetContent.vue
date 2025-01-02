@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
+
+import type { SheetVariants } from './sheet';
 
 import { cn } from '@vben-core/shared/utils';
+import { DialogContent, DialogPortal, useForwardPropsEmits } from 'radix-vue';
+import { computed, ref } from 'vue';
 
-import {
-  DialogContent,
-  type DialogContentEmits,
-  type DialogContentProps,
-  DialogPortal,
-  useForwardPropsEmits,
-} from 'radix-vue';
-
-import { type SheetVariants, sheetVariants } from './sheet';
+import { sheetVariants } from './sheet';
 import SheetOverlay from './SheetOverlay.vue';
 
 interface SheetContentProps extends DialogContentProps {

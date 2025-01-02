@@ -4,13 +4,10 @@
  */
 
 import type { BaseFormComponentType } from '@vben/common-ui';
-
 import type { Component, SetupContext } from 'vue';
-import { h } from 'vue';
 
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-
 import {
   AutoComplete,
   Button,
@@ -35,6 +32,7 @@ import {
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
+import { h } from 'vue';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { HoverCardContentProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  HoverCardContent,
-  type HoverCardContentProps,
-  HoverCardPortal,
-  useForwardProps,
-} from 'radix-vue';
+import { HoverCardContent, HoverCardPortal, useForwardProps } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = withDefaults(
   defineProps<{ class?: any } & HoverCardContentProps>(),

@@ -4,13 +4,11 @@
  */
 
 import type { BaseFormComponentType } from '@vben/common-ui';
-
 import type { Component, SetupContext } from 'vue';
-import { h } from 'vue';
 
+import { message } from '#/adapter/naive';
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-
 import {
   NButton,
   NCheckbox,
@@ -29,8 +27,7 @@ import {
   NTreeSelect,
   NUpload,
 } from 'naive-ui';
-
-import { message } from '#/adapter/naive';
+import { h } from 'vue';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,

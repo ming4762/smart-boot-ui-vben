@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { AnyFunction, UserTenant } from '@vben/types';
-
 import type { Component } from 'vue';
-import { computed, useTemplateRef, watch } from 'vue';
 
 import { useHoverToggle } from '@vben/hooks';
 import { IconifyIcon, LockKeyhole, LogOut } from '@vben/icons';
@@ -23,8 +21,8 @@ import {
   VbenAvatar,
   VbenIcon,
 } from '@vben-core/shadcn-ui';
-
 import { useMagicKeys, whenever } from '@vueuse/core';
+import { computed, useTemplateRef, watch } from 'vue';
 
 import { ChangePasswordModal } from '../change-password';
 import { ChangeTenantModal } from '../change-tenant';

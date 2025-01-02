@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
-import { useRoute } from 'vue-router';
-
+import { useVbenForm } from '#/adapter/form';
 import { Page } from '@vben/common-ui';
 import { useAccessStore } from '@vben/stores';
 import { MenuBadge } from '@vben-core/menu-ui';
-
 import { Button, Card, Radio, RadioGroup } from 'ant-design-vue';
-
-import { useVbenForm } from '#/adapter/form';
+import { reactive } from 'vue';
+import { useRoute } from 'vue-router';
 
 const colors = [
   { label: '预设：默认', value: 'default' },

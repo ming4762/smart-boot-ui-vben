@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { ClassType } from '@vben-core/typings';
-
-import { computed, ref } from 'vue';
+import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { X } from 'lucide-vue-next';
 import {
   DialogClose,
   DialogContent,
-  type DialogContentEmits,
-  type DialogContentProps,
   DialogPortal,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed, ref } from 'vue';
 
 import DialogOverlay from './DialogOverlay.vue';
 
