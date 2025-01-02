@@ -58,7 +58,14 @@ const useSmartTableCustomStorageDBStore = defineStore(
       return initPromise.then(() => unref(configMapRef).get(key));
     };
 
+    function $reset() {
+      configMapRef.value = new Map();
+      isInit = false;
+      initPromise = null;
+    }
+
     return {
+      $reset,
       setConfig,
       getConfig,
     };
