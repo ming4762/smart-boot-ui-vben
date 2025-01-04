@@ -1,11 +1,8 @@
 <script lang="ts" setup>
-import { $t as t } from '@vben/locales';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { $t as t } from '@vben/locales';
 
 import { useSetUser } from './hooks/useSetUser';
 import {

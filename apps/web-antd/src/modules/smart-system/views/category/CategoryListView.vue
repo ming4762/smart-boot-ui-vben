@@ -1,12 +1,9 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
 
 import {
   deleteApi,

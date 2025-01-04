@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { useSizeSetting } from '@vben/hooks';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { useSizeSetting } from '@vben/hooks';
 
 import {
   batchSaveUpdateApi,

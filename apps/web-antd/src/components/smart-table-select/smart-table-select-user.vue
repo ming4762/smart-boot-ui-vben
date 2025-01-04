@@ -23,7 +23,6 @@ const defaultProps = {
   labelField: 'fullName',
   valueField: 'userId',
   multiple: true,
-  listApi: listUserById,
   tableProps,
   defaultFullscreen: true,
 };

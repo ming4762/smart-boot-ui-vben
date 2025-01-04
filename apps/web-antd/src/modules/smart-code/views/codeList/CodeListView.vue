@@ -1,19 +1,14 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
-
-import { useRouter } from 'vue-router';
-
-import {
-  SmartLayoutSeparate,
-  type SmartTableActionItem,
-  useVbenModal,
-} from '@vben/common-ui';
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysSystemSimpleList } from '#/components';
 import { errorMessage } from '#/utils';
+import { SmartLayoutSeparate, useVbenModal } from '@vben/common-ui';
+import { useSizeSetting } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
+import { useRouter } from 'vue-router';
 
 import { deleteApi, listBySystemApi } from './CodeListView.api';
 import { searchFormColumns, tableColumns } from './CodeListView.config';

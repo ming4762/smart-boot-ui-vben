@@ -1,23 +1,15 @@
 <script setup lang="tsx">
+import type { Component, VNode } from 'vue';
+
 import type { SmartTableAction } from '../types';
 import type {
   SmartTableActionItem,
   SmartTableRowActionProps,
 } from '../types/SmartTableRowActionType';
 
-import {
-  type Component,
-  computed,
-  h,
-  toRaw,
-  unref,
-  useSlots,
-  type VNode,
-} from 'vue';
-
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
-
+import { computed, h, toRaw, unref, useSlots } from 'vue';
 import { VxeButton } from 'vxe-pc-ui';
 
 import { ACTION_COLUMN_FLAG } from '../constant';

@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { ref, unref } from 'vue';
-
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
-
 import { useSmartTable } from '#/adapter/smart-table';
 import { warnMessage } from '#/utils';
+import { useSizeSetting } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
+import { ref, unref } from 'vue';
 
 import {
   batchSaveUpdateApi,

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { ref } from 'vue';
-
 import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-
 import { Descriptions, DescriptionsItem, Tag } from 'ant-design-vue';
+import { ref } from 'vue';
 
 import { getByIdApi } from '../SystemLogComponent.api';
 

@@ -1,16 +1,12 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { createConfirm, successMessage } from '#/utils';
 import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { createConfirm, successMessage } from '#/utils';
 
 import SystemMessageShowModal from '../../components/SystemMessageShowModal.vue';
 import {
