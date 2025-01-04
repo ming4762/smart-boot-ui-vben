@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ref } from 'vue';
 
 import I18nGroupList from './components/I18nGroupList.vue';
 import I18nItemList from './components/I18nItemList.vue';
 import I18nList from './components/I18nList.vue';
 
-const groupId = ref<null | number>();
-const i18nId = ref<number>();
+const groupId = ref<number | undefined>();
+const i18nId = ref<number | undefined>();
 </script>
 
 <template>

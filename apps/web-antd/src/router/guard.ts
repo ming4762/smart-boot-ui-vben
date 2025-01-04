@@ -1,11 +1,10 @@
 import type { Router } from 'vue-router';
 
+import { accessRoutes, coreRouteNames } from '#/router/routes';
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
-
-import { accessRoutes, coreRouteNames } from '#/router/routes';
 
 import { generateAccess } from './access';
 
@@ -108,7 +107,7 @@ function setupAccessGuard(router: Router) {
     accessStore.setIsAccessChecked(true);
     const redirectPath = (from.query.redirect ??
       (to.path === DEFAULT_HOME_PATH
-        ? userInfo.homePath || DEFAULT_HOME_PATH
+        ? userInfo?.homePath || DEFAULT_HOME_PATH
         : to.fullPath)) as string;
 
     return {

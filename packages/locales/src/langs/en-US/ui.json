@@ -44,7 +44,9 @@
       "forbidden": "Forbidden. You do not have permission to access this resource.",
       "notFound": "Not Found. The requested resource could not be found.",
       "internalServerError": "Internal Server Error. Something went wrong on our end. Please try again later."
-    }
+    },
+    "exceptionTitle": "An error has occurred in the system, please submit the error and contact the administrator",
+    "loginExpired": "Login has expired"
   },
   "widgets": {
     "document": "Document",

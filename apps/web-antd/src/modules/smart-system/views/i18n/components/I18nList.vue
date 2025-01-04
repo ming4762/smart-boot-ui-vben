@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { $t as t } from '@vben/locales';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { createConfirm, successMessage } from '#/utils';
+import { $t as t } from '@vben/locales';
+import { watch } from 'vue';
 
 import {
   getI18nByIdApi,
@@ -30,7 +26,7 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(['change']);
 
-const handleCurrentChange = ({ row }) => {
+const handleCurrentChange = ({ row }: any) => {
   emit('change', row.i18nId);
 };
 

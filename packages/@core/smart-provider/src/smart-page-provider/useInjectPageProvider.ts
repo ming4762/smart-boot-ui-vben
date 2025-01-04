@@ -1,4 +1,6 @@
-import { type ComputedRef, inject, ref, type Ref } from 'vue';
+import type { ComputedRef, Ref } from 'vue';
+
+import { inject, ref } from 'vue';
 
 import { SmartProviderConstants } from '../constants';
 

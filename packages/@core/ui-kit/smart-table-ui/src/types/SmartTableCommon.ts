@@ -1,5 +1,4 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
-
 import type { VNode } from 'vue';
 
 type SmartTableFormSlots =
@@ -7,6 +6,7 @@ type SmartTableFormSlots =
   | string[];
 
 interface SmartTableBasicFormConfig extends VbenFormProps {
+  class?: string;
   slots?: SmartTableFormSlots;
 }
 

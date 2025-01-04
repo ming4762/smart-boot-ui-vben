@@ -3,14 +3,12 @@ import type {
   GenerateMenuAndRoutesOptions,
 } from '@vben/types';
 
-import { generateAccessible } from '@vben/access';
-import { preferences } from '@vben/preferences';
-
-import { message } from 'ant-design-vue';
-
 import { getUserMenusApi } from '#/api';
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
+import { generateAccessible } from '@vben/access';
+import { preferences } from '@vben/preferences';
+import { message } from 'ant-design-vue';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 

@@ -2,6 +2,7 @@ import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
 import type { Locale } from 'ant-design-vue/es/locale';
 import type { App } from 'vue';
 
+import { readFrontI18nApi } from '#/api/core/i18n';
 import {
   $ct,
   $t,
@@ -40,14 +41,17 @@ const modulesLocalesMap = loadLocalesMapFromDir(
  * @param lang
  */
 async function loadMessages(lang: SupportedLanguagesType) {
-  const [appLocaleMessages, modulesAppLocaleMessages] = await Promise.all([
-    localesMap[lang]?.(),
-    modulesLocalesMap[lang]?.(),
-    loadThirdPartyMessage(lang),
-  ]);
+  const [appLocaleMessages, modulesAppLocaleMessages, frontI18nMessage] =
+    await Promise.all([
+      localesMap[lang]?.(),
+      modulesLocalesMap[lang]?.(),
+      readFrontI18nApi(),
+      loadThirdPartyMessage(lang),
+    ]);
   return {
     ...appLocaleMessages?.default,
     ...modulesAppLocaleMessages?.default,
+    ...frontI18nMessage,
   };
 }
 

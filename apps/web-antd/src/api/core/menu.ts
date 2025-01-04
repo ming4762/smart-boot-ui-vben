@@ -1,9 +1,8 @@
-import type { Recordable, RouteRecordStringComponent } from '@vben/types';
-
-import { ApiServiceEnum, SUPPORT_LANGUAGES } from '@vben/constants';
-import { camelToLine, listToTree } from '@vben/utils';
+import type { RouteRecordStringComponent } from '@vben/types';
 
 import { requestClient } from '#/api/request';
+import { ApiServiceEnum } from '@vben/constants';
+import { camelToLine, listToTree } from '@vben/utils';
 
 enum Api {
   GetMenuList = '/sys/user/listUserMenu',
@@ -13,7 +12,6 @@ namespace MenuApi {
   export interface MenuItem {
     url: string;
     functionName: string;
-    locales?: Recordable<string>;
     icon?: string;
     functionId: number;
     parentId: number;
@@ -22,6 +20,7 @@ namespace MenuApi {
     redirect?: string;
     cached?: boolean;
     isMenu?: boolean;
+    i18nCode?: string;
   }
 }
 
@@ -34,16 +33,20 @@ export async function getAllMenusApi() {
 
 const COMPONENT_START = '@';
 
+const getFunctionName = (menu: MenuApi.MenuItem) => {
+  const { i18nCode, functionName } = menu;
+  return i18nCode ?? functionName;
+};
+
 /**
  * 获取当前登录用户菜单
  */
 export async function getUserMenusApi(): Promise<
   RouteRecordStringComponent<string>[]
 > {
-  const locale = SUPPORT_LANGUAGES.map((item) => item.value);
   const menuList = await requestClient.post<MenuApi.MenuItem[]>(
     Api.GetMenuList,
-    locale,
+    [],
     {
       service: ApiServiceEnum.SMART_SYSTEM,
     },
@@ -59,7 +62,6 @@ export async function getUserMenusApi(): Promise<
         functionName,
         icon,
         isMenu,
-        locales,
         parentId,
         redirect,
         url,
@@ -87,9 +89,8 @@ export async function getUserMenusApi(): Promise<
           icon: compatibleIcon,
           keepAlive: !cached || cached,
           key: functionId,
-          locales,
           parentKey: parentId,
-          title: functionName,
+          title: getFunctionName(menu),
           // TODO: 由后台传送?
           queryToProps: true,
         },

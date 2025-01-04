@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import type { Extension } from '@codemirror/state';
 import type { EditorViewConfig } from '@codemirror/view';
 
 import type { Theme } from './types';
 
+import { StateEffect } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
+import { basicSetup } from 'codemirror';
 import {
   nextTick,
   onMounted,
@@ -11,10 +15,6 @@ import {
   useTemplateRef,
   watch,
 } from 'vue';
-
-import { type Extension, StateEffect } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
-import { basicSetup } from 'codemirror';
 
 import {
   DarkTheme,
@@ -190,4 +190,8 @@ onUnmounted(() => {
   <div ref="el" class="relative !h-full w-full overflow-hidden"></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.cm-editor) {
+  height: 100%;
+}
+</style>

@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { computed, onMounted, ref, unref } from 'vue';
-
+import { useSmartTable } from '#/adapter/smart-table';
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
-
 import { TabPane, Tabs } from 'ant-design-vue';
-
-import { useSmartTable } from '#/adapter/smart-table';
+import { computed, onMounted, ref, unref } from 'vue';
 
 import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
