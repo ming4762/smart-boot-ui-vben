@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref } from 'vue';
+import type { Ref } from 'vue';
 
 import { inject, ref } from 'vue';
 
@@ -23,9 +23,10 @@ export const useInjectPageDict = () => {
     new Map(),
   );
 
-  const pageDictMap:
-    | ComputedRef<Record<string, Record<string, any>>>
-    | undefined = inject(SmartProviderConstants.dictMap, undefined);
+  const pageDictMap: Ref<Record<string, Record<string, any>>> = inject(
+    SmartProviderConstants.dictMap,
+    ref({}),
+  );
 
   const pageDictRegisterIdent: boolean = inject(
     SmartProviderConstants.dictRegisterIdent,

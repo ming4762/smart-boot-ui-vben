@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, unref, watch } from 'vue';
-
-import { useAccess } from '@vben/access';
-import { type ExtendSmartTableApi, useVbenModal } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
-import { useUserStore } from '@vben/stores';
+import type { ExtendSmartTableApi } from '@vben/common-ui';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
+import { useAccess } from '@vben/access';
+import { useVbenModal } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+import { useUserStore } from '@vben/stores';
+import { computed, unref, watch } from 'vue';
 
 import {
   createTenantUserAccountApi,
@@ -47,9 +47,7 @@ const handleCreateAccount = (tableApi: ExtendSmartTableApi) => {
     (item) => item.accountId === null,
   );
   if (createAccountList.length === 0) {
-    warnMessage(
-      t('system.views.tenant.manager.message.所选用户已全部创建账户'),
-    );
+    warnMessage(t('system.views.tenant.manager.message.noCreateAccountUser'));
     return false;
   }
   let i18nKey = 'system.views.tenant.manager.message.createAccountConfirm';
@@ -133,9 +131,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     zoom: true,
     refresh: true,
-    column: {
-      columnOrder: true,
-    },
+    custom: true,
     buttons: [
       {
         code: 'ModalAdd',
@@ -170,7 +166,7 @@ const [SmartTable, tableApi] = useSmartTable({
         props: {
           type: 'primary',
           preIcon: 'ant-design:user-add-outlined',
-          onClick: handleCreateAccount,
+          onClick: () => handleCreateAccount(tableApi),
         },
       },
     ],

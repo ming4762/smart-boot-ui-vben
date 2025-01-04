@@ -1,20 +1,16 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import {
   batchSaveUpdateApi,
   deleteApi,
   getByIdApi,
   listApi,
 } from '#/modules/smart-system/views/serial/SmartSerialNoListView.api';
+import { useSizeSetting } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
 
 import {
   getFormSchemas,
@@ -32,6 +28,10 @@ const [SmartTable, tableApi] = useSmartTable({
   border: true,
   showOverflow: 'tooltip',
   stripe: true,
+  checkboxConfig: true,
+  columnConfig: {
+    resizable: true,
+  },
   rowConfig: {
     isCurrent: true,
     isHover: true,
@@ -79,6 +79,7 @@ const [SmartTable, tableApi] = useSmartTable({
     zoom: true,
     refresh: true,
     custom: true,
+    sizeSetting: true,
     buttons: [
       {
         code: 'ModalAdd',

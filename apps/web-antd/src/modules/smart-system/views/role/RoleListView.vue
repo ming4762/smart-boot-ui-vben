@@ -1,15 +1,6 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
-
-import { ref } from 'vue';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-} from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
-
-import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import {
@@ -18,6 +9,10 @@ import {
   getByIdApi,
   listApi,
 } from '#/modules/smart-system/views/role/RoleListView.api';
+import { SmartVxeTableAction } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
+import { ref } from 'vue';
 
 import RoleSetFunction from './components/RoleSetFunction.vue';
 import { useRoleSetUser } from './hook/useRoleSetUser';
@@ -135,5 +130,9 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 <style scoped>
 .layout-set-function {
   margin-left: 5px;
+
+  :deep(.ant-layout-sider-children) {
+    margin-top: 0;
+  }
 }
 </style>

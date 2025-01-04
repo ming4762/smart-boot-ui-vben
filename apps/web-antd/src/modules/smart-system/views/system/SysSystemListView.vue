@@ -1,13 +1,9 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $t as t } from '@vben/locales';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
 
 import {
   deleteApi,
@@ -25,6 +21,9 @@ import { useSetUser } from './SysSystemListViewHooks';
 const { SelectUserModal, handleShowSetUser } = useSetUser();
 
 const [SmartTable, tableApi] = useSmartTable({
+  id: 'smart-sys-system-list-view',
+  customConfig: { storage: true },
+  checkboxConfig: true,
   columns: getTableColumns(),
   height: 'auto',
   stripe: true,

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { ref } from 'vue';
-
-import { SmartLayoutSeparate } from '@vben/common-ui';
-
 import { useSmartTable } from '#/adapter/smart-table';
+import { SmartLayoutSeparate } from '@vben/common-ui';
+import { useSizeSetting } from '@vben/hooks';
+import { ref } from 'vue';
 
 import TenantPackageSetFunction from './components/TenantPackageSetFunction.vue';
 import {
@@ -22,6 +21,8 @@ import {
   Permission,
 } from './SysTenantPackageListView.config';
 
+const { getTableSize } = useSizeSetting();
+
 const currentPackage = ref<null | Recordable<any>>(null);
 const handleCurrentChange = ({ row }: any) => {
   currentPackage.value = row;
@@ -30,6 +31,7 @@ const handleCurrentChange = ({ row }: any) => {
 const [SmartTable] = useSmartTable({
   id: 'smart-system-tenant-package-list-table',
   columns: getTableColumns(),
+  customConfig: { storage: true },
   height: 'auto',
   border: true,
   sortConfig: {
@@ -102,6 +104,7 @@ const [SmartTable] = useSmartTable({
     zoom: true,
     refresh: true,
     custom: true,
+    sizeSetting: true,
     buttons: [
       {
         code: 'ModalAdd',
@@ -132,7 +135,10 @@ const [SmartTable] = useSmartTable({
   <div class="page-container h-full">
     <SmartLayoutSeparate class="h-full" draggable second-size="240px">
       <template #first>
-        <SmartTable @current-change="handleCurrentChange" />
+        <SmartTable
+          @current-change="handleCurrentChange"
+          :size="getTableSize as never"
+        />
       </template>
       <template #second>
         <TenantPackageSetFunction :tenant-package-id="currentPackage?.id" />

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, unref, watch } from 'vue';
-
+import { ApiServiceEnum, requestClient } from '#/api/request';
+import { errorMessage, successMessage } from '#/utils';
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
-
 import {
   Button,
   Divider,
@@ -14,9 +13,7 @@ import {
   Spin,
   Tree,
 } from 'ant-design-vue';
-
-import { ApiServiceEnum, requestClient } from '#/api/request';
-import { errorMessage, successMessage } from '#/utils';
+import { onActivated, ref, unref, watch } from 'vue';
 
 import { Permission } from '../RoleListView.config';
 
@@ -94,7 +91,7 @@ const loadRoleFunctions = async () => {
   }
 };
 
-onMounted(() => loadFunctionTreeData());
+onActivated(() => loadFunctionTreeData());
 watch(
   () => props.roleId,
   () => loadRoleFunctions(),
@@ -160,17 +157,13 @@ const handleSave = async () => {
 <template>
   <Layout class="h-full">
     <LayoutHeader
-      style="
-        height: 48px;
-        line-height: 48px;
-        text-align: center;
-        background: white;
-      "
+      class="layout-header"
+      style="height: 48px; line-height: 48px; text-align: center"
     >
       <h3>{{ t('system.views.role.title.setFunction') }}</h3>
     </LayoutHeader>
     <Divider style="margin: 0" />
-    <LayoutContent style="overflow: auto; background: white">
+    <LayoutContent style="overflow: auto" class="bg-background">
       <Spin :spinning="dataLoading">
         <Tree
           ref="treeRef"
@@ -183,12 +176,8 @@ const handleSave = async () => {
     </LayoutContent>
     <Divider style="margin: 0" />
     <LayoutFooter
-      style="
-        height: 50px;
-        padding: 10px 0;
-        text-align: center;
-        background: white;
-      "
+      class="layout-footer"
+      style="height: 50px; padding: 10px 0; text-align: center"
     >
       <div style="padding: 0 5px">
         <Button
@@ -206,4 +195,11 @@ const handleSave = async () => {
   </Layout>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.layout-header {
+  background: hsl(var(--background));
+}
+.layout-footer {
+  background: hsl(var(--background));
+}
+</style>

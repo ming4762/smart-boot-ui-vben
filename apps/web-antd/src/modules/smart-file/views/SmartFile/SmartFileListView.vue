@@ -1,17 +1,12 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SmartIconButton } from '#/components';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-
 import { Upload } from 'ant-design-vue';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { SmartIconButton } from '#/components';
 
 import {
   deleteApi,
@@ -35,6 +30,7 @@ const [SmartTable, tableApi] = useSmartTable({
   border: true,
   pagerConfig: true,
   useSearchForm: true,
+  checkboxConfig: true,
   stripe: true,
   showOverflow: 'tooltip',
   rowConfig: {
@@ -99,7 +95,7 @@ const [SmartTable, tableApi] = useSmartTable({
     zoom: true,
     refresh: true,
     sizeSetting: true,
-    column: { columnOrder: true },
+    custom: true,
     buttons: [
       {
         code: 'ModalAdd',

@@ -1,16 +1,12 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { createConfirm } from '#/utils';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { createConfirm } from '#/utils';
 
 import {
   batchSaveUpdateApi,
@@ -32,8 +28,11 @@ const { pageDictRegister, pageDictMap } = useInjectPageDict();
 pageDictRegister('FILE_STORAGE_TYPE');
 
 const [SmartTable, tableApi] = useSmartTable({
+  id: 'smart-file-storage-list-view',
+  customConfig: { storage: true },
   columns: getTableColumns(),
   height: 'auto',
+  checkboxConfig: true,
   pagerConfig: true,
   useSearchForm: true,
   stripe: true,
@@ -130,7 +129,7 @@ const [SmartTable, tableApi] = useSmartTable({
     zoom: true,
     refresh: true,
     sizeSetting: true,
-    column: { columnOrder: true },
+    column: true,
     buttons: [
       {
         code: 'ModalAdd',

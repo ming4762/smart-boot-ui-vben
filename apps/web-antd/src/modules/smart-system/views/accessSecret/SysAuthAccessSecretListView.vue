@@ -1,15 +1,11 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysTenantSelect } from '#/components';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { SysTenantSelect } from '#/components';
 
 import TestSignModal from './components/TestSignModal.vue';
 import {
@@ -27,6 +23,7 @@ import {
 const [SmartTable, tableApi] = useSmartTable({
   id: 'smart-system-tool-accessSecret',
   customConfig: { storage: true },
+  checkboxConfig: true,
   columns: getTableColumns(),
   height: 'auto',
   border: true,

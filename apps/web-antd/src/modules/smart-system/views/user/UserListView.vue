@@ -1,19 +1,8 @@
 <script setup lang="ts">
-import { ref, unref } from 'vue';
-
-import { useAccess } from '@vben/access';
-import {
-  type ExtendSmartTableApi,
-  SmartLayoutSeparate,
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useVbenModal,
+import type {
+  ExtendSmartTableApi,
+  SmartTableActionItem,
 } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
-import { useUserStore } from '@vben/stores';
-
-import { useClipboard } from '@vueuse/core';
-import { Tooltip } from 'ant-design-vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { SysDeptTree } from '#/components';
@@ -23,6 +12,17 @@ import {
   successMessage,
   warnMessage,
 } from '#/utils';
+import { useAccess } from '@vben/access';
+import {
+  SmartLayoutSeparate,
+  SmartVxeTableAction,
+  useVbenModal,
+} from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+import { useUserStore } from '@vben/stores';
+import { useClipboard } from '@vueuse/core';
+import { Tooltip } from 'ant-design-vue';
+import { ref, unref } from 'vue';
 
 import UserAccountUpdate from './components/UserAccountUpdateModal.vue';
 import UserSetRole from './components/UserSetRoleModal.vue';
@@ -144,6 +144,8 @@ const validateSelectRows = (tableApi: ExtendSmartTableApi) => {
 };
 
 const [SmartTable, tableApi] = useSmartTable({
+  id: 'smart-sys-user-list-view',
+  customConfig: { storage: true },
   columns: getTableColumns(),
   stripe: true,
   height: 'auto',
@@ -151,6 +153,9 @@ const [SmartTable, tableApi] = useSmartTable({
   align: 'left',
   rowConfig: {
     isHover: true,
+  },
+  columnConfig: {
+    resizable: true,
   },
   pagerConfig: true,
   useSearchForm: true,

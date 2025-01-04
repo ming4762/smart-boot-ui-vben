@@ -1,7 +1,6 @@
 import type { SmartAuthType } from '@vben/types';
 
-import { computed, unref } from 'vue';
-
+import { $ct as t } from '#/locales';
 import { useAccess } from '@vben/access';
 import {
   globalShareState,
@@ -9,10 +8,8 @@ import {
   useSmartTable,
 } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
-
 import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
-
-import { $ct as t } from '#/locales';
+import { computed, unref } from 'vue';
 
 import { SmartTableCustomStorageDBPlugin } from './plugins/smart-table-custom-storage-plugin';
 

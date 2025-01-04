@@ -1,22 +1,16 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
-import { ref, unref } from 'vue';
-
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysSystemSimpleList } from '#/components';
+import { createConfirm, successMessage } from '#/utils';
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { buildUUID, omit } from '@vben/utils';
-
 import dayjs from 'dayjs';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { SysSystemSimpleList } from '#/components';
-import { createConfirm, successMessage } from '#/utils';
+import { ref, unref } from 'vue';
 
 import {
   deleteApi,
@@ -38,6 +32,9 @@ const { getTableSize } = useSizeSetting();
 const currentSystemRef = ref<Recordable<any>>({});
 
 const [SmartTable, tableApi] = useSmartTable({
+  id: 'smart-license-list-view',
+  customConfig: { storage: true },
+  checkboxConfig: true,
   columns: getTableColumns(),
   border: true,
   height: 'auto',
