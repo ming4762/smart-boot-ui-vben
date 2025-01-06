@@ -17,6 +17,7 @@ type ButtonType =
   | 'RESET'
   | 'SEARCH'
   | 'SHOW_SEARCH'
+  | 'SIZE_SETTING'
   | 'USE_YN_FALSE'
   | 'USE_YN_TRUE'
   | 'ZOOM';
@@ -114,6 +115,10 @@ const rightButtonList: Button[] = [
   {
     key: 'PRINT',
     value: '打印',
+  },
+  {
+    key: 'SIZE_SETTING',
+    value: '尺寸设置',
   },
 ];
 
@@ -281,7 +286,13 @@ export const formSchemas = (): VbenFormSchema[] => {
       label: t('smart.code.views.codeManager.title.rightButton'),
       fieldName: 'rightButtonList',
       component: 'Select',
-      defaultValue: ['ZOOM', 'REFRESH', 'SHOW_SEARCH', 'COLUMN_SETTING'],
+      defaultValue: [
+        'ZOOM',
+        'REFRESH',
+        'SHOW_SEARCH',
+        'COLUMN_SETTING',
+        'SIZE_SETTING',
+      ],
       controlClass: 'w-full',
       componentProps: {
         mode: 'multiple',

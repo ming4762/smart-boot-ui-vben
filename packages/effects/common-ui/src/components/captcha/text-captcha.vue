@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { computed, ref, unref } from 'vue';
-
+import { $ct as t } from '@vben/locales';
 import { VbenTooltip } from '@vben-core/shadcn-ui';
+import { computed, ref, unref } from 'vue';
 
 interface Props {
   height: string;
@@ -55,7 +55,7 @@ refresh();
 
 <template>
   <VbenTooltip>
-    {{ 123 }}
+    {{ t('authentication.refreshCode') }}
     <template #trigger>
       <img :src="imageSrc" :style="computedImgStyle" @click="refresh" />
     </template>

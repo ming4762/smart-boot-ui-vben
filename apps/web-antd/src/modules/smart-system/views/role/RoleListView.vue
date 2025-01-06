@@ -75,6 +75,7 @@ const [SmartTable, tableApi] = useSmartTable({
     zoom: true,
     refresh: true,
     custom: true,
+    sizeSetting: true,
     buttons: [
       { code: 'ModalAdd', auth: Permission.add },
       { code: 'delete', auth: Permission.delete },

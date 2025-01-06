@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
 
+import type { LoginIdent } from './SystemLogComponent.config';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysTenantSelect } from '#/components';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
-
 import { Tag } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
-
-import {
-  type SmartTableActionItem,
-  SmartVxeTableAction,
-  useSmartTable,
-} from '#/adapter/smart-table';
-import { SysTenantSelect } from '#/components';
+import { computed } from 'vue';
 
 import LogDetailModal from './components/LogDetailModal.vue';
 import { listApi } from './SystemLogComponent.api';
 import {
   getSearchFormSchemas,
   getTableColumns,
-  type LoginIdent,
 } from './SystemLogComponent.config';
 
 interface Props {
@@ -84,6 +80,7 @@ const [SmartTable] = useSmartTable({
     refresh: true,
     custom: true,
     zoom: true,
+    sizeSetting: true,
   },
   proxyConfig: {
     ajax: {

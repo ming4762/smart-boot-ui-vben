@@ -11,7 +11,7 @@ import {
 const $t = i18n.global.t;
 
 /**
- * 国际化缓存，用户提升性能
+ * 国际化缓存，用于提升性能，但是会消耗更多内存
  */
 const I18N_CACHE = new Map<string, Map<string, string>>();
 

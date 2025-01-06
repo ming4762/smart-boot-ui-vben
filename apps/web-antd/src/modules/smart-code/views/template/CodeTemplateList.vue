@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { computed, ref, unref } from 'vue';
-
-import {
-  SmartLayoutSeparate,
-  type SmartTableActionItem,
-} from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
+import type { SmartTableActionItem } from '@vben/common-ui';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { warnMessage } from '#/utils';
+import { SmartLayoutSeparate } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+import { computed, ref, unref } from 'vue';
 
 import TemplateGroup from '../../components/template/TemplateGroup.vue';
 import {
@@ -58,7 +55,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
     zoom: true,
-    column: { columnOrder: true },
+    custom: true,
     sizeSetting: true,
     buttons: [
       {

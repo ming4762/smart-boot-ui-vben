@@ -67,13 +67,16 @@ const loadFunctionTreeData = async () => {
 onMounted(() => loadFunctionTreeData());
 
 const [SmartTable, tableApi] = useSmartTable({
-  id: 'FunctionListView',
+  id: 'smart-system-function-functionList',
   columns: tableColumns,
   resizableConfig: {},
   border: true,
   align: 'left',
   height: 'auto',
   useSearchForm: true,
+  customConfig: {
+    storage: true,
+  },
   searchFormConfig: {
     actionWrapperClass: 'text-left',
     compact: true,
@@ -150,6 +153,7 @@ const [SmartTable, tableApi] = useSmartTable({
     refresh: true,
     custom: true,
     zoom: true,
+    sizeSetting: true,
     buttons: [
       {
         code: 'ModalAdd',
@@ -257,8 +261,7 @@ const getTreeData = (model: Recordable<any>) => {
   const { functionType, isTopAdd } = model;
   let treeData: Recordable<any>[] = [];
   if (isTopAdd !== true) {
-    let dataList: Recordable<any>[] = [];
-    dataList =
+    const dataList =
       functionType === 'CATALOG' || functionType === 'MENU'
         ? unref(functionTreeData)
             .filter((item) => item.functionType === 'CATALOG')
