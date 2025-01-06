@@ -7,16 +7,18 @@ enum Api {
 /**
  * 读取前台国际化信息
  */
-export const readFrontI18nApi = () => {
+export const readFrontI18nApi = async () => {
   try {
-    return requestClient.post(
+    return await requestClient.post(
       Api.readFrontI18n,
       {},
       {
         service: ApiServiceEnum.SMART_SYSTEM,
+        errorMessageMode: 'none',
       },
     );
   } catch (error) {
     console.error(error);
+    return {};
   }
 };
