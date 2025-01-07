@@ -12,6 +12,8 @@
   "query": "Search",
   "submit": "Submit",
   "search": "Search",
+  "publish": "Publish",
+  "revoke": "Revoke",
   "table": {
     "useYn": "Enabled Flag",
     "remark": "Remarks",

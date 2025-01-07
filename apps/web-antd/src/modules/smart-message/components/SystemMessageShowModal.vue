@@ -6,8 +6,12 @@ import { $t as t } from '@vben/locales';
 
 import { Tag } from 'ant-design-vue';
 
+import { markAsReadApi } from '#/modules/smart-message/api';
+
 import { getMessagePriorityEnum } from '../SmartMessageConstants';
 import { getDetailByIdApi } from '../views/SystemMessage/SmartMessageSystemListView.api';
+
+const emit = defineEmits<{ confirm: [void] }>();
 
 const messageDataRef = ref<any>({});
 
@@ -15,12 +19,29 @@ const [Modal, modalApi] = useVbenModal({
   title: t('common.button.look'),
   class: 'w-[800px] min-h-[500px]',
   onOpened: async () => {
-    const { id } = modalApi.getData();
+    const { messageId } = modalApi.getData();
     try {
       modalApi.setState({ loading: true });
-      messageDataRef.value = (await getDetailByIdApi(id)) || {};
+      messageDataRef.value = (await getDetailByIdApi(messageId)) || {};
     } finally {
       modalApi.setState({ loading: false });
+    }
+  },
+  onConfirm: async () => {
+    const { id, readYn } = modalApi.getData();
+    if (readYn) {
+      modalApi.close();
+      return;
+    }
+    try {
+      modalApi.setState({ confirmLoading: true });
+      await markAsReadApi({
+        messageIdList: [id],
+      });
+      emit('confirm');
+      modalApi.close();
+    } finally {
+      modalApi.setState({ confirmLoading: false });
     }
   },
 });

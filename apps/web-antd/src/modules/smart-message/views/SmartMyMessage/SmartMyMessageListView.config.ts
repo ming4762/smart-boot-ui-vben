@@ -105,7 +105,9 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
       autoClass: 'Boolean',
       formatter: ({ row }) => {
-        return row.readYn === true ? t('common.form.yes') : t('common.form.no');
+        return row.readYn === true
+          ? t('common.title.yes')
+          : t('common.title.no');
       },
       sortable: true,
     },

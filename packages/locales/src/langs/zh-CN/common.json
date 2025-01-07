@@ -12,6 +12,8 @@
   "query": "查询",
   "submit": "提交",
   "search": "搜索",
+  "publish": "发布",
+  "revoke": "撤销",
   "table": {
     "useYn": "启用标志",
     "remark": "备注",

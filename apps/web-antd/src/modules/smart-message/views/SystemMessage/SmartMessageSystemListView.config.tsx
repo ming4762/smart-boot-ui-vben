@@ -6,6 +6,8 @@ import type {
 
 import { $t as t } from '@vben/locales';
 
+import { Tag } from 'ant-design-vue';
+
 import {
   getMessagePriorityEnum,
   getMessageTypeEnum,
@@ -126,7 +128,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
           } else if (data.value === 'CANCEL') {
             color = 'grey';
           }
-          return <a-tag color={color}>{data.label}</a-tag>;
+          return <Tag color={color}>{data.label}</Tag>;
         },
       },
     },
@@ -155,7 +157,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
           } else if (data.value === 'LOW') {
             color = 'green';
           }
-          return <a-tag color={color}>{data.label}</a-tag>;
+          return <Tag color={color}>{data.label}</Tag>;
         },
       },
     },
@@ -184,7 +186,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
           } else if (data.value === 'BUSINESS_USER') {
             color = '#108ee9';
           }
-          return <a-tag color={color}>{data.label}</a-tag>;
+          return <Tag color={color}>{data.label}</Tag>;
         },
       },
     },

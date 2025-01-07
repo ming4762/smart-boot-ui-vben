@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { ExtendSmartTableApi } from '@vben/common-ui';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { createConfirm, successMessage, warnMessage } from '#/utils';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
 import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { markAsReadApi } from '#/modules/smart-message/api';
+import { createConfirm, successMessage, warnMessage } from '#/utils';
+
 import SystemMessageShowModal from '../../components/SystemMessageShowModal.vue';
-import {
-  markAsReadApi,
-  pageCurrentUserMessageApi,
-} from './SmartMyMessageListView.api';
+import { pageCurrentUserMessageApi } from './SmartMyMessageListView.api';
 import {
   getSearchFormSchemas,
   getTableColumns,
@@ -55,6 +55,9 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   border: true,
   height: 'auto',
+  rowConfig: {
+    keyField: 'id',
+  },
   sortConfig: {
     remote: true,
   },
@@ -63,6 +66,8 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   checkboxConfig: {
     highlight: true,
+    rowTrigger: 'single',
+    reserve: true,
   },
   pagerConfig: true,
   showOverflow: 'tooltip',
@@ -118,12 +123,18 @@ const getActions = (row: any): SmartTableActionItem[] => {
       label: t('common.button.look'),
       onClick: () => {
         modalApi.setData({
-          id: row.messageId,
+          messageId: row.messageId,
+          id: row.id,
+          readYn: row.readYn,
         });
         modalApi.open();
       },
     },
   ];
+};
+
+const handleModalConfirm = () => {
+  tableApi.query();
 };
 </script>
 
@@ -134,7 +145,7 @@ const getActions = (row: any): SmartTableActionItem[] => {
         <SmartVxeTableAction :actions="getActions(row)" />
       </template>
     </SmartTable>
-    <RenderSystemMessageShowModal />
+    <RenderSystemMessageShowModal @confirm="handleModalConfirm" />
   </div>
 </template>
 

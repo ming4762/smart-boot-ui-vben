@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { useVbenModal } from '@vben/common-ui';
+import { useSizeSetting } from '@vben/hooks';
+import { $ct as t } from '@vben/locales';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { createConfirm, successMessage } from '#/utils';
-import { useVbenModal } from '@vben/common-ui';
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
 
 import SystemMessageShowModal from '../../components/SystemMessageShowModal.vue';
 import {
@@ -38,7 +40,10 @@ const [SmartTable, tableApi] = useSmartTable({
     resizable: true,
   },
   checkboxConfig: {
+    rowCtrl: true,
+    rowShift: true,
     highlight: true,
+    rowTrigger: 'single',
   },
   pagerConfig: true,
   showOverflow: 'tooltip',
@@ -145,14 +150,14 @@ const getDropDownAction = (row: Recordable<any>): SmartTableActionItem[] => {
   }
   if (sendStatus === 'NO_SEND') {
     actions.push({
-      label: t('common.button.publish'),
+      label: t('common.publish'),
       onClick: () => handlePublish(row),
       auth: Auth.publish,
     });
   }
   if (sendStatus === 'SEND') {
     actions.push({
-      label: t('common.button.revoke'),
+      label: t('common.revoke'),
       onClick: () => handleRevoke(row),
       auth: Auth.cancel,
     });
