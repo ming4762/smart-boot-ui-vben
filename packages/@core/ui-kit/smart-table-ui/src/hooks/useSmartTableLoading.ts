@@ -1,6 +1,8 @@
+import type { ComputedRef } from 'vue';
+
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, type ComputedRef, ref, unref, watch } from 'vue';
+import { computed, ref, unref, watch } from 'vue';
 
 /**
  * 表格加载状态
@@ -9,12 +11,12 @@ import { computed, type ComputedRef, ref, unref, watch } from 'vue';
 export const useSmartTableLoading = (
   tableProps: ComputedRef<SmartTableRenderProps>,
 ) => {
-  const loadingRef = ref(unref(tableProps).loading);
+  const loadingRef = ref<boolean>(unref(tableProps).loading || false);
 
   watch(
     () => unref(tableProps).loading,
     (loading) => {
-      loadingRef.value = loading;
+      loadingRef.value = loading || false;
     },
   );
 

@@ -18,6 +18,7 @@ import type {
   SmartTableInnerContext,
 } from '../types/SmartTableInnerType';
 
+import { buildUUID } from '@vben-core/shared/utils';
 import {
   computed,
   onMounted,
@@ -27,9 +28,6 @@ import {
   useSlots,
   useTemplateRef,
 } from 'vue';
-
-import { buildUUID } from '@vben-core/shared/utils';
-
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import TableSearchLayout from '../components/TableSearchLayout.vue';
@@ -204,6 +202,7 @@ const tableInnerAction: SmartTableInnerActionType = {
 
 const tableInnerContext: SmartTableInnerContext = {
   computedSearchFormVisible,
+  tableLoading: getLoading,
 };
 
 Object.assign(smartTableContext, {

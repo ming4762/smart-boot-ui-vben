@@ -1,15 +1,18 @@
 import type { Nullable } from '@vben-core/typings';
+import type { ComputedRef, Ref } from 'vue';
 
 import type { SmartTableAction, SmartTableRenderProps } from './index';
 import type { SmartTableInnerActionType } from './SmartTableActionType';
-
-import type { ComputedRef, Ref } from 'vue';
 
 interface SmartTableInnerContext {
   /**
    * 搜索表单显示状态
    */
   computedSearchFormVisible: ComputedRef<boolean>;
+  /**
+   * 表格加载状态
+   */
+  tableLoading: Ref<boolean>;
 }
 
 type SmartTableContext = {

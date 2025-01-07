@@ -1,5 +1,6 @@
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
+import type { ComputedRef, Slots } from 'vue';
 
 import type { SmartTableRenderProps } from '../types';
 import type {
@@ -9,12 +10,10 @@ import type {
 } from '../types/SmartSearchFormType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import type { ComputedRef, Slots } from 'vue';
-import { computed, h, ref, unref, watch } from 'vue';
-
 import { useVbenForm } from '@vben-core/form-ui';
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
+import { computed, h, ref, unref, watch } from 'vue';
 
 import { getFormSize } from '../utils';
 import { getFormSlots } from '../utils/slots';
@@ -96,6 +95,11 @@ const useSmartTableSearchForm = (
     };
 
     const formSize = size || getFormSize(tableSize);
+
+    // TODO：按钮加载状态变更会导致form重新渲染
+    const {
+      tableInnerContext: { tableLoading },
+    } = getSmartTableContext();
     const props: VbenFormProps = {
       ...searchFormConfig,
       commonConfig: {
@@ -131,8 +135,8 @@ const useSmartTableSearchForm = (
       },
       submitButtonOptions: {
         content: t('smartTable.button.search'),
-        // loading: unref(getLoading),
         icon: AntSearchOutlinedComponent,
+        loading: unref(tableLoading),
         size: formSize,
         ...submitButtonOptions,
       },
