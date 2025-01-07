@@ -6,7 +6,12 @@
 import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 
-import { ApiDictSelect, SmartDropdown, SmartIconButton } from '#/components';
+import {
+  ApiDictSelect,
+  SmartDropdown,
+  SmartIconButton,
+  SmartTableSelectUser,
+} from '#/components';
 import {
   createConfirm,
   errorMessage,
@@ -182,13 +187,12 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
-    // IconPicker: withDefaultPlaceholder(IconPicker, 'select'),
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
-    // ApiSelect: withDefaultPlaceholder(ApiSelect, 'select'),
     Cascader,
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
     CodeEditor,
     Tooltip,
+    SmartTableSelectUser,
   };
 
   // 将组件注册到全局共享状态中

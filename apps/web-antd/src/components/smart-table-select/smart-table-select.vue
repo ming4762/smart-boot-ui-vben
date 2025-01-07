@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { SmartTableSelectProps } from '../type';
 
-import { computed, ref } from 'vue';
-
+import { SmartIconButton } from '#/components';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
-
-import { Button, Select } from 'ant-design-vue';
+import { Select } from 'ant-design-vue';
+import { computed, ref, useSlots } from 'vue';
 
 import SmartTableSelectModal from './smart-table-select-modal.vue';
 
@@ -18,6 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ change: [any]; 'update:value': [any] }>();
+
+const slots = useSlots();
 
 const optionsRef = ref<Array<any>>([]);
 const handleOptionChange = (options: any[]) => {
@@ -64,6 +65,10 @@ const handleOpen = () => {
   modalApi.setData(props.value || {});
   modalApi.open();
 };
+
+const hasTableSlot = computed<boolean>(() => {
+  return slots.table !== undefined;
+});
 </script>
 
 <template>
@@ -83,14 +88,14 @@ const handleOpen = () => {
         />
       </div>
       <div class="button">
-        <Button
+        <SmartIconButton
           :disabled="disabled"
           :size="size as never"
           type="primary"
           @click="handleOpen"
         >
           {{ t('common.button.choose') }}
-        </Button>
+        </SmartIconButton>
       </div>
     </div>
     <Modal
@@ -103,7 +108,7 @@ const handleOpen = () => {
       @option-change="handleOptionChange"
       @select-data="handleSelectData"
     >
-      <template #table="slotProps">
+      <template v-if="hasTableSlot" #table="slotProps">
         <slot name="table" v-bind="slotProps"></slot>
       </template>
     </Modal>

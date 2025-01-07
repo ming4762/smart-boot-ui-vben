@@ -3,9 +3,8 @@ import type { Recordable } from '@vben/types';
 
 import type { SmartTableSelectModalProps } from '../type';
 
-import { computed, unref, useSlots, watch } from 'vue';
-
 import { useVbenModal } from '@vben/common-ui';
+import { computed, unref, useSlots, watch } from 'vue';
 
 import { useSmartTableSelect } from './hooks/useSmartTableSelect';
 
