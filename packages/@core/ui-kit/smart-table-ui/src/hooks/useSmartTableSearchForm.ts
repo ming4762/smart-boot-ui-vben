@@ -1,6 +1,7 @@
+import type { ComputedRef, Slots } from 'vue';
+
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
-import type { ComputedRef, Slots } from 'vue';
 
 import type { SmartTableRenderProps } from '../types';
 import type {
@@ -10,10 +11,11 @@ import type {
 } from '../types/SmartSearchFormType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
+import { computed, h, ref, unref, watch } from 'vue';
+
 import { useVbenForm } from '@vben-core/form-ui';
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
-import { computed, h, ref, unref, watch } from 'vue';
 
 import { getFormSize } from '../utils';
 import { getFormSlots } from '../utils/slots';
@@ -168,7 +170,7 @@ const useSmartTableSearchForm = (
    * 获取搜索符号
    */
   const getSearchFormSymbolRef = computed<
-    { [index: string]: SmartSearchFormSchema } | boolean
+    boolean | { [index: string]: SmartSearchFormSchema }
   >(() => {
     const { searchFormConfig, useSearchForm } = unref(tableProps);
     const searchWithSymbol = searchFormConfig?.searchWithSymbol;

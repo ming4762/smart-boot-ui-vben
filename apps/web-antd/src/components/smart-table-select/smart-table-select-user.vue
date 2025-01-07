@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import type { SmartTableProps } from '#/adapter/smart-table';
-
 import type {
   SmartTableSelectModalProps,
   SmartTableSelectProps,
 } from '../type';
 
-import { listUserApi, listUserByIdApi } from '#/api';
-import { $ct as t } from '@vben/locales';
+import type { SmartTableProps } from '#/adapter/smart-table';
+
 import { computed, unref, useAttrs } from 'vue';
+
+import { $ct as t } from '@vben/locales';
+
+import { listUserApi, listUserByIdApi } from '#/api';
 
 import SmartTableSelect from './smart-table-select.vue';
 
-type Props = {
-  parameterHandler?: (parameter?: Record<string, any>) => Record<string, any>;
-} & SmartTableSelectModalProps &
-  SmartTableSelectProps;
+type Props = SmartTableSelectModalProps &
+  SmartTableSelectProps & {
+    parameterHandler?: (parameter?: Record<string, any>) => Record<string, any>;
+  };
 
 defineOptions({
   inheritAttrs: false,

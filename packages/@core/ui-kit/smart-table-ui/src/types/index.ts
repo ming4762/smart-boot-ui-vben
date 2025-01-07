@@ -1,6 +1,3 @@
-import type { SupportedLanguagesType } from '@vben-core/preferences';
-import type { SmartAuthType } from '@vben-core/typings';
-import type { Component, Ref } from 'vue';
 import type {
   VxeComponentSizeType,
   VxeGridDefines,
@@ -10,6 +7,11 @@ import type {
   VxeTablePropTypes,
   VxeUIExport,
 } from 'vxe-table';
+
+import type { Component, Ref } from 'vue';
+
+import type { SupportedLanguagesType } from '@vben-core/preferences';
+import type { SmartAuthType } from '@vben-core/typings';
 
 import type { SmartTableApi } from '../smart-table-api';
 import type {
@@ -139,12 +141,12 @@ interface SmartTableProps extends SmartTableRenderProps {
 /**
  * Smart Table API
  */
-type ExtendSmartTableApi = {
-  useStore: <T = NoInfer<SmartTableProps>>(
-    selector?: (state: NoInfer<SmartTableProps>) => T,
-  ) => Readonly<Ref<T>>;
-} & SmartTableAction &
-  SmartTableApi;
+type ExtendSmartTableApi = SmartTableAction &
+  SmartTableApi & {
+    useStore: <T = NoInfer<SmartTableProps>>(
+      selector?: (state: NoInfer<SmartTableProps>) => T,
+    ) => Readonly<Ref<T>>;
+  };
 
 /**
  * 初始化表格接口

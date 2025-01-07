@@ -4,14 +4,8 @@ import type {
   SmartTableActionItem,
 } from '@vben/common-ui';
 
-import { useSmartTable } from '#/adapter/smart-table';
-import { SysDeptTree } from '#/components';
-import {
-  createConfirm,
-  errorMessage,
-  successMessage,
-  warnMessage,
-} from '#/utils';
+import { ref, unref } from 'vue';
+
 import { useAccess } from '@vben/access';
 import {
   SmartLayoutSeparate,
@@ -20,9 +14,18 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
+
 import { useClipboard } from '@vueuse/core';
 import { Tooltip } from 'ant-design-vue';
-import { ref, unref } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
+import { SysDeptTree } from '#/components';
+import {
+  createConfirm,
+  errorMessage,
+  successMessage,
+  warnMessage,
+} from '#/utils';
 
 import UserAccountUpdate from './components/UserAccountUpdateModal.vue';
 import UserSetRole from './components/UserSetRoleModal.vue';

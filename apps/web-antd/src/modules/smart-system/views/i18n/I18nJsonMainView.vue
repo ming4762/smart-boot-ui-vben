@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { SmartLayoutSeparate } from '@vben/common-ui';
 import { ref } from 'vue';
+
+import { SmartLayoutSeparate } from '@vben/common-ui';
 
 import SysI18nJsonItemListView from './components/SysI18nJsonItemListView.vue';
 import SysI18nJsonListView from './components/SysI18nJsonListView.vue';

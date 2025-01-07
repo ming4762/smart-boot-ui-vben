@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { SmartTableSelectProps } from '../type';
 
-import { SmartIconButton } from '#/components';
+import { computed, ref, useSlots } from 'vue';
+
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+
 import { Select } from 'ant-design-vue';
-import { computed, ref, useSlots } from 'vue';
+
+import { SmartIconButton } from '#/components';
 
 import SmartTableSelectModal from './smart-table-select-modal.vue';
 

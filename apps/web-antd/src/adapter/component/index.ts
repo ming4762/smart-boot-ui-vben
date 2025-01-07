@@ -3,21 +3,12 @@
  * 可用于 vben-form、vben-modal、vben-drawer 等组件使用,
  */
 
-import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 
-import {
-  ApiDictSelect,
-  SmartDropdown,
-  SmartIconButton,
-  SmartTableSelectUser,
-} from '#/components';
-import {
-  createConfirm,
-  errorMessage,
-  successMessage,
-  warnMessage,
-} from '#/utils';
+import type { BaseFormComponentType } from '@vben/common-ui';
+
+import { h } from 'vue';
+
 import {
   ApiComponent,
   CodeEditor,
@@ -26,6 +17,7 @@ import {
   SmartPulldownTable,
 } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
+
 import {
   AutoComplete,
   Button,
@@ -55,7 +47,19 @@ import {
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
-import { h } from 'vue';
+
+import {
+  ApiDictSelect,
+  SmartDropdown,
+  SmartIconButton,
+  SmartTableSelectUser,
+} from '#/components';
+import {
+  createConfirm,
+  errorMessage,
+  successMessage,
+  warnMessage,
+} from '#/utils';
 
 import { doSetupVbenForm } from '../form';
 import { doSetupSmartTable } from '../smart-table';

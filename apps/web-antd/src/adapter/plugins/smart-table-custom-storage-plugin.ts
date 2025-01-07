@@ -14,9 +14,9 @@ const useSmartTableCustomStorageDBStore = defineStore(
     // 用来缓存初始化的 Promise
     let initPromise: null | Promise<void> = null;
 
-    const saveConfigToDb = (key: string, configData: any) => {
+    const saveConfigToDb = async (key: string, configData: any) => {
       try {
-        saveVxeConfigApi(key, JSON.stringify(configData));
+        await saveVxeConfigApi(key, JSON.stringify(configData));
       } catch (error) {
         // do nothing
         console.error('save config to db failed', error);

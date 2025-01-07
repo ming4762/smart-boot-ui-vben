@@ -1550,10 +1550,10 @@ importers:
         version: 3.5.13(typescript@5.7.2)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.48(vue@3.5.13(typescript@5.7.2))
+        version: 4.3.55(vue@3.5.13(typescript@5.7.2))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.9.35(vue@3.5.13(typescript@5.7.2))
+        version: 4.10.0(vue@3.5.13(typescript@5.7.2))
       zod:
         specifier: 'catalog:'
         version: 3.24.1
