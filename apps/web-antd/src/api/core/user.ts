@@ -6,7 +6,7 @@ enum Api {
   changePassword = 'sys/auth/changePassword',
   listCurrentUserTenant = 'sys/tenant/manager/listCurrentUserTenant',
   listUser = 'sys/user/list',
-  listUserById = 'sys/user/listUserById',
+  listUserById = 'sys/user/listById',
 }
 
 /**

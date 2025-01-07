@@ -1,12 +1,15 @@
+import type { ComputedRef } from 'vue';
+
 import type { ExtendSmartTableApi, SmartTableProps } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
-import type { ComputedRef } from 'vue';
 
 import type { SmartTableSelectModalProps } from '../../type';
 
-import { useSmartTable } from '#/adapter/smart-table';
-import { remove } from '@vben/utils';
 import { computed, h, ref, unref, watch } from 'vue';
+
+import { remove } from '@vben/utils';
+
+import { useSmartTable } from '#/adapter/smart-table';
 
 type Function = () => any;
 
@@ -157,14 +160,14 @@ const useSmartTableSelect = (
   };
 
   const handleSetSelectRows = () => {
-    const grid = tableApi.getGrid();
+    const grid = tableApi?.getGrid?.();
     grid?.setAllCheckboxRow(false);
     grid?.setCheckboxRow(unref(selectRowsRef), true);
   };
 
   const handleSetRadioRow = () => {
     const selectRows = unref(selectRowsRef);
-    const grid = tableApi.getGrid();
+    const grid = tableApi?.getGrid?.();
     if (!grid) {
       return;
     }
