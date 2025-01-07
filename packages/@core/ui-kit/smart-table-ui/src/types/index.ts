@@ -1,5 +1,6 @@
 import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type { SmartAuthType } from '@vben-core/typings';
+import type { Component, Ref } from 'vue';
 import type {
   VxeComponentSizeType,
   VxeGridDefines,
@@ -35,8 +36,6 @@ import type {
   SmartTableToolbarColumnConfig,
   SmartTableToolbarSizeSetting,
 } from './SmartTableToolbarConfigType';
-
-import type { Component, Ref } from 'vue';
 
 /**
  * 表格高度

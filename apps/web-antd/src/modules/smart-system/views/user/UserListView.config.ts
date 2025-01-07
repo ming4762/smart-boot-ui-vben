@@ -1,14 +1,13 @@
-import type { SmartSearchFormSchema, SmartTableColumn } from '@vben/common-ui';
-
 import type { VbenFormSchema } from '#/adapter/form';
-
-import { type ComputedRef, unref } from 'vue';
+import type { SmartSearchFormSchema, SmartTableColumn } from '@vben/common-ui';
+import type { ComputedRef } from 'vue';
 
 import {
   getTableBooleanColumnClass,
   getTableUseYnColumnClass,
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+import { unref } from 'vue';
 
 import { getDeptTreeListApi } from './UserListView.api';
 
@@ -185,6 +184,7 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
           return value.userType === SYS_USER_TYPE;
         },
       },
+      controlClass: 'w-full',
       componentProps: {
         showSearch: true,
         api: getDeptTreeListApi,

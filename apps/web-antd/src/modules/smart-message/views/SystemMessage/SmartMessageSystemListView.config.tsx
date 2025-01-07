@@ -299,7 +299,10 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'userIds',
       label: t('smart.message.systemMessage.title.userIds'),
-      component: 'SmartUserTableSelect',
+      component: 'SmartTableSelectUser',
+      componentProps: {
+        fullscreen: false,
+      },
       dependencies: {
         triggerFields: ['receiveUserType'],
         show: (model) => {

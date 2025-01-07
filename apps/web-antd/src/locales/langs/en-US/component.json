@@ -4,6 +4,9 @@
       "username": "Username",
       "fullName": "Full Name",
       "userType": "Type"
+    },
+    "button": {
+      "chooseUser": "Choose user"
     }
   },
   "form": {
