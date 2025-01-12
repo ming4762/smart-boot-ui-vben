@@ -13,9 +13,9 @@ type RequestContentType =
   | 'application/x-www-form-urlencoded;charset=utf-8'
   | 'multipart/form-data;charset=utf-8';
 
-type RequestClientOptions = {
+type RequestClientOptions = CreateAxiosDefaults & {
   isStandalone?: boolean;
-} & CreateAxiosDefaults;
+};
 
 interface RequestInterceptorConfig {
   fulfilled?: (

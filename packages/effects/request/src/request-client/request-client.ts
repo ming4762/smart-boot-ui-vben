@@ -3,6 +3,7 @@ import type { AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import type { RequestClientOptions, RequestOptions } from './types';
 
 import { bindMethods, merge } from '@vben/utils';
+
 import axios from 'axios';
 
 import { FileDownloader } from './modules/downloader';
@@ -11,24 +12,24 @@ import { Stream } from './modules/stream';
 import { FileUploader } from './modules/uploader';
 
 class RequestClient {
-  private baseUrl: string = '';
-
-  private readonly instance: AxiosInstance;
-  // 是否单体架构
-  private isStandalone = true;
-
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
+
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
   public batchUpload: FileUploader['batchUpload'];
 
   public download: FileDownloader['download'];
   // 是否正在刷新token
   public isRefreshing = false;
-
   public postStream: Stream['postStream'];
+
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
   public upload: FileUploader['upload'];
+
+  private baseUrl: string = '';
+  private readonly instance: AxiosInstance;
+  // 是否单体架构
+  private isStandalone = true;
 
   /**
    * 构造函数，用于创建Axios实例
@@ -68,6 +69,21 @@ class RequestClient {
     // 实例化流请求功能
     const stream = new Stream(this);
     this.postStream = stream.postStream.bind(stream);
+
+    // 微服务模式下，添加请求拦截器，用于添加服务名
+    this.addRequestInterceptor({
+      fulfilled: (config) => {
+        if (this.isStandalone || !(config as any).service) {
+          return config;
+        }
+        let spi = '';
+        if (!config.url?.startsWith('/')) {
+          spi = '/';
+        }
+        config.url = `${(config as any).service}${spi}${config.url}`;
+        return config;
+      },
+    });
   }
 
   /**
