@@ -43,6 +43,7 @@ export const zh = defineConfig({
       '/commercial/': { base: '/commercial/', items: sidebarCommercial() },
       '/components/': { base: '/components/', items: sidebarComponents() },
       '/guide/': { base: '/guide/', items: sidebarGuide() },
+      '/smart-boot/': { base: '/smart-boot/', items: sidebarSmartBoot() },
     },
     sidebarMenuLabel: '菜单',
   },
@@ -197,10 +198,42 @@ function sidebarComponents(): DefaultTheme.SidebarItem[] {
   ];
 }
 
+function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
+  return [
+    {
+      collapsed: false,
+      text: '简介',
+      items: [
+        {
+          link: 'introduction/about',
+          text: '关于Smart Boot',
+        },
+      ],
+    },
+    {
+      text: '使用',
+      items: [
+        {
+          link: 'used/auth',
+          text: '认证',
+        },
+        {
+          link: 'used/i18n',
+          text: '国际化',
+        },
+        {
+          link: 'used/exception',
+          text: '异常处理',
+        },
+      ],
+    },
+  ];
+}
+
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      activeMatch: '^/(guide|components)/',
+      activeMatch: '^/(guide|components|smart-boot)/',
       text: '文档',
       items: [
         {
@@ -212,6 +245,11 @@ function nav(): DefaultTheme.NavItem[] {
           activeMatch: '^/components/',
           link: '/components/introduction',
           text: '组件',
+        },
+        {
+          activeMatch: '^/smart-boot/',
+          link: '/smart-boot/introduction/about',
+          text: 'Smart Boot',
         },
         {
           text: '历史版本',
