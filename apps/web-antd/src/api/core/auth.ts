@@ -45,6 +45,7 @@ export async function loginApi(data: AuthApi.LoginParams) {
   return requestClient.postForm<AuthApi.LoginResult>('/auth/login', data, {
     errorMessageMode: 'modal',
     authErrorProcessed: false,
+    service: ApiServiceEnum.SMART_AUTH,
   });
 }
 
@@ -61,9 +62,15 @@ export async function refreshTokenApi() {
  * 退出登录
  */
 export async function logoutApi() {
-  return requestClient.post('/auth/logout', {
-    withCredentials: true,
-  });
+  return requestClient.post(
+    '/auth/logout',
+    {
+      withCredentials: true,
+    },
+    {
+      service: ApiServiceEnum.SMART_AUTH,
+    },
+  );
 }
 
 /**

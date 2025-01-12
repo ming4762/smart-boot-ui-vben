@@ -15,7 +15,7 @@ import { createPassword } from '@vben/utils';
 
 import { Col, Row } from 'ant-design-vue';
 
-import { requestClient } from '#/api/request';
+import { ApiServiceEnum, requestClient } from '#/api/request';
 import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'Login' });
@@ -40,7 +40,13 @@ const authStore = useAuthStore();
 const captchaRef = ref();
 
 const getCaptchaApi = () => {
-  return requestClient.post('auth/createCaptcha');
+  return requestClient.post(
+    'auth/createCaptcha',
+    {},
+    {
+      service: ApiServiceEnum.SMART_AUTH,
+    },
+  );
 };
 
 const formSchema = computed((): VbenFormSchema[] => {
