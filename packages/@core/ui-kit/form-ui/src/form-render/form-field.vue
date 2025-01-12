@@ -3,6 +3,8 @@ import type { ZodType } from 'zod';
 
 import type { FormSchema, MaybeComponentProps } from '../types';
 
+import { computed, nextTick, useTemplateRef, watch } from 'vue';
+
 import {
   FormControl,
   FormDescription,
@@ -12,9 +14,9 @@ import {
   VbenRenderContent,
 } from '@vben-core/shadcn-ui';
 import { cn, isFunction, isObject, isString } from '@vben-core/shared/utils';
+
 import { toTypedSchema } from '@vee-validate/zod';
 import { useFieldError, useFormValues } from 'vee-validate';
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
 import { injectRenderFormProps, useFormContext } from './context';
 import useDependencies from './dependencies';
@@ -39,12 +41,13 @@ const {
   label,
   labelClass,
   labelWidth,
+  modelPropName,
   renderComponentContent,
   rules,
 } = defineProps<
-  {
+  Props & {
     commonComponentProps: MaybeComponentProps;
-  } & Props
+  }
 >();
 
 const { componentBindEventMap, componentMap, isVertical } = useFormContext();
@@ -202,9 +205,9 @@ function fieldBindEvent(slotProps: Record<string, any>) {
   const modelValue = slotProps.componentField.modelValue;
   const handler = slotProps.componentField['onUpdate:modelValue'];
 
-  const bindEventField = isString(component)
-    ? componentBindEventMap.value?.[component]
-    : null;
+  const bindEventField =
+    modelPropName ||
+    (isString(component) ? componentBindEventMap.value?.[component] : null);
 
   let value = modelValue;
   // antd design 的一些组件会传递一个 event 对象

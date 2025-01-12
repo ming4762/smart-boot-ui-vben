@@ -11,7 +11,10 @@ import type {
   PreferencesButtonPositionType,
   ThemeModeType,
 } from '@vben/types';
+
 import type { SegmentedItem } from '@vben-core/shadcn-ui';
+
+import { computed, ref } from 'vue';
 
 import { Copy, RotateCw } from '@vben/icons';
 import { $t, loadLocaleMessages } from '@vben/locales';
@@ -21,6 +24,7 @@ import {
   resetPreferences,
   usePreferences,
 } from '@vben/preferences';
+
 import { useVbenDrawer } from '@vben-core/popup-ui';
 import {
   VbenButton,
@@ -28,8 +32,8 @@ import {
   VbenSegmented,
 } from '@vben-core/shadcn-ui';
 import { globalShareState } from '@vben-core/shared/global-state';
+
 import { useClipboard } from '@vueuse/core';
-import { computed, ref } from 'vue';
 
 import {
   Animation,
@@ -112,6 +116,9 @@ const tabbarPersist = defineModel<boolean>('tabbarPersist');
 const tabbarDraggable = defineModel<boolean>('tabbarDraggable');
 const tabbarWheelable = defineModel<boolean>('tabbarWheelable');
 const tabbarStyleType = defineModel<string>('tabbarStyleType');
+const tabbarMiddleClickToClose = defineModel<boolean>(
+  'tabbarMiddleClickToClose',
+);
 
 const navigationStyleType = defineModel<NavigationStyleType>(
   'navigationStyleType',
@@ -358,6 +365,7 @@ async function handleReset() {
                 v-model:tabbar-show-more="tabbarShowMore"
                 v-model:tabbar-style-type="tabbarStyleType"
                 v-model:tabbar-wheelable="tabbarWheelable"
+                v-model:tabbar-middle-click-to-close="tabbarMiddleClickToClose"
               />
             </Block>
             <Block :title="$t('preferences.widget.title')">

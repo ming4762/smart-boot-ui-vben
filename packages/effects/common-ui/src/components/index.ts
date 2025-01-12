@@ -5,15 +5,16 @@ export * from './ellipsis-text';
 export * from './icon-picker';
 export * from './page';
 export * from './resize';
+export * from './tippy';
 export * from '@vben-core/form-ui';
 export * from '@vben-core/popup-ui';
 
 // 给文档用
 export {
-  Input as VbenInput,
   SmartLayoutSeparate,
   VbenButton,
   VbenCountToAnimator,
+  Input as VbenInput,
   VbenInputPassword,
   VbenLoading,
   VbenPinInput,
