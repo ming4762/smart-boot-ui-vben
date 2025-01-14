@@ -20,9 +20,10 @@
 - 版本依赖：Maven
 - 基础框架：SpringBoot 3.4.1
 - 微服务框架：SpringCloud 2024.0.0 SpringCloudAlibaba 2023.x
-- 权限框架：SpringSecurity
-- ORM框架：Mybatis3.5 MybatisPlus 3.5.9
+- 权限框架：SpringSecurity，微服务模式支持 SAS
+- ORM框架：Mybatis3.5 MybatisPlus 3.5
 - 连接池：Druid 1.2.20
+- 分布式事务：Seata
 - 分页插件：PageHelper 2.1.0
 - 缓存：Reidis/Redisson3.37.0
 - 接口文档：Knife4j 4.5.0
@@ -55,3 +56,16 @@
 | 七牛云    | 支持     |
 | SFTP      | 支持     |
 | Amazon S3 | 支持     |
+
+### 消息通知支持
+
+::: tip具体参考消息模块说明文档 :::
+
+| 消息通道      | 是否支持     |
+| ------------- | ------------ |
+| 系统消息      | 支持         |
+| websocket消息 | 支持         |
+| dingtalk      | 支持工作通知 |
+| email         | 支持         |
+| 阿里云 SMS    | 支持         |
+| 腾讯云 SMS    | 支持         |

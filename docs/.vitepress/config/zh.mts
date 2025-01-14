@@ -225,6 +225,40 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'used/exception',
           text: '异常处理',
         },
+        {
+          link: 'used/log',
+          text: '日志',
+        },
+      ],
+    },
+    {
+      text: '代码生成器',
+      items: [
+        {
+          link: 'codeGenerator/system',
+          text: '创建系统',
+        },
+        {
+          link: 'codeGenerator/database',
+          text: '创建数据库连接',
+        },
+        {
+          link: 'codeGenerator/template',
+          text: '模板',
+        },
+        {
+          link: 'codeGenerator/codeCreate',
+          text: '代码生成',
+        },
+      ],
+    },
+    {
+      text: '工程',
+      items: [
+        {
+          link: 'project/dir',
+          text: '目录说明',
+        },
       ],
     },
   ];
