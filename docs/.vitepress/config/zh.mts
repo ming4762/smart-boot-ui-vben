@@ -232,6 +232,15 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
       ],
     },
     {
+      text: '组件',
+      items: [
+        {
+          link: 'components/smart-table',
+          text: 'Smart Table',
+        },
+      ],
+    },
+    {
       text: '代码生成器',
       items: [
         {
