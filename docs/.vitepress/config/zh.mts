@@ -215,7 +215,7 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
       items: [
         {
           link: 'used/auth',
-          text: '认证',
+          text: '认证与授权',
         },
         {
           link: 'used/i18n',
@@ -229,13 +229,17 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'used/log',
           text: '日志',
         },
+        {
+          link: 'used/crud',
+          text: 'CRUD',
+        },
       ],
     },
     {
       text: '组件',
       items: [
         {
-          link: 'components/smart-table',
+          link: 'components/smart-table/smart-table',
           text: 'Smart Table',
         },
       ],
