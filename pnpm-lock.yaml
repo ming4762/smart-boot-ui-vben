@@ -876,9 +876,15 @@ importers:
       '@vben/plugins':
         specifier: workspace:*
         version: link:../packages/effects/plugins
+      '@vben/preferences':
+        specifier: workspace:*
+        version: link:../packages/preferences
       '@vben/styles':
         specifier: workspace:*
         version: link:../packages/styles
+      '@vxe-ui/plugin-render-antd-smart-boot':
+        specifier: 'catalog:'
+        version: 4.0.7
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.6(vue@3.5.13(typescript@5.7.3))
@@ -1349,7 +1355,7 @@ importers:
     dependencies:
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.2)
+        version: 3.5.13(typescript@5.7.3)
 
   packages/@core/ui-kit/code-editor-ui:
     dependencies:
@@ -1382,7 +1388,7 @@ importers:
         version: 6.0.1(@lezer/common@1.2.3)
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.2)
+        version: 3.5.13(typescript@5.7.3)
 
   packages/@core/ui-kit/form-ui:
     dependencies:
@@ -1553,13 +1559,13 @@ importers:
         version: 1.15.6
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.2)
+        version: 3.5.13(typescript@5.7.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.55(vue@3.5.13(typescript@5.7.2))
+        version: 4.3.67(vue@3.5.13(typescript@5.7.3))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.10.0(vue@3.5.13(typescript@5.7.2))
+        version: 4.10.0(vue@3.5.13(typescript@5.7.3))
       zod:
         specifier: 'catalog:'
         version: 3.24.1
