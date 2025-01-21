@@ -27,7 +27,7 @@ type SmartColumnDynamicClass =
       columnIndex: number;
       row: any;
       rowIndex: number;
-    }) => { [key: string]: boolean } | null | string)
+    }) => null | string | { [key: string]: boolean })
   | string;
 
 type SmartColumnDynamicStyle =
@@ -41,7 +41,7 @@ type SmartColumnDynamicStyle =
       columnIndex: number;
       row: any;
       rowIndex: number;
-    }) => { [key: string]: boolean } | null | string)
+    }) => null | string | { [key: string]: boolean })
   | any;
 
 type SmartColumnAutoClass = 'Boolean';
@@ -125,7 +125,7 @@ type SmartTableColumnDynamicClass =
       columnIndex: number;
       row: any;
       rowIndex: number;
-    }) => { [key: string]: boolean } | null | string)
+    }) => null | string | { [key: string]: boolean })
   | string;
 
 /**
@@ -142,7 +142,7 @@ type SmartTableColumnDynamicStyle =
       columnIndex: number;
       row: any;
       rowIndex: number;
-    }) => { [key: string]: boolean } | null | string)
+    }) => null | string | { [key: string]: boolean })
   | any;
 
 type SmartTableColumnAutoClass = 'Boolean';

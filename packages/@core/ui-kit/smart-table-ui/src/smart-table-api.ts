@@ -47,8 +47,6 @@ class SmartTableApi {
     bindMethods(this);
   }
 
-  private updateState(): void {}
-
   mount(tableAction: SmartTableAction) {
     if (!this.isMounted && tableAction.getGrid()) {
       this.smartTableAction = tableAction;
@@ -79,6 +77,8 @@ class SmartTableApi {
     this.isMounted = false;
     this.stateHandler.reset();
   }
+
+  private updateState(): void {}
 }
 
 export { SmartTableApi };

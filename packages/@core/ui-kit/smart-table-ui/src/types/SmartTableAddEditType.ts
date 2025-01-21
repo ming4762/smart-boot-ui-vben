@@ -1,8 +1,8 @@
+import type { VNode } from 'vue';
+
 import type { ModalProps } from '@vben-core/popup-ui';
 
 import type { SmartTableBasicFormConfig } from './SmartTableCommon';
-
-import type { VNode } from 'vue';
 
 interface SmartTableModalSlotProps {
   isAdd: boolean;

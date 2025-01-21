@@ -33,6 +33,10 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   height: 'auto',
   border: true,
+  stripe: true,
+  rowConfig: {
+    isHover: true,
+  },
   sortConfig: {
     remote: true,
   },
@@ -40,8 +44,6 @@ const [SmartTable, tableApi] = useSmartTable({
     resizable: true,
   },
   checkboxConfig: {
-    rowCtrl: true,
-    rowShift: true,
     highlight: true,
     rowTrigger: 'single',
   },
@@ -165,7 +167,10 @@ const getDropDownAction = (row: Recordable<any>): SmartTableActionItem[] => {
   actions.push({
     label: t('common.button.look'),
     onClick: () => {
-      modalApi.setData(row);
+      modalApi.setData({
+        ...row,
+        messageId: row.id,
+      });
       modalApi.open();
     },
   });

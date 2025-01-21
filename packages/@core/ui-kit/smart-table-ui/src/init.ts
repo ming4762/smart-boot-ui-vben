@@ -1,9 +1,10 @@
+import type { Component } from 'vue';
+
 import type { SmartAuthType } from '@vben-core/typings';
 
 import type { SetupSmartTable } from './types';
 import type { SmartTableMessageHandler } from './types/SmartTableMessageType';
 
-import type { Component } from 'vue';
 import { defineComponent, watch } from 'vue';
 
 import {
@@ -110,6 +111,9 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   initSmartTableComponent();
   VxeUI.setConfig({
     translate(key, args) {
+      if (!i18nHandler) {
+        return key;
+      }
       if (key.startsWith('{') && key.endsWith('}')) {
         const i18nKey = key.replace('{', '').replace('}', '');
         return i18nHandler(i18nKey, args);

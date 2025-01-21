@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { SmartTableActionItem } from '@vben/common-ui';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { warnMessage } from '#/utils';
+import { computed, ref, unref } from 'vue';
+
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
-import { computed, ref, unref } from 'vue';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { warnMessage } from '#/utils';
 
 import TemplateGroup from '../../components/template/TemplateGroup.vue';
 import {
@@ -36,6 +38,7 @@ const [SmartTable, tableApi] = useSmartTable({
   checkboxConfig: true,
   columnConfig: { resizable: true },
   columns: getTableColumns(),
+  pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
     schema: getSearchSchemas(),

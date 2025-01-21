@@ -154,7 +154,7 @@ type ExtendSmartTableApi = SmartTableAction &
 interface SetupSmartTable {
   componentHandler?: (name: string) => Component | string | undefined;
   configSmartTable: (ui: VxeUIExport) => void;
-  i18nHandler: (key: string, args?: any) => string;
+  i18nHandler?: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   permissionHandler?: (code?: SmartAuthType) => boolean;
   watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;

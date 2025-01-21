@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type { RequestClient } from '../request-client';
-import type { UploadFileParams } from '../types';
+import type { RequestOptions, UploadFileParams } from '../types';
 
 class FileUploader {
   private client: RequestClient;
@@ -51,8 +51,8 @@ class FileUploader {
 
   public async upload(
     url: string,
-    data: { file: Blob | File } & Record<string, any>,
-    config?: AxiosRequestConfig,
+    data: Record<string, any> & { file: Blob | File },
+    config?: RequestOptions,
   ): Promise<AxiosResponse> {
     const formData = new FormData();
 

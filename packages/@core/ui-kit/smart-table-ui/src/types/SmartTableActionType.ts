@@ -1,6 +1,7 @@
+import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
+
 import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { SmartAuthType } from '@vben-core/typings';
-import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
 
 import type { SmartTableRenderProps } from './index';
 import type { SmartSearchFormParameter } from './SmartSearchFormType';

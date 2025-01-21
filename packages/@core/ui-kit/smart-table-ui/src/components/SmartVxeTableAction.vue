@@ -7,9 +7,11 @@ import type {
   SmartTableRowActionProps,
 } from '../types/SmartTableRowActionType';
 
+import { computed, h, toRaw, unref, useSlots } from 'vue';
+
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
-import { computed, h, toRaw, unref, useSlots } from 'vue';
+
 import { VxeButton } from 'vxe-pc-ui';
 
 import { ACTION_COLUMN_FLAG } from '../constant';
@@ -29,7 +31,7 @@ const slots = useSlots();
 const smartTableContext = injectSmartTableContext();
 
 let table: Partial<
-  { t: (key: string, args?: any) => string } & SmartTableAction
+  SmartTableAction & { t: (key: string, args?: any) => string }
 > = {};
 if (!props.outside) {
   table = injectSmartTableContext();

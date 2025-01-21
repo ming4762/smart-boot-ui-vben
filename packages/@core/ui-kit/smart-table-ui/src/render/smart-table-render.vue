@@ -1,10 +1,11 @@
 <script setup lang="tsx">
-import type { SmartAuthType } from '@vben-core/typings';
 import type {
   VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
 } from 'vxe-table';
+
+import type { SmartAuthType } from '@vben-core/typings';
 
 import type {
   SmartTableAction,
@@ -18,9 +19,9 @@ import type {
   SmartTableInnerContext,
 } from '../types/SmartTableInnerType';
 
-import { buildUUID } from '@vben-core/shared/utils';
 import {
   computed,
+  h,
   onMounted,
   ref,
   unref,
@@ -28,6 +29,9 @@ import {
   useSlots,
   useTemplateRef,
 } from 'vue';
+
+import { buildUUID } from '@vben-core/shared/utils';
+
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import TableSearchLayout from '../components/TableSearchLayout.vue';
@@ -222,13 +226,15 @@ createSmartTableContext(smartTableContext);
  */
 const renderTable = () => {
   const vNodeList = [
-    <VxeGrid
-      columns={unref(computedTableColumns) as VxeGridPropTypes.Column[]}
-      ref={vxeTableInstance}
-      {...unref(getSmartTableBindValues)}
-    >
-      {{ ...unref(computedTableSlots) }}
-    </VxeGrid>,
+    h(
+      VxeGrid,
+      {
+        columns: unref(computedTableColumns) as VxeGridPropTypes.Column[],
+        ref: vxeTableInstance,
+        ...unref(getSmartTableBindValues),
+      },
+      unref(computedTableSlots),
+    ),
   ];
   if (unref(computedHasAddEdit)) {
     vNodeList.push(<AddEditModal />);
@@ -254,14 +260,14 @@ const RenderFunction = () => {
   if (props.useSearchForm) {
     slots.search = renderSearchForm;
   }
-  return (
-    <TableSearchLayout
-      class="smart-table"
-      ref="wrapRef"
-      showSearch={unref(computedSearchFormVisible)}
-    >
-      {slots}
-    </TableSearchLayout>
+  return h(
+    TableSearchLayout,
+    {
+      class: 'smart-table',
+      ref: 'wrapRef',
+      showSearch: unref(computedSearchFormVisible),
+    },
+    slots,
   );
 };
 

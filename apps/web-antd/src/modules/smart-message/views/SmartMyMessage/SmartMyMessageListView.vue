@@ -55,8 +55,10 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   border: true,
   height: 'auto',
+  stripe: true,
   rowConfig: {
     keyField: 'id',
+    isHover: true,
   },
   sortConfig: {
     remote: true,
