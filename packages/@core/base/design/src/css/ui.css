@@ -85,3 +85,7 @@
 .page-container {
   padding: 5px;
 }
+
+.z-popup {
+  z-index: var(--popup-z-index);
+}

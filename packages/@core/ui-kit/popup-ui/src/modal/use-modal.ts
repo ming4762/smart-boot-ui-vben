@@ -1,6 +1,5 @@
 import type { ExtendedModalApi, ModalApiOptions, ModalProps } from './modal';
 
-import { useStore } from '@vben-core/shared/store';
 import {
   defineComponent,
   h,
@@ -11,10 +10,18 @@ import {
   ref,
 } from 'vue';
 
-import VbenModal from './modal.vue';
+import { useStore } from '@vben-core/shared/store';
+
 import { ModalApi } from './modal-api';
+import VbenModal from './modal.vue';
 
 const USER_MODAL_INJECT_KEY = Symbol('VBEN_MODAL_INJECT');
+
+const DEFAULT_MODAL_PROPS: Partial<ModalProps> = {};
+
+export function setDefaultModalProps(props: Partial<ModalProps>) {
+  Object.assign(DEFAULT_MODAL_PROPS, props);
+}
 
 export function useVbenModal<TParentModalProps extends ModalProps = ModalProps>(
   options: ModalApiOptions = {},
@@ -67,6 +74,7 @@ export function useVbenModal<TParentModalProps extends ModalProps = ModalProps>(
   const injectData = inject<any>(USER_MODAL_INJECT_KEY, {});
 
   const mergedOptions = {
+    ...DEFAULT_MODAL_PROPS,
     ...injectData.options,
     ...options,
   } as ModalApiOptions;

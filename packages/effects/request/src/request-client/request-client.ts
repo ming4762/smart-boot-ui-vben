@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
 
-import type { RequestClientOptions, RequestOptions } from './types';
+import type { RequestClientConfig, RequestClientOptions } from './types';
 
 import { bindMethods, merge } from '@vben/utils';
 
@@ -37,10 +37,11 @@ class RequestClient {
    */
   constructor(options: RequestClientOptions = {}) {
     // 合并默认配置和传入的配置
-    const defaultConfig: CreateAxiosDefaults = {
+    const defaultConfig: RequestClientOptions = {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
+      responseReturn: 'raw',
       // 默认超时时间
       timeout: 10_000,
     };
@@ -89,14 +90,17 @@ class RequestClient {
   /**
    * DELETE请求方法
    */
-  public delete<T = any>(url: string, config?: RequestOptions): Promise<T> {
+  public delete<T = any>(
+    url: string,
+    config?: RequestClientConfig,
+  ): Promise<T> {
     return this.request<T>(url, { ...config, method: 'DELETE' });
   }
 
   /**
    * GET请求方法
    */
-  public get<T = any>(url: string, config?: RequestOptions): Promise<T> {
+  public get<T = any>(url: string, config?: RequestClientConfig): Promise<T> {
     return this.request<T>(url, { ...config, method: 'GET' });
   }
 
@@ -117,7 +121,7 @@ class RequestClient {
   public post<T = any>(
     url: string,
     data?: any,
-    config?: RequestOptions,
+    config?: RequestClientConfig,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'POST' });
   }
@@ -128,7 +132,7 @@ class RequestClient {
   public postForm<T = any>(
     url: string,
     data?: any,
-    config?: RequestOptions,
+    config?: RequestClientConfig,
   ): Promise<T> {
     const headers = config?.headers || {};
     headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
@@ -141,7 +145,7 @@ class RequestClient {
   public put<T = any>(
     url: string,
     data?: any,
-    config?: RequestOptions,
+    config?: RequestClientConfig,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'PUT' });
   }
@@ -149,7 +153,10 @@ class RequestClient {
   /**
    * 通用的请求方法
    */
-  public async request<T>(url: string, config: RequestOptions): Promise<T> {
+  public async request<T>(
+    url: string,
+    config: RequestClientConfig,
+  ): Promise<T> {
     try {
       const response: AxiosResponse<T> = await this.instance({
         url,

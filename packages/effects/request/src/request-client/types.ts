@@ -5,7 +5,21 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 
-type RequestResponse<T = any> = AxiosResponse<T>;
+type ExtendOptions = {
+  // 是否是单体架构
+  isStandalone?: boolean;
+  /** 响应数据的返回方式。
+   * raw: 原始的AxiosResponse，包括headers、status等。
+   * body: 返回响应数据的BODY部分。
+   * data: 解构响应的BODY数据，只返回其中的data节点数据。
+   */
+  responseReturn?: 'body' | 'data' | 'raw';
+};
+type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions;
+
+type RequestResponse<T = any> = AxiosResponse<T> & {
+  config: RequestClientConfig<T>;
+};
 
 type RequestContentType =
   | 'application/json;charset=utf-8'
@@ -13,23 +27,21 @@ type RequestContentType =
   | 'application/x-www-form-urlencoded;charset=utf-8'
   | 'multipart/form-data;charset=utf-8';
 
-type RequestClientOptions = CreateAxiosDefaults & {
-  isStandalone?: boolean;
-};
+type RequestClientOptions = CreateAxiosDefaults & ExtendOptions;
 
 interface RequestInterceptorConfig {
   fulfilled?: (
-    config: InternalAxiosRequestConfig,
+    config: ExtendOptions & InternalAxiosRequestConfig,
   ) =>
-    | InternalAxiosRequestConfig<any>
-    | Promise<InternalAxiosRequestConfig<any>>;
+    | (ExtendOptions & InternalAxiosRequestConfig<any>)
+    | Promise<ExtendOptions & InternalAxiosRequestConfig<any>>;
   rejected?: (error: any) => any;
 }
 
 interface ResponseInterceptorConfig<T = any> {
   fulfilled?: (
-    response: AxiosResponse<T>,
-  ) => AxiosResponse | Promise<AxiosResponse>;
+    response: RequestResponse<T>,
+  ) => Promise<RequestResponse> | RequestResponse;
   rejected?: (error: any) => any;
 }
 
@@ -88,6 +100,7 @@ export type {
   ErrorMessageMode,
   HttpResponse,
   MakeErrorMessageFn,
+  RequestClientConfig,
   RequestClientOptions,
   RequestContentType,
   RequestInterceptorConfig,
