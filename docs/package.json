@@ -23,7 +23,9 @@
     "lucide-vue-next": "catalog:",
     "medium-zoom": "catalog:",
     "radix-vue": "catalog:",
-    "vitepress-plugin-group-icons": "catalog:"
+    "vitepress-plugin-group-icons": "catalog:",
+    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
+    "@vben/preferences": "workspace:*"
   },
   "devDependencies": {
     "@nolebase/vitepress-plugin-git-changelog": "catalog:",
