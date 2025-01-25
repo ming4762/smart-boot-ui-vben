@@ -1,7 +1,5 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-
 import type { RequestClient } from '../request-client';
-import type { RequestOptions, UploadFileParams } from '../types';
+import type { RequestClientConfig, UploadFileParams } from '../types';
 
 class FileUploader {
   private client: RequestClient;
@@ -13,7 +11,7 @@ class FileUploader {
   public async batchUpload(
     url: string,
     params: UploadFileParams,
-    config?: AxiosRequestConfig,
+    config?: RequestClientConfig,
   ) {
     const formData = new FormData();
     const file = params.file;
@@ -49,18 +47,18 @@ class FileUploader {
     });
   }
 
-  public async upload(
+  public async upload<T = any>(
     url: string,
     data: Record<string, any> & { file: Blob | File },
-    config?: RequestOptions,
-  ): Promise<AxiosResponse> {
+    config?: RequestClientConfig,
+  ): Promise<T> {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
 
-    const finalConfig: AxiosRequestConfig = {
+    const finalConfig: RequestClientConfig = {
       ...config,
       headers: {
         'Content-Type': 'multipart/form-data',
