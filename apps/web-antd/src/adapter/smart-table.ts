@@ -1,12 +1,13 @@
 import type { SmartAuthType } from '@vben/types';
 
-import { computed, unref } from 'vue';
+import { computed, h, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
 import {
   globalShareState,
   setupSmartTable,
   useSmartTable,
+  VbenLoading,
 } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 
@@ -61,6 +62,11 @@ const doSetupSmartTable = () => {
       }
       const { hasAccessByAuth } = useAccess();
       return hasAccessByAuth(code);
+    },
+    defaultSlots: () => {
+      return {
+        loading: () => [h(VbenLoading, { spinning: true })],
+      };
     },
   });
 };

@@ -1,4 +1,4 @@
-import type { Component } from 'vue';
+import type { Component, Slots } from 'vue';
 
 import type { SmartAuthType } from '@vben-core/typings';
 
@@ -35,6 +35,7 @@ import 'vxe-pc-ui/styles/cssvar.scss';
 import './style/index.scss';
 
 interface SmartSetupHandler {
+  defaultSlots?: () => Slots;
   getComponent: (name: string) => Component | string | undefined;
   hasPermission: (auth?: SmartAuthType) => boolean;
   messageHandler: SmartTableMessageHandler;
@@ -101,6 +102,7 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   const {
     componentHandler,
     configSmartTable,
+    defaultSlots,
     i18nHandler,
     messageHandler,
     permissionHandler,
@@ -142,6 +144,7 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
   if (componentHandler) {
     DEFAULT_SETUP_HANDLER.getComponent = componentHandler;
   }
+  DEFAULT_SETUP_HANDLER.defaultSlots = defaultSlots;
 
   configSmartTable(VxeUI);
 

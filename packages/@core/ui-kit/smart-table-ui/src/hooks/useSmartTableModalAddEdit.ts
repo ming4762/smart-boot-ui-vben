@@ -1,3 +1,5 @@
+import type { ComputedRef, Ref, Slot, Slots } from 'vue';
+
 import type { ExtendedFormApi, VbenFormProps } from '@vben-core/form-ui';
 
 import type { SmartTableRenderProps } from '../types';
@@ -7,15 +9,7 @@ import type {
 } from '../types/SmartTableAddEditType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import {
-  computed,
-  type ComputedRef,
-  h,
-  nextTick,
-  type Slot,
-  type Slots,
-  unref,
-} from 'vue';
+import { computed, h, nextTick, unref } from 'vue';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise, isString } from '@vben-core/shared/utils';
@@ -42,7 +36,7 @@ export const useSmartTableModalAddEditEdit = (
   getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (code: string, ...args: string[]) => string,
-  slots: Slots,
+  slotsRef: Ref<Slots>,
 ) => {
   let formApi: ExtendedFormApi | null = null;
 
@@ -126,6 +120,8 @@ export const useSmartTableModalAddEditEdit = (
    * 添加修改插槽
    */
   const computedAddEditModalFormSlots = computed(() => {
+    const slots = unref(slotsRef);
+
     const { formConfig, modalConfig } = unref(tableProps)?.addEditConfig || {};
     const result = getFormSlots(slots, formConfig);
 

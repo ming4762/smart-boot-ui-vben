@@ -5,6 +5,8 @@ import type {
   VxeGridPropTypes,
 } from 'vxe-table';
 
+import type { Slots } from 'vue';
+
 import type { SmartAuthType } from '@vben-core/typings';
 
 import type {
@@ -45,6 +47,7 @@ import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdi
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
+import { DEFAULT_SETUP_HANDLER } from '../init';
 
 interface Props extends SmartTableRenderProps {}
 
@@ -87,6 +90,24 @@ const setSmartTableProps = (setProps: Partial<SmartTableRenderProps>) => {
 };
 
 /**
+ * 表格插槽
+ */
+const computedSlots = computed<Slots>(() => {
+  const defaultSlotsHandler = DEFAULT_SETUP_HANDLER.defaultSlots;
+  if (!defaultSlotsHandler) {
+    return slots;
+  }
+  const defaultSlots = defaultSlotsHandler();
+  if (!defaultSlots || Object.keys(defaultSlots).length === 0) {
+    return slots;
+  }
+  return {
+    ...defaultSlots,
+    ...slots,
+  };
+});
+
+/**
  * 列动态class style支持
  */
 const { computedTableClassStyle } =
@@ -119,7 +140,7 @@ const {
   getSmartTableContext,
   emitHandler,
   t,
-  slots,
+  computedSlots,
 );
 
 /**
@@ -146,7 +167,7 @@ const {
   getSmartTableContext,
   emitHandler,
   t,
-  slots,
+  computedSlots,
 );
 
 const { computedToolbarConfig } = useSmartTableToolbar(
@@ -174,7 +195,7 @@ const getSmartTableBindValues = computed<VxeGridProps>(() => {
 
 const computedTableSlots = computed(() => {
   return {
-    ...slots,
+    ...unref(computedSlots),
   };
 });
 

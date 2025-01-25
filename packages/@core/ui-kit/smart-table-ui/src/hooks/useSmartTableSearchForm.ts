@@ -1,4 +1,4 @@
-import type { ComputedRef, Slots } from 'vue';
+import type { ComputedRef, Ref, Slots } from 'vue';
 
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
@@ -37,7 +37,7 @@ const useSmartTableSearchForm = (
   getSmartTableContext: SmartTableContextHandler,
   emit: (name: string, ...args: any[]) => void,
   t: (args: string) => string,
-  slots: Slots,
+  slots: Ref<Slots>,
 ) => {
   /**
    * 搜索form显示状态
@@ -148,7 +148,7 @@ const useSmartTableSearchForm = (
 
   const computedSearchFormSlots = computed(() => {
     const { searchFormConfig } = unref(tableProps);
-    return getFormSlots(slots, searchFormConfig);
+    return getFormSlots(unref(slots), searchFormConfig);
   });
 
   // /**

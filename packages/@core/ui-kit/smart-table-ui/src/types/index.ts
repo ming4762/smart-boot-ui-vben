@@ -8,7 +8,7 @@ import type {
   VxeUIExport,
 } from 'vxe-table';
 
-import type { Component, Ref } from 'vue';
+import type { Component, Ref, Slots } from 'vue';
 
 import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type { SmartAuthType } from '@vben-core/typings';
@@ -154,6 +154,8 @@ type ExtendSmartTableApi = SmartTableAction &
 interface SetupSmartTable {
   componentHandler?: (name: string) => Component | string | undefined;
   configSmartTable: (ui: VxeUIExport) => void;
+  // 默认插槽
+  defaultSlots?: () => Slots;
   i18nHandler?: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   permissionHandler?: (code?: SmartAuthType) => boolean;
