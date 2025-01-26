@@ -76,6 +76,8 @@ type SmartTableEditRenderPropsHandler<D = any, P = Record<string, any>> = (
   row: D,
 ) => P;
 
+type SmartTableColumnType = 'date' | 'dateTime' | VxeColumnPropTypes.Type;
+
 /**
  * 可编辑编辑列配置
  */
@@ -96,7 +98,7 @@ interface SmartTableEditRender<D = any, P = Record<string, any>>
  * 列配置
  */
 interface SmartTableColumn
-  extends Omit<VxeTableDefines.ColumnOptions, 'editRender'> {
+  extends Omit<VxeTableDefines.ColumnOptions, 'editRender' | 'type'> {
   // 自动class
   autoClass?: SmartColumnAutoClass;
   component?: SmartTableColumnComponent;
@@ -109,6 +111,7 @@ interface SmartTableColumn
   dynamicStyle?: SmartColumnDynamicStyle;
   editRender?: SmartTableEditRender;
   flag?: 'ACTION' | 'CHECKBOX' | 'DEFAULT' | 'INDEX' | 'RADIO';
+  type?: SmartTableColumnType;
 }
 
 /**

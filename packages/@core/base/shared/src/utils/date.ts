@@ -1,5 +1,7 @@
+import type { DurationUnitType } from 'dayjs/plugin/duration';
+
 import dayjs from 'dayjs';
-import duration, { type DurationUnitType } from 'dayjs/plugin/duration';
+import duration from 'dayjs/plugin/duration';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import weekday from 'dayjs/plugin/weekday';

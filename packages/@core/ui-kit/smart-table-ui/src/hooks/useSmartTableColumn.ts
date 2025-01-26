@@ -1,15 +1,21 @@
 import type { VxeColumnSlotTypes, VxeTablePropTypes } from 'vxe-table';
 
+import type { Component, ComputedRef, VNode } from 'vue';
+
 import type {
   SmartTableColumn,
   SmartTableRenderProps,
   SmartTableSize,
 } from '../types';
 
-import type { Component, ComputedRef, VNode } from 'vue';
 import { computed, h, unref } from 'vue';
 
-import { isBoolean, isFunction } from '@vben-core/shared/utils';
+import {
+  formatDate,
+  formatDateTime,
+  isBoolean,
+  isFunction,
+} from '@vben-core/shared/utils';
 
 import { getComponent, getFormSize } from '../utils';
 
@@ -162,31 +168,68 @@ const convertEditRender = (
   });
 };
 
+const convertComponent = (
+  columns: SmartTableColumn[],
+  t: (args: string) => string,
+): SmartTableColumn[] => {
+  return columns.map((column) => {
+    const { component, slots } = column;
+    if (!component || slots) {
+      return column;
+    }
+    const defaultSlot = componentMap[component];
+    if (!defaultSlot) {
+      return column;
+    }
+    return {
+      ...column,
+      slots: {
+        default: defaultSlot(column, t),
+      },
+    };
+  });
+};
+
+const convertDateType = (columns: SmartTableColumn[]): SmartTableColumn[] => {
+  return columns.map((column) => {
+    const { formatter, type } = column;
+    if (!type) {
+      return column;
+    }
+    if (formatter) {
+      return column;
+    }
+    if (type !== 'date' && type !== 'dateTime') {
+      return column;
+    }
+    const handler = type === 'date' ? formatDate : formatDateTime;
+    return {
+      ...column,
+      formatter: ({ cellValue }) => {
+        if (!cellValue) {
+          return cellValue;
+        }
+        return handler(cellValue);
+      },
+      // 移除，防止vxe props警告
+      type: undefined,
+    };
+  });
+};
+
 const useSmartTableColumn = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   t: (args: string) => string,
 ) => {
   const computedTableColumns = computed<Array<SmartTableColumn>>(
     (): SmartTableColumn[] => {
-      const propsColumns = unref(tableProps).columns || [];
+      let columns = unref(tableProps).columns || [];
       const tableSize = unref(tableProps).size;
-      const result = propsColumns.map((column) => {
-        const { component, slots } = column;
-        if (!component || slots) {
-          return column;
-        }
-        const defaultSlot = componentMap[component];
-        if (!defaultSlot) {
-          return column;
-        }
-        return {
-          ...column,
-          slots: {
-            default: defaultSlot(column, t),
-          },
-        };
-      });
-      return convertEditRender(result, tableSize);
+      // 转换组件
+      columns = convertComponent(columns, t);
+      // 转换日期类型
+      columns = convertDateType(columns);
+      return convertEditRender(columns, tableSize);
     },
   );
 
