@@ -1,13 +1,16 @@
-import type { TabDefinition } from '@vben-core/typings';
 import type { Router, RouteRecordNormalized } from 'vue-router';
+
+import type { TabDefinition } from '@vben-core/typings';
+
+import { toRaw } from 'vue';
 
 import {
   openRouteInNewWindow,
   startProgress,
   stopProgress,
 } from '@vben-core/shared/utils';
+
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { toRaw } from 'vue';
 
 interface TabbarState {
   /**
@@ -145,6 +148,12 @@ export const useTabbarStore = defineStore('core-tabbar', {
       this.updateCacheTabs();
     },
     /**
+     * @zh_CN 清空标签页缓存
+     */
+    clearCacheTab() {
+      this.cachedTabs = new Set();
+    },
+    /**
      * @zh_CN 关闭所有标签页
      */
     async closeAllTabs(router: Router) {
@@ -198,6 +207,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
       }
       await this._bulkCloseByPaths(paths);
     },
+
     /**
      * @zh_CN 关闭右侧标签页
      * @param tab
@@ -273,7 +283,6 @@ export const useTabbarStore = defineStore('core-tabbar', {
         await this.closeTab(tab, router);
       }
     },
-
     /**
      * 根据路径获取标签页
      * @param path
@@ -283,6 +292,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
         (item) => getTabPath(item) === path,
       ) as TabDefinition;
     },
+
     /**
      * @zh_CN 新窗口打开标签页
      * @param tab
@@ -315,7 +325,6 @@ export const useTabbarStore = defineStore('core-tabbar', {
       // 交换位置重新排序
       await this.sortTabs(index, newIndex);
     },
-
     /**
      * 刷新标签页
      */
@@ -333,7 +342,6 @@ export const useTabbarStore = defineStore('core-tabbar', {
       this.renderRouteView = true;
       stopProgress();
     },
-
     /**
      * @zh_CN 重置标签页标题
      */

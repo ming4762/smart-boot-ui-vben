@@ -3,8 +3,9 @@ import type { Preferences } from './types';
 import { preferencesManager } from './preferences';
 
 // 偏好设置（带有层级关系）
-const preferences: Preferences =
-  preferencesManager.getPreferences.apply(preferencesManager);
+const preferences: Preferences = preferencesManager.getPreferences.apply(
+  preferencesManager,
+) as Preferences;
 
 // 更新偏好设置
 const updatePreferences =

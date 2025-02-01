@@ -94,6 +94,24 @@
       "errorPasswordTip": "Passwords do not match, please re-enter",
       "changePasswordSuccess": "Password changed successfully, please log in again",
       "passwordStrength": "Password does not meet strength requirements"
+    },
+    "personalCenter": {
+      "title": "Personal Center",
+      "basicInfo": {
+        "title": "Basic Information",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phone": "Phone Number"
+      },
+      "systemSetting": {
+        "title": "System Settings",
+        "timeZone": "Time Zone",
+        "timeZoneSetting": "Time Zone Setting",
+        "timeZoneDescription": "Current Time Zone: ",
+        "tenant": "Tenant",
+        "tenantDescription": "Current Tenant: "
+      },
+      "authSetting": "Security Settings"
     }
   }
 }

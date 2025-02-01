@@ -94,6 +94,24 @@
       "errorPasswordTip": "两次密码不一致，请重新输入",
       "changePasswordSuccess": "修改密码成功，请重新登录",
       "passwordStrength": "密码强度不匹配"
+    },
+    "personalCenter": {
+      "title": "个人中心",
+      "basicInfo": {
+        "title": "基本信息",
+        "fullName": "姓名",
+        "email": "邮箱",
+        "phone": "手机号"
+      },
+      "systemSetting": {
+        "title": "系统设置",
+        "timeZone": "时区",
+        "timeZoneSetting": "时区设置",
+        "timeZoneDescription": "当前时区：",
+        "tenant": "租户",
+        "tenantDescription": "当前租户："
+      },
+      "authSetting": "安全设置"
     }
   }
 }

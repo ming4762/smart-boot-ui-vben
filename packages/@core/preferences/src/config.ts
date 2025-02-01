@@ -1,5 +1,7 @@
 import type { Preferences } from './types';
 
+import { TIME_ZONE_OPTIONS } from './constants';
+
 const defaultPreferences: Preferences = {
   app: {
     accessMode: 'frontend',
@@ -22,6 +24,10 @@ const defaultPreferences: Preferences = {
     loginExpiredMode: 'page',
     name: 'Vben Admin',
     preferencesButtonPosition: 'auto',
+    timeZone: {
+      defaultTimeZone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
+      options: TIME_ZONE_OPTIONS,
+    },
     watermark: false,
   },
   breadcrumb: {

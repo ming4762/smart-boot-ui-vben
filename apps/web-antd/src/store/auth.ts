@@ -1,5 +1,7 @@
 import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 
+import type { AuthApi } from '#/api';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -10,13 +12,7 @@ import { createPassword } from '@vben/utils';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import {
-  type AuthApi,
-  changePasswordApi,
-  changeTenantApi,
-  loginApi,
-  logoutApi,
-} from '#/api';
+import { changePasswordApi, changeTenantApi, loginApi, logoutApi } from '#/api';
 import { requestClient } from '#/api/request';
 import { $t } from '#/locales';
 

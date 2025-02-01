@@ -3,6 +3,7 @@
  * todo:切换上下左右布局 宽度高度不联动
  */
 import type { StyleValue } from 'vue';
+
 import { computed, unref, useCssModule, useTemplateRef } from 'vue';
 
 import { useDrag } from './hooks/useDrag';
@@ -227,6 +228,7 @@ const computedDragLineInnerClass = computed(() => {
       width: 2px;
       height: 100%;
       margin: 0 4px;
+      border-left: 1px solid hsl(var(--border));
     }
   }
 
@@ -258,6 +260,7 @@ const computedDragLineInnerClass = computed(() => {
     :global(.drag-line-horizontal) {
       height: 2px;
       margin: 4px 0;
+      border-top: 1px solid hsl(var(--border));
     }
   }
 

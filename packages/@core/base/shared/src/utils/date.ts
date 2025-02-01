@@ -17,7 +17,7 @@ export function formatDate(time: number | string, format = 'YYYY-MM-DD') {
     if (!date.isValid()) {
       throw new Error('Invalid date');
     }
-    return date.format(format);
+    return date.tz().format(format);
   } catch (error) {
     console.error(`Error formatting date: ${error}`);
     return time;
@@ -118,3 +118,11 @@ export function isDate(value: any): value is Date {
 export function isDayjsObject(value: any): value is dayjs.Dayjs {
   return dayjs.isDayjs(value);
 }
+
+/**
+ * 设置默认时区
+ * @param timezone
+ */
+export const setDefaultTimezone = (timezone?: string) => {
+  timezone ? dayjs.tz.setDefault(timezone) : dayjs.tz.setDefault();
+};

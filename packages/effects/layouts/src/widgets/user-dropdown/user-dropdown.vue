@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import type { AnyFunction, UserTenant } from '@vben/types';
 import type { Component } from 'vue';
+
+import type { AnyFunction, UserTenant } from '@vben/types';
+
+import { computed, useTemplateRef, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useHoverToggle } from '@vben/hooks';
 import { IconifyIcon, LockKeyhole, LogOut } from '@vben/icons';
@@ -8,6 +12,7 @@ import { $t } from '@vben/locales';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useLockStore } from '@vben/stores';
 import { isWindowsOs } from '@vben/utils';
+
 import { useVbenModal } from '@vben-core/popup-ui';
 import {
   Badge,
@@ -21,8 +26,8 @@ import {
   VbenAvatar,
   VbenIcon,
 } from '@vben-core/shadcn-ui';
+
 import { useMagicKeys, whenever } from '@vueuse/core';
-import { computed, useTemplateRef, watch } from 'vue';
 
 import { ChangePasswordModal } from '../change-password';
 import { ChangeTenantModal } from '../change-tenant';
@@ -94,6 +99,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ logout: [] }>();
+const router = useRouter();
 
 const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
   usePreferences();
@@ -182,6 +188,10 @@ if (enableShortcutKey.value) {
     }
   });
 }
+
+const handleGoToPersonalCenter = () => {
+  router.push('/profile/personal-center');
+};
 </script>
 
 <template>
@@ -261,6 +271,17 @@ if (enableShortcutKey.value) {
           {{ menu.text }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <!--    个人中心    -->
+        <DropdownMenuItem
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="() => handleGoToPersonalCenter()"
+        >
+          <IconifyIcon
+            class="mr-2 size-4"
+            icon="ant-design:user-switch-outlined"
+          />
+          {{ $t('ui.widgets.personalCenter.title') }}
+        </DropdownMenuItem>
         <!--   切换租户/修改密码   -->
         <DropdownMenuItem
           class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
