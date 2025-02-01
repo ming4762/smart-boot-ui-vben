@@ -5,7 +5,16 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+/**
+ * 错误信息警告方式
+ */
+type ErrorMessageMode = 'message' | 'modal' | 'none' | undefined;
+
 type ExtendOptions = {
+  // 是否处理认证错误
+  authErrorProcessed?: boolean;
+  // 错误信息警告方式
+  errorMessageMode?: ErrorMessageMode;
   // 是否是单体架构
   isStandalone?: boolean;
   /** 响应数据的返回方式。
@@ -14,6 +23,7 @@ type ExtendOptions = {
    * data: 解构响应的BODY数据，只返回其中的data节点数据（会检查status和code是否为成功状态）。
    */
   responseReturn?: 'body' | 'data' | 'raw';
+  service?: string;
 };
 type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions;
 
@@ -60,11 +70,6 @@ interface HttpResponse<T = any> {
    */
   exceptionNo?: number;
 }
-
-/**
- * 错误信息警告方式
- */
-type ErrorMessageMode = 'message' | 'modal' | 'none' | undefined;
 
 interface RequestOptions extends AxiosRequestConfig {
   // 错误信息警告方式

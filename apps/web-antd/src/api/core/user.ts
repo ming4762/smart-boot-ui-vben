@@ -1,9 +1,12 @@
 import type { ChangePasswordParams, UserInfo, UserTenant } from '@vben/types';
 
+import { useUserStore } from '@vben/stores';
+
 import { ApiServiceEnum, requestClient } from '#/api/request';
 
 enum Api {
   changePassword = 'sys/auth/changePassword',
+  getDetailById = 'sys/user/getDetailById',
   listCurrentUserTenant = 'sys/tenant/manager/listCurrentUserTenant',
   listUser = 'sys/user/list',
   listUserById = 'sys/user/listById',
@@ -15,6 +18,23 @@ enum Api {
 export async function getUserInfoApi() {
   return requestClient.get<UserInfo>('/user/info');
 }
+
+export const getDetailById = (id: number) => {
+  return requestClient.post(Api.getDetailById, id, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+/**
+ * 获取当前用户信息
+ */
+export const getCurrentUserInfo = async () => {
+  const { userInfo } = useUserStore();
+  if (!userInfo) {
+    return null;
+  }
+  return getDetailById(userInfo.userId as number);
+};
 
 /**
  * 查询当前用户的租户列表
