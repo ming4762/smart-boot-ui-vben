@@ -47,13 +47,13 @@ const configList = [
       'ui.widgets.personalCenter.systemSetting.timeZoneDescription',
     ),
     key: 'timeZone',
-    actionName: t('common.edit'),
+    actionName: t('common.set'),
   },
   {
     title: t('ui.widgets.personalCenter.systemSetting.tenant'),
     description: t('ui.widgets.personalCenter.systemSetting.tenantDescription'),
     key: 'tenant',
-    actionName: t('common.edit'),
+    actionName: t('common.set'),
   },
 ];
 </script>

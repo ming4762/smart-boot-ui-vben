@@ -15,6 +15,7 @@
   "edit": "Edit",
   "publish": "Publish",
   "revoke": "Revoke",
+  "set": "Set",
   "table": {
     "useYn": "Enabled Flag",
     "remark": "Remarks",

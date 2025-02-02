@@ -10,7 +10,7 @@ import SystemSetting from './components/system-setting.vue';
 <template>
   <div class="page-container h-full">
     <div class="bg-background tab-container h-full">
-      <Tabs tab-position="left" class="h-full" active-key="systemSetting">
+      <Tabs tab-position="left" class="h-full">
         <TabPane
           :tab="t('ui.widgets.personalCenter.basicInfo.title')"
           key="basicInfo"
