@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
     };
   },
   layout: 'leftRight',
-  showLine: true,
+  showLine: false,
 });
 
 const dividerRef = useTemplateRef<HTMLElement | null>('dividerRef');
@@ -145,7 +145,13 @@ const handleMouseDown = (event: MouseEvent) => {
 };
 
 const computedDragLineInnerClass = computed(() => {
-  return unref(isLeftRight) ? 'drag-line-vertical' : 'drag-line-horizontal';
+  const classList: string[] = [
+    unref(isLeftRight) ? 'drag-line-vertical' : 'drag-line-horizontal',
+  ];
+  if (props.showLine) {
+    classList.push('drag-line-inner-line');
+  }
+  return classList;
 });
 </script>
 
@@ -156,7 +162,7 @@ const computedDragLineInnerClass = computed(() => {
         <slot name="first"></slot>
       </div>
       <div
-        v-if="showLine"
+        v-if="showLine || draggable"
         ref="dividerRef"
         :class="computedLineClass"
         :style="dragLineStyle"
@@ -228,6 +234,8 @@ const computedDragLineInnerClass = computed(() => {
       width: 2px;
       height: 100%;
       margin: 0 4px;
+    }
+    :global(.drag-line-inner-line) {
       border-left: 1px solid hsl(var(--border));
     }
   }
@@ -260,6 +268,8 @@ const computedDragLineInnerClass = computed(() => {
     :global(.drag-line-horizontal) {
       height: 2px;
       margin: 4px 0;
+    }
+    :global(.drag-line-inner-line) {
       border-top: 1px solid hsl(var(--border));
     }
   }
@@ -273,7 +283,7 @@ const computedDragLineInnerClass = computed(() => {
   }
 
   .second-outer {
-    padding-top: 5px;
+    //padding-top: 5px;
     //margin-top: 5px;
   }
 }

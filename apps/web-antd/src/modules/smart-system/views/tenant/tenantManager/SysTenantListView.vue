@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { useSmartTable } from '#/adapter/smart-table';
+import { computed, onMounted, ref, unref } from 'vue';
+
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
+
 import { TabPane, Tabs } from 'ant-design-vue';
-import { computed, onMounted, ref, unref } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
 
 import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
@@ -163,7 +166,7 @@ const [SmartTable] = useSmartTable({
         </SmartTable>
       </template>
       <template #second>
-        <Tabs class="bg-background">
+        <Tabs class="bg-background" style="margin-top: 5px">
           <TabPane
             key="user"
             :tab="t('system.views.tenant.manager.title.tabUser')"
