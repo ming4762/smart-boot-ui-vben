@@ -11,6 +11,8 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(weekday);
 
+export const zonedDayjs = dayjs;
+
 export function formatDate(time: number | string, format = 'YYYY-MM-DD') {
   try {
     const date = dayjs(time);
@@ -125,4 +127,12 @@ export function isDayjsObject(value: any): value is dayjs.Dayjs {
  */
 export const setDefaultTimezone = (timezone?: string) => {
   timezone ? dayjs.tz.setDefault(timezone) : dayjs.tz.setDefault();
+};
+
+/**
+ * 获取当前时区
+ * @returns
+ */
+export const getTimezone = () => {
+  return dayjs.tz.guess();
 };

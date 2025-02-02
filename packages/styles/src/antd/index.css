@@ -63,3 +63,8 @@
 .ant-app .form-valid-error .ant-picker-focused {
   box-shadow: 0 0 0 2px rgb(255 38 5 / 6%);
 }
+
+/* TODO:自定义的datepicker组件zIndexPopupBase不生效，没找到其他解决办法 */
+.ant-picker-dropdown {
+  z-index: 2050;
+}
