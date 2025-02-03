@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
 import { computed, ref } from 'vue';
 
 import { useAccess } from '@vben/access';
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { formatDateTime } from '@vben/utils';
 
 import { Descriptions, DescriptionsItem, Divider, Tag } from 'ant-design-vue';
 
@@ -109,7 +111,7 @@ const [Modal, modalApi] = useVbenModal({
       </DescriptionsItem>
 
       <DescriptionsItem :label="$t('system.views.user.account.createTime')">
-        {{ accountData.createTime }}
+        {{ formatDateTime(accountData.createTime) }}
       </DescriptionsItem>
       <DescriptionsItem :label="$t('system.views.user.account.accountStatus')">
         {{ accountData.accountStatus }}
@@ -127,12 +129,12 @@ const [Modal, modalApi] = useVbenModal({
         {{ accountData.loginFailTime }}
       </DescriptionsItem>
       <DescriptionsItem :label="$t('system.views.user.account.lockTime')">
-        {{ accountData.lockTime }}
+        {{ formatDateTime(accountData.lockTime) }}
       </DescriptionsItem>
       <DescriptionsItem
         :label="$t('system.views.user.account.passwordModifyTime')"
       >
-        {{ accountData.passwordModifyTime }}
+        {{ formatDateTime(accountData.passwordModifyTime) }}
       </DescriptionsItem>
     </Descriptions>
     <Divider />

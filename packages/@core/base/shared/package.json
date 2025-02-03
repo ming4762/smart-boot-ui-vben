@@ -48,6 +48,11 @@
       "types": "./src/global-state.ts",
       "development": "./src/global-state.ts",
       "default": "./dist/global-state.mjs"
+    },
+    "./directive": {
+      "types": "./src/directive/index.ts",
+      "development": "./src/directive/index.ts",
+      "default": "./dist/directive/index.mjs"
     }
   },
   "publishConfig": {
@@ -75,6 +80,10 @@
       "./global-state": {
         "types": "./dist/global-state.d.ts",
         "default": "./dist/global-state.mjs"
+      },
+      "./directive": {
+        "types": "./dist/directive/index.d.ts",
+        "default": "./dist/directive/index.mjs"
       }
     }
   },

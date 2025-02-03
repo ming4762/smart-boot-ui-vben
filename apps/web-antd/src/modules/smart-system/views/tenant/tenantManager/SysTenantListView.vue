@@ -8,6 +8,7 @@ import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
 import { TabPane, Tabs } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useSmartTable } from '#/adapter/smart-table';
 
@@ -107,10 +108,26 @@ const [SmartTable] = useSmartTable({
         }
         return listApi(params.ajaxParameter);
       },
-      save: ({ body: { insertRecords, updateRecords } }) =>
-        saveUpdateApi([...insertRecords, ...updateRecords][0]),
+      save: ({ body: { insertRecords, updateRecords } }) => {
+        const data = [...insertRecords, ...updateRecords][0];
+        if (data.effectExpireTime && data.effectExpireTime.length > 0) {
+          data.effectTime = data.effectExpireTime[0];
+          data.expireTime = data.effectExpireTime[1];
+        }
+        delete data.effectExpireTime;
+        return saveUpdateApi(data);
+      },
       delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
-      getById: (params) => getByIdApi(params.id),
+      getById: async (params) => {
+        const data = await getByIdApi(params.id);
+        if (!data || !data.effectTime || !data.expireTime) {
+          return data;
+        }
+        return {
+          ...data,
+          effectExpireTime: [dayjs(data.effectTime), dayjs(data.expireTime)],
+        };
+      },
       useYn: setUseYnApi,
     },
   },

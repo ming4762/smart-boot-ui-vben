@@ -18,12 +18,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
       fixed: 'left',
     },
     {
-      field: 'id',
-      visible: false,
-      title: '',
-      width: 120,
-    },
-    {
       field: 'templateCode',
       title: '{smart.message.template.title.templateCode}',
       fixed: 'left',
@@ -50,6 +44,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
+      type: 'dateTime',
+      sortable: true,
     },
     {
       field: 'createBy',
@@ -60,6 +56,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
+      type: 'dateTime',
+      sortable: true,
     },
     {
       field: 'updateBy',

@@ -1,11 +1,8 @@
 <script setup lang="ts">
+import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import {
-  SmartLayoutSeparate,
-  type SmartTableActionItem,
-  useVbenModal,
-} from '@vben/common-ui';
+import { SmartLayoutSeparate, useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 

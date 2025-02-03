@@ -6,6 +6,7 @@ import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/antd';
+import { registerDirective } from '@vben/utils';
 
 import { useTitle } from '@vueuse/core';
 
@@ -38,6 +39,8 @@ async function bootstrap(namespace: string) {
 
   // 安装权限指令
   registerAccessDirective(app);
+  // 注册全局指令
+  registerDirective(app);
 
   // 初始化 tippy
   initTippy(app);

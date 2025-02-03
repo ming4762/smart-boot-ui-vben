@@ -1,9 +1,10 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { SmartTableColumn } from '#/adapter/smart-table';
 
-import { getTableUseYnColumnClass } from '#/adapter/smart-table';
 import { SUPPORT_LANGUAGES } from '@vben/constants';
 import { $t as t } from '@vben/locales';
+
+import { getTableUseYnColumnClass } from '#/adapter/smart-table';
 
 export enum Permissions {
   delete = 'sys:i18n:delete',
@@ -43,6 +44,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'center',
       title: '{common.table.createTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -55,6 +57,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'center',
       title: '{common.table.updateTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',

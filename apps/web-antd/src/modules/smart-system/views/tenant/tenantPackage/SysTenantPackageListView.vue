@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { useSmartTable } from '#/adapter/smart-table';
+import { ref } from 'vue';
+
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
-import { ref } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
 
 import TenantPackageSetFunction from './components/TenantPackageSetFunction.vue';
 import {
@@ -41,6 +43,7 @@ const [SmartTable] = useSmartTable({
       order: 'asc',
     },
   },
+  checkboxConfig: true,
   showOverflow: 'tooltip',
   rowConfig: {
     isHover: true,

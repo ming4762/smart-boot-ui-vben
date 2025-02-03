@@ -13,7 +13,10 @@ dayjs.extend(weekday);
 
 export const zonedDayjs = dayjs;
 
-export function formatDate(time: number | string, format = 'YYYY-MM-DD') {
+export function formatDate(time?: number | string, format = 'YYYY-MM-DD') {
+  if (!time) {
+    return time;
+  }
   try {
     const date = dayjs(time);
     if (!date.isValid()) {
@@ -26,7 +29,7 @@ export function formatDate(time: number | string, format = 'YYYY-MM-DD') {
   }
 }
 
-export function formatDateTime(time: number | string) {
+export function formatDateTime(time?: number | string) {
   return formatDate(time, 'YYYY-MM-DD HH:mm:ss');
 }
 
@@ -131,7 +134,7 @@ export const setDefaultTimezone = (timezone?: string) => {
 
 /**
  * 获取当前时区
- * @returns
+ * @returns 当前时区
  */
 export const getTimezone = () => {
   return dayjs.tz.guess();

@@ -1,3 +1,5 @@
+import type { Ref } from 'vue';
+
 import type { Recordable } from '@vben/types';
 
 import type { VbenFormSchema } from '#/adapter/form';
@@ -6,7 +8,7 @@ import type {
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
-import { type Ref, unref } from 'vue';
+import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 
@@ -71,6 +73,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -81,6 +84,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',

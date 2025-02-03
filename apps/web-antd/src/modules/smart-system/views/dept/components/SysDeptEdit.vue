@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import type { VbenFormSchema } from '#/adapter/form';
+
 import { nextTick, ref, watch } from 'vue';
+
+import { formatDateTime } from '@vben/utils';
 
 import { Spin } from 'ant-design-vue';
 
-import { useVbenForm, type VbenFormSchema } from '#/adapter/form';
+import { useVbenForm } from '#/adapter/form';
 import { $t as t } from '#/locales';
 
 import { getByIdApi } from '../SysDept.api';
@@ -18,7 +22,7 @@ const props = defineProps<Props>();
 
 const getLoading = ref(false);
 
-const formSchemas: Array<{ filter?: boolean } & VbenFormSchema> = [
+const formSchemas: Array<VbenFormSchema & { filter?: boolean }> = [
   {
     label: '',
     fieldName: 'deptId',
@@ -170,7 +174,11 @@ watch(
           deptData.parentName = deptData.parentDept
             ? deptData.parentDept.deptName
             : 'root';
-          formApi.setValues(deptData);
+          formApi.setValues({
+            ...deptData,
+            createTime: formatDateTime(deptData.createTime),
+            updateTime: formatDateTime(deptData.updateTime),
+          });
         } finally {
           getLoading.value = false;
         }

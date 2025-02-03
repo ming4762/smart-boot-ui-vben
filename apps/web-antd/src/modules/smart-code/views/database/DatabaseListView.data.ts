@@ -1,3 +1,4 @@
+import type { VbenFormSchema } from '#/adapter/form';
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
@@ -5,7 +6,7 @@ import type {
 
 import { $t as t } from '@vben/locales';
 
-import { type VbenFormSchema, z } from '#/adapter/form';
+import { z } from '#/adapter/form';
 
 const dbTypeList = ['MYSQL', 'SQL_SERVER', 'ORACLE'];
 
@@ -54,6 +55,7 @@ export const tableColumns: SmartTableColumn[] = [
     field: 'createTime',
     width: 165,
     sortable: true,
+    type: 'dateTime',
   },
   {
     title: '{common.table.createUser}',
@@ -65,6 +67,7 @@ export const tableColumns: SmartTableColumn[] = [
     field: 'updateTime',
     width: 165,
     sortable: true,
+    type: 'dateTime',
   },
   {
     title: '{common.table.updateUser}',

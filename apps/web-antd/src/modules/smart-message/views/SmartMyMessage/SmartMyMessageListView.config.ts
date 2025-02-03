@@ -62,12 +62,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'sendUserName',
       title: '{smart.message.smartMyMessage.title.sendUserName}',
       width: 120,
+      type: 'dateTime',
     },
     {
       field: 'sendTime',
       title: '{smart.message.smartMyMessage.title.sendTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'priority',
@@ -116,6 +118,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{smart.message.smartMyMessage.title.readTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       title: '{common.table.operation}',

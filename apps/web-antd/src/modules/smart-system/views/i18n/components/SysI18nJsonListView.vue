@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { useSmartTable } from '#/adapter/smart-table';
-import { createConfirm, successMessage } from '#/utils';
+import { onMounted } from 'vue';
+
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
-import { onMounted } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
+import { createConfirm, successMessage } from '#/utils';
 
 import {
   batchSaveUpdateApi,

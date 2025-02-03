@@ -18,12 +18,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
       fixed: 'left',
     },
     {
-      field: 'id',
-      visible: false,
-      title: '{smart.file.storage.title.id}',
-      width: 120,
-    },
-    {
       field: 'storageCode',
       title: '{smart.file.storage.title.storageCode}',
       width: 160,
@@ -74,6 +68,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.createTime}',
       width: 160,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -85,6 +80,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.updateTime}',
       width: 160,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',

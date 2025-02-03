@@ -69,12 +69,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{system.views.license.title.effectiveTime}',
       width: 160,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'expirationTime',
       title: '{system.views.license.title.expirationTime}',
       width: 160,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'status',
@@ -97,6 +99,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 160,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -107,6 +110,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 160,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',

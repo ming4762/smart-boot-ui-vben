@@ -47,6 +47,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'expireDate',
       title: '{system.views.accessSecret.title.expireDate}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'accessIp',
@@ -70,6 +71,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',
@@ -80,6 +82,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       title: '{common.table.operation}',

@@ -1,9 +1,11 @@
+import type { Ref } from 'vue';
+
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
-import { type Ref, unref } from 'vue';
+import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { formatDurationStr } from '@vben/utils';
@@ -72,6 +74,7 @@ export const getTableExpandColumns = (): SmartTableColumn[] => {
       field: 'loginTime',
       sortable: true,
       width: 170,
+      type: 'dateTime',
     },
     {
       title: '{system.views.onlineUser.title.loginIp}',

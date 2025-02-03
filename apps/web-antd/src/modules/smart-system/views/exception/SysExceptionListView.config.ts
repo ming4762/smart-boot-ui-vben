@@ -1,9 +1,11 @@
+import type { Ref } from 'vue';
+
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
-import { type Ref, unref } from 'vue';
+import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 
@@ -16,12 +18,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 60,
       align: 'center',
       fixed: 'left',
-    },
-    {
-      field: 'id',
-      visible: false,
-      title: '',
-      width: 120,
     },
     {
       field: 'exceptionMessage',
@@ -62,6 +58,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{common.table.createTime}',
       width: 150,
+      type: 'dateTime',
     },
     {
       ...getTableBooleanColumnClass('userFeedback'),
@@ -78,6 +75,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'feedbackTime',
       title: '{system.views.exception.title.feedbackTime}',
       width: 150,
+      type: 'dateTime',
     },
     {
       ...getTableBooleanColumnClass('resolved'),
@@ -102,6 +100,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'resolvedTime',
       title: '{system.views.exception.title.resolvedTime}',
       width: 150,
+      type: 'dateTime',
     },
     {
       title: '{common.table.operation}',

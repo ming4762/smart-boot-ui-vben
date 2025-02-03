@@ -218,6 +218,8 @@ export const getDataDictItemColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 180,
+      type: 'dateTime',
+      sortable: true,
     },
     {
       field: 'updateBy',
@@ -228,6 +230,8 @@ export const getDataDictItemColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 170,
+      type: 'dateTime',
+      sortable: true,
     },
   ];
 };

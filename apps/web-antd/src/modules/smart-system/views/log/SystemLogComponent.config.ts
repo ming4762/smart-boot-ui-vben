@@ -1,9 +1,11 @@
+import type { Ref } from 'vue';
+
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
-import { type Ref, unref } from 'vue';
+import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 
@@ -11,7 +13,7 @@ import dayjs from 'dayjs';
 
 export type LoginIdent = 'INTERFACE_LOG' | 'LOGIN_LOG';
 
-const tableColumns: Array<{ ident?: LoginIdent[] } & SmartTableColumn> = [
+const tableColumns: Array<SmartTableColumn & { ident?: LoginIdent[] }> = [
   {
     type: 'seq',
     width: 80,
@@ -92,6 +94,7 @@ const tableColumns: Array<{ ident?: LoginIdent[] } & SmartTableColumn> = [
     field: 'createTime',
     width: 180,
     sortable: true,
+    type: 'dateTime',
   },
   {
     title: '{common.table.operation}',
@@ -193,7 +196,7 @@ export const getSearchFormSchemas = (
   ident: LoginIdent,
   getIsPlatformTenant: Ref<boolean>,
 ) => {
-  const schemas: Array<{ ident?: LoginIdent[] } & SmartSearchFormSchema> = [
+  const schemas: Array<SmartSearchFormSchema & { ident?: LoginIdent[] }> = [
     {
       label: t('system.views.log.title.operation'),
       fieldName: 'operation',

@@ -1,10 +1,12 @@
+import type { ComputedRef, Ref } from 'vue';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
 } from '#/adapter/smart-table';
 
-import { type ComputedRef, type Ref, unref } from 'vue';
+import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 
@@ -127,12 +129,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.effectTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'expireTime',
       title: '{system.views.tenant.manager.title.expireTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'remark',
@@ -154,6 +158,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.createTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -165,6 +170,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.updateTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',
@@ -420,6 +426,7 @@ export const getTabUserListColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.user.bindTime}',
       field: 'createTime',
       width: 165,
+      type: 'dateTime',
     },
     {
       title: '{system.views.tenant.manager.title.user.bindBy}',
@@ -509,12 +516,14 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.effectTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'expireTime',
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.expireTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'remark',
@@ -535,6 +544,7 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
+      type: 'dateTime',
     },
     {
       field: 'createBy',

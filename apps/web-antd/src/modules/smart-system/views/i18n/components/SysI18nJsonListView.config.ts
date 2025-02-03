@@ -1,14 +1,17 @@
+import type { Ref } from 'vue';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type {
   SmartSearchFormSchema,
   SmartTableColumn,
 } from '#/adapter/smart-table';
-import type { Ref } from 'vue';
+
+import { unref } from 'vue';
+
+import { $t as t } from '@vben/locales';
 
 import { getTableUseYnColumnClass } from '#/adapter/smart-table';
 import { getUseYnSelectOptions } from '#/utils';
-import { $t as t } from '@vben/locales';
-import { unref } from 'vue';
 
 export enum Permissions {
   delete = 'sys:i18n:delete',
@@ -80,6 +83,7 @@ export const getTableColumns = (
       title: '{common.table.createTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'createBy',
@@ -94,6 +98,7 @@ export const getTableColumns = (
       title: '{common.table.updateTime}',
       width: 165,
       sortable: true,
+      type: 'dateTime',
     },
     {
       field: 'updateBy',
