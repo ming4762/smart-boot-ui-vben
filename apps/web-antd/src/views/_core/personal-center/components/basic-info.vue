@@ -51,7 +51,7 @@ onMounted(() => {
       <template #first>
         <Form />
       </template>
-      <template #second>12312 </template>
+      <template #second> 12312 </template>
     </SmartLayoutSeparate>
   </Container>
 </template>

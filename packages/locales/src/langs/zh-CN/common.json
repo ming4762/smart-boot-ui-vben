@@ -16,6 +16,7 @@
   "publish": "发布",
   "revoke": "撤销",
   "set": "设置",
+  "switch": "切换",
   "table": {
     "useYn": "启用标志",
     "remark": "备注",

@@ -90,6 +90,7 @@ export const changeTenantApi = (tenantId: number) => {
     { tenantId },
     {
       service: ApiServiceEnum.SMART_AUTH,
+      authErrorProcessed: false,
     },
   );
 };
