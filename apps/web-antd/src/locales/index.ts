@@ -1,8 +1,11 @@
-import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
 import type { Locale } from 'ant-design-vue/es/locale';
+
 import type { App } from 'vue';
 
-import { readFrontI18nApi } from '#/api/core/i18n';
+import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
+
+import { ref } from 'vue';
+
 import {
   $ct,
   $t,
@@ -10,10 +13,12 @@ import {
   loadLocalesMapFromDir,
 } from '@vben/locales';
 import { preferences } from '@vben/preferences';
+
 import antdEnLocale from 'ant-design-vue/es/locale/en_US';
 import antdDefaultLocale from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
-import { ref } from 'vue';
+
+import { readFrontI18nApi } from '#/api/core/i18n';
 
 const antdLocale = ref<Locale>(antdDefaultLocale);
 

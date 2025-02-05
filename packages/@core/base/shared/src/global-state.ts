@@ -34,6 +34,10 @@ class GlobalShareState {
     };
   }
 
+  public getComponent(key: string): any {
+    return this.#components[key];
+  }
+
   public getComponents(): ComponentsState {
     return this.#components;
   }

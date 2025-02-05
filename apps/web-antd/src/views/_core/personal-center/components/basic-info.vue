@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { SmartCropperImage, SmartLayoutSeparate } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 import { useVbenForm } from '#/adapter/form';
@@ -40,6 +40,11 @@ const loadUserData = async () => {
 onMounted(() => {
   loadUserData();
 });
+
+const imageRef = ref('');
+const handleCropEnd = ({ imgBase64 }: any) => {
+  imageRef.value = imgBase64;
+};
 </script>
 
 <template>
@@ -51,7 +56,14 @@ onMounted(() => {
       <template #first>
         <Form />
       </template>
-      <template #second> 12312 </template>
+      <template #second>
+        <SmartCropperImage
+          show-preview
+          @cropend="handleCropEnd"
+          show-toolbar
+          img-src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp"
+        />
+      </template>
     </SmartLayoutSeparate>
   </Container>
 </template>

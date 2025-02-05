@@ -1,0 +1,17 @@
+{
+  "cropper": {
+    "imageTooBig": "图片超限",
+    "selectImage": "选择图片",
+    "modalTitle": "裁剪图片",
+    "preview": "预览",
+    "button": {
+      "reset": "重置",
+      "rotateLeft": "逆时针旋转",
+      "rotateRight": "顺时针旋转",
+      "scale_x": "水平翻转",
+      "scale_y": "垂直翻转",
+      "zoomIn": "放大",
+      "zoomOut": "缩小"
+    }
+  }
+}

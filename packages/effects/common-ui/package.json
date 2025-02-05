@@ -34,6 +34,7 @@
     "@vben/types": "workspace:*",
     "@vueuse/core": "catalog:",
     "@vueuse/integrations": "catalog:",
+    "cropperjs": "catalog:",
     "qrcode": "catalog:",
     "tippy.js": "catalog:",
     "vue": "catalog:",

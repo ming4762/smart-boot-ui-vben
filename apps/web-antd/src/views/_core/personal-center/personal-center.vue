@@ -3,7 +3,7 @@ import { $t as t } from '@vben/locales';
 
 import { TabPane, Tabs } from 'ant-design-vue';
 
-import BasicInfo from './components/basic-info.vue';
+// import BasicInfo from './components/basic-info.vue';
 import SystemSetting from './components/system-setting.vue';
 </script>
 
@@ -11,21 +11,21 @@ import SystemSetting from './components/system-setting.vue';
   <div class="page-container h-full">
     <div class="bg-background tab-container h-full">
       <Tabs tab-position="left" class="h-full">
-        <TabPane
-          :tab="t('ui.widgets.personalCenter.basicInfo.title')"
-          key="basicInfo"
-        >
-          <BasicInfo />
-        </TabPane>
+        <!--        <TabPane-->
+        <!--          :tab="t('ui.widgets.personalCenter.basicInfo.title')"-->
+        <!--          key="basicInfo"-->
+        <!--        >-->
+        <!--          <BasicInfo />-->
+        <!--        </TabPane>-->
         <TabPane
           :tab="t('ui.widgets.personalCenter.systemSetting.title')"
           key="systemSetting"
         >
           <SystemSetting />
         </TabPane>
-        <TabPane :tab="t('ui.widgets.personalCenter.authSetting')" key="3">
-          Content of Tab Pane 3
-        </TabPane>
+        <!--        <TabPane :tab="t('ui.widgets.personalCenter.authSetting')" key="3">-->
+        <!--          待完善-->
+        <!--        </TabPane>-->
       </Tabs>
     </div>
   </div>

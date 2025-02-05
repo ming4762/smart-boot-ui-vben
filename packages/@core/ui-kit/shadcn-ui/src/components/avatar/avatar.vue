@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { ClassType } from '@vben-core/typings';
 import type {
   AvatarFallbackProps,
   AvatarImageProps,
   AvatarRootProps,
 } from 'radix-vue';
+
+import type { ClassType } from '@vben-core/typings';
 
 import { computed } from 'vue';
 
