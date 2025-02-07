@@ -48,7 +48,7 @@ const computedSearchContainerClass = computed(() => {
 .smart-table-container {
   flex: 1;
   min-height: 1px;
-  padding: 0 10px 5px;
+  padding: 0 5px 0;
 }
 
 .smart-table-search-hidden {
