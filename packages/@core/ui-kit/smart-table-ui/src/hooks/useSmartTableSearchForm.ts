@@ -217,9 +217,9 @@ const useSmartTableSearchForm = (
           } else {
             symbolForm[`${key}@${symbol}`] = value;
           }
+        } else {
+          noSymbolForm[key] = value;
         }
-      } else {
-        noSymbolForm[key] = value;
       }
     });
     return {

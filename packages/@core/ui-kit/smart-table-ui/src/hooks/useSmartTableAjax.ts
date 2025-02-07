@@ -1,3 +1,7 @@
+import type { VxeGridPropTypes } from 'vxe-table';
+
+import type { ComputedRef } from 'vue';
+
 import type {
   SmartTableAjaxQueryParams,
   SmartTableFetchParams,
@@ -6,11 +10,9 @@ import type {
 } from '../types';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
-import { computed, type ComputedRef, h, nextTick, unref } from 'vue';
+import { computed, h, nextTick, unref } from 'vue';
 
 import { merge } from '@vben-core/shared/utils';
-
-import { type VxeGridPropTypes } from 'vxe-table';
 
 import {
   confirmIcon,
