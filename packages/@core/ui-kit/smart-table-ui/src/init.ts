@@ -30,8 +30,8 @@ import {
 import { getI18nData } from './locales';
 import { initSmartTableRender } from './renderer';
 
-import 'vxe-table/styles/cssvar.scss';
-import 'vxe-pc-ui/styles/cssvar.scss';
+import 'vxe-table/styles/all.scss';
+import 'vxe-pc-ui/styles/all.scss';
 import './style/index.scss';
 
 interface SmartSetupHandler {

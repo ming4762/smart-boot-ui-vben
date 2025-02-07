@@ -1,4 +1,3 @@
-// eslint-disable-next-line n/no-extraneous-import
 import type { App, Directive, DirectiveBinding } from 'vue';
 
 const handler = (

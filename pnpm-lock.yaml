@@ -1294,6 +1294,9 @@ importers:
       theme-colors:
         specifier: 'catalog:'
         version: 0.1.0
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.13(typescript@5.7.3)
     devDependencies:
       '@types/lodash.clonedeep':
         specifier: 'catalog:'

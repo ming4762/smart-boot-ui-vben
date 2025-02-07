@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
+import { watch } from 'vue';
+
+import { $t as t } from '@vben/locales';
+
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { createConfirm, successMessage } from '#/utils';
-import { $t as t } from '@vben/locales';
-import { watch } from 'vue';
 
 import {
   getI18nByIdApi,
