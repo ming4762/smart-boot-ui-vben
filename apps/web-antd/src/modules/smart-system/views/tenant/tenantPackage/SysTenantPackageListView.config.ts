@@ -162,13 +162,14 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
       searchSymbol: 'like',
     },
     {
-      fieldName: 'times',
+      fieldName: 'effectTime',
       label: t('system.views.tenant.package.title.effectTime'),
       component: 'RangePicker',
       componentProps: {
         showTime: true,
         style: { width: '320px' },
       },
+      searchSymbol: 'between',
     },
     {
       fieldName: 'useYn',

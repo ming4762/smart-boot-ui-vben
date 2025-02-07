@@ -5,6 +5,7 @@ import { ref } from 'vue';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
+import { zonedDayjs } from '@vben/utils';
 
 import { useSmartTable } from '#/adapter/smart-table';
 
@@ -96,7 +97,10 @@ const [SmartTable] = useSmartTable({
       getById: async (params) => {
         const data = await getByIdApi(params.id);
         if (data && data.effectTime && data.expireTime) {
-          data.times = [data.effectTime, data.expireTime];
+          data.times = [
+            zonedDayjs(data.effectTime),
+            zonedDayjs(data.expireTime),
+          ];
         }
         return data;
       },
@@ -144,7 +148,10 @@ const [SmartTable] = useSmartTable({
         />
       </template>
       <template #second>
-        <TenantPackageSetFunction :tenant-package-id="currentPackage?.id" />
+        <TenantPackageSetFunction
+          style="margin-left: 5px"
+          :tenant-package-id="currentPackage?.id"
+        />
       </template>
     </SmartLayoutSeparate>
   </div>

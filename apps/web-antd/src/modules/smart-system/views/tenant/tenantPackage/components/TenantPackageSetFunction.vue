@@ -161,6 +161,7 @@ watch(
     height: 50px;
     padding: 10px 0;
     text-align: center;
+    background: hsl(var(--background)) !important;
   }
 }
 </style>
