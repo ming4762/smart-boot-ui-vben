@@ -18,6 +18,7 @@ catalog:
   '@changesets/cli': ^2.27.12
   '@changesets/git': ^3.0.2
   '@clack/prompts': ^0.9.1
+  '@codemirror/lang-html': ^6.0.1
   '@codemirror/lang-java': ^6.0.1
   '@codemirror/lang-javascript': ^6.0.1
   '@codemirror/lang-json': ^6.0.1
@@ -82,7 +83,7 @@ catalog:
   clsx: ^2.1.1
   codemirror: ^6.0.1
   commitlint-plugin-function-rules: ^4.0.1
-  consola: ^3.4.3
+  consola: ^3.4.0
   cropperjs: ^1.6.2
   cross-env: ^7.0.3
   crypto-js: ^4.2.0
