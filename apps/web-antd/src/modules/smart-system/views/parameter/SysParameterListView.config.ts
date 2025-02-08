@@ -6,6 +6,11 @@ import type {
 
 import { $t as t } from '@vben/locales';
 
+import {
+  getTableBooleanColumnClass,
+  getTableUseYnColumnClass,
+} from '#/adapter/smart-table';
+
 export enum Permissions {
   delete = 'sys:parameter:delete',
   query = 'sys:parameter:query',
@@ -48,11 +53,11 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 200,
     },
     {
-      field: 'buildIn',
+      ...getTableBooleanColumnClass('buildIn'),
       sortable: true,
       title: '{system.views.parameter.title.buildIn}',
-      width: 120,
-      component: 'booleanTag',
+      width: 100,
+      align: 'center',
     },
     {
       field: 'seq',
@@ -84,11 +89,11 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
     },
     {
-      field: 'useYn',
+      ...getTableUseYnColumnClass(),
       sortable: true,
       title: '{common.title.useYn}',
-      component: 'booleanTag',
-      width: 120,
+      width: 90,
+      align: 'center',
     },
     {
       field: 'operation',

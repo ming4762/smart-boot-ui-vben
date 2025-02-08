@@ -6,6 +6,11 @@ import type {
 
 import { $t as t } from '@vben/locales';
 
+import {
+  getTableBooleanColumnClass,
+  getTableUseYnColumnClass,
+} from '#/adapter/smart-table';
+
 /**
  * 表格列表
  */
@@ -50,13 +55,10 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
     },
     {
-      field: 'defaultStorage',
+      ...getTableBooleanColumnClass('defaultStorage'),
       title: '{smart.file.storage.title.defaultStorage}',
+      align: 'center',
       width: 140,
-      component: 'switch',
-      componentProps: {
-        disabled: true,
-      },
     },
     // {
     //   field: 'storageConfig',
@@ -88,10 +90,10 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
     },
     {
+      ...getTableUseYnColumnClass(),
       title: '{common.title.useYn}',
-      field: 'useYn',
       width: 100,
-      component: 'booleanTag',
+      align: 'center',
     },
     {
       title: '{common.table.operation}',
