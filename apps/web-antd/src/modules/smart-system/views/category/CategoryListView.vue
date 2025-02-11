@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 
 import {
   deleteApi,
@@ -22,6 +23,7 @@ const { getIsPlatformTenant } = useUserStore();
 const [SmartTable, tableApi] = useSmartTable({
   id: 'system-category-list-view',
   columns: getTableColumns(),
+  checkboxConfig: true,
   border: true,
   height: 'auto',
   useSearchForm: true,
@@ -38,6 +40,7 @@ const [SmartTable, tableApi] = useSmartTable({
     loadMethod: async ({ row }) => {
       return listApi({}, row.id);
     },
+    hasChildField: 'hasChild',
   },
   searchFormConfig: {
     schema: getSearchFormSchemas(),
