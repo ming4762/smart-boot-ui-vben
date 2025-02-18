@@ -109,7 +109,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
 
 /**
  * 获取阿里云OSS表单配置
- * @param t
  */
 const getAliyunOssFormSchemas = (): VbenFormSchema[] => {
   return [

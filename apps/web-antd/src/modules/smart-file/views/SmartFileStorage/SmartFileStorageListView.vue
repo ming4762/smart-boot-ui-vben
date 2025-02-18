@@ -113,11 +113,11 @@ const [SmartTable, tableApi] = useSmartTable({
         if (result.storageConfig) {
           const storageConfig = JSON.parse(result.storageConfig);
           const storageType = result.storageType;
-          const formatData: Recordable<any> = {};
-          Object.keys(storageConfig).forEach((item) => {
-            formatData[`${storageConfigPrefix}.${storageType}.${item}`] =
-              storageConfig[item];
-          });
+          const formatData: Recordable<any> = {
+            [storageConfigPrefix]: {
+              [storageType]: storageConfig,
+            },
+          };
           return {
             ...result,
             ...formatData,
