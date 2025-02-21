@@ -233,14 +233,72 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'used/crud',
           text: 'CRUD',
         },
+        {
+          link: 'used/file',
+          text: '统一文件存储',
+        },
+        {
+          link: 'used/moduleApi',
+          text: '模块间API',
+        },
+        {
+          link: 'used/license',
+          text: 'License',
+        },
+        {
+          link: 'used/message',
+          text: '消息模块',
+        },
+        {
+          link: 'used/kettle',
+          text: '集成kettle',
+        },
       ],
     },
     {
-      text: '组件',
+      text: '微服务架构',
+      items: [
+        {
+          link: 'cloud/solution',
+          text: '解决方案',
+        },
+        {
+          link: 'cloud/introduce',
+          text: '服务介绍',
+        },
+        {
+          link: 'cloud/new',
+          text: '创建服务',
+        },
+        {
+          link: 'cloud/switch',
+          text: '单体架构/微服务架构切换',
+        },
+        {
+          link: 'cloud/transaction',
+          text: '分布式事务',
+        },
+      ],
+    },
+    {
+      text: '前端组件',
       items: [
         {
           link: 'components/smart-table/smart-table',
           text: 'Smart Table',
+        },
+      ],
+    },
+    {
+      text: '端点增强',
+      items: [
+        {
+          link: 'actuator/druid',
+          text: 'Druid',
+        },
+        {
+          link: 'actuator/redis',
+          text: 'Redis',
         },
       ],
     },
