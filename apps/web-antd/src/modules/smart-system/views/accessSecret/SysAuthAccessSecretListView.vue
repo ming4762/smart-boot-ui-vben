@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { useVbenModal } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysTenantSelect } from '#/components';
-import { useVbenModal } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
 
 import TestSignModal from './components/TestSignModal.vue';
 import {

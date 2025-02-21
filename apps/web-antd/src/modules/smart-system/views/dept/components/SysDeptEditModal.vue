@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
+
 import { unref, useTemplateRef } from 'vue';
 
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t } from '@vben/locales';
 

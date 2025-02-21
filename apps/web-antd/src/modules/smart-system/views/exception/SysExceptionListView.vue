@@ -1,16 +1,20 @@
 <script setup lang="tsx">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { ExtendSmartTableApi } from '@vben/common-ui';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { ref, unref } from 'vue';
+
+import { useVbenModal } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+import { useUserStore } from '@vben/stores';
+
+import { Textarea } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysTenantSelect } from '#/components';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
-import { useVbenModal } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
-import { useUserStore } from '@vben/stores';
-import { Textarea } from 'ant-design-vue';
-import { storeToRefs } from 'pinia';
-import { ref, unref } from 'vue';
 
 import ExceptionDetailModal from './components/ExceptionDetailModal.vue';
 import { listApi, markResolvedApi } from './SysExceptionListView.api';

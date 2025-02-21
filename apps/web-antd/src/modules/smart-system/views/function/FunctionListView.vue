@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { nextTick, onMounted, reactive, ref, unref } from 'vue';
+
+import { useAccess } from '@vben/access';
+import { listToTree } from '@vben/utils';
+
+import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $ct as t } from '#/locales';
-import { useAccess } from '@vben/access';
-import { listToTree } from '@vben/utils';
-import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
-import { nextTick, onMounted, reactive, ref, unref } from 'vue';
 
 import {
   deleteApi,
