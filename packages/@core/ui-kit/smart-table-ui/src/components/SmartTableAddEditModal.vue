@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { ExtendedFormApi } from '@vben-core/form-ui';
+import type { ExtendedModalApi } from '@vben-core/popup-ui';
+
 import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditModalProps,
@@ -6,8 +9,8 @@ import type {
 
 import { computed, nextTick, ref, unref, useAttrs, useSlots } from 'vue';
 
-import { type ExtendedFormApi, useVbenForm } from '@vben-core/form-ui';
-import { type ExtendedModalApi, useVbenModal } from '@vben-core/popup-ui';
+import { useVbenForm } from '@vben-core/form-ui';
+import { useVbenModal } from '@vben-core/popup-ui';
 import { isBoolean, isFunction, isPromise } from '@vben-core/shared/utils';
 
 import { successMessage } from '../utils';
@@ -94,14 +97,19 @@ const [Modal, modalApi] = useVbenModal({
       if (!saveFunction) {
         throw new Error('proxyConfig.ajax.save未定义，无法执行保存操作');
       }
-      const saveResult = await saveFunction({
+      const requestData = {
         body: {
           insertRecords: unref(isAddRef) ? [data] : [],
           updateRecords: unref(isAddRef) ? [] : [data],
         },
-      });
+      };
+      const saveResult = await saveFunction(requestData);
       if (props.afterSave) {
-        let afterSaveResult = props.afterSave(saveResult);
+        let afterSaveResult = props.afterSave({
+          isAdd: unref(isAddRef),
+          saveResult,
+          ...requestData.body,
+        });
         if (isPromise(afterSaveResult)) {
           afterSaveResult = await afterSaveResult;
         }

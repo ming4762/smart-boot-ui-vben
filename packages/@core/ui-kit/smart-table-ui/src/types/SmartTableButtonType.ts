@@ -1,8 +1,9 @@
-import type { VbenButtonProps } from '@vben-core/shadcn-ui';
-import type { SmartAuthType } from '@vben-core/typings';
 import type { VxeToolbarPropTypes } from 'vxe-table';
 
 import type { Component, ComputedRef, Ref, VNode } from 'vue';
+
+import type { VbenButtonProps } from '@vben-core/shadcn-ui';
+import type { SmartAuthType } from '@vben-core/typings';
 
 type SmartTableButtonType = 'button' | 'reset' | 'submit' | 'text';
 type SmartTableButtonStatus =

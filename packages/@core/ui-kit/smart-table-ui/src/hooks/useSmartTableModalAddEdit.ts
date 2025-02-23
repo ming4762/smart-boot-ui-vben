@@ -86,9 +86,26 @@ export const useSmartTableModalAddEditEdit = (
       ...modalConfig,
       afterSave:
         afterSave ||
-        (() => {
-          const { query } = getSmartTableContext();
-          query();
+        ((data) => {
+          const { query, updateRowByIdProxy } = getSmartTableContext();
+          const { isAdd, updateRecords } = data;
+          if (isAdd) {
+            query();
+            return true;
+          }
+          const keyField = unref(tableProps).rowConfig?.keyField;
+          if (!keyField) {
+            query();
+            return true;
+          }
+          // const grid = getGrid();
+          if (updateRecords.length > 0) {
+            // TODO: vxe-table setRow有缺陷，等修复后改为如下方法
+            // updateRecords.forEach((item) => {
+            //   grid.setRow(item, item);
+            // });
+            updateRowByIdProxy(updateRecords.map((item) => item[keyField]));
+          }
           return true;
         }),
       beforeSave,

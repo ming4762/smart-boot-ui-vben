@@ -45,6 +45,7 @@ import { useSmartTableDynamicClassStyle } from '../hooks/useSmartTableDynamicCla
 import { useSmartTableLoading } from '../hooks/useSmartTableLoading';
 import { useSmartTableModalAddEditEdit } from '../hooks/useSmartTableModalAddEdit';
 import { useSmartTablePagerConfig } from '../hooks/useSmartTablePager';
+import { useSmartTableRow } from '../hooks/useSmartTableRow';
 import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 import { DEFAULT_SETUP_HANDLER } from '../init';
@@ -120,6 +121,10 @@ const { getLoading, setLoading } = useSmartTableLoading(computedTableProps);
 
 // 列调整
 const { computedTableColumns } = useSmartTableColumn(computedTableProps, t);
+const { updateRowByIdProxy } = useSmartTableRow(
+  computedTableProps,
+  getSmartTableContext,
+);
 // 分页
 const { computedPagerConfig, setPagerConfig } =
   useSmartTablePagerConfig(computedTableProps);
@@ -213,6 +218,7 @@ const tableAction: SmartTableAction = {
   setUseYnByCheckbox,
   setUseYnByRow,
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
+  updateRowByIdProxy,
 };
 
 const defaultAuthHandler = (code?: SmartAuthType) => {

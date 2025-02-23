@@ -47,6 +47,14 @@ interface SmartTableAction {
     selectData?: Record<string, any>,
     formData?: Record<string, any>,
   ) => void;
+  /**
+   * 根据ID更新行数据
+   * 调用后台更新
+   * @param id
+   */
+  updateRowByIdProxy: (
+    id: Array<number | string> | number | string,
+  ) => Promise<boolean | Record<number | string, boolean>>;
 }
 
 export type { SmartTableAction, SmartTableInnerActionType };

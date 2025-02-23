@@ -64,11 +64,19 @@ interface SmartTableAddEditConfig<T = any> {
   ) => boolean | Promise<boolean>;
 }
 
+interface AfterSaveData {
+  insertRecords: any[];
+  isAdd: boolean;
+  // 后台返回结果
+  saveResult?: any;
+  updateRecords: any[];
+}
+
 /**
  * SmartTableAddEditProps
  */
 interface SmartTableAddEditModalProps {
-  afterSave?: (data?: any) => boolean | Promise<boolean> | undefined;
+  afterSave?: (data: AfterSaveData) => boolean | Promise<boolean> | undefined;
   beforeSave?: (data: any) => any | Promise<any>;
   formConfig?: Partial<SmartTableAddEditFormConfig>;
   saveFunction?: (data: any) => Promise<any>;
