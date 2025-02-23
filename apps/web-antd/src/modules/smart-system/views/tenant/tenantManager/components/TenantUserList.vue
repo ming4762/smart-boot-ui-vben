@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { ExtendSmartTableApi } from '@vben/common-ui';
 
-import { useSmartTable } from '#/adapter/smart-table';
-import { createConfirm, successMessage, warnMessage } from '#/utils';
+import { computed, unref, watch } from 'vue';
+
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
-import { computed, unref, watch } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
+import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import {
   createTenantUserAccountApi,

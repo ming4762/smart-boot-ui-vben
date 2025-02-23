@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ApiServiceEnum, requestClient } from '#/api/request';
-import { errorMessage, successMessage } from '#/utils';
+import { onActivated, ref, unref, watch } from 'vue';
+
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
+
 import {
   Button,
   Divider,
@@ -13,12 +14,14 @@ import {
   Spin,
   Tree,
 } from 'ant-design-vue';
-import { onActivated, ref, unref, watch } from 'vue';
+
+import { ApiServiceEnum, requestClient } from '#/api/request';
+import { errorMessage, successMessage } from '#/utils';
 
 import { Permission } from '../RoleListView.config';
 
 interface Props {
-  roleId?: number;
+  roleId?: number | string;
   isSuperAdmin?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {

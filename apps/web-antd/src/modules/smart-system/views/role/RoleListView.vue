@@ -2,6 +2,13 @@
 import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
+import { ref } from 'vue';
+
+import { SmartVxeTableAction } from '@vben/common-ui';
+import { $t as t } from '@vben/locales';
+
+import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
+
 import { useSmartTable } from '#/adapter/smart-table';
 import {
   batchSaveUpdateApi,
@@ -9,10 +16,6 @@ import {
   getByIdApi,
   listApi,
 } from '#/modules/smart-system/views/role/RoleListView.api';
-import { SmartVxeTableAction } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
-import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
-import { ref } from 'vue';
 
 import RoleSetFunction from './components/RoleSetFunction.vue';
 import { useRoleSetUser } from './hook/useRoleSetUser';
@@ -44,6 +47,7 @@ const [SmartTable, tableApi] = useSmartTable({
   rowConfig: {
     isHover: true,
     isCurrent: true,
+    keyField: 'roleId',
   },
   sortConfig: {
     remote: true,

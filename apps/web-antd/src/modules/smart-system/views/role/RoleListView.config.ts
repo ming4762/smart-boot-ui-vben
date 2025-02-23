@@ -151,10 +151,10 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
   return [
     {
       label: '',
-      fieldName: 'groupId',
+      fieldName: 'roleId',
       component: 'Input',
       dependencies: {
-        triggerFields: ['id'],
+        triggerFields: ['roleId'],
         show: false,
       },
     },

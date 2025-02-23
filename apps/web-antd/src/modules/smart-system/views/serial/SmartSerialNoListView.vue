@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { useSizeSetting } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import {
@@ -9,8 +13,6 @@ import {
   getByIdApi,
   listApi,
 } from '#/modules/smart-system/views/serial/SmartSerialNoListView.api';
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
 
 import {
   getFormSchemas,
