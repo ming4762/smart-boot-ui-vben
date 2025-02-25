@@ -54,6 +54,14 @@ const routes: RouteRecordRaw[] = [
             },
           },
           {
+            name: 'FormLayoutExample',
+            path: '/examples/form/custom-layout',
+            component: () => import('#/views/examples/form/custom-layout.vue'),
+            meta: {
+              title: $t('examples.form.layout'),
+            },
+          },
+          {
             name: 'FormCustomExample',
             path: '/examples/form/custom',
             component: () => import('#/views/examples/form/custom.vue'),
@@ -253,6 +261,51 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'mdi:message-settings-outline',
           title: 'Tippy',
+        },
+      },
+      {
+        name: 'JsonViewer',
+        path: '/examples/json-viewer',
+        component: () => import('#/views/examples/json-viewer/index.vue'),
+        meta: {
+          icon: 'tabler:json',
+          title: 'JsonViewer',
+        },
+      },
+      {
+        name: 'Motion',
+        path: '/examples/motion',
+        component: () => import('#/views/examples/motion/index.vue'),
+        meta: {
+          icon: 'mdi:animation-play',
+          title: 'Motion',
+        },
+      },
+      {
+        name: 'CountTo',
+        path: '/examples/count-to',
+        component: () => import('#/views/examples/count-to/index.vue'),
+        meta: {
+          icon: 'mdi:animation-play',
+          title: 'CountTo',
+        },
+      },
+      {
+        name: 'Loading',
+        path: '/examples/loading',
+        component: () => import('#/views/examples/loading/index.vue'),
+        meta: {
+          icon: 'mdi:circle-double',
+          title: 'Loading',
+        },
+      },
+      {
+        name: 'ButtonGroup',
+        path: '/examples/button-group',
+        component: () => import('#/views/examples/button-group/index.vue'),
+        meta: {
+          icon: 'mdi:check-circle',
+          title: $t('examples.button-group.title'),
         },
       },
     ],

@@ -167,7 +167,13 @@ async function initComponentAdapter() {
     IconPicker: (props, { attrs, slots }) => {
       return h(
         IconPicker,
-        { iconSlot: 'addonAfter', inputComponent: Input, ...props, ...attrs },
+        {
+          iconSlot: 'addonAfter',
+          inputComponent: Input,
+          modelValueProp: 'value',
+          ...props,
+          ...attrs,
+        },
         slots,
       );
     },

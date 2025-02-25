@@ -3,11 +3,15 @@
  * 可用于 vben-form、vben-modal、vben-drawer 等组件使用,
  */
 
-import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
+
+import type { BaseFormComponentType } from '@vben/common-ui';
+
+import { h } from 'vue';
 
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+
 import {
   AutoComplete,
   Button,
@@ -32,7 +36,6 @@ import {
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
-import { h } from 'vue';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -123,7 +126,13 @@ async function initComponentAdapter() {
     IconPicker: (props, { attrs, slots }) => {
       return h(
         IconPicker,
-        { iconSlot: 'addonAfter', inputComponent: Input, ...props, ...attrs },
+        {
+          iconSlot: 'addonAfter',
+          inputComponent: Input,
+          modelValueProp: 'value',
+          ...props,
+          ...attrs,
+        },
         slots,
       );
     },

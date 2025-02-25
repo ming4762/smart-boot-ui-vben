@@ -1,8 +1,11 @@
 export * from './api-component';
 export * from './captcha';
 export * from './col-page';
+export * from './count-to';
 export * from './ellipsis-text';
 export * from './icon-picker';
+export * from './json-viewer';
+export * from './loading';
 export * from './page';
 export * from './resize';
 export * from './smart-cropper';
@@ -14,6 +17,8 @@ export * from '@vben-core/popup-ui';
 export {
   SmartLayoutSeparate,
   VbenButton,
+  VbenButtonGroup,
+  VbenCheckButtonGroup,
   VbenCountToAnimator,
   Input as VbenInput,
   VbenInputPassword,

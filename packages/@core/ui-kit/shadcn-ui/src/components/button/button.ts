@@ -1,4 +1,5 @@
 import type { AsTag } from 'radix-vue';
+
 import type { Component } from 'vue';
 
 import type { ButtonVariants, ButtonVariantSize } from '../../ui';
@@ -20,4 +21,22 @@ export interface VbenButtonProps {
   loading?: boolean;
   size?: ButtonVariantSize | string;
   variant?: ButtonVariants;
+}
+
+export type CustomRenderType = (() => Component | string) | string;
+
+export type ValueType = boolean | number | string;
+
+export interface VbenButtonGroupProps
+  extends Pick<VbenButtonProps, 'disabled'> {
+  beforeChange?: (
+    value: ValueType,
+    isChecked: boolean,
+  ) => boolean | PromiseLike<boolean | undefined> | undefined;
+  btnClass?: any;
+  gap?: number;
+  multiple?: boolean;
+  options?: { label: CustomRenderType; value: ValueType }[];
+  showIcon?: boolean;
+  size?: 'large' | 'middle' | 'small';
 }
