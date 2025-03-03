@@ -3,6 +3,7 @@ import { ApiServiceEnum, requestClient } from '#/api/request';
 enum Api {
   delete = 'sys/dept/batchDeleteById',
   getById = 'sys/dept/getById',
+  listUser = 'sys/user/list',
   saveUpdateBatch = 'sys/dept/saveUpdateBatch',
 }
 
@@ -21,6 +22,12 @@ export const saveUpdateBatchApi = (modelList: any[]) => {
 
 export const deleteApi = (ids: number[]) => {
   return requestClient.post(Api.delete, ids, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const listUserApi = (params: any) => {
+  return requestClient.post(Api.listUser, params, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };

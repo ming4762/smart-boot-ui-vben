@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
+import { $t as t } from '@vben/locales';
+import { useUserStore } from '@vben/stores';
+
+import { storeToRefs } from 'pinia';
+
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysTenantSelect } from '#/components';
 import { createConfirm, successMessage } from '#/utils';
-import { $t as t } from '@vben/locales';
-import { useUserStore } from '@vben/stores';
-import { storeToRefs } from 'pinia';
 
 import { listOnlineUserApi, offlineApi } from './OnlineUserListView.api';
 import {

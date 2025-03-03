@@ -203,9 +203,11 @@ defineExpose({
 </script>
 
 <template>
-  <Spin :spinning="getLoading">
-    <VbenForm />
-  </Spin>
+  <div>
+    <Spin :spinning="getLoading">
+      <VbenForm />
+    </Spin>
+  </div>
 </template>
 
 <style scoped></style>
