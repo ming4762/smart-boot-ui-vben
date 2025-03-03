@@ -82,6 +82,31 @@ const [SmartTable, tableApi] = useSmartTable({
     custom: true,
     sizeSetting: true,
     zoom: true,
+    buttons: [
+      {
+        name: '绑定用户',
+        props: {
+          type: 'primary',
+          preIcon: 'ant-design:plus-outlined',
+          onClick: () => {
+            throw new Error('Not implemented yet');
+          },
+        },
+        customRender: 'ant',
+      },
+      {
+        name: '取消绑定',
+        props: {
+          type: 'primary',
+          danger: true,
+          preIcon: 'ant-design:delete-outlined',
+          onClick: () => {
+            throw new Error('Not implemented yet');
+          },
+        },
+        customRender: 'ant',
+      },
+    ],
   },
 });
 </script>
