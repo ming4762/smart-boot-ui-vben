@@ -9,6 +9,7 @@ import {
 } from './i18n';
 
 const $t = i18n.global.t;
+const $te = i18n.global.te;
 
 /**
  * 国际化缓存，用于提升性能，但是会消耗更多内存
@@ -40,6 +41,7 @@ const $ct = (key: string, args?: any): string => {
 export {
   $ct,
   $t,
+  $te,
   i18n,
   loadLocaleMessages,
   loadLocalesMap,

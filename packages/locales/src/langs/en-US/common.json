@@ -6,13 +6,7 @@
   "prompt": "Prompt",
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "noData": "No Data Available",
-  "refresh": "Refresh",
-  "loadingMenu": "Loading Menu",
-  "query": "Search",
   "submit": "Submit",
-  "search": "Search",
-  "edit": "Edit",
   "publish": "Publish",
   "revoke": "Revoke",
   "set": "Set",
@@ -56,5 +50,18 @@
     "no": "No",
     "details": "Details",
     "tenantCommonYn": "Platform Common"
-  }
+  },
+  "reset": "Reset",
+  "noData": "No Data",
+  "refresh": "Refresh",
+  "loadingMenu": "Loading Menu",
+  "query": "Search",
+  "search": "Search",
+  "enabled": "Enabled",
+  "disabled": "Disabled",
+  "edit": "Edit",
+  "delete": "Delete",
+  "create": "Create",
+  "yes": "Yes",
+  "no": "No"
 }
