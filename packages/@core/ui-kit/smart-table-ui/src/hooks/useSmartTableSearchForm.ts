@@ -103,6 +103,7 @@ const useSmartTableSearchForm = (
       tableInnerContext: { tableLoading },
     } = getSmartTableContext();
     const props: VbenFormProps = {
+      submitOnEnter: true,
       ...searchFormConfig,
       commonConfig: {
         ...searchFormConfig?.commonConfig,
