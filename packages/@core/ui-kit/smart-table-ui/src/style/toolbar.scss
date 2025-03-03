@@ -1,3 +1,5 @@
+$button-margin: 5px;
+
 .vxe-toolbar .vxe-custom--option-wrapper .vxe-custom--footer {
   display: flex;
 }
@@ -5,26 +7,32 @@
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate button:first-child {
   margin: 0;
-  margin-left: 10px;
+  margin-left: $button-margin;
 }
 
 .vxe-toolbar .vxe-tools--wrapper .vxe-button,
 .vxe-toolbar .vxe-tools--operate .vxe-button {
-  margin-left: 10px;
+  margin-left: $button-margin;
   border-radius: 0 !important;
 }
 
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate .vxe-custom--wrapper {
-  margin-left: 10px;
+  margin-left: $button-margin;
   border-radius: 0 !important;
 }
 
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate .vxe-custom--wrapper .vxe-button {
-  margin-left: 10px;
+  margin-left: $button-margin;
 }
 
 .vxe-toolbar .vxe-tools--wrapper .vxe-tool--item .vxe-button {
   margin-left: 0;
+}
+
+.vxe-toolbar .vxe-buttons--wrapper > .vxe-button + .vxe-button--item,
+.vxe-toolbar .vxe-buttons--wrapper > .vxe-button--item + .vxe-button,
+.vxe-toolbar .vxe-buttons--wrapper > .vxe-button--item + .vxe-button--item {
+  margin-left: $button-margin;
 }

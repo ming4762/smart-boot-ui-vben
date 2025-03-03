@@ -104,7 +104,7 @@ defineExpose({
       <component
         :is="COMPONENT_MAP.PrimaryButton"
         v-if="submitButtonOptions.show"
-        class="ml-3"
+        class="action-button-item"
         type="button"
         @click="handleSubmit"
         v-bind="submitButtonOptions"
@@ -119,7 +119,7 @@ defineExpose({
     <component
       :is="COMPONENT_MAP.DefaultButton"
       v-if="resetButtonOptions.show"
-      class="ml-3"
+      class="action-button-item"
       type="button"
       @click="handleReset"
       v-bind="resetButtonOptions"
@@ -134,7 +134,7 @@ defineExpose({
       <component
         :is="COMPONENT_MAP.PrimaryButton"
         v-if="submitButtonOptions.show"
-        class="ml-3"
+        class="action-button-item"
         type="button"
         @click="handleSubmit"
         v-bind="submitButtonOptions"
@@ -158,3 +158,8 @@ defineExpose({
     <slot name="expand-after"></slot>
   </div>
 </template>
+<style lang="less">
+.action-button-item {
+  margin-left: 5px;
+}
+</style>
