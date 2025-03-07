@@ -1574,7 +1574,7 @@ importers:
         version: 3.5.13(typescript@5.7.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.95(vue@3.5.13(typescript@5.7.3))
+        version: 4.3.99(vue@3.5.13(typescript@5.7.3))
       vxe-table:
         specifier: 'catalog:'
         version: 4.10.0(vue@3.5.13(typescript@5.7.3))
@@ -1840,7 +1840,6 @@ importers:
         version: 3.5.13(typescript@5.7.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.95(vue@3.5.13(typescript@5.7.3))
         version: 4.3.99(vue@3.5.13(typescript@5.7.3))
       vxe-table:
         specifier: 'catalog:'
