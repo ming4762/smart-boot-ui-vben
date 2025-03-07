@@ -14,16 +14,6 @@ import { $t as t } from '@vben/locales';
 
 import { getDeptTreeListApi } from './UserListView.api';
 
-/**
- * 数据权限
- */
-const DATA_SCOPE = [
-  { key: 'DATA_ALL', value: 'system.views.user.title.dataAll' },
-  { key: 'DATA_DEPT', value: 'system.views.user.title.dataDept' },
-  { key: 'DATA_DEPT_AND_CHILD', value: 'system.views.user.title.dataDeptAll' },
-  { key: 'DATA_PERSONAL', value: 'system.views.user.title.dataPersonal' },
-];
-
 export const Permission = {
   add: 'sys:user:save',
   delete: 'sys:user:delete',
@@ -181,7 +171,7 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
     },
     {
       label: t('system.views.user.form.dept'),
-      fieldName: 'deptId',
+      fieldName: 'deptIdList',
       component: 'ApiTreeSelect',
       dependencies: {
         triggerFields: ['userType'],
@@ -192,44 +182,13 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       controlClass: 'w-full',
       componentProps: {
         showSearch: true,
+        multiple: true,
         api: getDeptTreeListApi,
         allowClear: true,
         childrenField: 'children',
         labelField: 'deptName',
         valueField: 'deptId',
         placeholder: t('system.views.user.validate.selectDept'),
-      },
-    },
-    {
-      label: t('system.views.user.form.dataScope'),
-      fieldName: 'dataScopeList',
-      component: 'Select',
-      dependencies: {
-        triggerFields: ['userType', 'deptId', 'dataScopeList'],
-        disabled: (value) => {
-          return value.userType === SYS_USER_TYPE;
-        },
-        rules: (value) => {
-          const { userType, deptId } = value;
-          const required =
-            userType !== SYS_USER_TYPE &&
-            deptId !== undefined &&
-            deptId !== null;
-          return required ? 'required' : null;
-        },
-      },
-      defaultValue: [],
-      componentProps: {
-        style: {
-          width: '100%',
-        },
-        mode: 'multiple',
-        options: DATA_SCOPE.map((item) => {
-          return {
-            label: t(item.value),
-            value: item.key,
-          };
-        }),
       },
     },
   ];

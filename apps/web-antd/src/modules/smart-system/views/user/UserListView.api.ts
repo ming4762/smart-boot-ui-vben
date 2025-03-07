@@ -9,12 +9,12 @@ enum Api {
   delete = 'sys/user/batchDeleteById',
   deptTreeList = 'sys/dept/list',
   getById = 'sys/user/getDetailById',
-  getByIdWithDataScope = 'sys/user/getByIdWithDataScope',
+  getUserByIdWithDept = 'sys/user/getUserByIdWithDept',
   list = 'sys/user/list',
   listTenant = '/sys/tenant/manager/list',
   resetPassword = 'sys/user/resetPassword',
   saveAccountSetting = 'sys/user/saveAccountSetting',
-  saveUpdateWithDataScope = 'sys/user/saveUpdateWithDataScope',
+  saveUpdateWithDept = 'sys/user/saveUpdateWithDept',
   setUserRole = 'sys/user/setRole',
   setUseYn = 'sys/user/setUseYn',
   unlockUserAccount = 'sys/user/unlockUserAccount',
@@ -36,7 +36,7 @@ export const deleteApi = (params: any) => {
   );
 };
 
-export const saveUpdateWithDataScopeApi = async ({ body }: any) => {
+export const saveUpdateWithDeptApi = async ({ body }: any) => {
   const saveList = [...body.insertRecords, ...body.updateRecords];
   if (saveList.length === 0) {
     return false;
@@ -45,23 +45,15 @@ export const saveUpdateWithDataScopeApi = async ({ body }: any) => {
   if (model.userType === 'SYSTEM_USER') {
     model.deptId = null;
   }
-  return requestClient.post(Api.saveUpdateWithDataScope, saveList[0], {
+  return requestClient.post(Api.saveUpdateWithDept, saveList[0], {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };
 
-export const getByIdWithDataScopeApi = async (params: any) => {
-  const result = await requestClient.post(
-    Api.getByIdWithDataScope,
-    params.userId,
-    {
-      service: ApiServiceEnum.SMART_SYSTEM,
-    },
-  );
-  return {
-    ...result,
-    dataScopeList: result.dataScopeList || [],
-  };
+export const getUserByIdWithDeptApi = async (params: any) => {
+  return await requestClient.post(Api.getUserByIdWithDept, params.userId, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const setUseYnApi = (

@@ -33,10 +33,10 @@ import UserUseYn from './components/UserUseYnModal.vue';
 import {
   createAccountApi,
   deleteApi,
-  getByIdWithDataScopeApi,
+  getUserByIdWithDeptApi,
   listApi,
   resetPassword,
-  saveUpdateWithDataScopeApi,
+  saveUpdateWithDeptApi,
   setUseYnApi,
   unlockUserAccountApi,
 } from './UserListView.api';
@@ -208,8 +208,8 @@ const [SmartTable, tableApi] = useSmartTable({
         return listApi(parameter);
       },
       delete: deleteApi,
-      save: saveUpdateWithDataScopeApi,
-      getById: getByIdWithDataScopeApi,
+      save: saveUpdateWithDeptApi,
+      getById: getUserByIdWithDeptApi,
       useYn: setUseYnApi,
     },
   },
