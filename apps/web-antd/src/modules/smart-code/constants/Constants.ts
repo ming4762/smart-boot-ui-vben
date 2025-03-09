@@ -5,4 +5,5 @@ export const extensionLanguageMap: { [index: string]: string } = {
   html: 'html',
   'text/x-vue': 'vue',
   typescript: 'ts',
+  json: 'json',
 };

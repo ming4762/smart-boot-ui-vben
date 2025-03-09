@@ -6,6 +6,7 @@ import type { SmartTableActionItem } from '#/adapter/smart-table';
 import { nextTick, onMounted, reactive, ref, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
+import { useVbenDrawer } from '@vben/common-ui';
 import { listToTree } from '@vben/utils';
 
 import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
@@ -13,6 +14,7 @@ import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $ct as t } from '#/locales';
 
+import DataPermissionDrawer from './components/DataPermissionDrawer.vue';
 import {
   deleteApi,
   getByIdApi,
@@ -69,6 +71,10 @@ const loadFunctionTreeData = async () => {
   });
 };
 onMounted(() => loadFunctionTreeData());
+
+const [DataPermissionDrawerRender, dataPermissionDrawerApi] = useVbenDrawer({
+  connectedComponent: DataPermissionDrawer,
+});
 
 const [SmartTable, tableApi] = useSmartTable({
   id: 'smart-system-function-functionList',
@@ -249,6 +255,16 @@ const getTableActions = (row: Recordable<any>): SmartTableActionItem[] => {
       },
     },
     {
+      label: '数据权限',
+      icon: 'ant-design:setting-outlined',
+      onClick: () => {
+        dataPermissionDrawerApi.setData({
+          functionId: row.functionId,
+        });
+        dataPermissionDrawerApi.open();
+      },
+    },
+    {
       label: t('common.button.delete'),
       icon: 'ant-design:delete-outlined',
       danger: true,
@@ -343,6 +359,8 @@ const getTreeData = (model: Recordable<any>) => {
         </TreeSelect>
       </template>
     </SmartTable>
+    <!--  数据权限  -->
+    <DataPermissionDrawerRender />
   </div>
 </template>
 

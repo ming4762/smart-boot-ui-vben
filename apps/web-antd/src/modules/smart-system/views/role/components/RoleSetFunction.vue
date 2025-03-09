@@ -10,7 +10,6 @@ import {
   Layout,
   LayoutContent,
   LayoutFooter,
-  LayoutHeader,
   Spin,
   Tree,
 } from 'ant-design-vue';
@@ -159,13 +158,6 @@ const handleSave = async () => {
 
 <template>
   <Layout class="h-full">
-    <LayoutHeader
-      class="layout-header"
-      style="height: 48px; line-height: 48px; text-align: center"
-    >
-      <h3>{{ t('system.views.role.title.setFunction') }}</h3>
-    </LayoutHeader>
-    <Divider style="margin: 0" />
     <LayoutContent style="overflow: auto" class="bg-background">
       <Spin :spinning="dataLoading">
         <Tree

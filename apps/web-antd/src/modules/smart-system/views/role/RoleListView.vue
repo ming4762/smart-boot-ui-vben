@@ -7,7 +7,13 @@ import { ref } from 'vue';
 import { SmartVxeTableAction } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { Layout, LayoutContent, LayoutSider } from 'ant-design-vue';
+import {
+  Layout,
+  LayoutContent,
+  LayoutSider,
+  TabPane,
+  Tabs,
+} from 'ant-design-vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import {
@@ -17,6 +23,7 @@ import {
   listApi,
 } from '#/modules/smart-system/views/role/RoleListView.api';
 
+import RoleDataPermission from './components/RoleDataPermission.vue';
 import RoleSetFunction from './components/RoleSetFunction.vue';
 import { useRoleSetUser } from './hook/useRoleSetUser';
 import {
@@ -122,10 +129,26 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
         </SmartTable>
       </LayoutContent>
       <LayoutSider class="layout-set-function" width="240px">
-        <RoleSetFunction
-          :is-super-admin="currentRow.superAdminYn"
-          :role-id="currentRow.roleId"
-        />
+        <Tabs>
+          <TabPane
+            :tab="t('system.views.role.title.setFunction')"
+            key="functionPermission"
+          >
+            <RoleSetFunction
+              :is-super-admin="currentRow.superAdminYn"
+              :role-id="currentRow.roleId"
+            />
+          </TabPane>
+          <TabPane
+            :tab="t('system.views.role.title.dataPermission')"
+            key="dataPermission"
+          >
+            <RoleDataPermission
+              :is-super-admin="currentRow.superAdminYn"
+              :role-id="currentRow.roleId"
+            />
+          </TabPane>
+        </Tabs>
       </LayoutSider>
     </Layout>
     <SelectUserModal />
@@ -135,9 +158,22 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 <style scoped>
 .layout-set-function {
   margin-left: 5px;
+  background: hsl(var(--background));
 
   :deep(.ant-layout-sider-children) {
     margin-top: 0;
+  }
+
+  :deep(.ant-tabs-nav-wrap) {
+    padding-left: 5px;
+  }
+
+  :deep(.ant-tabs) {
+    height: 100%;
+  }
+
+  :deep(.ant-tabs-content) {
+    height: 100%;
   }
 }
 </style>

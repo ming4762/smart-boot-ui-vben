@@ -15,6 +15,7 @@ export const Permission = {
   add: 'sys:function:save',
   delete: 'sys:function:delete',
   update: 'sys:function:update',
+  useYn: 'sys:function:setUseYn',
 };
 
 export const tableColumns: SmartTableColumn[] = [
@@ -104,7 +105,7 @@ export const tableColumns: SmartTableColumn[] = [
   {
     title: '{common.table.operation}',
     field: 'operation',
-    width: 200,
+    width: 245,
     fixed: 'right',
     slots: {
       default: 'table-operation',

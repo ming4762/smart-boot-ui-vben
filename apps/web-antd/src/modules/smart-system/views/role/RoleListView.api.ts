@@ -5,6 +5,7 @@ enum Api {
   delete = 'sys/role/batchDeleteById',
   getById = 'sys/role/getById',
   list = 'sys/role/list',
+  listDataPermissionWithFunction = 'sys/dataPermission/listAllWithFunction',
   listUser = 'sys/user/list',
   listUserByRoleId = 'sys/user/listUserByRoleId',
   setRoleUser = 'sys/role/setRoleUser',
@@ -61,4 +62,17 @@ export const batchSaveUpdateApi = (dataList: any[]) => {
   return requestClient.post(Api.batchSaveUpdate, dataList, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
+};
+
+/**
+ * 数据权限列表
+ */
+export const listDataPermissionWithFunctionApi = () => {
+  return requestClient.post(
+    Api.listDataPermissionWithFunction,
+    {},
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
