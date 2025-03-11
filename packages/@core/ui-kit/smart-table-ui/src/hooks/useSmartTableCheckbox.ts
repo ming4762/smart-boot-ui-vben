@@ -4,9 +4,11 @@ import type {
   VxeTableDefines,
 } from 'vxe-table';
 
+import type { ComputedRef } from 'vue';
+
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, type ComputedRef, unref } from 'vue';
+import { computed, unref } from 'vue';
 
 import { isBoolean } from '@vben-core/shared/utils';
 

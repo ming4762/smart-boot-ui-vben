@@ -1,5 +1,8 @@
-import type { Recordable } from '@vben-core/typings';
 import type { VxeTablePropTypes } from 'vxe-table';
+
+import type { ComputedRef } from 'vue';
+
+import type { Recordable } from '@vben-core/typings';
 
 import type { SmartTableRenderProps } from '../types';
 import type {
@@ -8,7 +11,7 @@ import type {
   SmartTableColumnDynamicStyle,
 } from '../types/SmartTableColumnType';
 
-import { computed, type ComputedRef, unref } from 'vue';
+import { computed, unref } from 'vue';
 
 import { isObject, isString } from '@vben-core/shared/utils';
 

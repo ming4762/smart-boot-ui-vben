@@ -1,5 +1,6 @@
-import type { ComputedRef } from 'vue';
 import type { VxeToolbarPropTypes } from 'vxe-table';
+
+import type { ComputedRef } from 'vue';
 
 import type {
   SmartTableRenderProps,
@@ -13,9 +14,10 @@ import type {
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
+import { computed, h, ref, unref } from 'vue';
+
 import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isPromise, merge } from '@vben-core/shared/utils';
-import { computed, h, ref, unref } from 'vue';
 
 import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
 import SmartTableSizeSetting from '../components/SmartTableSizeSetting.vue';

@@ -2,8 +2,10 @@ import type { VxeComponentSlotType, VxeGlobalRendererHandles } from 'vxe-table';
 
 import type { SmartTableButton } from '../types/SmartTableButtonType';
 
-import { VbenButton } from '@vben-core/shadcn-ui';
 import { h, unref } from 'vue';
+
+import { VbenButton } from '@vben-core/shadcn-ui';
+
 import VXETable from 'vxe-table';
 
 import { VxeTableToolButtonCustomRenderer } from '../types/SmartTableRenderType';

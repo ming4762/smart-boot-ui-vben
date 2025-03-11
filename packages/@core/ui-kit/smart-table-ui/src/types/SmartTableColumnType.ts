@@ -16,20 +16,6 @@ type SmartTableColumnComponent =
   | 'tag'
   | 'useYnTag';
 
-type SmartColumnDynamicClass =
-  | ((params: {
-      $columnIndex: number;
-      $rowIndex: number;
-      $table: VxeTableConstructor & VxeTablePrivateMethods;
-      _columnIndex: number;
-      _rowIndex: number;
-      column: VxeTableDefines.ColumnInfo;
-      columnIndex: number;
-      row: any;
-      rowIndex: number;
-    }) => null | string | { [key: string]: boolean })
-  | string;
-
 type SmartColumnDynamicStyle =
   | ((params: {
       $columnIndex: number;
@@ -95,6 +81,23 @@ interface SmartTableEditRender<D = any, P = Record<string, any>>
 }
 
 /**
+ * 表格列动态class
+ */
+type SmartTableColumnDynamicClass =
+  | ((params: {
+      $columnIndex: number;
+      $rowIndex: number;
+      $table: VxeTableConstructor;
+      _columnIndex: number;
+      _rowIndex: number;
+      column: VxeTableDefines.ColumnInfo;
+      columnIndex: number;
+      row: any;
+      rowIndex: number;
+    }) => null | string | { [key: string]: boolean })
+  | string;
+
+/**
  * 列配置
  */
 interface SmartTableColumn
@@ -106,30 +109,13 @@ interface SmartTableColumn
     | ((params: VxeColumnSlotTypes.DefaultSlotParams) => Record<string, any>)
     | Record<string, any>;
   // 动态CLASS
-  dynamicClass?: SmartColumnDynamicClass;
+  dynamicClass?: SmartTableColumnDynamicClass;
   // 动态style
   dynamicStyle?: SmartColumnDynamicStyle;
   editRender?: SmartTableEditRender;
   flag?: 'ACTION' | 'CHECKBOX' | 'DEFAULT' | 'INDEX' | 'RADIO';
   type?: SmartTableColumnType;
 }
-
-/**
- * 表格列动态class
- */
-type SmartTableColumnDynamicClass =
-  | ((params: {
-      $columnIndex: number;
-      $rowIndex: number;
-      $table: VxeTableConstructor & VxeTablePrivateMethods;
-      _columnIndex: number;
-      _rowIndex: number;
-      column: VxeTableDefines.ColumnInfo;
-      columnIndex: number;
-      row: any;
-      rowIndex: number;
-    }) => null | string | { [key: string]: boolean })
-  | string;
 
 /**
  * 表格列动态style

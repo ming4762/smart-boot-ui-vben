@@ -1,10 +1,8 @@
+import type { VxeComponentSlotType, VxeGlobalRendererHandles } from 'vxe-table';
+
 import { h, unref } from 'vue';
 
 import { VxeButton } from 'vxe-pc-ui';
-import {
-  type VxeComponentSlotType,
-  type VxeGlobalRendererHandles,
-} from 'vxe-table';
 import VXETable from 'vxe-table';
 
 import {

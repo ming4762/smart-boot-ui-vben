@@ -1,8 +1,10 @@
 import type { VxeGridPropTypes } from 'vxe-table';
 
+import type { ComputedRef } from 'vue';
+
 import type { SmartTableRenderProps } from '../types';
 
-import { computed, type ComputedRef, ref, unref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { isBoolean } from '@vben-core/shared/utils';
 
