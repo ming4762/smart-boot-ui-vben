@@ -4,16 +4,10 @@ import type { Recordable } from '@vben/types';
 
 import { ref } from 'vue';
 
-import { SmartVxeTableAction } from '@vben/common-ui';
+import { SmartLayoutSeparate, SmartVxeTableAction } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import {
-  Layout,
-  LayoutContent,
-  LayoutSider,
-  TabPane,
-  Tabs,
-} from 'ant-design-vue';
+import { TabPane, Tabs } from 'ant-design-vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import {
@@ -120,37 +114,44 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
-    <Layout class="h-full">
-      <LayoutContent class="h-full">
-        <SmartTable @current-change="handleCurrentChange">
+    <SmartLayoutSeparate
+      layout="leftRight"
+      draggable
+      second-size="300px"
+      class="h-full"
+    >
+      <template #first>
+        <SmartTable class="h-full" @current-change="handleCurrentChange">
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableActions(row)" />
           </template>
         </SmartTable>
-      </LayoutContent>
-      <LayoutSider class="layout-set-function" width="240px">
-        <Tabs>
-          <TabPane
-            :tab="t('system.views.role.title.setFunction')"
-            key="functionPermission"
-          >
-            <RoleSetFunction
-              :is-super-admin="currentRow.superAdminYn"
-              :role-id="currentRow.roleId"
-            />
-          </TabPane>
-          <TabPane
-            :tab="t('system.views.role.title.dataPermission')"
-            key="dataPermission"
-          >
-            <RoleDataPermission
-              :is-super-admin="currentRow.superAdminYn"
-              :role-id="currentRow.roleId"
-            />
-          </TabPane>
-        </Tabs>
-      </LayoutSider>
-    </Layout>
+      </template>
+      <template #second>
+        <div class="layout-set-function h-full">
+          <Tabs>
+            <TabPane
+              :tab="t('system.views.role.title.setFunction')"
+              key="functionPermission"
+            >
+              <RoleSetFunction
+                :is-super-admin="currentRow.superAdminYn"
+                :role-id="currentRow.roleId"
+              />
+            </TabPane>
+            <TabPane
+              :tab="t('system.views.role.title.dataPermission')"
+              key="dataPermission"
+            >
+              <RoleDataPermission
+                :is-super-admin="currentRow.superAdminYn"
+                :role-id="currentRow.roleId"
+              />
+            </TabPane>
+          </Tabs>
+        </div>
+      </template>
+    </SmartLayoutSeparate>
     <SelectUserModal />
   </div>
 </template>

@@ -1,9 +1,26 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, unref, useTemplateRef, watch } from 'vue';
 
-import { listToTree } from '@vben/utils';
+import { $t as t } from '@vben/locales';
 
-import { listDataPermissionWithFunctionApi } from '../RoleListView.api';
+import {
+  Button,
+  Divider,
+  Layout,
+  LayoutContent,
+  LayoutFooter,
+  Spin,
+  Tree,
+} from 'ant-design-vue';
+
+import { createConfirm, successMessage } from '#/utils';
+
+import {
+  listDataPermissionWithFunctionApi,
+  listRoleDataPermissionIdApi,
+  setRoleDataPermissionApi,
+} from '../RoleListView.api';
+import { Permission } from '../RoleListView.config';
 
 interface Props {
   roleId?: number | string;
@@ -17,24 +34,13 @@ const props = withDefaults(defineProps<Props>(), {
 const dataLoadingRef = ref(false);
 const saveLoadingRef = ref(false);
 const dataPermissionListRef = ref<any[]>([]);
+const checkedKeysRef = ref<number[]>([]);
 
-const computedDataPermissionTreeData = computed(() => {
-  return listToTree(
-    dataPermissionListRef.value.map(
-      ({ functionId, functionName, parentId }: any) => {
-        return {
-          key: functionId,
-          title: functionName,
-          parentId,
-        };
-      },
-    ),
-    (item) => item.key,
-    (item) => item.parentId,
-    0,
-  );
-});
+const treeRef = useTemplateRef('treeRef');
 
+/**
+ * 加载整个数结构
+ */
 const loadDataPermission = async () => {
   dataLoadingRef.value = true;
   try {
@@ -43,16 +49,154 @@ const loadDataPermission = async () => {
     dataLoadingRef.value = false;
   }
 };
+/**
+ * 所有的功能权限ID
+ */
+const computedAllDataPermissionIds = computed(() => {
+  const dataPermissionIds = new Set<number>();
+  filterDataPermissionIdFromTree(
+    unref(dataPermissionListRef),
+    dataPermissionIds,
+  );
+  return dataPermissionIds;
+});
+const filterDataPermissionIdFromTree = (
+  treeList: any[],
+  dataPermissionIds: Set<number>,
+) => {
+  treeList.forEach((treeNode) => {
+    const { data, children } = treeNode;
+    if (data.isDataPermission) {
+      dataPermissionIds.add(data.dataId);
+    } else if (children && children.length > 0) {
+      filterDataPermissionIdFromTree(children, dataPermissionIds);
+    }
+  });
+};
+// const setFunctionDisableCheckbox = (treeData: any[]) => {
+//   treeData.forEach((item) => {
+//     if (!item.data.isDataPermission) {
+//       item.disableCheckbox = true;
+//     }
+//     if (item.children && item.children.length > 0) {
+//       setFunctionDisableCheckbox(item.children);
+//     }
+//   });
+// };
+// const computedTreeData = computed(() => {
+//   const dataList = unref(dataPermissionListRef);
+//   setFunctionDisableCheckbox(dataList);
+//   return dataList;
+// });
 
 onMounted(() => {
   loadDataPermission();
 });
+
+/**
+ * 角色变更，重新加载数据权限
+ */
+const handleListRoleDataPermission = async () => {
+  if (!props.roleId) {
+    checkedKeysRef.value = [];
+    return;
+  }
+  try {
+    dataLoadingRef.value = true;
+    checkedKeysRef.value = await listRoleDataPermissionIdApi(
+      props.roleId as number,
+    );
+  } finally {
+    dataLoadingRef.value = false;
+  }
+};
+watch(
+  () => props.roleId,
+  () => {
+    handleListRoleDataPermission();
+  },
+);
+
+/**
+ * 执行保存操作
+ */
+const handleSave = () => {
+  if (!props.roleId) {
+    throw new Error('系统异常');
+  }
+  createConfirm({
+    iconType: 'warning',
+    title: t('common.confirm'),
+    onOk: async () => {
+      const allDataPermissionIds = unref(computedAllDataPermissionIds);
+      await setRoleDataPermissionApi({
+        roleId: props.roleId as number,
+        dataPermissionIdList: unref(checkedKeysRef).filter((item) =>
+          allDataPermissionIds.has(item),
+        ),
+      });
+      successMessage(t('common.message.saveSuccess'));
+    },
+  });
+};
 </script>
 
 <template>
-  <div>
-    {{ computedDataPermissionTreeData }} {{ props }} {{ saveLoadingRef }}
-  </div>
+  <Layout class="role-data-permission h-full">
+    <LayoutContent style="overflow: auto" class="bg-background">
+      <Spin :spinning="dataLoadingRef" class="tree-loading">
+        <Tree
+          ref="treeRef"
+          :field-names="{ children: 'children', title: 'text', key: 'id' }"
+          v-model:checked-keys="checkedKeysRef"
+          :disabled="isSuperAdmin"
+          :tree-data="dataPermissionListRef"
+          checkable
+        >
+          <template #title="{ data, text }">
+            <div v-if="data.data.isDataPermission !== true">
+              <span>{{ text }}</span>
+            </div>
+            <div v-else>
+              <span>{{ text }}[{{ data.data.dataPermissionScope }}]</span>
+            </div>
+          </template>
+        </Tree>
+      </Spin>
+    </LayoutContent>
+    <Divider style="margin: 0" />
+    <LayoutFooter
+      class="layout-footer"
+      style="height: 50px; padding: 10px 0; text-align: center"
+    >
+      <div style="padding: 0 5px">
+        <Button
+          :disabled="isSuperAdmin || !props.roleId"
+          :loading="saveLoadingRef"
+          block
+          type="primary"
+          v-access:code="Permission.setFunction"
+          @click="handleSave"
+        >
+          {{ t('common.button.save') }}
+        </Button>
+      </div>
+    </LayoutFooter>
+  </Layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.layout-header {
+  background: hsl(var(--background));
+}
+
+.layout-footer {
+  background: hsl(var(--background));
+}
+
+.role-data-permission {
+  :deep(.ant-spin-nested-loading) {
+    height: 100%;
+  }
+}
+</style>

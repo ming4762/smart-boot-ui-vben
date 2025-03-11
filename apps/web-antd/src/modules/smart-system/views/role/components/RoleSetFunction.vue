@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onActivated, ref, unref, watch } from 'vue';
+import { computed, onActivated, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
@@ -25,17 +25,40 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
   isSuperAdmin: false,
-  roleId: -1,
+  roleId: undefined,
 });
 
 const treeRef = ref();
 
-// 树形控件数据
-const functionTreeData = ref<Array<any>>([]);
 const dataLoading = ref(false);
 const saveLoading = ref(false);
-const checkedKeysModel = ref([]);
+const checkedKeysModel = ref<number[]>([]);
 const permissions = Permission;
+const functionListRef = ref<any[]>([]);
+
+// 树形控件数据
+const computedFunctionTreeData = computed(() => {
+  return (
+    listToTree(
+      unref(functionListRef).map(
+        ({ functionId, functionName, parentId }: any) => {
+          return {
+            key: functionId,
+            title: functionName,
+            parentId,
+          };
+        },
+      ),
+      (item: any) => item.key,
+      (item: any) => item.parentId,
+      0,
+    ) || []
+  );
+});
+// 所有功能ID
+const computedAllFunctionIdList = computed<number[]>(() => {
+  return unref(functionListRef).map((item) => item.functionId);
+});
 
 /**
  * 加载功能树函数
@@ -43,7 +66,7 @@ const permissions = Permission;
 const loadFunctionTreeData = async () => {
   dataLoading.value = true;
   try {
-    const result = await requestClient.post(
+    functionListRef.value = await requestClient.post<any[]>(
       'sys/function/listTenantFunction',
       {
         sortName: 'seq',
@@ -52,20 +75,6 @@ const loadFunctionTreeData = async () => {
         service: ApiServiceEnum.SMART_SYSTEM,
       },
     );
-
-    functionTreeData.value =
-      listToTree(
-        result.map(({ functionId, functionName, parentId }: any) => {
-          return {
-            key: functionId,
-            title: functionName,
-            parentId,
-          };
-        }),
-        (item: any) => item.key,
-        (item: any) => item.parentId,
-        0,
-      ) || [];
   } finally {
     dataLoading.value = false;
   }
@@ -96,7 +105,13 @@ const loadRoleFunctions = async () => {
 onActivated(() => loadFunctionTreeData());
 watch(
   () => props.roleId,
-  () => loadRoleFunctions(),
+  () => {
+    if (props.isSuperAdmin) {
+      checkedKeysModel.value = unref(computedAllFunctionIdList);
+    } else {
+      loadRoleFunctions();
+    }
+  },
 );
 
 /**
@@ -108,18 +123,6 @@ const handleSave = async () => {
     errorMessage('请先选定角色');
     return false;
   }
-  // const treeDataList = getTreeDataList();
-  // const treeDataMap = new Map<number, any>();
-  // treeDataList.forEach((item) => {
-  //   treeDataMap.set(item.key, item);
-  // });
-  // const checkedKeys = tree.getCheckedKeys().filter((item) => {
-  //   if (!treeDataMap.has(item)) {
-  //     return false;
-  //   }
-  //   const treeData = treeDataMap.get(item);
-  //   return treeData.hasChild !== true;
-  // });
   saveLoading.value = true;
   try {
     await requestClient.post(
@@ -133,38 +136,22 @@ const handleSave = async () => {
         service: ApiServiceEnum.SMART_SYSTEM,
       },
     );
-    successMessage('保存成功');
+    successMessage(t('common.message.saveSuccess'));
   } finally {
     saveLoading.value = false;
   }
 };
-
-// const getTreeDataList = () => {
-//   const treeData = unref(treeRef).getTreeData();
-//   const treeDataList: any[] = [];
-//   doGetTreeDataList(treeDataList, treeData);
-//   return treeDataList;
-// };
-//
-// const doGetTreeDataList = (treeDataList: any[], treeData: any[]) => {
-//   treeData.forEach((item) => {
-//     treeDataList.push(item);
-//     if (item.children && item.children.length > 0) {
-//       doGetTreeDataList(treeDataList, item.children);
-//     }
-//   });
-// };
 </script>
 
 <template>
-  <Layout class="h-full">
+  <Layout class="role-set-function h-full">
     <LayoutContent style="overflow: auto" class="bg-background">
       <Spin :spinning="dataLoading">
         <Tree
           ref="treeRef"
           v-model:checked-keys="checkedKeysModel"
           :disabled="isSuperAdmin"
-          :tree-data="functionTreeData"
+          :tree-data="computedFunctionTreeData"
           checkable
         />
       </Spin>
@@ -176,7 +163,7 @@ const handleSave = async () => {
     >
       <div style="padding: 0 5px">
         <Button
-          :disabled="isSuperAdmin"
+          :disabled="isSuperAdmin || !props.roleId"
           :loading="saveLoading"
           block
           type="primary"
@@ -196,5 +183,10 @@ const handleSave = async () => {
 }
 .layout-footer {
   background: hsl(var(--background));
+}
+.role-set-function {
+  :deep(.ant-spin-nested-loading) {
+    height: 100%;
+  }
 }
 </style>

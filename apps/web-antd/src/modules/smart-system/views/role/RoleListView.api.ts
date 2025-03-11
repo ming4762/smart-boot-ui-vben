@@ -6,8 +6,10 @@ enum Api {
   getById = 'sys/role/getById',
   list = 'sys/role/list',
   listDataPermissionWithFunction = 'sys/dataPermission/listAllWithFunction',
+  listRoleDataPermissionId = 'sys/role/listRoleDataPermissionId',
   listUser = 'sys/user/list',
   listUserByRoleId = 'sys/user/listUserByRoleId',
+  setRoleDataPermission = 'sys/role/setRoleDataPermission',
   setRoleUser = 'sys/role/setRoleUser',
 }
 
@@ -71,6 +73,32 @@ export const listDataPermissionWithFunctionApi = () => {
   return requestClient.post(
     Api.listDataPermissionWithFunction,
     {},
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+};
+
+/**
+ * 设置角色数据权限
+ */
+export const setRoleDataPermissionApi = (params: {
+  dataPermissionIdList: number[];
+  roleId: number;
+}) => {
+  return requestClient.post(Api.setRoleDataPermission, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+/**
+ * 获取角色数据权限
+ * @param roleId 角色ID
+ */
+export const listRoleDataPermissionIdApi = (roleId: number) => {
+  return requestClient.post<number[]>(
+    Api.listRoleDataPermissionId,
+    { id: roleId },
     {
       service: ApiServiceEnum.SMART_SYSTEM,
     },

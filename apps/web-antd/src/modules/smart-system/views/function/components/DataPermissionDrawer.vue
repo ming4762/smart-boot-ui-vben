@@ -110,6 +110,7 @@ const [SmartTable, tableApi] = useSmartTable({
         if (updateRecords.length > 0) {
           return updateApi(dataList[0]);
         }
+        return Promise.resolve();
       },
       delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
       getById: (params) => getByIdApi(params.id),

@@ -1,7 +1,10 @@
+import type { ButtonProps, ModalFuncProps } from 'ant-design-vue';
+
+import type { VNode } from 'vue';
+
 import type { HttpResponse } from '@vben/request';
 import type { Recordable } from '@vben/types';
 
-import type { VNode } from 'vue';
 import { h } from 'vue';
 
 import { Check, createIconifyIcon, Info } from '@vben/icons';
@@ -9,22 +12,17 @@ import { $t } from '@vben/locales';
 import { useApiExceptionStore } from '@vben/stores';
 import { isString } from '@vben/utils';
 
-import {
-  type ButtonProps,
-  message as Message,
-  Modal,
-  type ModalFuncProps,
-} from 'ant-design-vue';
+import { message as Message, Modal } from 'ant-design-vue';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
   iconType?: 'error' | 'info' | 'success' | 'warning';
-  buttons?: Array<({ name: string } & ButtonProps) | string>;
+  buttons?: Array<(ButtonProps & { name: string }) | string>;
   footerProps?: Recordable<any>;
 }
 type ModalOptionsPartial = Partial<ModalOptionsEx> &
   Pick<ModalOptionsEx, 'content'>;
 
-type MessageOptions = { message: string } | string;
+type MessageOptions = string | { message: string };
 
 const getBaseOptions = () => {
   return {
