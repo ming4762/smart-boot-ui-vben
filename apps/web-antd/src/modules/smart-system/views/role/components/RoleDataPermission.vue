@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, unref, useTemplateRef, watch } from 'vue';
 
+import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 import {
@@ -21,6 +22,7 @@ import {
   setRoleDataPermissionApi,
 } from '../RoleListView.api';
 import { Permission } from '../RoleListView.config';
+import DataPermissionDetailModal from './DataPermissionDetailModal.vue';
 
 interface Props {
   roleId?: number | string;
@@ -139,6 +141,18 @@ const handleSave = () => {
     },
   });
 };
+
+/**
+ * 显示数据权限详情
+ * @param dataPermissionId
+ */
+const [DataPermissionDetailModalRender, modalApi] = useVbenModal({
+  connectedComponent: DataPermissionDetailModal,
+});
+const handleShowDataPermissionDetail = (dataPermissionId: number) => {
+  modalApi.setData({ dataPermissionId });
+  modalApi.open();
+};
 </script>
 
 <template>
@@ -157,8 +171,13 @@ const handleSave = () => {
             <div v-if="data.data.isDataPermission !== true">
               <span>{{ text }}</span>
             </div>
-            <div v-else>
-              <span>{{ text }}[{{ data.data.dataPermissionScope }}]</span>
+            <div class="flex items-center" v-else>
+              <Button
+                @click="() => handleShowDataPermissionDetail(data.id)"
+                type="link"
+              >
+                {{ text }}[{{ data.data.dataPermissionScope }}]
+              </Button>
             </div>
           </template>
         </Tree>
@@ -182,6 +201,7 @@ const handleSave = () => {
         </Button>
       </div>
     </LayoutFooter>
+    <DataPermissionDetailModalRender />
   </Layout>
 </template>
 
@@ -197,6 +217,10 @@ const handleSave = () => {
 .role-data-permission {
   :deep(.ant-spin-nested-loading) {
     height: 100%;
+  }
+
+  :deep(.ant-btn-link) {
+    padding: 0;
   }
 }
 </style>

@@ -7,31 +7,7 @@ import type {
 import { $t as t } from '@vben/locales';
 
 import { getTableUseYnColumnClass } from '#/adapter/smart-table';
-
-const DATA_SCOPE = [
-  {
-    label: t('system.views.dataPermission.title.permissionScope.ALL'),
-    value: 'DATA_ALL',
-  },
-  {
-    label: t('system.views.dataPermission.title.permissionScope.DATA_DEPT'),
-    value: 'DATA_DEPT',
-  },
-  {
-    label: t(
-      'system.views.dataPermission.title.permissionScope.DATA_DEPT_AND_CHILD',
-    ),
-    value: 'DATA_DEPT_AND_CHILD',
-  },
-  {
-    label: t('system.views.dataPermission.title.permissionScope.DATA_PERSONAL'),
-    value: 'DATA_PERSONAL',
-  },
-  {
-    label: t('system.views.dataPermission.title.permissionScope.DATA_CUSTOM'),
-    value: 'DATA_CUSTOM',
-  },
-];
+import { DATA_PERMISSION_SCOPE } from '#/modules/smart-system/constants/system-constants';
 
 /**
  * 表格列表
@@ -139,7 +115,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       component: 'Select',
       controlClass: 'w-full',
       componentProps: {
-        options: DATA_SCOPE,
+        options: DATA_PERMISSION_SCOPE,
       },
       rules: 'required',
     },
