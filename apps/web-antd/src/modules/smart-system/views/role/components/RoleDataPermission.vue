@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, unref, useTemplateRef, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  unref,
+  useTemplateRef,
+  watch,
+} from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
@@ -91,8 +99,11 @@ const filterDataPermissionIdFromTree = (
 //   return dataList;
 // });
 
-onMounted(() => {
-  loadDataPermission();
+onMounted(async () => {
+  await loadDataPermission();
+  nextTick(() => {
+    handleListRoleDataPermission();
+  });
 });
 
 /**
