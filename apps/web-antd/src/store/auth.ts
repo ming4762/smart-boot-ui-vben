@@ -3,7 +3,6 @@ import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 import type { AuthApi } from '#/api';
 
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { ApiServiceEnum, DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
@@ -15,11 +14,11 @@ import { defineStore } from 'pinia';
 import { changePasswordApi, changeTenantApi, loginApi, logoutApi } from '#/api';
 import { requestClient } from '#/api/request';
 import { $t } from '#/locales';
+import { router } from '#/router';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
   const userStore = useUserStore();
-  const router = useRouter();
 
   const loginLoading = ref(false);
   // 是否显示登录过去期的弹窗
