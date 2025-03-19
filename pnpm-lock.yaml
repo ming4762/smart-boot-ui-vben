@@ -1302,7 +1302,7 @@ importers:
         version: 0.1.0
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.3)
+        version: 3.5.13(typescript@5.8.2)
     devDependencies:
       '@types/lodash.clonedeep':
         specifier: 'catalog:'
@@ -1367,7 +1367,7 @@ importers:
     dependencies:
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.3)
+        version: 3.5.13(typescript@5.8.2)
 
   packages/@core/ui-kit/code-editor-ui:
     dependencies:
@@ -1400,7 +1400,7 @@ importers:
         version: 6.0.1(@lezer/common@1.2.3)
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.3)
+        version: 3.5.13(typescript@5.8.2)
 
   packages/@core/ui-kit/form-ui:
     dependencies:
@@ -1571,13 +1571,13 @@ importers:
         version: 1.15.6
       vue:
         specifier: ^3.5.13
-        version: 3.5.13(typescript@5.7.3)
+        version: 3.5.13(typescript@5.8.2)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.3.99(vue@3.5.13(typescript@5.7.3))
+        version: 4.4.8(vue@3.5.13(typescript@5.8.2))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.10.0(vue@3.5.13(typescript@5.7.3))
+        version: 4.10.0(vue@3.5.13(typescript@5.8.2))
       zod:
         specifier: 'catalog:'
         version: 3.24.2
@@ -4484,9 +4484,6 @@ packages:
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
-
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==, tarball: https://maven.gc-it.cn/repository/npm-public-lianya/@types/fs-extra/-/fs-extra-11.0.4.tgz}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}

@@ -10,22 +10,31 @@ enum Api {
 }
 
 export const listApi = (params: any) => {
-  return requestClient.post(Api.list, params);
+  return requestClient.post(Api.list, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const batchSaveUpdateApi = (modelList: any[]) => {
-  return requestClient.post(Api.batchSaveUpdate, modelList);
+  return requestClient.post(Api.batchSaveUpdate, modelList, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const deleteApi = (removeRecords: Record<string, any>[]) => {
   return requestClient.post(
     Api.delete,
     removeRecords.map((item) => item.id),
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
   );
 };
 
 export const getByIdApi = (id: number) => {
-  return requestClient.post(Api.getById, id);
+  return requestClient.post(Api.getById, id, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 /**
@@ -34,10 +43,16 @@ export const getByIdApi = (id: number) => {
  * @param useYn 启用停用
  */
 export const setUseYnApi = (rows: any[], useYn: boolean) => {
-  return requestClient.post(Api.setUseYn, {
-    idList: rows.map((item) => item.id),
-    useYn,
-  });
+  return requestClient.post(
+    Api.setUseYn,
+    {
+      idList: rows.map((item) => item.id),
+      useYn,
+    },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
 
 /**
