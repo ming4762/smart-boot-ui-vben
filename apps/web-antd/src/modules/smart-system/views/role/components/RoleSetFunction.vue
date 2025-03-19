@@ -141,6 +141,12 @@ const handleSave = async () => {
     saveLoading.value = false;
   }
 };
+
+const handleReload = () => {
+  checkedKeysModel.value = [];
+  loadFunctionTreeData();
+  loadRoleFunctions();
+};
 </script>
 
 <template>
@@ -163,10 +169,17 @@ const handleSave = async () => {
     >
       <div style="padding: 0 5px">
         <Button
+          @click="handleReload"
+          :loading="dataLoading"
+          class="reload-button"
+        >
+          {{ t('common.button.reload') }}
+        </Button>
+        <Button
           :disabled="isSuperAdmin || !props.roleId"
           :loading="saveLoading"
-          block
           type="primary"
+          class="save-button"
           v-access:code="permissions.setFunction"
           @click="handleSave"
         >
@@ -187,6 +200,13 @@ const handleSave = async () => {
 .role-set-function {
   :deep(.ant-spin-nested-loading) {
     height: 100%;
+  }
+  .reload-button {
+    width: 45%;
+  }
+  .save-button {
+    width: 45%;
+    margin-left: 5px;
   }
 }
 </style>
