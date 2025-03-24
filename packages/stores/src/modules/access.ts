@@ -1,5 +1,6 @@
-import type { MenuRecordRaw } from '@vben-core/typings';
 import type { RouteRecordRaw } from 'vue-router';
+
+import type { MenuRecordRaw } from '@vben-core/typings';
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
@@ -80,6 +81,11 @@ export const useAccessStore = defineStore('core-access', {
     },
     setRefreshToken(token: AccessToken) {
       this.refreshToken = token;
+    },
+  },
+  getters: {
+    hasRefreshToken(): boolean {
+      return !!this.refreshToken;
     },
   },
   persist: {

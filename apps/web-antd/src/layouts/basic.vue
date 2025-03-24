@@ -106,8 +106,12 @@ const computedUsername = computed(() => {
   return userStore.userInfo?.username;
 });
 
-async function handleLogout() {
-  await authStore.logout(false);
+async function handleLogout(logoutSuccessHandler: () => void) {
+  try {
+    await authStore.logout(false);
+  } finally {
+    logoutSuccessHandler();
+  }
 }
 
 function handleNoticeClear() {

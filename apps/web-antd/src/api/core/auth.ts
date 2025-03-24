@@ -1,5 +1,7 @@
 import type { UserInfo } from '@vben/types';
 
+import { useAccessStore } from '@vben/stores';
+
 import {
   ApiServiceEnum,
   baseRequestClient,
@@ -30,6 +32,7 @@ export namespace AuthApi {
     permissions: string[];
     roles: LoginRole[];
     user: UserInfo;
+    refreshToken: string;
   }
 
   export interface RefreshTokenResult {
@@ -62,6 +65,12 @@ export async function refreshTokenApi() {
  * 退出登录
  */
 export async function logoutApi() {
+  const accessStore = useAccessStore();
+  const headers = accessStore.hasRefreshToken
+    ? {
+        'Authorization-refreshToken': accessStore.refreshToken,
+      }
+    : {};
   return requestClient.post(
     '/auth/logout',
     {
@@ -69,6 +78,7 @@ export async function logoutApi() {
     },
     {
       service: ApiServiceEnum.SMART_AUTH,
+      headers,
     },
   );
 }

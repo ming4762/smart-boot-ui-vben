@@ -98,7 +98,7 @@ const props = withDefaults(defineProps<Props>(), {
   changePasswordHandler: undefined,
 });
 
-const emit = defineEmits<{ logout: [] }>();
+const emit = defineEmits<{ logout: [() => void] }>();
 const router = useRouter();
 
 const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
@@ -170,8 +170,11 @@ function handleLogout() {
 }
 
 function handleSubmitLogout() {
-  emit('logout');
-  logoutModalApi.close();
+  logoutModalApi.setState({ confirmLoading: true });
+  emit('logout', () => {
+    logoutModalApi.setState({ confirmLoading: false });
+    logoutModalApi.close();
+  });
 }
 
 if (enableShortcutKey.value) {

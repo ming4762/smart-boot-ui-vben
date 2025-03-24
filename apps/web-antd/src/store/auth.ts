@@ -44,27 +44,21 @@ export const useAuthStore = defineStore('auth', () => {
     changeTenant = false,
     onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
   ) => {
-    const { permissions, roles, token, user } = loginData;
+    const { permissions, roles, token, user, refreshToken } = loginData;
 
     let userInfo: null | UserInfo = null;
     // 如果成功获取到 accessToken
     if (token) {
       accessStore.setAccessToken(token);
-
-      // 获取用户信息并存储到 accessStore 中
-      // const [fetchUserInfoResult, accessCodes] = await Promise.all([
-      //   fetchUserInfo(),
-      //   getAccessCodesApi(),
-      // ]);
-
+      if (refreshToken) {
+        accessStore.setRefreshToken(refreshToken);
+      }
       userInfo = {
         ...user,
         realName: user.fullName,
         roles,
       };
       await loginSetStore(userInfo, permissions);
-      // userStore.setUserInfo(userInfo);
-      // accessStore.setAccessCodes(permissions);
 
       if (accessStore.loginExpired) {
         accessStore.setLoginExpired(false);
