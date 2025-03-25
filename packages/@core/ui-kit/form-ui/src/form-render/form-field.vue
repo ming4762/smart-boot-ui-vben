@@ -292,6 +292,7 @@ onUnmounted(() => {
       v-show="isShow"
       :class="{
         'form-valid-error': isInValid,
+        'form-is-required': shouldRequired,
         'flex-col': isVertical,
         'flex-row items-center': !isVertical,
         'pb-6': !compact,
@@ -322,7 +323,7 @@ onUnmounted(() => {
           <VbenRenderContent :content="label" />
         </template>
       </FormLabel>
-      <div class="flex-auto overflow-hidden">
+      <div class="flex-auto overflow-hidden p-[1px]">
         <div :class="cn('relative flex w-full items-center', wrapperClass)">
           <FormControl :class="cn(controlClass)">
             <slot
