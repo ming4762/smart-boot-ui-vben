@@ -4,7 +4,6 @@
 import type { ErrorMessageMode, RequestClientOptions } from '@vben/request';
 
 import { useAppConfig } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import {
   authenticateResponseInterceptor,
@@ -25,7 +24,6 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
     ...options,
     baseURL,
-    isStandalone: apiMode === 'standalone',
   });
 
   /**
@@ -51,8 +49,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
-    const resp = await refreshTokenApi();
-    const newToken = resp.data;
+    const newToken = await refreshTokenApi();
     accessStore.setAccessToken(newToken);
     return newToken;
   }
@@ -110,26 +107,27 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   );
 
   // token过期的处理（基于jwt后台过期）
-  client.addResponseInterceptor({
-    rejected: (error) => {
-      const { response } = error;
-      // 如果不是 401 错误，直接抛出异常
-      if (
-        response?.data?.code !== 401 ||
-        error.config?.authErrorProcessed === false
-      ) {
-        throw error;
-      }
-      const authStore = useAuthStore();
-      if (preferences.app.loginExpiredMode === 'modal') {
-        authStore.loginExpired(true, false);
-      } else {
-        errorMessage(t('ui.fallback.http.unauthorized'));
-        authStore.logout();
-      }
-      return Promise.reject(Object.assign(error, { isProcessed: true }));
-    },
-  });
+  // client.addResponseInterceptor({
+  //   rejected: (error) => {
+  //     console.log('=========')
+  //     const { response } = error;
+  //     // 如果不是 401 错误，直接抛出异常
+  //     if (
+  //       response?.data?.code !== 401 ||
+  //       error.config?.authErrorProcessed === false
+  //     ) {
+  //       throw error;
+  //     }
+  //     const authStore = useAuthStore();
+  //     if (preferences.app.loginExpiredMode === 'modal') {
+  //       authStore.loginExpired(true, false);
+  //     } else {
+  //       errorMessage(t('ui.fallback.http.unauthorized'));
+  //       authStore.logout();
+  //     }
+  //     return Promise.reject(Object.assign(error, { isProcessed: true }));
+  //   },
+  // });
 
   // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
   client.addResponseInterceptor(
@@ -163,8 +161,12 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 
 export const requestClient = createRequestClient(apiURL, {
   responseReturn: 'data',
+  isStandalone: apiMode === 'standalone',
 });
 
-export const baseRequestClient = new RequestClient({ baseURL: apiURL });
+export const baseRequestClient = new RequestClient({
+  baseURL: apiURL,
+  isStandalone: apiMode === 'standalone',
+});
 
 export { ApiServiceEnum } from '@vben/constants';

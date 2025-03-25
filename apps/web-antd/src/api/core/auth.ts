@@ -1,3 +1,4 @@
+import type { RequestResponse } from '@vben/request';
 import type { UserInfo } from '@vben/types';
 
 import { useAccessStore } from '@vben/stores';
@@ -11,6 +12,8 @@ import {
 enum Api {
   changeTenant = '/auth/tenant/change',
 }
+
+const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
 
 export namespace AuthApi {
   /** 登录接口参数 */
@@ -55,22 +58,26 @@ export async function loginApi(data: AuthApi.LoginParams) {
 /**
  * 刷新accessToken
  */
-export async function refreshTokenApi() {
-  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh', {
-    withCredentials: true,
-  });
+export async function refreshTokenApi(): Promise<string> {
+  const headers = createRefreshTokenHeader();
+  const response = await baseRequestClient.post<
+    RequestResponse<AuthApi.RefreshTokenResult>
+  >(
+    '/auth/refresh',
+    {},
+    {
+      headers,
+      service: ApiServiceEnum.SMART_AUTH,
+    },
+  );
+  return response.data.data;
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  const accessStore = useAccessStore();
-  const headers = accessStore.hasRefreshToken
-    ? {
-        'Authorization-refreshToken': accessStore.refreshToken,
-      }
-    : {};
+  const headers = createRefreshTokenHeader();
   return requestClient.post(
     '/auth/logout',
     {
@@ -82,6 +89,18 @@ export async function logoutApi() {
     },
   );
 }
+
+/**
+ * 创建刷新token请求头
+ */
+const createRefreshTokenHeader = () => {
+  const accessStore = useAccessStore();
+  return accessStore.hasRefreshToken
+    ? {
+        [REFRESH_TOKEN_HEADER]: accessStore.refreshToken,
+      }
+    : {};
+};
 
 /**
  * 获取用户权限码
