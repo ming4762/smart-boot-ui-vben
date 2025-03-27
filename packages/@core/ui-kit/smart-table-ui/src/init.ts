@@ -9,6 +9,7 @@ import { defineComponent, watch } from 'vue';
 
 import {
   VxeButton,
+  VxeCheckbox,
   VxeIcon,
   VxeInput,
   VxeModal,
@@ -88,6 +89,7 @@ const initSmartTableComponent = () => {
   VxeUI.component(VxeNumberInput);
   VxeUI.component(VxeModal);
   VxeUI.component(VxeRadioGroup);
+  VxeUI.component(VxeCheckbox);
 
   VxeUI.component(createVirtualComponent('VxeForm'));
 
