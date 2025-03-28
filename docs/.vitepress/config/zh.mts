@@ -234,6 +234,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           text: 'CRUD',
         },
         {
+          link: 'used/dataPermission',
+          text: '数据权限',
+        },
+        {
           link: 'used/file',
           text: '统一文件存储',
         },
