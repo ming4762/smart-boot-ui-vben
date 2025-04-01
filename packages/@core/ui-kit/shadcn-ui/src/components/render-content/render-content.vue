@@ -1,8 +1,9 @@
 <script lang="ts">
 import type { Component, PropType } from 'vue';
 
-import { isFunction, isObject } from '@vben-core/shared/utils';
 import { defineComponent, h } from 'vue';
+
+import { isFunction, isObject, isString } from '@vben-core/shared/utils';
 
 export default defineComponent({
   name: 'RenderContent',
@@ -12,6 +13,10 @@ export default defineComponent({
         | PropType<(() => any) | Component | string>
         | undefined,
       type: [Object, String, Function],
+    },
+    renderBr: {
+      default: false,
+      type: Boolean,
     },
   },
   setup(props, { attrs, slots }) {
@@ -23,7 +28,20 @@ export default defineComponent({
         (isObject(props.content) || isFunction(props.content)) &&
         props.content !== null;
       if (!isComponent) {
-        return props.content;
+        if (props.renderBr && isString(props.content)) {
+          const lines = props.content.split('\n');
+          const result = [];
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            result.push(h('span', { key: i }, line));
+            if (i < lines.length - 1) {
+              result.push(h('br'));
+            }
+          }
+          return result;
+        } else {
+          return props.content;
+        }
       }
       return h(props.content as never, {
         ...attrs,
