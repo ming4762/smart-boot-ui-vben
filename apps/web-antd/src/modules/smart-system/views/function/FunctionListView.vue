@@ -87,6 +87,7 @@ const [SmartTable, tableApi] = useSmartTable({
   customConfig: {
     storage: true,
   },
+  checkboxConfig: true,
   searchFormConfig: {
     actionWrapperClass: 'text-left',
     compact: true,
