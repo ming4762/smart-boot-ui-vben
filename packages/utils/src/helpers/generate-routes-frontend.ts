@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import type { UserRole } from '@vben-core/typings';
+
 import { filterTree, mapTree } from '@vben-core/shared/utils';
 
 /**
@@ -7,12 +9,15 @@ import { filterTree, mapTree } from '@vben-core/shared/utils';
  */
 async function generateRoutesByFrontend(
   routes: RouteRecordRaw[],
-  roles: string[],
+  roles: UserRole[],
   forbiddenComponent?: RouteRecordRaw['component'],
 ): Promise<RouteRecordRaw[]> {
   // 根据角色标识过滤路由表,判断当前用户是否拥有指定权限
   const finalRoutes = filterTree(routes, (route) => {
-    return hasAuthority(route, roles);
+    return hasAuthority(
+      route,
+      roles.map((item) => item.roleCode),
+    );
   });
 
   if (!forbiddenComponent) {
