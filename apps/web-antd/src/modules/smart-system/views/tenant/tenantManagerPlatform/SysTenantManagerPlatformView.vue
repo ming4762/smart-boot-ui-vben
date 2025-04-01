@@ -6,6 +6,7 @@ import { SmartLayoutSeparate } from '@vben/common-ui';
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import SysTenantList from './components/SysTenantList.vue';
+import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
 
 const currentRowRef = ref<any | null>(null);
@@ -33,7 +34,9 @@ const handleCurrentChange = ({ row }: any) => {
             <TabPane key="user" tab="用户管理">
               <TenantUserList :tenant-id="currentRowRef?.id" />
             </TabPane>
-            <TabPane key="subscribe" tab="订阅管理" />
+            <TabPane key="subscribe" tab="订阅管理">
+              <TenantSubscribeList :tenant-id="currentRowRef?.id" />
+            </TabPane>
             <TabPane key="role" tab="角色管理" />
           </Tabs>
         </div>
