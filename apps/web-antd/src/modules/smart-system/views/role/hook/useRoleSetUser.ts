@@ -9,9 +9,11 @@ import { message } from 'ant-design-vue';
 
 import { SmartTableSelectUserModal } from '#/components';
 
-import { listUserByRoleIdApi, setRoleUserApi } from '../RoleListView.api';
-
-export const useRoleSetUser = () => {
+export const useRoleSetUser = (
+  listUserApi: ((parameter: any) => Promise<any>) | undefined,
+  listUserByRoleIdApi: (roleIds: number[]) => Promise<any[]>,
+  setRoleUserApi: (roleId: number, userIdList: number[]) => Promise<any>,
+) => {
   const [Modal, modalApi] = useVbenModal({
     connectedComponent: SmartTableSelectUserModal,
     title: $t('system.views.role.button.setRoleUser'),
@@ -48,6 +50,7 @@ export const useRoleSetUser = () => {
       showSelect: true,
       class: 'w-[1200px]',
       onSelected: handleSetUser,
+      listUserApi,
       selectValues: unref(selectUserList),
     });
   };

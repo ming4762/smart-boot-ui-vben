@@ -11,6 +11,18 @@ import { requestClient } from '#/api/request';
 
 import SmartTableSelectModal from './smart-table-select-modal.vue';
 
+interface Props {
+  listUserApi?: (parameter: any) => Promise<any>;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  listUserApi: async (parameter: any) => {
+    return requestClient.post('sys/user/list', parameter, {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    });
+  },
+});
+
 const emit = defineEmits<{
   selected: [any[]];
   'update:selectValues': [any[]];
@@ -83,9 +95,7 @@ const tableProps = reactive<SmartTableProps>({
           ...params.ajaxParameter,
           'useYn@=': true,
         };
-        return requestClient.post('sys/user/list', parameter, {
-          service: ApiServiceEnum.SMART_SYSTEM,
-        });
+        return props.listUserApi(parameter);
       },
     },
   },

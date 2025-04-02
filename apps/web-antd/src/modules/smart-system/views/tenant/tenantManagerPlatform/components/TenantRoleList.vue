@@ -19,6 +19,9 @@ import { useRoleSetUser } from '#/modules/smart-system/views/role/hook/useRoleSe
 import {
   getRoleByIdApi,
   listRoleByTenantIdApi,
+  listUserByRoleTenantApi,
+  listUserByTenantApi,
+  setRoleUserWithTenantApi,
 } from '../SysTenantManagerPlatformView.api';
 import {
   getRoleAddEditFormSchemas,
@@ -41,7 +44,17 @@ const handleCurrentChange = ({ row }: any) => {
   currentRoleRef.value = row;
 };
 
-const { handleShowSetUser, SelectUserModal } = useRoleSetUser();
+const { handleShowSetUser, SelectUserModal } = useRoleSetUser(
+  (parameter) =>
+    listUserByTenantApi({
+      ...parameter,
+      tenantId: props.tenantId,
+    }),
+  (roleIds) =>
+    listUserByRoleTenantApi({ roleIdList: roleIds, tenantId: props.tenantId }),
+  (roleId, userIdList) =>
+    setRoleUserWithTenantApi(props.tenantId!, roleId, userIdList),
+);
 
 const [SmartTable, tableApi] = useSmartTable({
   id: 'system-tenant-roleList',

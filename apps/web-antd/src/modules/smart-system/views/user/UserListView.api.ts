@@ -10,7 +10,7 @@ enum Api {
   deptTreeList = 'sys/dept/list',
   getById = 'sys/user/getDetailById',
   getUserByIdWithDept = 'sys/user/getUserByIdWithDept',
-  list = 'sys/user/list',
+  list = 'sys/user/listWithAccount',
   listTenant = '/sys/tenant/manager/list',
   resetPassword = 'sys/user/resetPassword',
   saveAccountSetting = 'sys/user/saveAccountSetting',

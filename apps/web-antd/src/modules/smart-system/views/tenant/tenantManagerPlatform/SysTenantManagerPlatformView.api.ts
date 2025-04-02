@@ -12,7 +12,10 @@ enum Api {
   listSubscribe = '/sys/tenant/subscribe/listWithPackage',
   listTenant = '/sys/tenant/manager/list',
   listTenantUser = '/sys/tenant/manager/listTenantUser',
+  listUserByRoleTenant = 'sys/user/listUserByRoleTenant',
+  listUserByTenant = 'sys/user/listByTenant',
   removeBindUser = '/sys/tenant/manager/removeBindUser',
+  setRoleUserWithTenant = 'sys/role/setRoleUserWithTenant',
   setSubscribeUseYn = '/sys/tenant/subscribe/setUseYn',
 }
 
@@ -95,6 +98,36 @@ export const getRoleByIdApi = (id: number) => {
   return requestClient.post(
     Api.getRoleById,
     { id },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+};
+
+export const listUserByTenantApi = (parameter: any) => {
+  return requestClient.post(Api.listUserByTenant, parameter, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const listUserByRoleTenantApi = (parameter: any) => {
+  return requestClient.post(Api.listUserByRoleTenant, parameter, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const setRoleUserWithTenantApi = (
+  tenantId: number,
+  roleId: number,
+  userIdList: number[],
+) => {
+  return requestClient.post(
+    Api.setRoleUserWithTenant,
+    {
+      tenantId,
+      roleId,
+      userIdList,
+    },
     {
       service: ApiServiceEnum.SMART_SYSTEM,
     },

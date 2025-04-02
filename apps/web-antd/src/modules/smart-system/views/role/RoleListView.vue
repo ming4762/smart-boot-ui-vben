@@ -15,6 +15,8 @@ import {
   deleteApi,
   getByIdApi,
   listApi,
+  listUserByRoleIdApi,
+  setRoleUserApi,
 } from '#/modules/smart-system/views/role/RoleListView.api';
 
 import RoleDataPermission from './components/RoleDataPermission.vue';
@@ -32,7 +34,11 @@ const handleCurrentChange = ({ row }: any) => {
   currentRow.value = row;
 };
 
-const { handleShowSetUser, SelectUserModal } = useRoleSetUser();
+const { handleShowSetUser, SelectUserModal } = useRoleSetUser(
+  undefined,
+  listUserByRoleIdApi,
+  setRoleUserApi,
+);
 
 const [SmartTable, tableApi] = useSmartTable({
   id: 'sys_role_list',
