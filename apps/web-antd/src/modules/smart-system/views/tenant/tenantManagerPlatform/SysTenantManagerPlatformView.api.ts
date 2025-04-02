@@ -5,8 +5,10 @@ import { ApiServiceEnum, requestClient } from '#/api/request';
 enum Api {
   batchSaveUpdateSubscribe = '/sys/tenant/subscribe/saveUpdateBatch',
   bindTenantUser = '/sys/tenant/manager/bindTenantUser',
+  getRoleById = 'sys/tenant/manager/getRoleById',
   getSubscribeById = '/sys/tenant/subscribe/getById',
   listNoBindUser = '/sys/tenant/manager/listNoBindUser',
+  listRoleByTenantId = 'sys/role/listRoleByTenantId',
   listSubscribe = '/sys/tenant/subscribe/listWithPackage',
   listTenant = '/sys/tenant/manager/list',
   listTenantUser = '/sys/tenant/manager/listTenantUser',
@@ -77,6 +79,22 @@ export const setSubscribeUseYnApi = (rows: any[], useYn: boolean) => {
       idList: rows.map((item) => item.id),
       useYn,
     },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+};
+
+export const listRoleByTenantIdApi = (params: any) => {
+  return requestClient.post(Api.listRoleByTenantId, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const getRoleByIdApi = (id: number) => {
+  return requestClient.post(
+    Api.getRoleById,
+    { id },
     {
       service: ApiServiceEnum.SMART_SYSTEM,
     },

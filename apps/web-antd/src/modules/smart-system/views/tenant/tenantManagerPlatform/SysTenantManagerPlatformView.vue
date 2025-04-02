@@ -6,6 +6,7 @@ import { SmartLayoutSeparate } from '@vben/common-ui';
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import SysTenantList from './components/SysTenantList.vue';
+import TenantRoleList from './components/TenantRoleList.vue';
 import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
 
@@ -37,7 +38,9 @@ const handleCurrentChange = ({ row }: any) => {
             <TabPane key="subscribe" tab="订阅管理">
               <TenantSubscribeList :tenant-id="currentRowRef?.id" />
             </TabPane>
-            <TabPane key="role" tab="角色管理" />
+            <TabPane key="role" tab="角色管理">
+              <TenantRoleList :tenant-id="currentRowRef?.id" />
+            </TabPane>
           </Tabs>
         </div>
       </template>
@@ -47,6 +50,7 @@ const handleCurrentChange = ({ row }: any) => {
 
 <style lang="less" scoped>
 .right-container {
+  background: hsl(var(--background-deep));
   :deep(.ant-tabs-nav-wrap) {
     padding-left: 10px;
   }
@@ -55,6 +59,13 @@ const handleCurrentChange = ({ row }: any) => {
   }
   :deep(.ant-tabs-content) {
     height: 100%;
+  }
+  :deep(.ant-tabs-nav) {
+    background: hsl(var(--background));
+    margin-bottom: 0;
+  }
+  :deep(.ant-tabs-content-holder) {
+    margin-top: 3px;
   }
 }
 </style>

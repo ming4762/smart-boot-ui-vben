@@ -10,7 +10,10 @@ import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
 
-import { getTableUseYnColumnClass } from '#/adapter/smart-table';
+import {
+  getTableBooleanColumnClass,
+  getTableUseYnColumnClass,
+} from '#/adapter/smart-table';
 import { listNoBindPackageByTenantIdApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
 
 export interface SysTenantProps {
@@ -331,6 +334,127 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       field: 'updateBy',
       title: '{common.table.updateUser}',
       width: 120,
+    },
+  ];
+};
+
+export const getRoleTableColumns = (): SmartTableColumn[] => {
+  return [
+    {
+      type: 'checkbox',
+      width: 60,
+      align: 'center',
+      fixed: 'left',
+    },
+    {
+      title: '{system.views.role.table.roleName}',
+      field: 'roleName',
+      width: 120,
+      fixed: 'left',
+    },
+    {
+      title: '{system.views.role.table.roleCode}',
+      field: 'roleCode',
+      width: 150,
+      fixed: 'left',
+    },
+    {
+      title: '{system.views.role.table.superAdminYn}',
+      field: 'superAdminYn',
+      width: 120,
+      ...getTableBooleanColumnClass('superAdminYn'),
+    },
+    {
+      ...getTableUseYnColumnClass(),
+      sortable: true,
+    },
+    {
+      title: '{common.table.remark}',
+      field: 'remark',
+      minWidth: 160,
+    },
+    {
+      title: '{common.table.seq}',
+      field: 'seq',
+      width: 100,
+      sortable: true,
+    },
+    {
+      title: '{common.table.createTime}',
+      field: 'createTime',
+      width: 165,
+      sortable: true,
+      type: 'dateTime',
+    },
+    {
+      title: '{common.table.createUser}',
+      field: 'createBy',
+      width: 120,
+    },
+    {
+      title: '{common.table.updateTime}',
+      field: 'updateTime',
+      width: 165,
+      sortable: true,
+      type: 'dateTime',
+    },
+    {
+      title: '{common.table.updateUser}',
+      field: 'updateBy',
+      width: 120,
+    },
+    {
+      title: '{common.table.operation}',
+      field: 'operation',
+      width: 120,
+      fixed: 'right',
+      slots: {
+        default: 'table-operation',
+      },
+    },
+  ];
+};
+
+export const getRoleAddEditFormSchemas = (): VbenFormSchema[] => {
+  return [
+    {
+      label: '',
+      fieldName: 'roleId',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['roleId'],
+        show: false,
+      },
+    },
+    {
+      label: t('system.views.role.table.roleCode'),
+      fieldName: 'roleCode',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: t('system.views.role.table.roleName'),
+      fieldName: 'roleName',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: t('common.title.useYn'),
+      fieldName: 'useYn',
+      component: 'Switch',
+      defaultValue: true,
+    },
+    {
+      label: t('system.views.role.table.roleType'),
+      fieldName: 'roleType',
+      component: 'Input',
+    },
+    {
+      label: t('common.table.seq'),
+      fieldName: 'seq',
+      component: 'InputNumber',
+      rules: 'required',
+      defaultValue: 1,
     },
   ];
 };

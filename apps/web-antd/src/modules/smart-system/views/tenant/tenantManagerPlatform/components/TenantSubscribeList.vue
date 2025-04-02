@@ -3,6 +3,8 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
 import { computed, watch } from 'vue';
 
+import { zonedDayjs } from '@vben/utils';
+
 import { useSmartTable } from '#/adapter/smart-table';
 
 import {
@@ -22,7 +24,7 @@ interface Props extends SysTenantProps {}
 const props = defineProps<Props>();
 
 const [SmartTable, tableApi] = useSmartTable({
-  id: 'system-tenant-manager-subscribeList',
+  id: 'system-tenant-subscribeList',
   columns: getSubscribeTableColumns(),
   height: 'auto',
   customConfig: { storage: true },
@@ -73,7 +75,10 @@ const [SmartTable, tableApi] = useSmartTable({
       getById: async (params) => {
         const data = await getSubscribeByIdApi(params.id);
         if (data && data.effectTime && data.expireTime) {
-          data.times = [data.effectTime, data.expireTime];
+          data.times = [
+            zonedDayjs(data.effectTime),
+            zonedDayjs(data.expireTime),
+          ];
         }
         return data;
       },

@@ -232,8 +232,5 @@ const handleRemoveBind = () => {
 <style lang="less" scoped>
 .tenant-user-container {
   background: hsl(var(--background-deep));
-  :deep(.smart-search-container) {
-    padding-top: 0 !important;
-  }
 }
 </style>
