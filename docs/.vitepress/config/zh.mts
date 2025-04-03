@@ -292,8 +292,12 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
       text: '前端组件',
       items: [
         {
-          link: 'components/smart-table/smart-table',
+          link: 'components/smart-table',
           text: 'Smart Table',
+        },
+        {
+          link: 'components/smart-layout-separate',
+          text: '分割组件SmartLayoutSeparate',
         },
       ],
     },
