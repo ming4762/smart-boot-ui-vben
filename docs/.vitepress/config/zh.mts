@@ -296,12 +296,16 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           text: 'Smart Table',
         },
         {
+          link: 'components/api-dict-select',
+          text: 'ApiDictSelect 字典Api Select组件',
+        },
+        {
           link: 'components/smart-layout-separate',
-          text: '分割组件SmartLayoutSeparate',
+          text: 'SmartLayoutSeparate 分割布局组件',
         },
         {
           link: 'components/smart-page-provider',
-          text: '页面级数据共享组件SmartPageProvider',
+          text: 'SmartPageProvider 页面级数据共享组件',
         },
       ],
     },
