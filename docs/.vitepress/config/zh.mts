@@ -299,6 +299,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'components/smart-layout-separate',
           text: '分割组件SmartLayoutSeparate',
         },
+        {
+          link: 'components/smart-page-provider',
+          text: '页面级数据共享组件SmartPageProvider',
+        },
       ],
     },
     {

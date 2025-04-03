@@ -4,23 +4,23 @@ import { SmartProviderConstants } from '../constants';
 
 export const useProviderDict = (api: (args: any) => Promise<any>) => {
   const dictCodeList = reactive<Set<string>>(new Set<string>());
-  const dictDataMap = reactive(new Map<string, Record<string, any>>());
+  const dictDataMap = reactive(new Map<string, any[]>());
 
   // 字典加载状态
   const dictLoadingRef = ref(false);
 
   const computedDictMap = computed(() => {
-    const result: Record<string, Record<string, any>> = {};
+    const resultMap: Map<string, Map<string, string>> = new Map();
 
     dictDataMap.forEach((list, key) => {
-      const itemMap: Record<string, any> = {};
+      const itemMap: Map<string, string> = new Map();
       list.forEach((item: any) => {
-        itemMap[item.dictItemCode] = item.dictItemName;
+        itemMap.set(item.dictItemCode, item.dictItemName);
       });
-      result[key] = itemMap;
+      resultMap.set(key, itemMap);
     });
 
-    return result;
+    return resultMap;
   });
 
   /**
@@ -41,11 +41,12 @@ export const useProviderDict = (api: (args: any) => Promise<any>) => {
     }
     try {
       dictLoadingRef.value = true;
-      const result = (await api(noLoadDictCodeList)) || {};
+      const result: Record<string, any[]> =
+        (await api(noLoadDictCodeList)) || {};
       for (const key in result) {
         dictDataMap.set(
           key,
-          result[key].map((item: any) => {
+          (result?.[key] as any[]).map((item: any) => {
             return {
               ...item,
               label: item.dictItemName,
