@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Recordable } from '@vben-core/typings';
 import type { VxeGridInstance, VxePulldownInstance } from 'vxe-table';
+
+import type { Recordable } from '@vben-core/typings';
 
 import type { SmartTableRenderProps } from '../../types';
 import type {
@@ -149,9 +150,9 @@ const computedDropdownContainerStyle = computed(() => {
   const style: Recordable<any> = {
     width: `${props.dropdownWidth}px`,
   };
-  const height = props.height;
-  if (height) {
-    style.height = `${height}px`;
+  const dropdownHeight = props.dropdownHeight;
+  if (dropdownHeight) {
+    style.height = `${dropdownHeight}px`;
   }
   return style;
 });

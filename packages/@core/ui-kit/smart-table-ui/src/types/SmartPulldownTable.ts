@@ -1,9 +1,10 @@
+import type { VxePulldownProps } from 'vxe-pc-ui';
+
 import type {
   AnyNormalFunction,
   AnyPromiseFunction,
   Recordable,
 } from '@vben-core/typings';
-import type { VxePulldownProps } from 'vxe-pc-ui';
 
 import type { SmartTableProps } from './index';
 
@@ -14,9 +15,9 @@ interface SmartPulldownTableProps {
   allowClear?: boolean;
   alwaysLoad?: boolean;
   api?: AnyPromiseFunction<any, any>;
+  dropdownHeight?: number;
   dropdownWidth?: number;
   filterOption?: (searchValue: string, row: Recordable<any>) => boolean;
-  height?: number;
   immediate?: boolean;
   pulldownProps?: Partial<VxePulldownProps>;
   searchIgnoreCase?: boolean;

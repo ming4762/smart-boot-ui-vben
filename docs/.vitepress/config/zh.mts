@@ -300,6 +300,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           text: 'ApiDictSelect 字典Api Select组件',
         },
         {
+          link: 'components/smart-pulldown-table',
+          text: 'SmartPulldownTable下拉表格组件',
+        },
+        {
           link: 'components/smart-layout-separate',
           text: 'SmartLayoutSeparate 分割布局组件',
         },
