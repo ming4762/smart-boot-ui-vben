@@ -1,6 +1,7 @@
 <script setup lang="tsx">
-import type { SmartAuthType } from '@vben/types';
 import type { TooltipProps } from 'ant-design-vue';
+
+import type { SmartAuthType } from '@vben/types';
 
 import type { SmartIconButtonProps } from '../type';
 

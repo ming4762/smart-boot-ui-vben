@@ -296,6 +296,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           text: 'Smart Table',
         },
         {
+          link: 'components/smart-button',
+          text: 'Smart Button',
+        },
+        {
           link: 'components/api-dict-select',
           text: 'ApiDictSelect 字典Api Select组件',
         },

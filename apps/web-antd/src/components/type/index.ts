@@ -1,5 +1,6 @@
-import type { SmartTableProps } from '@vben/common-ui';
 import type { ButtonProps } from 'ant-design-vue';
+
+import type { SmartTableProps } from '@vben/common-ui';
 
 interface SmartTableSelectCommonProps {
   tableProps: SmartTableProps;
@@ -32,6 +33,7 @@ interface SmartTableSelectProps extends SmartTableSelectCommonProps {
 
 interface SmartIconButtonProps extends ButtonProps {
   preIcon?: string;
+  postIcon?: string;
 }
 
 export type {

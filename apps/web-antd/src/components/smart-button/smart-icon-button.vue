@@ -18,8 +18,18 @@ const computedHasIcon = computed(() => {
 });
 
 const computedSlots = computed(() => {
+  let defaultSlot: any = slots.default;
+  if (props.postIcon) {
+    defaultSlot = () => {
+      return [
+        slots.default?.(),
+        h(IconifyIcon, { class: 'anticon', icon: props.postIcon! }),
+      ];
+    };
+  }
   const result: Record<string, any> = {
     ...slots,
+    default: defaultSlot,
   };
   if (unref(computedHasIcon)) {
     result.icon = () =>
