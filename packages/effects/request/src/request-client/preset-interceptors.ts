@@ -60,6 +60,10 @@ export const authenticateResponseInterceptor = ({
   return {
     rejected: async (error) => {
       const { config, response } = error;
+      // 如果不处理认证错误，直接返回
+      if (config?.authErrorProcessed === false) {
+        throw error;
+      }
       // 如果不是 401 错误，直接抛出异常
       if (response?.status !== 401 && response?.data?.code !== 401) {
         throw error;
