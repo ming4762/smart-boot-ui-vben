@@ -16,13 +16,16 @@ export * from '@vben-core/popup-ui';
 // 给文档用
 export {
   SmartLayoutSeparate,
+  VbenAvatar,
   VbenButton,
   VbenButtonGroup,
   VbenCheckButtonGroup,
   VbenCountToAnimator,
+  VbenFullScreen,
   Input as VbenInput,
   VbenInputPassword,
   VbenLoading,
+  VbenLogo,
   VbenPinInput,
   VbenSpinner,
   VbenTree,
