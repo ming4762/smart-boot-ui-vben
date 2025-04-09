@@ -85,7 +85,7 @@ SmartPulldownTable 在[SmartTable](./smart-table.md)的基础上二次封装，�
 ## 二、Props
 
 | 属性 | 说明 | 类型/返回类型 | 可选值 | 默认值/参数 |
-| --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | allowClear | 是否允许输入框清除 | boolean |  | true |
 | alwaysLoad | 下拉表格弹出是否加载数据 | boolean |  | false |
 | api | 数据加载函数 | AnyPromiseFunction<any, any> |  |  |
@@ -99,12 +99,12 @@ SmartPulldownTable 在[SmartTable](./smart-table.md)的基础上二次封装，�
 | showFunction | select回显函数，优先级高 | AnyNormalFunction<any, string> |  |  |
 | showSearch | select是否可搜索 | boolean |  | true |
 | tableProps | 下拉表格Props，SmartTableProps | SmartTableProps |  |  |
-| value | select值 | number | string |  |  |
+| value | select值 | number |  |  |
 | valueField | select值字段 | string |  |  |
 
 ## 三、Events
 
-| 时间名        | 说明                 | 函数                               |
+| 事件名        | 说明                 | 函数                               |
 | ------------- | -------------------- | ---------------------------------- |
 | change        | 数据发生变更出发     | (value: number) => void            |
 | select        | 选中table行触发      | (row: Record<string, any>) => void |

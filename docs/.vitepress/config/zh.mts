@@ -308,6 +308,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           text: 'SmartPulldownTable下拉表格组件',
         },
         {
+          link: 'components/smart-table-select',
+          text: 'SmartTableSelect 表格选择组件',
+        },
+        {
           link: 'components/smart-layout-separate',
           text: 'SmartLayoutSeparate 分割布局组件',
         },
