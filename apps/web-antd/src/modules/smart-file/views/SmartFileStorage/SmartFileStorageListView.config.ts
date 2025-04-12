@@ -60,6 +60,12 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'center',
       width: 140,
     },
+    {
+      ...getTableBooleanColumnClass('encryptedYn'),
+      title: '{smart.file.storage.title.encryptedYn}',
+      align: 'center',
+      width: 140,
+    },
     // {
     //   field: 'storageConfig',
     //   title: '{smart.file.storage.title.storageConfig}',

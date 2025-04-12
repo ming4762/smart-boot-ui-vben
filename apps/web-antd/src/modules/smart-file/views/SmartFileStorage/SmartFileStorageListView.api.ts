@@ -8,6 +8,7 @@ enum Api {
   getById = '/smart/fileStorage/getById',
   list = '/smart/fileStorage/list',
   setDefault = '/smart/fileStorage/setDefault',
+  setEncrypt = '/smart/fileStorage/setEncrypt',
 }
 
 export const listApi = (params: any) => {
@@ -46,4 +47,14 @@ export const setDefaultApi = (id: number) => {
       service: ApiServiceEnum.SMART_FILE,
     },
   );
+};
+
+/**
+ * 设置为加密存储器
+ * @param fileStorageIdList 存储器ID列表
+ */
+export const setEncryptApi = (fileStorageIdList: number[]) => {
+  return requestClient.post(Api.setEncrypt, fileStorageIdList, {
+    service: ApiServiceEnum.SMART_FILE,
+  });
 };

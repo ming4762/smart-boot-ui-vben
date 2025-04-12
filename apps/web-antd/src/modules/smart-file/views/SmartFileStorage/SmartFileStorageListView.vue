@@ -8,7 +8,7 @@ import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { createConfirm } from '#/utils';
+import { createConfirm, warnMessage } from '#/utils';
 
 import {
   batchSaveUpdateApi,
@@ -16,6 +16,7 @@ import {
   getByIdApi,
   listApi,
   setDefaultApi,
+  setEncryptApi,
 } from './SmartFileStorageListView.api';
 import {
   getFormSchemas,
@@ -140,6 +141,29 @@ const [SmartTable, tableApi] = useSmartTable({
       {
         code: 'delete',
         auth: 'smart:fileStorage:delete',
+      },
+      {
+        name: '文件加密',
+        auth: 'smart:fileStorage:setFileEncrypt',
+        customRender: 'ant',
+        props: {
+          type: 'primary',
+          preIcon: 'ant-design:file-protect-outlined',
+          onClick: () => {
+            const selectRows = tableApi.getGrid()?.getCheckboxRecords();
+            if (selectRows.length === 0) {
+              warnMessage(t('smart.file.storage.message.selectedEncrypt'));
+              return;
+            }
+            createConfirm({
+              content: t('smart.file.storage.message.confirmEncrypt'),
+              onOk: async () => {
+                await setEncryptApi(selectRows.map((item) => item.id));
+                tableApi.query();
+              },
+            });
+          },
+        },
       },
     ],
   },
