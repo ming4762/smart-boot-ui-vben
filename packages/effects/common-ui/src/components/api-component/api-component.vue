@@ -61,7 +61,12 @@ interface Props {
    * - `one`: 当请求的结果只有一个选项时，自动选择该选项
    * - false：不自动选择(默认)
    */
-  autoSelect?: 'first' | 'last' | 'one' | false;
+  autoSelect?:
+    | 'first'
+    | 'last'
+    | 'one'
+    | ((item: OptionsItem[]) => OptionsItem)
+    | false;
 }
 
 defineOptions({ name: 'ApiComponent', inheritAttrs: false });
@@ -209,24 +214,28 @@ function emitChange() {
     unref(getOptions).length > 0
   ) {
     let firstOption;
-    switch (props.autoSelect) {
-      case 'first': {
-        firstOption = unref(getOptions)[0];
-        break;
-      }
-      case 'last': {
-        firstOption = unref(getOptions)[unref(getOptions).length - 1];
-        break;
-      }
-      case 'one': {
-        if (unref(getOptions).length === 1) {
+    if (isFunction(props.autoSelect)) {
+      firstOption = props.autoSelect(unref(getOptions));
+    } else {
+      switch (props.autoSelect) {
+        case 'first': {
           firstOption = unref(getOptions)[0];
+          break;
         }
-        break;
+        case 'last': {
+          firstOption = unref(getOptions)[unref(getOptions).length - 1];
+          break;
+        }
+        case 'one': {
+          if (unref(getOptions).length === 1) {
+            firstOption = unref(getOptions)[0];
+          }
+          break;
+        }
       }
     }
 
-    if (firstOption) modelValue.value = firstOption[props.valueField];
+    if (firstOption) modelValue.value = firstOption.value;
   }
   emit('optionsChange', unref(getOptions));
 }

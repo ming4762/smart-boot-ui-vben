@@ -119,6 +119,9 @@ export const getFormSchemas = (): VbenFormSchema[] => {
           }),
         labelField: 'storageName',
         valueField: 'id',
+        autoSelect: (itemList: any[]) => {
+          return itemList.find((item) => item.defaultStorage === true);
+        },
       },
       rules: 'required',
     },
