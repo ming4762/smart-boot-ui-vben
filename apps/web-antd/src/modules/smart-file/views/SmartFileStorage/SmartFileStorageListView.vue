@@ -8,7 +8,7 @@ import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { createConfirm, warnMessage } from '#/utils';
+import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import {
   batchSaveUpdateApi,
@@ -160,6 +160,7 @@ const [SmartTable, tableApi] = useSmartTable({
               onOk: async () => {
                 await setEncryptApi(selectRows.map((item) => item.id));
                 tableApi.query();
+                successMessage(t('common.message.operationSucceeded'));
               },
             });
           },
