@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
+
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { useSizeSetting } from '@vben/hooks';
+import { $t as t } from '@vben/locales';
+
+import { Upload } from 'ant-design-vue';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SmartIconButton } from '#/components';
-import { useSizeSetting } from '@vben/hooks';
-import { $t as t } from '@vben/locales';
-import { Upload } from 'ant-design-vue';
 
 import {
   deleteApi,

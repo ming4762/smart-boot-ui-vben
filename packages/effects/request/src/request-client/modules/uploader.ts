@@ -31,10 +31,9 @@ class FileUploader {
           value.forEach((item) => {
             formData.append(`${key}[]`, item);
           });
-          return;
+        } else if (value) {
+          formData.append(key, params.data[key]);
         }
-
-        formData.append(key, params.data[key]);
       });
     }
 
@@ -59,7 +58,7 @@ class FileUploader {
         value.forEach((item, index) => {
           formData.append(`${key}[${index}]`, item);
         });
-      } else {
+      } else if (value) {
         formData.append(key, value);
       }
     });
