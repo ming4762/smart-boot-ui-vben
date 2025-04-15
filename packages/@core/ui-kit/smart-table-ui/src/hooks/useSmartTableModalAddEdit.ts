@@ -148,7 +148,7 @@ export const useSmartTableModalAddEditEdit = (
     if (configModalSlots) {
       for (const key of Object.keys(configModalSlots)) {
         const value = configModalSlots[key as never];
-        modalSlots[`modelSlot_${key}`] = isString(value) ? slots[key] : value;
+        modalSlots[`modelSlot_${key}`] = isString(value) ? slots[value] : value;
       }
     }
     return {

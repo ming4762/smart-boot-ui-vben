@@ -152,12 +152,12 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 const formSlots: string[] = [];
-const modalSlots: string[] = [];
+const modalSlots: Record<string, string> = {};
 Object.keys(slots).forEach((key) => {
   const value = slots[key];
   if (value) {
     if (key.startsWith('modelSlot_')) {
-      modalSlots.push(key.replace('modelSlot_', ''));
+      modalSlots[key.replace('modelSlot_', '')] = key;
     } else {
       formSlots.push(key);
     }
@@ -181,15 +181,11 @@ emit('register', {
       </template>
     </From>
     <template
-      v-for="modalSlotName in modalSlots"
-      :key="modalSlotName"
-      #[modalSlotName]="modalSlotProps"
+      v-for="(value, key) in modalSlots"
+      :key="key"
+      #[key]="modalSlotProps"
     >
-      <slot
-        :name="modalSlotName"
-        v-bind="modalSlotProps"
-        :is-add="isAddRef"
-      ></slot>
+      <slot :name="value" v-bind="modalSlotProps" :is-add="isAddRef"></slot>
     </template>
   </Modal>
 </template>
