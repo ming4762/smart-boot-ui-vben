@@ -255,6 +255,7 @@ export const useSmartTableModalAddEditEdit = (
   };
 
   const getAddEditForm = () => formApi;
+  const getAddEditModal = () => modalApi;
 
   return {
     AddEditModal,
@@ -262,6 +263,7 @@ export const useSmartTableModalAddEditEdit = (
     editByCheckbox,
     editByRowModal,
     getAddEditForm,
+    getAddEditModal,
     showAddModal,
   };
 };

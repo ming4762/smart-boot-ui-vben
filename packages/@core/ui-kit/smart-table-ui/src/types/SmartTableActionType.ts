@@ -1,6 +1,7 @@
 import type { VxeGridInstance, VxeGridPropTypes } from 'vxe-table';
 
 import type { ExtendedFormApi } from '@vben-core/form-ui';
+import type { ExtendedModalApi } from '@vben-core/popup-ui';
 import type { SmartAuthType } from '@vben-core/typings';
 
 import type { SmartTableRenderProps } from './index';
@@ -28,6 +29,7 @@ interface SmartTableAction {
     formData?: Record<string, any>,
   ) => boolean | Promise<boolean>;
   getAddEditForm: () => ExtendedFormApi | null;
+  getAddEditModal: () => ExtendedModalApi;
   getGrid: () => VxeGridInstance;
   getSearchForm: () => ExtendedFormApi;
   query: (params?: SmartTableFetchParams) => Promise<void>;

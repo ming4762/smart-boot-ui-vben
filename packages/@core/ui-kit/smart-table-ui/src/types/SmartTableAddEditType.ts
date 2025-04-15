@@ -8,16 +8,17 @@ interface SmartTableModalSlotProps {
   isAdd: boolean;
 }
 
+type ModalFooterSlot =
+  | ((data: SmartTableModalSlotProps) => null | VNode | VNode[])
+  | string;
+
 /**
  * 添加修改弹窗
  */
 interface SmartTableModalSlots {
-  'append-footer'?:
-    | ((data: SmartTableModalSlotProps) => VNode | VNode[])
-    | string;
-  'prepend-footer'?:
-    | ((data: SmartTableModalSlotProps) => VNode | VNode[])
-    | string;
+  'append-footer'?: ModalFooterSlot;
+  'center-footer'?: ModalFooterSlot;
+  'prepend-footer'?: ModalFooterSlot;
 }
 
 /**

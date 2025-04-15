@@ -166,6 +166,7 @@ const {
   editByCheckbox,
   editByRowModal,
   getAddEditForm,
+  getAddEditModal,
   showAddModal,
 } = useSmartTableModalAddEditEdit(
   computedTableProps,
@@ -210,6 +211,7 @@ const tableAction: SmartTableAction = {
   editByCheckbox: () => editByCheckbox(),
   editByRowModal: (row, formData) => editByRowModal(row, formData),
   getAddEditForm: () => getAddEditForm(),
+  getAddEditModal: () => getAddEditModal(),
   getGrid: () => getVxeTableInstance()!,
   getSearchForm: () => searchFormApi,
   query: (params) => query(params),
