@@ -14,6 +14,7 @@ enum Api {
   listTenant = '/sys/tenant/manager/list',
   resetPassword = 'sys/user/resetPassword',
   saveAccountSetting = 'sys/user/saveAccountSetting',
+  saveAndCreateAccount = 'sys/user/saveAndCreateAccount',
   saveUpdateWithDept = 'sys/user/saveUpdateWithDept',
   setUserRole = 'sys/user/setRole',
   setUseYn = 'sys/user/setUseYn',
@@ -147,6 +148,12 @@ export const setUserRoleApi = (data: Recordable<any>) => {
 
 export const listTenantApi = (params: any) => {
   return requestClient.post(Api.listTenant, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const saveAndCreateAccountApi = (data: Recordable<any>) => {
+  return requestClient.post(Api.saveAndCreateAccount, data, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };

@@ -19,7 +19,7 @@ import { useClipboard } from '@vueuse/core';
 import { Tooltip } from 'ant-design-vue';
 
 import { useSmartTable } from '#/adapter/smart-table';
-import { SysDeptTree } from '#/components';
+import { SmartAuthButton, SysDeptTree } from '#/components';
 import {
   createConfirm,
   errorMessage,
@@ -36,6 +36,7 @@ import {
   getUserByIdWithDeptApi,
   listApi,
   resetPassword,
+  saveAndCreateAccountApi,
   saveUpdateWithDeptApi,
   setUseYnApi,
   unlockUserAccountApi,
@@ -146,6 +147,31 @@ const validateSelectRows = (tableApi: ExtendSmartTableApi) => {
   return rows;
 };
 
+/**
+ * 保存并创建账户
+ */
+const saveAndCreateAccountLoadingRef = ref(false);
+const handleSaveAndCreateAccount = async () => {
+  const addEditModalApi = tableApi.getAddEditModal();
+  const addEditFormApi = tableApi.getAddEditForm()!;
+  const { valid } = await addEditFormApi.validate();
+  if (!valid) {
+    return false;
+  }
+  try {
+    addEditModalApi.setState({ confirmLoading: true });
+    saveAndCreateAccountLoadingRef.value = true;
+    const formData = await addEditFormApi.getValues();
+    await saveAndCreateAccountApi(formData);
+    successMessage(t('common.message.operationSucceeded'));
+    tableApi.query();
+    addEditModalApi.close();
+  } finally {
+    addEditModalApi.setState({ confirmLoading: false });
+    saveAndCreateAccountLoadingRef.value = false;
+  }
+};
+
 const [SmartTable, tableApi] = useSmartTable({
   id: 'smart-sys-user-list-view',
   customConfig: { storage: true },
@@ -190,6 +216,9 @@ const [SmartTable, tableApi] = useSmartTable({
   addEditConfig: {
     modalConfig: {
       class: 'w-[700px]',
+      slots: {
+        'center-footer': 'save-and-create-account',
+      },
     },
     formConfig: {
       schema: getAddEditFormSchemas(),
@@ -469,6 +498,17 @@ const getAccountData = (status: null | string | undefined) => {
                 {{ getAccountData(row.userAccount?.accountStatus).label }}
               </span>
             </Tooltip>
+          </template>
+          <template #save-and-create-account="{ isAdd }">
+            <SmartAuthButton
+              type="primary"
+              @click="handleSaveAndCreateAccount"
+              :auth="Permission.createAccount"
+              :loading="saveAndCreateAccountLoadingRef"
+              v-if="isAdd"
+            >
+              {{ t('system.views.user.button.saveAndCreateAccount') }}
+            </SmartAuthButton>
           </template>
         </SmartTable>
       </template>
