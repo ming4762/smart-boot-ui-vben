@@ -10,7 +10,6 @@ import { useUserStore } from '@vben/stores';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { createTenantUserAccountApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
-import { Permission } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.config';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import {
@@ -20,8 +19,9 @@ import {
 import {
   getTabUserListColumns,
   getTabUserListSearchSchemas,
+  Permission,
 } from '../SysTenantManagerPlatformView.confg';
-import TenantAddUserModal from './TenantAddUserModal.vue';
+import TenantBindUserModal from './TenantBindUserModal.vue';
 
 interface Props extends SysTenantProps {}
 
@@ -32,8 +32,8 @@ const { getIsPlatformTenant } = useUserStore();
 
 const computedChoseTenant = computed(() => props.tenantId !== undefined);
 
-const [RenderTenantAddUserModal, modalApi] = useVbenModal({
-  connectedComponent: TenantAddUserModal,
+const [RenderTenantBindUserModal, modalApi] = useVbenModal({
+  connectedComponent: TenantBindUserModal,
 });
 
 const [SmartTable, tableApi] = useSmartTable({
@@ -98,27 +98,38 @@ const [SmartTable, tableApi] = useSmartTable({
     buttons: [
       {
         code: 'ModalAdd',
+        auth: Permission.bindUser,
         props: computed(() => {
           return {
             onClick: () => {
+              if (!props.tenantId) {
+                warnMessage(
+                  t('system.views.tenant.manager.message.selectTenant'),
+                );
+                return false;
+              }
               modalApi.setData({
                 tenantId: props.tenantId,
               });
               modalApi.open();
             },
-            disabled:
-              !unref(computedChoseTenant) ||
-              !hasAccessByAuth(Permission.bindUser),
           };
         }),
       },
       {
         name: t('system.views.tenant.manager.button.user.bind'),
         customRender: 'ant',
+        auth: Permission.bindUser,
         props: {
           type: 'primary',
           preIcon: 'ant-design:plus-outlined',
           onClick: () => {
+            if (!props.tenantId) {
+              warnMessage(
+                t('system.views.tenant.manager.message.selectTenant'),
+              );
+              return false;
+            }
             modalApi.setData({
               tenantId: props.tenantId,
             });
@@ -137,16 +148,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       {
-        code: 'delete',
-        props: computed(() => {
-          return {
-            disabled:
-              !unref(computedChoseTenant) ||
-              !hasAccessByAuth(Permission.bindUser),
-          };
-        }),
-      },
-      {
         name: t('system.views.tenant.manager.button.user.createAccount'),
         customRender: 'ant',
         visible: unref(getIsPlatformTenant),
@@ -155,6 +156,16 @@ const [SmartTable, tableApi] = useSmartTable({
           preIcon: 'ant-design:user-add-outlined',
           onClick: () => handleCreateAccount(),
         },
+      },
+      {
+        code: 'delete',
+        props: computed(() => {
+          return {
+            disabled:
+              !unref(computedChoseTenant) ||
+              !hasAccessByAuth(Permission.bindUser),
+          };
+        }),
       },
     ],
   },
@@ -225,7 +236,7 @@ const handleRemoveBind = () => {
 <template>
   <div class="tenant-user-container h-full">
     <SmartTable />
-    <RenderTenantAddUserModal @after-bind="tableApi.query" />
+    <RenderTenantBindUserModal @after-bind="tableApi.query" />
   </div>
 </template>
 

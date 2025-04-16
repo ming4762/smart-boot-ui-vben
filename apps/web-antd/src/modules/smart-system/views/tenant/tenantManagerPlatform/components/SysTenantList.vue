@@ -7,6 +7,8 @@ import { useSmartTable } from '#/adapter/smart-table';
 
 import { listTenantApi } from '../SysTenantManagerPlatformView.api';
 
+const emit = defineEmits(['currentChange']);
+
 const InputSearch = Input.Search;
 
 const searchValueRef = ref('');
@@ -47,6 +49,11 @@ const handleSearch = () => {
       },
     },
   });
+  handleCurrentChange({ row: null });
+};
+
+const handleCurrentChange = ({ row }: any) => {
+  emit('currentChange', row);
 };
 </script>
 
@@ -60,7 +67,7 @@ const handleSearch = () => {
       />
     </div>
     <div class="list-container">
-      <SmartTable v-bind="$attrs" />
+      <SmartTable @current-change="handleCurrentChange" v-bind="$attrs" />
     </div>
   </div>
 </template>

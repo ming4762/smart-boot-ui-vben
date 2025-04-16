@@ -11,7 +11,7 @@ import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
 
 const currentRowRef = ref<any | null>(null);
-const handleCurrentChange = ({ row }: any) => {
+const handleCurrentChange = (row: any) => {
   currentRowRef.value = row;
 };
 </script>
