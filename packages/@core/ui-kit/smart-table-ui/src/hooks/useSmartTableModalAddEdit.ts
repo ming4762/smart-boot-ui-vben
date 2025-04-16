@@ -121,7 +121,7 @@ export const useSmartTableModalAddEditEdit = (
     formData?: Record<string, any>,
   ): SmartAddEditModalCallbackData => {
     const getByIdFunction = unref(tableProps)?.proxyConfig?.ajax?.getById;
-    if (!getByIdFunction) {
+    if (!getByIdFunction && !isAdd) {
       throw new Error('proxyConfig.ajax.getById未设置');
     }
     return {
