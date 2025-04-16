@@ -3,10 +3,10 @@ import type { Recordable } from '@vben/types';
 import { listToTree } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '#/api/request';
+import { deleteUserByIdApi } from '#/modules/smart-system/api/UserApi';
 
 enum Api {
   createAccount = 'sys/user/createAccount',
-  delete = 'sys/user/batchDeleteById',
   deptTreeList = 'sys/dept/list',
   getById = 'sys/user/getDetailById',
   getUserByIdWithDept = 'sys/user/getUserByIdWithDept',
@@ -28,12 +28,9 @@ export const listApi = (ajaxParameter: any) => {
 };
 
 export const deleteApi = (params: any) => {
-  return requestClient.post(
-    Api.delete,
+  return deleteUserByIdApi(
+    null,
     params.body.removeRecords.map((item: any) => item.userId),
-    {
-      service: ApiServiceEnum.SMART_SYSTEM,
-    },
   );
 };
 

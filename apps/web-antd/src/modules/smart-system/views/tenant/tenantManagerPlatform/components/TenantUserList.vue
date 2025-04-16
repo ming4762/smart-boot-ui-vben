@@ -10,10 +10,12 @@ import { useUserStore } from '@vben/stores';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { SmartAuthButton } from '#/components';
+import { deleteUserByIdApi } from '#/modules/smart-system/api/UserApi';
 import { createTenantUserAccountApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import {
+  getUserByTenantIdWithDeptApi,
   listTenantUserApi,
   removeBindUserApi,
   saveTenantUserApi,
@@ -99,10 +101,7 @@ const [SmartTable, tableApi] = useSmartTable({
       },
       delete({ body: { removeRecords } }) {
         const userIdList = removeRecords.map((item) => item.userId);
-        return removeBindUserApi({
-          userIdList,
-          tenantId: props.tenantId,
-        });
+        return deleteUserByIdApi(props.tenantId, userIdList);
       },
       save({ body: { insertRecords, updateRecords } }) {
         const dataList = [...insertRecords, ...updateRecords];
@@ -114,6 +113,9 @@ const [SmartTable, tableApi] = useSmartTable({
           tenantId: props.tenantId,
           createAccount: false,
         });
+      },
+      getById(params: any): Promise<any> {
+        return getUserByTenantIdWithDeptApi(props.tenantId!, params.userId);
       },
     },
   },

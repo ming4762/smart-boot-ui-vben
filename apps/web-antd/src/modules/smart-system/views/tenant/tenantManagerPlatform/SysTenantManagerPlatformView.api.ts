@@ -9,6 +9,7 @@ enum Api {
   bindTenantUser = '/sys/tenant/manager/bindTenantUser',
   getRoleById = 'sys/tenant/manager/getRoleById',
   getSubscribeById = '/sys/tenant/subscribe/getById',
+  getUserByTenantIdWithDept = 'sys/user/getUserByTenantIdWithDept',
   listDeptTreeByTenant = '/sys/tenant/manager/listDeptByTenant',
   listNoBindUser = '/sys/tenant/manager/listNoBindUser',
   listRoleByTenantId = 'sys/role/listRoleByTenantId',
@@ -163,4 +164,20 @@ export const saveTenantUserApi = (data: any) => {
   return requestClient.post(Api.saveTenantUser, data, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
+};
+
+export const getUserByTenantIdWithDeptApi = (
+  tenantId: number,
+  userId: number,
+) => {
+  return requestClient.post(
+    Api.getUserByTenantIdWithDept,
+    {
+      tenantId,
+      id: userId,
+    },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
