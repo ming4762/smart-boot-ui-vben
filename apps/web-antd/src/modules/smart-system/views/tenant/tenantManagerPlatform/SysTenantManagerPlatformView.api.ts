@@ -1,5 +1,7 @@
 import type { Recordable } from '@vben/types';
 
+import { listToTree } from '@vben/utils';
+
 import { ApiServiceEnum, requestClient } from '#/api/request';
 
 enum Api {
@@ -7,6 +9,7 @@ enum Api {
   bindTenantUser = '/sys/tenant/manager/bindTenantUser',
   getRoleById = 'sys/tenant/manager/getRoleById',
   getSubscribeById = '/sys/tenant/subscribe/getById',
+  listDeptTreeByTenant = '/sys/tenant/manager/listDeptByTenant',
   listNoBindUser = '/sys/tenant/manager/listNoBindUser',
   listRoleByTenantId = 'sys/role/listRoleByTenantId',
   listSubscribe = '/sys/tenant/subscribe/listWithPackage',
@@ -15,6 +18,7 @@ enum Api {
   listUserByRoleTenant = 'sys/user/listUserByRoleTenant',
   listUserByTenant = 'sys/user/listByTenant',
   removeBindUser = '/sys/tenant/manager/removeBindUser',
+  saveTenantUser = '/sys/tenant/manager/saveTenantUser',
   setRoleUserWithTenant = 'sys/role/setRoleUserWithTenant',
   setSubscribeUseYn = '/sys/tenant/subscribe/setUseYn',
 }
@@ -132,4 +136,31 @@ export const setRoleUserWithTenantApi = (
       service: ApiServiceEnum.SMART_SYSTEM,
     },
   );
+};
+
+export const listDeptTreeByTenantApi = async (tenantId: number | undefined) => {
+  if (!tenantId) {
+    return [];
+  }
+  const dataList = await requestClient.post(
+    Api.listDeptTreeByTenant,
+    { id: tenantId },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+  return (
+    listToTree(
+      dataList,
+      (item) => item.deptId,
+      (item) => item.parentId,
+      0,
+    ) || []
+  );
+};
+
+export const saveTenantUserApi = (data: any) => {
+  return requestClient.post(Api.saveTenantUser, data, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };

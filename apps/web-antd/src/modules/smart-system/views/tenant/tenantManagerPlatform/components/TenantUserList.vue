@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
-import { computed, unref, watch } from 'vue';
+import { computed, ref, toRefs, unref, watch } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
@@ -9,14 +9,17 @@ import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
 
 import { useSmartTable } from '#/adapter/smart-table';
+import { SmartAuthButton } from '#/components';
 import { createTenantUserAccountApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
 
 import {
   listTenantUserApi,
   removeBindUserApi,
+  saveTenantUserApi,
 } from '../SysTenantManagerPlatformView.api';
 import {
+  getAddEditUserFormSchemas,
   getTabUserListColumns,
   getTabUserListSearchSchemas,
   Permission,
@@ -26,6 +29,7 @@ import TenantBindUserModal from './TenantBindUserModal.vue';
 interface Props extends SysTenantProps {}
 
 const props = defineProps<Props>();
+const { tenantId: tenantIdRef } = toRefs(props);
 
 const { hasAccessByAuth } = useAccess();
 const { getIsPlatformTenant } = useUserStore();
@@ -67,6 +71,17 @@ const [SmartTable, tableApi] = useSmartTable({
       formItemClass: 'pb-2',
     },
   },
+  addEditConfig: {
+    modalConfig: {
+      class: 'w-[700px]',
+      slots: {
+        'center-footer': 'save-and-create-account',
+      },
+    },
+    formConfig: {
+      schema: getAddEditUserFormSchemas(tenantIdRef),
+    },
+  },
   proxyConfig: {
     ajax: {
       async query({ ajaxParameter }) {
@@ -89,6 +104,17 @@ const [SmartTable, tableApi] = useSmartTable({
           tenantId: props.tenantId,
         });
       },
+      save({ body: { insertRecords, updateRecords } }) {
+        const dataList = [...insertRecords, ...updateRecords];
+        if (dataList.length > 1) {
+          throw new Error('不支持批量操作');
+        }
+        return saveTenantUserApi({
+          ...dataList[0],
+          tenantId: props.tenantId,
+          createAccount: false,
+        });
+      },
     },
   },
   toolbarConfig: {
@@ -98,7 +124,6 @@ const [SmartTable, tableApi] = useSmartTable({
     buttons: [
       {
         code: 'ModalAdd',
-        auth: Permission.bindUser,
         props: computed(() => {
           return {
             onClick: () => {
@@ -108,13 +133,13 @@ const [SmartTable, tableApi] = useSmartTable({
                 );
                 return false;
               }
-              modalApi.setData({
-                tenantId: props.tenantId,
-              });
-              modalApi.open();
+              tableApi.showAddModal();
             },
           };
         }),
+      },
+      {
+        code: 'ModalEdit',
       },
       {
         name: t('system.views.tenant.manager.button.user.bind'),
@@ -231,11 +256,51 @@ const handleRemoveBind = () => {
     },
   });
 };
+
+/**
+ * 保存用户并创建账户
+ */
+const userSaveLoadingRef = ref(false);
+const handleSaveCreateAccount = async () => {
+  const addEditModalApi = tableApi.getAddEditModal();
+  const addEditFormApi = tableApi.getAddEditForm()!;
+  const { valid } = await addEditFormApi.validate();
+  if (!valid) {
+    return false;
+  }
+  try {
+    addEditModalApi.setState({ confirmLoading: true });
+    userSaveLoadingRef.value = true;
+    const formData = await addEditFormApi.getValues();
+    await saveTenantUserApi({
+      ...formData,
+      tenantId: props.tenantId,
+      createAccount: true,
+    });
+    successMessage(t('common.message.operationSucceeded'));
+    tableApi.query();
+    addEditModalApi.close();
+  } finally {
+    addEditModalApi.setState({ confirmLoading: false });
+    userSaveLoadingRef.value = false;
+  }
+};
 </script>
 
 <template>
   <div class="tenant-user-container h-full">
-    <SmartTable />
+    <SmartTable>
+      <template #save-and-create-account="{ isAdd }">
+        <SmartAuthButton
+          v-if="isAdd"
+          :loading="userSaveLoadingRef"
+          @click="handleSaveCreateAccount"
+          type="primary"
+        >
+          {{ t('system.views.user.button.saveAndCreateAccount') }}
+        </SmartAuthButton>
+      </template>
+    </SmartTable>
     <RenderTenantBindUserModal @after-bind="tableApi.query" />
   </div>
 </template>

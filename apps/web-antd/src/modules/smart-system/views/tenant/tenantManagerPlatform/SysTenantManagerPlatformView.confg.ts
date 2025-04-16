@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue';
+import type { ComputedRef, Ref } from 'vue';
 
 import type { VbenFormSchema } from '#/adapter/form';
 import type {
@@ -15,6 +15,8 @@ import {
   getTableUseYnColumnClass,
 } from '#/adapter/smart-table';
 import { listNoBindPackageByTenantIdApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
+
+import { listDeptTreeByTenantApi } from './SysTenantManagerPlatformView.api';
 
 export interface SysTenantProps {
   tenantId?: number;
@@ -469,3 +471,72 @@ export enum Permission {
   update = 'sys:tenant:manager:update',
   useYn = 'sys:tenant:manager:setUseYn',
 }
+
+/**
+ * 租户管理 添加修改用户表单
+ */
+export const getAddEditUserFormSchemas = (
+  tenantIdRef: Ref<number | undefined>,
+): VbenFormSchema[] => {
+  return [
+    {
+      label: '',
+      fieldName: 'userId',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['id'],
+        show: false,
+      },
+    },
+    {
+      label: t('system.views.user.table.username'),
+      fieldName: 'username',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: t('system.views.user.table.fullName'),
+      fieldName: 'fullName',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: t('system.views.user.table.email'),
+      fieldName: 'email',
+      component: 'Input',
+    },
+    {
+      label: t('system.views.user.table.mobile'),
+      fieldName: 'mobile',
+      component: 'Input',
+    },
+    {
+      label: t('common.table.seq'),
+      fieldName: 'seq',
+      component: 'Input',
+      rules: 'required',
+      defaultValue: 1,
+      componentProps: {
+        style: {
+          width: '100%',
+        },
+      },
+    },
+    {
+      label: t('system.views.user.form.dept'),
+      fieldName: 'deptIdList',
+      component: 'ApiTreeSelect',
+      controlClass: 'w-full',
+      componentProps: {
+        showSearch: true,
+        multiple: true,
+        api: () => listDeptTreeByTenantApi(unref(tenantIdRef)),
+        allowClear: true,
+        childrenField: 'children',
+        labelField: 'deptName',
+        valueField: 'deptId',
+        placeholder: t('system.views.user.validate.selectDept'),
+      },
+    },
+  ];
+};
