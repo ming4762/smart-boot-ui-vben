@@ -9,6 +9,7 @@ import { useSmartTable } from '#/adapter/smart-table';
 
 import {
   batchSaveUpdateSubscribeApi,
+  cancelTenantSubscribeApi,
   getSubscribeByIdApi,
   listSubscribeApi,
   setSubscribeUseYnApi,
@@ -83,6 +84,8 @@ const [SmartTable, tableApi] = useSmartTable({
         return data;
       },
       useYn: setSubscribeUseYnApi,
+      delete: ({ body: { removeRecords } }) =>
+        cancelTenantSubscribeApi(removeRecords.map((item) => item.id)),
     },
   },
   toolbarConfig: {
@@ -100,6 +103,7 @@ const [SmartTable, tableApi] = useSmartTable({
       },
       {
         code: 'delete',
+        name: '取消订阅',
         auth: Permission.subscribeDelete,
       },
       {

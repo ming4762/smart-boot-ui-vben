@@ -7,6 +7,7 @@ import { ApiServiceEnum, requestClient } from '#/api/request';
 enum Api {
   batchSaveUpdateSubscribe = '/sys/tenant/subscribe/saveUpdateBatch',
   bindTenantUser = '/sys/tenant/manager/bindTenantUser',
+  cancelTenantSubscribe = 'sys/tenant/subscribe/batchDeleteById',
   getRoleById = 'sys/tenant/manager/getRoleById',
   getSubscribeById = '/sys/tenant/subscribe/getById',
   getUserByTenantIdWithDept = 'sys/user/getUserByTenantIdWithDept',
@@ -180,4 +181,14 @@ export const getUserByTenantIdWithDeptApi = (
       service: ApiServiceEnum.SMART_SYSTEM,
     },
   );
+};
+
+/**
+ * 取消订阅
+ * @param idList
+ */
+export const cancelTenantSubscribeApi = (idList: number[]) => {
+  return requestClient.post(Api.cancelTenantSubscribe, idList, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };

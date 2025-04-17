@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs, Tooltip } from 'ant-design-vue';
 
 import SysTenantList from './components/SysTenantList.vue';
 import TenantRoleList from './components/TenantRoleList.vue';
 import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
 
+const activeTableRef = ref('user');
+
 const currentRowRef = ref<any | null>(null);
 const handleCurrentChange = (row: any) => {
   currentRowRef.value = row;
+  if (row && row.platformYn && unref(activeTableRef) === 'subscribe') {
+    activeTableRef.value = 'user';
+  }
 };
+/**
+ * 是否是平台管理租户
+ */
+const computedIsPlatformTenant = computed(() => {
+  return unref(currentRowRef)?.platformYn;
+});
 </script>
 
 <template>
@@ -31,11 +42,21 @@ const handleCurrentChange = (row: any) => {
       </template>
       <template #second>
         <div class="right-container bg-background ml-[5px] h-full">
-          <Tabs>
+          <Tabs v-model:active-key="activeTableRef">
             <TabPane key="user" tab="用户管理">
               <TenantUserList :tenant-id="currentRowRef?.id" />
             </TabPane>
-            <TabPane key="subscribe" tab="订阅管理">
+            <TabPane :disabled="computedIsPlatformTenant" key="subscribe">
+              <template #tab>
+                <Tooltip
+                  color="#f50"
+                  v-if="computedIsPlatformTenant"
+                  title="平台管理租户不支持订阅管理"
+                >
+                  <span>订阅管理</span>
+                </Tooltip>
+                <span v-else>订阅管理</span>
+              </template>
               <TenantSubscribeList :tenant-id="currentRowRef?.id" />
             </TabPane>
             <TabPane key="role" tab="角色管理">

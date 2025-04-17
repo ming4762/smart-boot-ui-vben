@@ -3,7 +3,6 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
 import { computed, ref, toRefs, unref, watch } from 'vue';
 
-import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
@@ -33,10 +32,7 @@ interface Props extends SysTenantProps {}
 const props = defineProps<Props>();
 const { tenantId: tenantIdRef } = toRefs(props);
 
-const { hasAccessByAuth } = useAccess();
 const { getIsPlatformTenant } = useUserStore();
-
-const computedChoseTenant = computed(() => props.tenantId !== undefined);
 
 const [RenderTenantBindUserModal, modalApi] = useVbenModal({
   connectedComponent: TenantBindUserModal,
@@ -186,13 +182,6 @@ const [SmartTable, tableApi] = useSmartTable({
       },
       {
         code: 'delete',
-        props: computed(() => {
-          return {
-            disabled:
-              !unref(computedChoseTenant) ||
-              !hasAccessByAuth(Permission.bindUser),
-          };
-        }),
       },
     ],
   },
