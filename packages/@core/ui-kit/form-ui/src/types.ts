@@ -380,7 +380,10 @@ export interface VbenFormProps<
   /**
    * 表单值变化回调
    */
-  handleValuesChange?: (values: Record<string, any>) => void;
+  handleValuesChange?: (
+    values: Record<string, any>,
+    fieldsChanged: string[],
+  ) => void;
   /**
    * 重置按钮参数
    */
