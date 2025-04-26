@@ -32,6 +32,7 @@ interface Props extends SmartPulldownTableProps {}
 
 defineOptions({
   inheritAttrs: false,
+  name: 'SmartPulldownTable',
 });
 
 const props = withDefaults(defineProps<Props>(), {

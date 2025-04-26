@@ -20,6 +20,7 @@ type Props = SmartTableSelectModalProps &
   };
 
 defineOptions({
+  name: 'SmartTableSelectUser',
   inheritAttrs: false,
 });
 

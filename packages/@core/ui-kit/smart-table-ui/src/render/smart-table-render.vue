@@ -52,6 +52,10 @@ import { DEFAULT_SETUP_HANDLER } from '../init';
 
 interface Props extends SmartTableRenderProps {}
 
+defineOptions({
+  name: 'SmartTable',
+});
+
 const props = withDefaults(defineProps<Props>(), {
   column: [],
   id: buildUUID(),

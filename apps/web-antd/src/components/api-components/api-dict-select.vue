@@ -14,6 +14,10 @@ interface Props {
   dictCode: string;
 }
 
+defineOptions({
+  name: 'ApiDictSelect',
+});
+
 const props = defineProps<Props>();
 
 const { pageDictRegisterIdent } = useInjectPageDict();
