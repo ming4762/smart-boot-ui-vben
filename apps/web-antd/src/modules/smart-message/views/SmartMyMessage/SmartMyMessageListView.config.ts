@@ -62,7 +62,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'sendUserName',
       title: '{smart.message.smartMyMessage.title.sendUserName}',
       width: 120,
-      type: 'dateTime',
     },
     {
       field: 'sendTime',
