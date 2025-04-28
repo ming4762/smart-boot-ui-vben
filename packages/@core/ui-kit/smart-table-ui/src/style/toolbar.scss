@@ -36,3 +36,7 @@ $button-margin: 5px;
 .vxe-toolbar .vxe-buttons--wrapper > .vxe-button--item + .vxe-button--item {
   margin-left: $button-margin;
 }
+
+.vxe-toolbar .vxe-tools--wrapper > .vxe-tool--item + .vxe-tool--item {
+  margin-left: $button-margin;
+}

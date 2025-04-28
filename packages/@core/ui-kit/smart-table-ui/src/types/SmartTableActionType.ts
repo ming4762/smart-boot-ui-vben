@@ -49,6 +49,8 @@ interface SmartTableAction {
     selectData?: Record<string, any>,
     formData?: Record<string, any>,
   ) => void;
+  // 切换搜索表单显示隐藏状态，如果visible为null，则取反
+  switchSearchFormVisible: (visible?: boolean) => void;
   /**
    * 根据ID更新行数据
    * 调用后台更新

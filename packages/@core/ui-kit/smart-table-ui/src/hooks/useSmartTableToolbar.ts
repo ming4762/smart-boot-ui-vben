@@ -1,4 +1,4 @@
-import type { VxeToolbarPropTypes } from 'vxe-table';
+import type { VxeGridListeners, VxeToolbarPropTypes } from 'vxe-table';
 
 import type { ComputedRef } from 'vue';
 
@@ -27,9 +27,6 @@ import {
   VxeTableToolComponentRenderer,
   VxeTableToolVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
-//
-// interface Action extends SmartTableActions {
-// }
 
 const tableButtonSizeMap: { [key: string]: string } = {
   medium: 'middle',
@@ -118,6 +115,7 @@ export const useSmartTableToolbar = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   getSmartTableContext: SmartTableContextHandler,
   t: (args: string) => string,
+  emit: (event: string, ...args: any[]) => void,
 ) => {
   /**
    * 转换按钮
@@ -353,6 +351,7 @@ export const useSmartTableToolbar = (
           return {
             circle: true,
             icon: 'vxe-icon-search',
+            status: unref(computedSearchFormVisible) ? 'primary' : '',
             title: unref(computedSearchFormVisible)
               ? t('component.table.hideSearch')
               : t('component.table.showSearch'),
@@ -416,7 +415,35 @@ export const useSmartTableToolbar = (
     };
   });
 
+  /**
+   * toolbar点击事件
+   */
+  const events: VxeGridListeners = {
+    toolbarToolClick: (params) => {
+      emit('toolbar-tool-click', params);
+      const { code } = params;
+      switch (code) {
+        case SmartTableCode.showSearch: {
+          const { switchSearchFormVisible } = getSmartTableContext();
+          switchSearchFormVisible();
+          break;
+        }
+      }
+    },
+  };
+
+  const getToolbarEvents = computed(() => {
+    const result: any = {};
+    Object.keys(events).forEach((item) => {
+      result[`on${item.slice(0, 1).toUpperCase() + item.slice(1)}`] = (
+        events as any
+      )[item];
+    });
+    return result;
+  });
+
   return {
     computedToolbarConfig,
+    getToolbarEvents,
   };
 };

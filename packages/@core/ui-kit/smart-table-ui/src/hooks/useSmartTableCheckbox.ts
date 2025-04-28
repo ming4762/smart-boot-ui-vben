@@ -23,7 +23,7 @@ import { defaultCheckboxConfig } from '../defaultConfig';
 export const useSmartTableCheckbox = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   emit: (name: string, ...args: any) => void,
-  getTableInstance: () => undefined | VxeGridInstance,
+  getTableInstance: () => null | undefined | VxeGridInstance,
 ) => {
   let lastRowIndex: null | number = null;
 

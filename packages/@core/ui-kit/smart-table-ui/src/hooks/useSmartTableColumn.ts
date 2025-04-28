@@ -1,4 +1,8 @@
-import type { VxeColumnSlotTypes, VxeTablePropTypes } from 'vxe-table';
+import type {
+  VxeColumnSlotTypes,
+  VxeGridPropTypes,
+  VxeTablePropTypes,
+} from 'vxe-table';
 
 import type { Component, ComputedRef, VNode } from 'vue';
 
@@ -24,7 +28,9 @@ const getComponentProps = (
   column: SmartTableColumn,
 ): Record<string, any> => {
   const componentProps = column.componentProps;
-  return isFunction(componentProps) ? componentProps(params) : componentProps;
+  return isFunction(componentProps)
+    ? componentProps(params)
+    : componentProps || {};
 };
 
 /**
@@ -221,15 +227,15 @@ const useSmartTableColumn = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   t: (args: string) => string,
 ) => {
-  const computedTableColumns = computed<Array<SmartTableColumn>>(
-    (): SmartTableColumn[] => {
+  const computedTableColumns = computed<VxeGridPropTypes.Column[]>(
+    (): VxeGridPropTypes.Column[] => {
       let columns = unref(tableProps).columns || [];
       const tableSize = unref(tableProps).size;
       // 转换组件
       columns = convertComponent(columns, t);
       // 转换日期类型
       columns = convertDateType(columns);
-      return convertEditRender(columns, tableSize);
+      return convertEditRender(columns, tableSize) as VxeGridPropTypes.Column[];
     },
   );
 

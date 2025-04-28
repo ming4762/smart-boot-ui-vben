@@ -11,7 +11,7 @@ import type {
 import type { Component, Ref, Slots } from 'vue';
 
 import type { SupportedLanguagesType } from '@vben-core/preferences';
-import type { SmartAuthType } from '@vben-core/typings';
+import type { ClassType, SmartAuthType } from '@vben-core/typings';
 
 import type { SmartTableApi } from '../smart-table-api';
 import type {
@@ -85,6 +85,7 @@ interface SmartTableBasicProps {
   authConfig?: SmartTableAuthConfig;
   // checkbox配置
   checkboxConfig?: boolean | SmartCheckboxConfig;
+  class?: ClassType;
   columns?: SmartTableColumn[];
   height?: TableHeightType;
   // 分页配置
@@ -129,6 +130,7 @@ type SmartTableRenderListeners = {
   'proxy-query': [any];
   proxyDelete: [{ status: boolean }];
   register: [SmartTableAction];
+  'toolbar-tool-click': [any];
 };
 
 /**

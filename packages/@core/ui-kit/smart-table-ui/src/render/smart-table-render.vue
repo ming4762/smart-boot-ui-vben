@@ -1,9 +1,5 @@
 <script setup lang="tsx">
-import type {
-  VxeGridInstance,
-  VxeGridProps,
-  VxeGridPropTypes,
-} from 'vxe-table';
+import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
 
 import type { Slots } from 'vue';
 
@@ -23,7 +19,6 @@ import type {
 
 import {
   computed,
-  h,
   onMounted,
   ref,
   unref,
@@ -32,11 +27,10 @@ import {
   useTemplateRef,
 } from 'vue';
 
-import { buildUUID } from '@vben-core/shared/utils';
+import { buildUUID, cn } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
-import TableSearchLayout from '../components/TableSearchLayout.vue';
 import { useSmartTableAjax } from '../hooks/useSmartTableAjax';
 import { useSmartTableCheckbox } from '../hooks/useSmartTableCheckbox';
 import { useSmartTableColumn } from '../hooks/useSmartTableColumn';
@@ -53,6 +47,7 @@ import { DEFAULT_SETUP_HANDLER } from '../init';
 interface Props extends SmartTableRenderProps {}
 
 defineOptions({
+  inheritAttrs: false,
   name: 'SmartTable',
 });
 
@@ -80,7 +75,7 @@ const wrapRef = useTemplateRef<HTMLElement>('wrapRef');
 /**
  * vxe-grid对象实例
  */
-const vxeTableInstance = ref<VxeGridInstance>();
+const vxeTableInstance = useTemplateRef<VxeGridInstance>('gridRef');
 const getVxeTableInstance = () => unref(vxeTableInstance);
 
 const innerPropsRef = ref<Partial<SmartTableRenderProps>>();
@@ -140,10 +135,15 @@ const { computeCheckboxTableProps } = useSmartTableCheckbox(
 );
 // 搜索表单
 const {
+  computedHasSeparator,
   computedSearchFormVisible,
+  computedSeparatorBackground,
+  computedSeparatorTop,
+  getEnableSearchForm,
   getSearchFormParameter,
   SearchForm,
   searchFormApi,
+  switchSearchFormVisible,
 } = useSmartTableSearchForm(
   computedTableProps,
   getSmartTableContext,
@@ -180,10 +180,11 @@ const {
   computedSlots,
 );
 
-const { computedToolbarConfig } = useSmartTableToolbar(
+const { computedToolbarConfig, getToolbarEvents } = useSmartTableToolbar(
   computedTableProps,
   getSmartTableContext,
   t,
+  emitHandler,
 );
 
 /**
@@ -200,6 +201,7 @@ const getSmartTableBindValues = computed<VxeGridProps>(() => {
     proxyConfig: unref(computedProxyConfig),
     toolbarConfig: unref(computedToolbarConfig),
     ...unref(computedTableClassStyle),
+    ...unref(getToolbarEvents),
   } as VxeGridProps;
 });
 
@@ -224,6 +226,7 @@ const tableAction: SmartTableAction = {
   setUseYnByCheckbox,
   setUseYnByRow,
   showAddModal: (selectData, formData) => showAddModal(selectData, formData),
+  switchSearchFormVisible,
   updateRowByIdProxy,
 };
 
@@ -242,6 +245,19 @@ const tableInnerContext: SmartTableInnerContext = {
   tableLoading: getLoading,
 };
 
+/**
+ * 搜索栏显示隐藏，表格高度不会自动计算，不确定是什么原因
+ * 动态调整表格容器高度，让表格再次计算高度
+ */
+const computedStyle = computed(() => {
+  if (unref(computedSearchFormVisible)) {
+    return {};
+  }
+  return {
+    height: 'calc(100% - 1px)',
+  };
+});
+
 Object.assign(smartTableContext, {
   ...tableAction,
   getBindValues: computedTableProps,
@@ -254,56 +270,6 @@ Object.assign(smartTableContext, {
 
 createSmartTableContext(smartTableContext);
 
-/**
- * 渲染表格
- */
-const renderTable = () => {
-  const vNodeList = [
-    h(
-      VxeGrid,
-      {
-        columns: unref(computedTableColumns) as VxeGridPropTypes.Column[],
-        ref: vxeTableInstance,
-        ...unref(getSmartTableBindValues),
-      },
-      unref(computedTableSlots),
-    ),
-  ];
-  if (unref(computedHasAddEdit)) {
-    vNodeList.push(<AddEditModal />);
-  }
-  return vNodeList;
-};
-
-/**
- * 渲染搜索表单
- */
-const renderSearchForm = () => {
-  return [<SearchForm></SearchForm>];
-};
-
-/**
- * 渲染函数
- * @constructor
- */
-const RenderFunction = () => {
-  const slots: any = {
-    table: renderTable,
-  };
-  if (props.useSearchForm) {
-    slots.search = renderSearchForm;
-  }
-  return h(
-    TableSearchLayout,
-    {
-      class: 'smart-table',
-      ref: 'wrapRef',
-      showSearch: unref(computedSearchFormVisible),
-    },
-    slots,
-  );
-};
-
 onMounted(() => {
   emit('register', tableAction);
 });
@@ -314,7 +280,55 @@ defineExpose({
 </script>
 
 <template>
-  <RenderFunction />
+  <div
+    :style="computedStyle"
+    :class="cn('smart-table bg-background h-full', props.class)"
+  >
+    <VxeGrid
+      :columns="computedTableColumns"
+      ref="gridRef"
+      v-bind="getSmartTableBindValues"
+    >
+      <template
+        v-for="(_, solotName) in computedTableSlots"
+        :key="solotName"
+        #[solotName]="slotProps"
+      >
+        <slot :name="solotName" v-bind="slotProps"></slot>
+      </template>
+      <template #form>
+        <div
+          v-if="getEnableSearchForm"
+          v-show="computedSearchFormVisible"
+          class="overflow-hidden pt-[10px]"
+        >
+          <div
+            v-if="computedHasSeparator && !computedSeparatorTop"
+            :style="{
+              ...(computedSeparatorBackground
+                ? { backgroundColor: computedSeparatorBackground }
+                : undefined),
+            }"
+            class="bg-background-deep h-[5px]"
+          ></div>
+          <slot name="form">
+            <SearchForm class="pt-[5px]" />
+          </slot>
+          <div
+            v-if="computedHasSeparator && computedSeparatorTop"
+            :style="{
+              ...(computedSeparatorBackground
+                ? { backgroundColor: computedSeparatorBackground }
+                : undefined),
+            }"
+            class="bg-background-deep h-[5px]"
+          ></div>
+        </div>
+      </template>
+    </VxeGrid>
+    <!--  添加修改表单  -->
+    <AddEditModal v-if="computedHasAddEdit" />
+  </div>
 </template>
 
 <style lang="less" scoped></style>

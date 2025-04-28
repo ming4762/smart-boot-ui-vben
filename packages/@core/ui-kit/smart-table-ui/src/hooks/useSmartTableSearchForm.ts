@@ -40,28 +40,32 @@ const useSmartTableSearchForm = (
   slots: Ref<Slots>,
 ) => {
   /**
+   * 是否启用搜索表单
+   */
+  const getEnableSearchForm = computed(() => {
+    const { searchFormConfig, useSearchForm } = unref(tableProps);
+    return useSearchForm !== false && searchFormConfig?.enabled !== false;
+  });
+
+  /**
    * 搜索form显示状态
    */
   const searchFormVisibleRef = ref(
     unref(tableProps)?.searchFormConfig?.defaultVisible !== false &&
-      unref(tableProps).useSearchForm !== undefined &&
-      unref(tableProps).useSearchForm === true,
+      unref(getEnableSearchForm),
   );
 
   watch(
-    [
-      () => unref(tableProps)?.searchFormConfig?.visible,
-      () => unref(tableProps)?.useSearchForm,
-    ],
-    ([visible, useSearchForm]) => {
-      searchFormVisibleRef.value = (visible && useSearchForm) || false;
+    [() => unref(tableProps)?.searchFormConfig?.visible, getEnableSearchForm],
+    ([visible, enableSearchForm]) => {
+      searchFormVisibleRef.value = (visible && enableSearchForm) || false;
     },
   );
   /**
    * 设置搜索表单的显示隐藏状态
    * @param visible
    */
-  const setSearchFormVisible = (visible?: boolean) => {
+  const switchSearchFormVisible = (visible?: boolean) => {
     searchFormVisibleRef.value = isBoolean(visible)
       ? visible
       : !unref(searchFormVisibleRef);
@@ -152,21 +156,6 @@ const useSmartTableSearchForm = (
     return getFormSlots(unref(slots), searchFormConfig);
   });
 
-  // /**
-  //  * 监控form配置变化, 更新form
-  //  */
-  // watch(
-  //   computedSearchFormProps,
-  //   (value) => {
-  //     searchFormApi.setState((prev) => {
-  //       return {
-  //         ...mergeWithArrayOverride({}, value, prev),
-  //       };
-  //     });
-  //   },
-  //   { immediate: true },
-  // );
-
   /**
    * 获取搜索符号
    */
@@ -251,8 +240,56 @@ const useSmartTableSearchForm = (
     return result;
   };
 
+  const computedSearchFormVisible = computed(() => unref(searchFormVisibleRef));
+
+  /**
+   * 是否有分隔符
+   */
+  const computedHasSeparator = computed(() => {
+    if (!unref(getEnableSearchForm) || !unref(computedSearchFormVisible)) {
+      return false;
+    }
+    const separator = unref(tableProps)?.searchFormConfig?.separator;
+    if (separator === false) {
+      return false;
+    }
+    if (separator === true || separator === undefined) {
+      return true;
+    }
+    return separator.show !== false;
+  });
+
+  const computedSeparatorBackground = computed(() => {
+    const separator = unref(tableProps)?.searchFormConfig?.separator;
+    if (separator === undefined || isBoolean(separator)) {
+      return undefined;
+    }
+    return separator.backgroundColor;
+  });
+
+  /**
+   * 分割的位置
+   */
+  const computedSeparatorTop = computed(() => {
+    const hasSeparator = unref(computedHasSeparator);
+    if (!hasSeparator) {
+      return true;
+    }
+    const layouts = unref(tableProps).layouts as string[] | undefined;
+    if (!layouts || layouts.length === 0) {
+      return true;
+    }
+    const tableIndex = layouts.indexOf('Table');
+    const formIndex = layouts.indexOf('Form');
+    return formIndex <= tableIndex;
+  });
+
   return {
-    computedSearchFormVisible: computed(() => unref(searchFormVisibleRef)),
+    computedHasSeparator,
+    computedSearchFormVisible,
+    computedSeparatorBackground,
+    computedSeparatorTop,
+    getEnableSearchForm,
     getSearchFormParameter,
     SearchForm: () =>
       h(
@@ -261,7 +298,7 @@ const useSmartTableSearchForm = (
         unref(computedSearchFormSlots),
       ),
     searchFormApi,
-    setSearchFormVisible,
+    switchSearchFormVisible,
   };
 };
 

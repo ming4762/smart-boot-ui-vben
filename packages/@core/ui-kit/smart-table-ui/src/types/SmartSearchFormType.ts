@@ -45,16 +45,25 @@ interface SmartSearchFormParameter {
   searchWithSymbol?: boolean;
 }
 
+interface SmartSearchFormSeparator {
+  backgroundColor?: string;
+  show?: boolean;
+}
+
 /**
  * 搜索表单配置
  */
 interface SmartSearchFormProps extends SmartTableBasicFormConfig {
   // 是否默认隐藏搜索
   defaultVisible?: boolean;
+  // 是否启用搜索功能
+  enabled?: boolean;
   // 搜索表单项配置
   schema?: SmartSearchFormSchema[];
   // 向后台发送的参数是否带有符号
   searchWithSymbol?: boolean;
+  // 搜索表单和表格之间是否有分隔条
+  separator?: boolean | SmartSearchFormSeparator;
   size?: string;
   visible?: boolean;
 }

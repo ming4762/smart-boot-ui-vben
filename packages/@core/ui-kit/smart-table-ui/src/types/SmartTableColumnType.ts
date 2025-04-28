@@ -1,6 +1,7 @@
 import type {
   VxeColumnPropTypes,
   VxeColumnSlotTypes,
+  VxeGridPropTypes,
   VxeTableConstructor,
   VxeTableDefines,
   VxeTablePrivateMethods,
@@ -101,7 +102,7 @@ type SmartTableColumnDynamicClass =
  * 列配置
  */
 interface SmartTableColumn
-  extends Omit<VxeTableDefines.ColumnOptions, 'editRender' | 'type'> {
+  extends Omit<VxeGridPropTypes.Column, 'editRender' | 'type'> {
   // 自动class
   autoClass?: SmartColumnAutoClass;
   component?: SmartTableColumnComponent;
