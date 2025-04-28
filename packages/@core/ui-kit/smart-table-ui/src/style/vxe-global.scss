@@ -41,4 +41,11 @@
   --vxe-ui-font-primary-tinge-color: hsl(var(--primary));
   --vxe-ui-font-primary-lighten-color: hsl(var(--primary) / 60%);
   --vxe-ui-font-primary-darken-color: hsl(var(--primary));
+
+  .size--tiny {
+    .vxe-cell {
+      height: 30px !important;
+      font-size: 12px !important;
+    }
+  }
 }

@@ -82,7 +82,7 @@ const handleChangeSize = ({ event }: any) => {
 
 const menuList = reactive([
   {
-    event: 'middle',
+    event: 'medium',
     text: getI18n('smartTable.title.sizeMiddle'),
   },
   {
