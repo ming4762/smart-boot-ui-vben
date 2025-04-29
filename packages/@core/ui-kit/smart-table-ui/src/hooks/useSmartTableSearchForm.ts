@@ -43,8 +43,8 @@ const useSmartTableSearchForm = (
    * 是否启用搜索表单
    */
   const getEnableSearchForm = computed(() => {
-    const { searchFormConfig, useSearchForm } = unref(tableProps);
-    return useSearchForm !== false && searchFormConfig?.enabled !== false;
+    const { useSearchForm } = unref(tableProps);
+    return useSearchForm !== false;
   });
 
   /**

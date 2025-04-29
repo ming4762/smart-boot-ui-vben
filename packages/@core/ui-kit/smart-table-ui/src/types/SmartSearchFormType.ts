@@ -56,8 +56,6 @@ interface SmartSearchFormSeparator {
 interface SmartSearchFormProps extends SmartTableBasicFormConfig {
   // 是否默认隐藏搜索
   defaultVisible?: boolean;
-  // 是否启用搜索功能
-  enabled?: boolean;
   // 搜索表单项配置
   schema?: SmartSearchFormSchema[];
   // 向后台发送的参数是否带有符号

@@ -14,9 +14,8 @@ import type {
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
-import { computed, h, ref, unref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
-import { createIconifyIcon } from '@vben-core/icons';
 import { isBoolean, isPromise, merge } from '@vben-core/shared/utils';
 
 import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
@@ -103,9 +102,7 @@ const getDefaultUseYnButtonConfig = (
     name: useYn ? t('smartTable.common.use') : t('smartTable.common.noUse'),
     props: {
       danger: !useYn,
-      icon: h(createIconifyIcon(icon), {
-        class: ['anticon'],
-      }),
+      preIcon: icon,
       type: 'primary',
     },
   };

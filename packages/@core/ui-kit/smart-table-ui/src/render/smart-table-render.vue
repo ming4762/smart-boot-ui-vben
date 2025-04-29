@@ -27,7 +27,7 @@ import {
   useTemplateRef,
 } from 'vue';
 
-import { buildUUID, cn } from '@vben-core/shared/utils';
+import { buildUUID, cn, omit } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
@@ -193,8 +193,7 @@ const { computedToolbarConfig, getToolbarEvents } = useSmartTableToolbar(
 const getSmartTableBindValues = computed<VxeGridProps>(() => {
   return {
     ...attrs,
-    ...unref(computedTableProps),
-    columns: unref(computedTableColumns),
+    ...omit(unref(computedTableProps), ['columns']),
     pagerConfig: unref(computedPagerConfig),
     ...unref(computeCheckboxTableProps),
     loading: unref(getLoading),
@@ -285,9 +284,9 @@ defineExpose({
     :class="cn('smart-table bg-background h-full', props.class)"
   >
     <VxeGrid
-      :columns="computedTableColumns"
       ref="gridRef"
       v-bind="getSmartTableBindValues"
+      :columns="computedTableColumns"
     >
       <template
         v-for="(slotFunction, slotName) in computedTableSlots"
