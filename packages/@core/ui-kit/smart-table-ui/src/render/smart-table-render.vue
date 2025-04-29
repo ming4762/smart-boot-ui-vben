@@ -290,11 +290,11 @@ defineExpose({
       v-bind="getSmartTableBindValues"
     >
       <template
-        v-for="(_, solotName) in computedTableSlots"
-        :key="solotName"
-        #[solotName]="slotProps"
+        v-for="(slotFunction, slotName) in computedTableSlots"
+        :key="slotName"
+        #[slotName]="slotProps"
       >
-        <slot :name="solotName" v-bind="slotProps"></slot>
+        <component :is="slotFunction" v-bind="slotProps" />
       </template>
       <template #form>
         <div
