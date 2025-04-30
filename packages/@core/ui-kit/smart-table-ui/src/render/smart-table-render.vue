@@ -279,12 +279,10 @@ defineExpose({
 </script>
 
 <template>
-  <div
-    :style="computedStyle"
-    :class="cn('smart-table bg-background h-full', props.class)"
-  >
+  <div :style="computedStyle" :class="cn('smart-table h-full', props.class)">
     <VxeGrid
       ref="gridRef"
+      class="bg-background"
       v-bind="getSmartTableBindValues"
       :columns="computedTableColumns"
     >

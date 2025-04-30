@@ -226,7 +226,7 @@ const computedDragLineInnerClass = computed(() => {
   .drag-line {
     z-index: 9999;
     top: 0;
-    right: -5px;
+    right: 0px;
     bottom: 0;
     width: 6px;
     height: 100%;
@@ -261,7 +261,7 @@ const computedDragLineInnerClass = computed(() => {
   .drag-line {
     //z-index: 9999;
     right: 0;
-    bottom: -5px;
+    bottom: 0px;
     left: 0;
     height: 10px;
 

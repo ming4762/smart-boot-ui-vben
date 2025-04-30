@@ -6,42 +6,6 @@
   --vxe-ui-font-darken-color: #86898e; */
   --vxe-ui-font-disabled-color: hsl(var(--foreground) / 50%);
 
-  /* base */
-  --vxe-ui-base-popup-border-color: hsl(var(--border));
-  --vxe-ui-input-disabled-color: hsl(var(--border) / 60%);
-
-  /* --vxe-ui-base-popup-box-shadow: 0px 12px 30px 8px rgb(0 0 0 / 50%); */
-
-  /* layout */
-  --vxe-ui-layout-background-color: hsl(var(--background));
-  --vxe-ui-table-resizable-line-color: hsl(var(--heavy));
-
-  /* input */
-  --vxe-ui-input-border-color: hsl(var(--border));
-
-  /* loading */
-  --vxe-ui-loading-background-color: hsl(var(--overlay-content));
-
-  /* table */
-  --vxe-ui-table-header-background-color: hsl(var(--accent));
-  --vxe-ui-table-border-color: hsl(var(--border));
-  --vxe-ui-table-row-hover-background-color: hsl(var(--accent-hover));
-  --vxe-ui-table-row-striped-background-color: hsl(var(--accent) / 60%);
-  --vxe-ui-table-row-hover-striped-background-color: hsl(var(--accent));
-  --vxe-ui-table-row-radio-checked-background-color: hsl(var(--accent));
-  --vxe-ui-table-row-hover-radio-checked-background-color: hsl(
-    var(--accent-hover)
-  );
-  --vxe-ui-table-row-checkbox-checked-background-color: hsl(var(--accent));
-  --vxe-ui-table-row-hover-checkbox-checked-background-color: hsl(
-    var(--accent-hover)
-  );
-  --vxe-ui-table-row-current-background-color: hsl(var(--accent));
-  --vxe-ui-table-row-hover-current-background-color: hsl(var(--accent-hover));
-  --vxe-ui-font-primary-tinge-color: hsl(var(--primary));
-  --vxe-ui-font-primary-lighten-color: hsl(var(--primary) / 60%);
-  --vxe-ui-font-primary-darken-color: hsl(var(--primary));
-
   .size--tiny {
     .vxe-cell {
       height: 30px !important;
