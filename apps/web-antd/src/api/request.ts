@@ -147,6 +147,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       if (errorMessageMode === 'modal') {
         createErrorModal({
           content: errorMessageStr,
+          zIndex: 10_000,
         });
       } else if (!errorMessageMode || errorMessageMode === 'message') {
         errorMessage(errorMessageStr);
