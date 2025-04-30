@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { SmartTableProps } from '#/adapter/smart-table';
+
 import { computed, ref, unref, watch } from 'vue';
 
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { type SmartTableProps, useSmartTable } from '#/adapter/smart-table';
+import { useSmartTable } from '#/adapter/smart-table';
 import { SmartIconButton, useContextMenu } from '#/components';
 import {
   deleteGroupByIdApi,
@@ -33,6 +35,7 @@ const [SmartTable, tableApi] = useSmartTable({
   id: 'smart-tool-code-templateGroup',
   stripe: true,
   height: 'auto',
+  useSearchForm: false,
   rowConfig: {
     isHover: true,
     isCurrent: true,

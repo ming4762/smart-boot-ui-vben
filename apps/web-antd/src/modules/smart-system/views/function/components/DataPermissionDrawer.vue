@@ -37,6 +37,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
   },
   class: 'w-[800px]',
   footer: false,
+  destroyOnClose: false,
 });
 
 const { getTableSize } = useSizeSetting();

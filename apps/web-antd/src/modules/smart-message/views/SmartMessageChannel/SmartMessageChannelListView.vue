@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { useSmartTable } from '#/adapter/smart-table';
-import { warnMessage } from '#/utils';
+import { ref, unref } from 'vue';
+
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-import { ref, unref } from 'vue';
+
+import { useSmartTable } from '#/adapter/smart-table';
+import { warnMessage } from '#/utils';
 
 import {
   batchSaveUpdateApi,
@@ -154,7 +156,7 @@ const [SmartTable] = useSmartTable({
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable :size="getTableSize as never" />
   </div>
 </template>

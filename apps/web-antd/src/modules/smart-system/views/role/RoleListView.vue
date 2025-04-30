@@ -119,7 +119,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartLayoutSeparate
       layout="leftRight"
       draggable

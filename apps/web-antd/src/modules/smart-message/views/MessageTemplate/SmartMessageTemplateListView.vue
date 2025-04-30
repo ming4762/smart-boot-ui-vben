@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { useSizeSetting } from '@vben/hooks';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 
 import {
   batchSaveUpdateApi,
@@ -99,7 +100,7 @@ const getActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable :size="getTableSize as never">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />

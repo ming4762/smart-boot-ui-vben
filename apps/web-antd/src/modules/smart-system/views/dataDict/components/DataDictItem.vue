@@ -25,6 +25,7 @@ const [SmartTable, tableApi] = useSmartTable({
   border: true,
   height: 'auto',
   checkboxConfig: true,
+  useSearchForm: false,
   stripe: true,
   rowConfig: {
     isHover: true,
@@ -92,7 +93,7 @@ watch(
 </script>
 
 <template>
-  <div class="h-full">
+  <div class="smart-table-padding h-full">
     <SmartTable />
   </div>
 </template>

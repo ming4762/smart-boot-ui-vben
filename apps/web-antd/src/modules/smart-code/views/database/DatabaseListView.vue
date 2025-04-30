@@ -155,8 +155,8 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" first-size="240px">
+  <div class="smart-table-padding page-container h-full">
+    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
       <template #first>
         <div class="system-container bg-background h-full">
           <SysSystemSimpleList

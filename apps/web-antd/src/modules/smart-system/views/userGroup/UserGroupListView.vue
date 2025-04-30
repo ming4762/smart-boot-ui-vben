@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { $t as t } from '@vben/locales';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 
 import { useSetUser } from './hooks/useSetUser';
 import {
@@ -127,7 +128,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable>
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />

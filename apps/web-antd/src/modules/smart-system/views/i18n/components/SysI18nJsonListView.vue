@@ -139,7 +139,7 @@ onMounted(() => tableApi.query());
 </script>
 
 <template>
-  <div class="h-full">
+  <div class="smart-table-padding h-full">
     <SmartTable v-bind="$attrs" :size="getTableSize as never" />
   </div>
 </template>

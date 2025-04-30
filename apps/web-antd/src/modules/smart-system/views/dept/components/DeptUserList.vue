@@ -112,7 +112,7 @@ const [SmartTable, tableApi] = useSmartTable({
 </script>
 
 <template>
-  <div class="user-table-container h-full">
+  <div class="smart-table-padding user-table-container h-full">
     <SmartTable />
   </div>
 </template>

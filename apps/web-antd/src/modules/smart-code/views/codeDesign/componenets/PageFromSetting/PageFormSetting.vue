@@ -38,6 +38,7 @@ const openRuleSetModal = (row: any) => {
 };
 
 const [SmartTable] = useSmartTable({
+  useSearchForm: false,
   rowConfig: {
     useKey: true,
     isHover: true,

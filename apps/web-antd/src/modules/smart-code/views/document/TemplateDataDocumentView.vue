@@ -13,6 +13,7 @@ const [SmartTable] = useSmartTable({
   height: 'auto',
   stripe: true,
   border: true,
+  useSearchForm: false,
   treeConfig: {
     childrenField: 'fieldList',
   },

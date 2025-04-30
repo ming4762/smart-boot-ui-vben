@@ -86,7 +86,7 @@ const [SmartTable] = useSmartTable({
 </script>
 
 <template>
-  <div class="mr-[5px] h-full">
+  <div class="smart-table-padding mr-[5px] h-full">
     <SmartTable @current-change="handleCurrentChange" />
   </div>
 </template>

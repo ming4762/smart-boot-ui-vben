@@ -483,7 +483,7 @@ const getAccountData = (status: null | string | undefined) => {
         </div>
       </template>
       <template #second>
-        <SmartTable style="margin-left: 5px">
+        <SmartTable class="smart-table-padding" style="margin-left: 5px">
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableActions(row)" />
           </template>

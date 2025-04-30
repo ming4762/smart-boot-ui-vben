@@ -114,6 +114,7 @@ registerSaveDataHandler(() => {
 });
 
 const [SmartTable] = useSmartTable({
+  useSearchForm: false,
   rowConfig: {
     isHover: true,
     drag: true,

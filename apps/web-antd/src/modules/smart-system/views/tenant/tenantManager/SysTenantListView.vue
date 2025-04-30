@@ -163,7 +163,7 @@ const [SmartTable] = useSmartTable({
 </script>
 
 <template>
-  <div class="page-container system-tenant-manager h-full">
+  <div class="smart-table-padding page-container system-tenant-manager h-full">
     <SmartLayoutSeparate
       class="h-full"
       draggable

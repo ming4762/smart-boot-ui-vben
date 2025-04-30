@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { warnMessage } from '#/utils';
+import { watch } from 'vue';
+
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-import { watch } from 'vue';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { warnMessage } from '#/utils';
 
 import {
   batchSaveUpdateApi,
@@ -148,7 +150,7 @@ const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="h-full">
+  <div class="smart-table-padding h-full">
     <SmartTable :size="getTableSize as never">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />

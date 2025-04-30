@@ -26,6 +26,7 @@ const [SmartTable, tableApi] = useSmartTable({
   toolbarConfig: {
     refresh: true,
   },
+  useSearchForm: false,
   proxyConfig: {
     ajax: {
       query: (params) => {

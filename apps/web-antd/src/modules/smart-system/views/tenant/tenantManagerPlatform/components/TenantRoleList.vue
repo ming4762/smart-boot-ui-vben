@@ -60,6 +60,7 @@ const [SmartTable, tableApi] = useSmartTable({
   id: 'system-tenant-roleList',
   columns: getRoleTableColumns(),
   height: 'auto',
+  useSearchForm: false,
   customConfig: { storage: true },
   stripe: true,
   border: true,

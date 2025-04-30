@@ -16,6 +16,7 @@ const searchValueRef = ref('');
 const [SmartTable, tableApi] = useSmartTable({
   height: 'auto',
   border: false,
+  useSearchForm: false,
   columns: [
     {
       field: 'tenantName',

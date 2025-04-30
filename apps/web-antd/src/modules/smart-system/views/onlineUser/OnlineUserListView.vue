@@ -102,7 +102,7 @@ const getTableActions = (
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable>
       <template #table-expand="{ row }">
         <InnerSmartTable :data="row.userLoginDataList" class="expand-wrapper">

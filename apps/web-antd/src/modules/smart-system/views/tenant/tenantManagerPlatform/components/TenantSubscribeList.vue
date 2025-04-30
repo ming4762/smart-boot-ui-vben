@@ -29,6 +29,7 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getSubscribeTableColumns(),
   height: 'auto',
   customConfig: { storage: true },
+  useSearchForm: false,
   stripe: true,
   border: true,
   sortConfig: {

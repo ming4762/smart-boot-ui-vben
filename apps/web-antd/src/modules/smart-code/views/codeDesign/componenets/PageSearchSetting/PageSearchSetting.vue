@@ -23,6 +23,7 @@ const { contextData } = injectCodeDesignContext();
 const { registerSaveDataHandler } = injectCodeDesignHandler();
 
 const [SmartTable] = useSmartTable({
+  useSearchForm: false,
   align: 'center',
   stripe: true,
   rowConfig: {

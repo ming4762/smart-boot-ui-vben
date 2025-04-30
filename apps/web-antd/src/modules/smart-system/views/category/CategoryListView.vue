@@ -125,7 +125,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable>
       <template #table-option="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />

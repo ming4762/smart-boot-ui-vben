@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
 import type { Recordable } from '@vben/types';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { SysSystemSimpleList } from '#/components';
-import { createConfirm, successMessage } from '#/utils';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { ref, unref } from 'vue';
+
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { buildUUID, omit } from '@vben/utils';
+
 import dayjs from 'dayjs';
-import { ref, unref } from 'vue';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysSystemSimpleList } from '#/components';
+import { createConfirm, successMessage } from '#/utils';
 
 import {
   deleteApi,
@@ -212,10 +216,10 @@ const getTableDropDownActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartLayoutSeparate class="h-full" draggable first-size="240px">
       <template #first>
-        <div class="system-container h-full">
+        <div class="system-container mr-[5px] h-full">
           <SysSystemSimpleList
             :row-config="{ isHover: true, isCurrent: true }"
             height="auto"

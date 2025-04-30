@@ -25,9 +25,6 @@ const [SmartTable, tableApi] = useSmartTable({
   useSearchForm: true,
   border: true,
   stripe: true,
-  formConfig: {
-    enabled: false,
-  },
   sortConfig: {
     remote: true,
     defaultSort: { field: 'seq', order: 'asc' },
@@ -80,6 +77,7 @@ const [SmartTable, tableApi] = useSmartTable({
     zoom: true,
     custom: true,
     sizeSetting: true,
+    showSearch: true,
     buttons: [{ code: 'ModalAdd' }, { code: 'ModalEdit' }, { code: 'delete' }],
   },
 });
@@ -111,7 +109,7 @@ const getActions = (row: any) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartTable>
+    <SmartTable class="smart-table-padding">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
       </template>

@@ -164,7 +164,10 @@ const getActions = (row: any): SmartTableActionItem[] => {
         </div>
       </template>
       <template #second>
-        <SmartTable :add-edit-config="getAddEditConfig">
+        <SmartTable
+          class="smart-table-padding"
+          :add-edit-config="getAddEditConfig"
+        >
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getActions(row)" />
           </template>

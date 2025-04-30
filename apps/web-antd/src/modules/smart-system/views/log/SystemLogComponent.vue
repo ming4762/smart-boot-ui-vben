@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '#/adapter/smart-table';
-
 import type { LoginIdent } from './SystemLogComponent.config';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { SysTenantSelect } from '#/components';
+import type { SmartTableActionItem } from '#/adapter/smart-table';
+
+import { computed } from 'vue';
+
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
+
 import { Tag } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysTenantSelect } from '#/components';
 
 import LogDetailModal from './components/LogDetailModal.vue';
 import { listApi } from './SystemLogComponent.api';
@@ -130,7 +133,7 @@ const getUseTimeTagColor = (useTime: number) => {
 </script>
 
 <template>
-  <div :class="getClass" class="page-container h-full">
+  <div :class="getClass" class="smart-table-padding page-container h-full">
     <SmartTable v-bind="$attrs">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />

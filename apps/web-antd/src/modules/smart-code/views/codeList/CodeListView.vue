@@ -2,13 +2,15 @@
 import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { SysSystemSimpleList } from '#/components';
-import { errorMessage } from '#/utils';
+import { useRouter } from 'vue-router';
+
 import { SmartLayoutSeparate, useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-import { useRouter } from 'vue-router';
+
+import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { SysSystemSimpleList } from '#/components';
+import { errorMessage } from '#/utils';
 
 import { deleteApi, listBySystemApi } from './CodeListView.api';
 import { searchFormColumns, tableColumns } from './CodeListView.config';
@@ -134,16 +136,18 @@ const getTableAction = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate :show-line="false" class="h-full" first-size="240px">
+    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
       <template #first>
-        <SysSystemSimpleList
-          :row-config="{ isHover: true, isCurrent: true }"
-          height="auto"
-          @current-change="handleSelectSystemChange"
-        />
+        <div class="bg-background mr-[5px] h-full">
+          <SysSystemSimpleList
+            :row-config="{ isHover: true, isCurrent: true }"
+            height="auto"
+            @current-change="handleSelectSystemChange"
+          />
+        </div>
       </template>
       <template #second>
-        <SmartTable :size="getTableSize as never">
+        <SmartTable class="smart-table-padding" :size="getTableSize as never">
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableAction(row)" />
           </template>

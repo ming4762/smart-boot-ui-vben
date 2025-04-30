@@ -106,7 +106,7 @@ const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="page-container h-full">
+  <div class="smart-table-padding page-container h-full">
     <SmartTable :size="getTableSize as never">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
