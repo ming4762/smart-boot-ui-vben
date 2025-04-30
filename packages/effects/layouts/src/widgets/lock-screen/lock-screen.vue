@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { computed, reactive, ref } from 'vue';
+
 import { LockKeyhole } from '@vben/icons';
 import { $t, useI18n } from '@vben/locales';
-import { storeToRefs, useLockStore } from '@vben/stores';
+import { storeToRefs, useAccessStore } from '@vben/stores';
+
 import { useScrollLock } from '@vben-core/composables';
 import { useVbenForm, z } from '@vben-core/form-ui';
 import { VbenAvatar, VbenButton } from '@vben-core/shadcn-ui';
+
 import { useDateFormat, useNow } from '@vueuse/core';
-import { computed, reactive, ref } from 'vue';
 
 interface Props {
   avatar?: string;
@@ -23,7 +26,7 @@ withDefaults(defineProps<Props>(), {
 defineEmits<{ toLogin: [] }>();
 
 const { locale } = useI18n();
-const lockStore = useLockStore();
+const accessStore = useAccessStore();
 
 const now = useNow();
 const meridiem = useDateFormat(now, 'A');
@@ -32,7 +35,7 @@ const minute = useDateFormat(now, 'mm');
 const date = useDateFormat(now, 'YYYY-MM-DD dddd', { locales: locale.value });
 
 const showUnlockForm = ref(false);
-const { lockScreenPassword } = storeToRefs(lockStore);
+const { lockScreenPassword } = storeToRefs(accessStore);
 
 const [Form, { form, validate }] = useVbenForm(
   reactive({
@@ -63,7 +66,7 @@ async function handleSubmit() {
   const { valid } = await validate();
   if (valid) {
     if (validPass.value) {
-      lockStore.unlockScreen();
+      accessStore.unlockScreen();
     } else {
       form.setFieldError('password', $t('authentication.passwordErrorTip'));
     }
