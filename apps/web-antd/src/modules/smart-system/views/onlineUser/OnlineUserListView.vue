@@ -60,6 +60,7 @@ const [SmartTable, tableApi] = useSmartTable({
 
 const [InnerSmartTable] = useSmartTable({
   columns: getTableExpandColumns(),
+  useSearchForm: false,
   border: true,
   stripe: true,
   showOverflow: 'tooltip',
