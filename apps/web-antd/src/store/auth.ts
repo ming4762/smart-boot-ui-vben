@@ -4,7 +4,8 @@ import type { AuthApi } from '#/api';
 
 import { ref } from 'vue';
 
-import { ApiServiceEnum, DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { ApiServiceEnum, LOGIN_PATH } from '@vben/constants';
+import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { createPassword } from '@vben/utils';
 
@@ -65,7 +66,9 @@ export const useAuthStore = defineStore('auth', () => {
       } else {
         onSuccess
           ? await onSuccess?.(userInfo)
-          : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+          : await router.push(
+              userInfo.homePath || preferences.app.defaultHomePath,
+            );
       }
 
       if (userInfo?.realName) {
@@ -118,7 +121,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     afterLogin(data, true, async (userInfo) => {
       await router.replace({
-        path: userInfo.homePath || DEFAULT_HOME_PATH,
+        path: userInfo.homePath || preferences.app.defaultHomePath,
         query: {
           timestamp: Date.now(),
         },

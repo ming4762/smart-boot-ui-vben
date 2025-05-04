@@ -21,9 +21,7 @@ import VbenDrawer from './drawer.vue';
 
 const USER_DRAWER_INJECT_KEY = Symbol('VBEN_DRAWER_INJECT');
 
-const DEFAULT_DRAWER_PROPS: Partial<DrawerProps> = {
-  destroyOnClose: true,
-};
+const DEFAULT_DRAWER_PROPS: Partial<DrawerProps> = {};
 
 export function setDefaultDrawerProps(props: Partial<DrawerProps>) {
   Object.assign(DEFAULT_DRAWER_PROPS, props);
@@ -66,9 +64,10 @@ export function useVbenDrawer<
             slots,
           );
       },
+      // eslint-disable-next-line vue/one-component-per-file
       {
-        inheritAttrs: false,
         name: 'VbenParentDrawer',
+        inheritAttrs: false,
       },
     );
     return [Drawer, extendedApi as ExtendedDrawerApi] as const;
@@ -107,9 +106,10 @@ export function useVbenDrawer<
       return () =>
         h(VbenDrawer, { ...props, ...attrs, drawerApi: extendedApi }, slots);
     },
+    // eslint-disable-next-line vue/one-component-per-file
     {
-      inheritAttrs: false,
       name: 'VbenDrawer',
+      inheritAttrs: false,
     },
   );
   injectData.extendApi?.(extendedApi);
