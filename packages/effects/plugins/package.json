@@ -26,6 +26,10 @@
       "types": "./src/smart-markdown/index.ts",
       "default": "./src/smart-markdown/index.ts"
     },
+    "./smart-tinymce": {
+      "types": "./src/smart-tinymce/index.ts",
+      "default": "./src/smart-tinymce/index.ts"
+    },
     "./motion": {
       "types": "./src/motion/index.ts",
       "default": "./src/motion/index.ts"
@@ -44,6 +48,8 @@
     "@vueuse/core": "catalog:",
     "@vueuse/motion": "catalog:",
     "echarts": "catalog:",
+    "tinymce": "catalog:",
+    "tinymce-i18n": "catalog:",
     "vditor": "catalog:",
     "vue": "catalog:",
     "vxe-pc-ui": "catalog:",

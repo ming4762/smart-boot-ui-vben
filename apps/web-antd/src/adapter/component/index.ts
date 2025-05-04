@@ -161,6 +161,7 @@ export type ComponentType =
   | 'Rate'
   | 'Select'
   | 'SmartPulldownTable'
+  | 'SmartTinymceEditor'
   | 'Space'
   | 'Switch'
   | 'Tag'
@@ -248,6 +249,13 @@ async function initComponentAdapter() {
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
     Cascader,
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
+    SmartTinymceEditor: defineAsyncComponent(async () => {
+      const { SmartTinymceEditor } = await import(
+        '@vben/plugins/smart-tinymce'
+      );
+      return SmartTinymceEditor;
+    }),
+    // SmartTinymceEditor,
     CodeEditor,
     Tooltip,
     SmartTableSelectUser,
