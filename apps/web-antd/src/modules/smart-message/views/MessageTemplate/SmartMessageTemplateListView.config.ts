@@ -105,19 +105,14 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       componentProps: {},
       rules: 'required',
     },
-    // TODO:富文本组件未添加
-    // {
-    //   fieldName: 'templateContent',
-    //   label: t('smart.message.template.title.templateContent'),
-    //   slot: 'addEdit-templateContent',
-    //   component: 'Input',
-    //   componentProps: {
-    //     height: 600,
-    //     imageAction: `${requestClient.getApiUrlByService(
-    //       ApiServiceEnum.SMART_FILE,
-    //     )}/smart/file/upload`,
-    //   },
-    // },
+    {
+      fieldName: 'templateContent',
+      label: t('smart.message.template.title.templateContent'),
+      component: 'SmartTinymceEditor',
+      componentProps: {
+        height: 600,
+      },
+    },
     {
       fieldName: 'useYn',
       label: t('common.title.useYn'),

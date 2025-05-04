@@ -3,6 +3,7 @@ import { computed, ref, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+import { SmartTinymcePreview } from '@vben/plugins/smart-tinymce';
 
 import { Tag } from 'ant-design-vue';
 
@@ -76,7 +77,7 @@ const computedMessagePriority = computed(() => {
           <span class="sub-title-sender">{{ messageDataRef.sendTime }}</span>
         </div>
       </div>
-      <div v-html="messageDataRef.content"></div>
+      <SmartTinymcePreview :content="messageDataRef.content" />
     </div>
   </Modal>
 </template>
@@ -91,8 +92,8 @@ const computedMessagePriority = computed(() => {
 .sub-title {
   margin-bottom: 22px;
   font-size: 0;
-  hyphens: auto;
   line-height: 20px;
+  hyphens: auto;
   word-wrap: break-word;
 }
 

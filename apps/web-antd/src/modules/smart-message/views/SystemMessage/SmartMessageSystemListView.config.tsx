@@ -329,8 +329,10 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'content',
       label: t('smart.message.systemMessage.title.content'),
-      slot: 'addEdit-content',
-      component: 'Input',
+      component: 'SmartTinymceEditor',
+      componentProps: {
+        height: 600,
+      },
     },
   ];
 };
