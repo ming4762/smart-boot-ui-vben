@@ -121,7 +121,7 @@ const [SmartTable, tableApi] = useSmartTable({
 .user-table-container {
   background: hsl(var(--background-deep));
 
-  :deep(.smart-search-container) {
+  :deep(.smart-table) {
     padding-top: 0 !important;
   }
 }

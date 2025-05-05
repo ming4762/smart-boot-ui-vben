@@ -231,5 +231,8 @@ const handleDelete = () => {
   :deep(.ant-tabs-nav-wrap) {
     padding: 0 5px;
   }
+  :deep(.ant-tabs-nav) {
+    margin-bottom: 10px;
+  }
 }
 </style>

@@ -17,6 +17,11 @@ interface Props extends SmartTableProps {
   api: ExtendSmartTableApi;
 }
 
+defineOptions({
+  name: 'SmartUseTable',
+  inheritAttrs: false,
+});
+
 const props = withDefaults(defineProps<Props>(), {});
 
 const slots = useSlots();

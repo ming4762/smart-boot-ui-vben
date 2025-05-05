@@ -47,8 +47,8 @@ import { DEFAULT_SETUP_HANDLER } from '../init';
 interface Props extends SmartTableRenderProps {}
 
 defineOptions({
-  inheritAttrs: false,
   name: 'SmartTable',
+  inheritAttrs: false,
 });
 
 const props = withDefaults(defineProps<Props>(), {
@@ -193,7 +193,7 @@ const { computedToolbarConfig, getToolbarEvents } = useSmartTableToolbar(
 const getSmartTableBindValues = computed<VxeGridProps>(() => {
   return {
     ...attrs,
-    ...omit(unref(computedTableProps), ['columns']),
+    ...omit(unref(computedTableProps), ['columns', 'class']),
     pagerConfig: unref(computedPagerConfig),
     ...unref(computeCheckboxTableProps),
     loading: unref(getLoading),
@@ -279,10 +279,12 @@ defineExpose({
 </script>
 
 <template>
-  <div :style="computedStyle" :class="cn('smart-table h-full', props.class)">
+  <div
+    :style="computedStyle"
+    :class="cn('smart-table bg-background h-full', props.class)"
+  >
     <VxeGrid
       ref="gridRef"
-      class="bg-background"
       v-bind="getSmartTableBindValues"
       :columns="computedTableColumns"
     >
@@ -297,7 +299,7 @@ defineExpose({
         <div
           v-if="getEnableSearchForm"
           v-show="computedSearchFormVisible"
-          class="overflow-hidden pt-[10px]"
+          class="overflow-hidden"
         >
           <div
             v-if="computedHasSeparator && !computedSeparatorTop"
