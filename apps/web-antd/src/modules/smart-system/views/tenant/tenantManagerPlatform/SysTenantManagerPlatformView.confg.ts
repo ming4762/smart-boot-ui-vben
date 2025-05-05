@@ -20,6 +20,7 @@ import { listDeptTreeByTenantApi } from './SysTenantManagerPlatformView.api';
 
 export interface SysTenantProps {
   tenantId?: number;
+  activated?: boolean;
 }
 
 /**

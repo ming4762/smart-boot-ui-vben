@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
-import { computed, watch } from 'vue';
+import { computed, toRefs } from 'vue';
 
 import { zonedDayjs } from '@vben/utils';
 
 import { useSmartTable } from '#/adapter/smart-table';
+import { useTabLazy } from '#/hooks';
 
 import {
   batchSaveUpdateSubscribeApi,
@@ -23,6 +24,14 @@ import {
 interface Props extends SysTenantProps {}
 
 const props = defineProps<Props>();
+
+const { tenantId: tenantIdRef, activated } = toRefs(props);
+
+/**
+ * 监控当前tab是否激活
+ * 激活时，自动查询数据
+ */
+useTabLazy(tenantIdRef, activated, () => tableApi.query());
 
 const [SmartTable, tableApi] = useSmartTable({
   id: 'system-tenant-subscribeList',
@@ -118,11 +127,6 @@ const [SmartTable, tableApi] = useSmartTable({
     ],
   },
 });
-
-watch(
-  () => props.tenantId,
-  () => tableApi.query(),
-);
 </script>
 
 <template>

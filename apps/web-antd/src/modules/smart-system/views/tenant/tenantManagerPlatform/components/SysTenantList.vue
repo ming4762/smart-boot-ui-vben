@@ -56,6 +56,14 @@ const handleSearch = () => {
 const handleCurrentChange = ({ row }: any) => {
   emit('currentChange', row);
 };
+
+const handleProxyQuery = () => {
+  const tableData = tableApi.getGrid()?.getData();
+  if (tableData?.length > 0) {
+    tableApi.getGrid()?.setCurrentRow(tableData[0]);
+    handleCurrentChange({ row: tableData[0] });
+  }
+};
 </script>
 
 <template>
@@ -68,7 +76,11 @@ const handleCurrentChange = ({ row }: any) => {
       />
     </div>
     <div class="list-container">
-      <SmartTable @current-change="handleCurrentChange" v-bind="$attrs" />
+      <SmartTable
+        @current-change="handleCurrentChange"
+        @proxy-query="handleProxyQuery"
+        v-bind="$attrs"
+      />
     </div>
   </div>
 </template>

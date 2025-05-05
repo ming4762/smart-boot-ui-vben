@@ -5,7 +5,7 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
 import type { SmartTableActionItem } from '#/adapter/smart-table';
 
-import { ref, watch } from 'vue';
+import { ref, toRefs } from 'vue';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
@@ -13,6 +13,7 @@ import { $t as t } from '@vben/locales';
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
+import { useTabLazy } from '#/hooks';
 import RoleDataPermission from '#/modules/smart-system/views/role/components/RoleDataPermission.vue';
 import { useRoleSetUser } from '#/modules/smart-system/views/role/hook/useRoleSetUser';
 
@@ -32,12 +33,13 @@ import TenantRoleSetFunction from './TenantRoleSetFunction.vue';
 interface Props extends SysTenantProps {}
 
 const props = defineProps<Props>();
-watch(
-  () => props.tenantId,
-  () => {
-    tableApi.query();
-  },
-);
+
+const { tenantId: tenantIdRef, activated } = toRefs(props);
+/**
+ * 监控当前tab是否激活
+ * 激活时，自动查询数据
+ */
+useTabLazy(tenantIdRef, activated, () => tableApi.query());
 
 const currentRoleRef = ref<Recordable<any>>({});
 const handleCurrentChange = ({ row }: any) => {
@@ -153,6 +155,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
                 :is-super-admin="currentRoleRef.superAdminYn"
                 :role-id="currentRoleRef.roleId"
                 :tenant-id="props.tenantId"
+                :activated="activated"
               />
             </TabPane>
             <TabPane

@@ -46,7 +46,10 @@ const computedIsPlatformTenant = computed(() => {
         >
           <Tabs v-model:active-key="activeTableRef">
             <TabPane key="user" tab="用户管理">
-              <TenantUserList :tenant-id="currentRowRef?.id" />
+              <TenantUserList
+                :activated="activeTableRef === 'user'"
+                :tenant-id="currentRowRef?.id"
+              />
             </TabPane>
             <TabPane :disabled="computedIsPlatformTenant" key="subscribe">
               <template #tab>
@@ -59,10 +62,16 @@ const computedIsPlatformTenant = computed(() => {
                 </Tooltip>
                 <span v-else>订阅管理</span>
               </template>
-              <TenantSubscribeList :tenant-id="currentRowRef?.id" />
+              <TenantSubscribeList
+                :activated="activeTableRef === 'subscribe'"
+                :tenant-id="currentRowRef?.id"
+              />
             </TabPane>
             <TabPane key="role" tab="角色管理">
-              <TenantRoleList :tenant-id="currentRowRef?.id" />
+              <TenantRoleList
+                :activated="activeTableRef === 'role'"
+                :tenant-id="currentRowRef?.id"
+              />
             </TabPane>
           </Tabs>
         </div>

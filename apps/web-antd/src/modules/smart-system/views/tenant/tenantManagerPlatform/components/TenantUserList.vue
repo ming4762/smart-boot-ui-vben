@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
-import { computed, ref, toRefs, unref, watch } from 'vue';
+import { computed, ref, toRefs, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
@@ -9,6 +9,7 @@ import { useUserStore } from '@vben/stores';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { SmartAuthButton } from '#/components';
+import { useTabLazy } from '#/hooks';
 import { deleteUserByIdApi } from '#/modules/smart-system/api/UserApi';
 import { createTenantUserAccountApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
@@ -30,7 +31,13 @@ import TenantBindUserModal from './TenantBindUserModal.vue';
 interface Props extends SysTenantProps {}
 
 const props = defineProps<Props>();
-const { tenantId: tenantIdRef } = toRefs(props);
+const { tenantId: tenantIdRef, activated } = toRefs(props);
+
+/**
+ * 监控当前tab是否激活
+ * 激活时，自动查询数据
+ */
+useTabLazy(tenantIdRef, activated, () => tableApi.query());
 
 const { getIsPlatformTenant } = useUserStore();
 
@@ -220,11 +227,6 @@ const handleCreateAccount = () => {
     },
   });
 };
-
-watch(
-  () => props.tenantId,
-  () => tableApi.query(),
-);
 
 /**
  * 解绑用户

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, unref, watch } from 'vue';
+import { computed, onMounted, ref, toRefs, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
@@ -15,18 +15,22 @@ import {
 } from 'ant-design-vue';
 
 import { ApiServiceEnum, requestClient } from '#/api/request';
+import { useTabLazy } from '#/hooks';
 import { errorMessage, successMessage } from '#/utils';
 
 interface Props {
   roleId?: number | string;
   isSuperAdmin?: boolean;
   tenantId?: number;
+  activated?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   isSuperAdmin: false,
   roleId: undefined,
   tenantId: undefined,
 });
+
+const { tenantId: tenantIdRef, activated } = toRefs(props);
 
 const treeRef = ref();
 
@@ -106,13 +110,15 @@ const loadRoleFunctions = async () => {
 };
 
 onMounted(() => loadFunctionTreeData());
-watch(
-  () => props.tenantId,
-  () => {
-    checkedKeysModel.value = [];
-    loadFunctionTreeData();
-  },
-);
+/**
+ * 监控当前tab是否激活
+ * 激活时，自动查询数据
+ */
+useTabLazy(tenantIdRef, activated, () => {
+  checkedKeysModel.value = [];
+  loadFunctionTreeData();
+});
+
 watch(
   () => props.roleId,
   () => {
