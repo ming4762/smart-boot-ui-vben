@@ -19,7 +19,6 @@ interface Props extends SmartTableProps {
 
 defineOptions({
   name: 'SmartUseTable',
-  inheritAttrs: false,
 });
 
 const props = withDefaults(defineProps<Props>(), {});
