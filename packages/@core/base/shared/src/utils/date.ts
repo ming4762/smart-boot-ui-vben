@@ -33,6 +33,31 @@ export function formatDateTime(time?: number | string) {
   return formatDate(time, 'YYYY-MM-DD HH:mm:ss');
 }
 
+/**
+ * 将对象中的属性转为时间类型
+ * @param obj
+ * @param fieldList
+ */
+export function convertToTimezone(
+  obj: Record<string, any>,
+  fieldList: string[],
+) {
+  if (fieldList.length === 0) {
+    return obj;
+  }
+  for (const key of Object.keys(obj)) {
+    const value = obj[key];
+    if (!value) {
+      continue;
+    }
+    if (fieldList.includes(key)) {
+      obj[key] = zonedDayjs(obj[key]);
+    }
+  }
+  return obj;
+}
+
+
 type TimeKey = 'days' | 'hours' | 'milliseconds' | 'minutes' | 'seconds';
 
 /**

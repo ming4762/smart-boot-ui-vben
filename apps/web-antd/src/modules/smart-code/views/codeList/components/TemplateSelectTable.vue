@@ -25,10 +25,14 @@ let currentGroupId: null | number = null;
 
 const [SmartTable, tableApi] = useSmartTable({
   useSearchForm: true,
+  border: true,
   height: 'auto',
   pagerConfig: true,
   rowConfig: {
     keyField: 'templateId',
+  },
+  columnConfig: {
+    resizable: true,
   },
   showOverflow: 'tooltip',
   checkboxConfig: {
@@ -84,11 +88,12 @@ const [SmartTable, tableApi] = useSmartTable({
       type: 'checkbox',
       width: 60,
       fixed: 'left',
+      align: 'center',
     },
     {
       field: 'name',
       title: '{smart.code.views.template.table.name}',
-      width: 200,
+      width: 240,
       fixed: 'left',
       align: 'left',
       headerAlign: 'center',
