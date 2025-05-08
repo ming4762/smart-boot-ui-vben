@@ -42,7 +42,7 @@ const computedIsPlatformTenant = computed(() => {
       </template>
       <template #second>
         <div
-          class="right-container smart-table-padding bg-background ml-[5px] h-full"
+          class="right-container smart-table-padding bg-background h-full"
         >
           <Tabs v-model:active-key="activeTableRef">
             <TabPane key="user" tab="用户管理">

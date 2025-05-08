@@ -183,7 +183,7 @@ const [SmartTable] = useSmartTable({
         </SmartTable>
       </template>
       <template #second>
-        <Tabs class="bg-background" style="margin-top: 5px">
+        <Tabs class="bg-background">
           <TabPane
             key="user"
             :tab="t('system.views.tenant.manager.title.tabUser')"

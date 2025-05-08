@@ -157,9 +157,9 @@ const getActions = (row: any): SmartTableActionItem[] => {
     id="codeTemplateContainer"
     class="page-container smart-code-template-list h-full"
   >
-    <SmartLayoutSeparate :show-line="false" class="h-full" first-size="240px">
+    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
       <template #first>
-        <div class="bg-background h-full" style="margin-right: 5px">
+        <div class="bg-background h-full">
           <TemplateGroup @change="handleGroupChange" />
         </div>
       </template>

@@ -212,8 +212,6 @@ const handleDelete = () => {
 }
 
 .right-tab {
-  margin-left: 5px;
-
   .ant-tabs {
     height: 100%;
   }

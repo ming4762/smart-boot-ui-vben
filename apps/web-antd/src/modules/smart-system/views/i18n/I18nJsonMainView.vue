@@ -25,10 +25,7 @@ const handleCurrentChange = ({ row }: any) => {
         <SysI18nJsonListView @current-change="handleCurrentChange" />
       </template>
       <template #second>
-        <SysI18nJsonItemListView
-          style="margin-top: 5px"
-          :i18n-id="currentI18nIdRef"
-        />
+        <SysI18nJsonItemListView :i18n-id="currentI18nIdRef" />
       </template>
     </SmartLayoutSeparate>
   </div>

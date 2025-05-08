@@ -158,7 +158,7 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
   <div class="smart-table-padding page-container h-full">
     <SmartLayoutSeparate draggable class="h-full" first-size="240px">
       <template #first>
-        <div class="system-container bg-background h-full">
+        <div class="bg-background h-full">
           <SysSystemSimpleList
             :row-config="{ isHover: true, isCurrent: true }"
             height="auto"
@@ -182,7 +182,4 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
 </template>
 
 <style scoped>
-.system-container {
-  margin-right: 5px;
-}
 </style>

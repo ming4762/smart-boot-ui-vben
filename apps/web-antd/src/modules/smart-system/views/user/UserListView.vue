@@ -476,14 +476,14 @@ const getAccountData = (status: null | string | undefined) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" first-size="280px">
+    <SmartLayoutSeparate class="h-full" draggable first-size="280px">
       <template #first>
         <div class="dept-container bg-background h-full">
           <SysDeptTree async show-search @select="handleDeptSelected" />
         </div>
       </template>
       <template #second>
-        <SmartTable class="smart-table-padding" style="margin-left: 5px">
+        <SmartTable class="smart-table-padding">
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableActions(row)" />
           </template>

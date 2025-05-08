@@ -148,10 +148,7 @@ const [SmartTable] = useSmartTable({
         />
       </template>
       <template #second>
-        <TenantPackageSetFunction
-          style="margin-left: 5px"
-          :tenant-package-id="currentPackage?.id"
-        />
+        <TenantPackageSetFunction :tenant-package-id="currentPackage?.id" />
       </template>
     </SmartLayoutSeparate>
   </div>

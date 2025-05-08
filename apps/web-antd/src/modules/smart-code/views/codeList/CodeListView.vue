@@ -138,7 +138,7 @@ const getTableAction = (row: any): SmartTableActionItem[] => {
   <div class="page-container h-full">
     <SmartLayoutSeparate draggable class="h-full" first-size="240px">
       <template #first>
-        <div class="bg-background mr-[5px] h-full">
+        <div class="bg-background h-full">
           <SysSystemSimpleList
             :row-config="{ isHover: true, isCurrent: true }"
             height="auto"
