@@ -248,7 +248,7 @@ const tableInnerContext: SmartTableInnerContext = {
  * 动态调整表格容器高度，让表格再次计算高度
  */
 const computedStyle = computed(() => {
-  if (unref(computedSearchFormVisible)) {
+  if (unref(computedSearchFormVisible) || !props.useSearchForm) {
     return {};
   }
   return {
