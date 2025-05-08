@@ -86,7 +86,7 @@ export const useDrag = (
     isDraggingRef.value = false;
     const delta = unref(isLeftRight) ? e.clientX - startX : e.clientY - startY;
     if (Math.abs(delta) >= threshold) {
-      const widthHeight = unref(isLeftRight) ? 'width' : 'height'
+      const widthHeight = unref(isLeftRight) ? 'width' : 'height';
       const firstSize = startSize + delta;
       const containerWidthHeight =
         unref(containerRef).getBoundingClientRect()[widthHeight];
