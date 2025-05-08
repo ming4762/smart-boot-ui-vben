@@ -48,7 +48,6 @@ interface Props extends SmartTableRenderProps {}
 
 defineOptions({
   name: 'SmartTable',
-  inheritAttrs: false,
 });
 
 const props = withDefaults(defineProps<Props>(), {
@@ -192,7 +191,7 @@ const { computedToolbarConfig, getToolbarEvents } = useSmartTableToolbar(
  */
 const getSmartTableBindValues = computed<VxeGridProps>(() => {
   return {
-    ...attrs,
+    ...omit(attrs, ['class', 'style']),
     ...omit(unref(computedTableProps), ['columns', 'class']),
     pagerConfig: unref(computedPagerConfig),
     ...unref(computeCheckboxTableProps),
