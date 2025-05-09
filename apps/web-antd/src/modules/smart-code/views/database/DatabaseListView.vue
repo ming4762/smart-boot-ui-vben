@@ -181,5 +181,4 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
