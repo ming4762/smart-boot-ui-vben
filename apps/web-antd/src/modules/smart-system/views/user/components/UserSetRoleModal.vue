@@ -143,7 +143,7 @@ const [Modal, modalApi] = useVbenModal({
   onConfirm: () => {
     handleSaveUserRole(modalApi);
   },
-  class: 'w-[800px]'
+  class: 'w-[800px]',
 });
 </script>
 
