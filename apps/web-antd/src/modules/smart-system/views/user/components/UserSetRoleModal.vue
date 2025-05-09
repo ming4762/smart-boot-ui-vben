@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
+
 import { nextTick, ref, unref } from 'vue';
 
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 import { useSmartTable } from '#/adapter/smart-table';
@@ -17,6 +19,9 @@ const [SmartTable, tableApi] = useSmartTable({
   rowConfig: {
     isHover: true,
     keyField: 'roleId',
+  },
+  columnConfig: {
+    resizable: true,
   },
   stripe: true,
   checkboxConfig: {
@@ -44,7 +49,30 @@ const [SmartTable, tableApi] = useSmartTable({
       },
     },
   },
-  // todo:国际化
+  searchFormConfig: {
+    compact: true,
+    searchWithSymbol: true,
+    wrapperClass: 'flex flex-wrap',
+    actionWrapperClass: 'text-left',
+    commonConfig: {
+      labelWidth: 80,
+      formItemClass: 'pb-2',
+    },
+    schema: [
+      {
+        fieldName: 'roleCode',
+        label: t('system.views.role.table.roleCode'),
+        component: 'Input',
+        searchSymbol: 'like',
+      },
+      {
+        fieldName: 'roleName',
+        label: t('system.views.role.table.roleName'),
+        component: 'Input',
+        searchSymbol: 'like',
+      },
+    ],
+  },
   columns: [
     {
       type: 'checkbox',
@@ -56,12 +84,12 @@ const [SmartTable, tableApi] = useSmartTable({
       width: 50,
     },
     {
-      title: '角色编码',
+      title: t('system.views.role.table.roleCode'),
       field: 'roleCode',
       width: 160,
     },
     {
-      title: '角色名称',
+      title: t('system.views.role.table.roleName'),
       field: 'roleName',
       minWidth: 160,
     },
@@ -115,6 +143,7 @@ const [Modal, modalApi] = useVbenModal({
   onConfirm: () => {
     handleSaveUserRole(modalApi);
   },
+  class: 'w-[800px]'
 });
 </script>
 
