@@ -54,6 +54,7 @@ const props = withDefaults(defineProps<Props>(), {
   column: [],
   id: buildUUID(),
   size: () => 'small',
+  useSearchForm: () => true,
 });
 const emit = defineEmits<SmartTableRenderListeners>();
 const slots = useSlots();
