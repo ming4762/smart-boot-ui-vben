@@ -493,8 +493,8 @@ catalogs:
       specifier: ^0.10.0
       version: 0.10.0
     vditor:
-      specifier: ^3.10.8
-      version: 3.10.8
+      specifier: ^3.11.0
+      version: 3.11.0
     vee-validate:
       specifier: ^4.15.0
       version: 4.15.0
@@ -1864,7 +1864,7 @@ importers:
         version: 25.3.17
       vditor:
         specifier: 'catalog:'
-        version: 3.10.8
+        version: 3.11.0
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
@@ -10947,8 +10947,8 @@ packages:
     peerDependencies:
       vue: ^3.5.13
 
-  vditor@3.10.8:
-    resolution: {integrity: sha512-u9npjvMuGJVk0QGbpqiGAmvgiR4QvMVpNQYrvFYZ/yWDtTFLZrHmLxuUbtswotR6KY10u5kVuaoSEoBGGWQGjQ==}
+  vditor@3.11.0:
+    resolution: {integrity: sha512-UfucKF2wstR6w92RG8BOMjbfbE241qP9qIb5i5J64vHTVdWzkWhv6DFNsKe6THBiD+RKQdeQMorCW1uDgoHaMw==}
 
   vee-validate@4.15.0:
     resolution: {integrity: sha512-PGJh1QCFwCBjbHu5aN6vB8macYVWrajbDvgo1Y/8fz9n/RVIkLmZCJDpUgu7+mUmCOPMxeyq7vXUOhbwAqdXcA==}
@@ -21464,7 +21464,7 @@ snapshots:
       evtd: 0.2.4
       vue: 3.5.13(typescript@5.8.3)
 
-  vditor@3.10.8:
+  vditor@3.11.0:
     dependencies:
       diff-match-patch: 1.0.5
 

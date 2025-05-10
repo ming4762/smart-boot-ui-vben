@@ -4,7 +4,7 @@
  * @param themeMode 主题类型——外观(默认), 内容, 代码块
  */
 export const getTheme = (
-  darkModeVal: 'dark' | 'light' | string,
+  darkModeVal: 'dark' | 'light' | null | string,
   themeMode: 'code' | 'content' | 'default' = 'default',
 ) => {
   const isDark = darkModeVal === 'dark';

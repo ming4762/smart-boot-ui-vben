@@ -160,6 +160,7 @@ export type ComponentType =
   | 'RangePicker'
   | 'Rate'
   | 'Select'
+  | 'SmartMarkdown'
   | 'SmartPulldownTable'
   | 'SmartTinymceEditor'
   | 'Space'
@@ -248,6 +249,10 @@ async function initComponentAdapter() {
     Upload,
     ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
     Cascader,
+    SmartMarkdown: defineAsyncComponent(async () => {
+      const { SmartMarkdown } = await import('@vben/plugins/smart-markdown');
+      return SmartMarkdown;
+    }),
     SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
     SmartTinymceEditor: defineAsyncComponent(async () => {
       const { SmartTinymceEditor } = await import(
