@@ -26,4 +26,4 @@ interface SmartMarkdownListeners {
   change: [string];
 }
 
-export type { SmartMarkdownListeners, SmartMarkdownProps, SmartMarkdownLang };
+export type { SmartMarkdownLang, SmartMarkdownListeners, SmartMarkdownProps };
