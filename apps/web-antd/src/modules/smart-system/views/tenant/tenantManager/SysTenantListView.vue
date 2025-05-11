@@ -3,17 +3,12 @@ import type { Recordable } from '@vben/types';
 
 import { computed, onMounted, ref, unref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
-import { TabPane, Tabs } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useSmartTable } from '#/adapter/smart-table';
 
-import TenantSubscribeList from './components/TenantSubscribeList.vue';
-import TenantUserList from './components/TenantUserList.vue';
 import {
   deleteApi,
   getByIdApi,
@@ -164,41 +159,49 @@ const [SmartTable] = useSmartTable({
 
 <template>
   <div class="smart-table-padding page-container system-tenant-manager h-full">
-    <SmartLayoutSeparate
-      class="h-full"
-      draggable
-      first-size="45%"
-      layout="topBottom"
-    >
-      <template #first>
-        <SmartTable @current-change="handleCurrentChange">
-          <template #table-isolationStrategy="{ row }">
-            <span>{{
-              computedIsolationStrategyMap[row.isolationStrategy]
-            }}</span>
-          </template>
-          <template #table-type="{ row }">
-            <span>{{ computedTenantTypeDictMap[row.type] }}</span>
-          </template>
-        </SmartTable>
+    <SmartTable @current-change="handleCurrentChange">
+      <template #table-isolationStrategy="{ row }">
+        <span>{{ computedIsolationStrategyMap[row.isolationStrategy] }}</span>
       </template>
-      <template #second>
-        <Tabs class="bg-background">
-          <TabPane
-            key="user"
-            :tab="t('system.views.tenant.manager.title.tabUser')"
-          >
-            <TenantUserList :tenant-id="currentTenantRef?.id" />
-          </TabPane>
-          <TabPane
-            key="subscribe"
-            :tab="t('system.views.tenant.manager.title.tabSubscribe')"
-          >
-            <TenantSubscribeList :tenant-id="currentTenantRef?.id" />
-          </TabPane>
-        </Tabs>
+      <template #table-type="{ row }">
+        <span>{{ computedTenantTypeDictMap[row.type] }}</span>
       </template>
-    </SmartLayoutSeparate>
+    </SmartTable>
+    <!--    <SmartLayoutSeparate-->
+    <!--      class="h-full"-->
+    <!--      draggable-->
+    <!--      first-size="45%"-->
+    <!--      layout="topBottom"-->
+    <!--    >-->
+    <!--      <template #first>-->
+    <!--        <SmartTable @current-change="handleCurrentChange">-->
+    <!--          <template #table-isolationStrategy="{ row }">-->
+    <!--            <span>{{-->
+    <!--              computedIsolationStrategyMap[row.isolationStrategy]-->
+    <!--            }}</span>-->
+    <!--          </template>-->
+    <!--          <template #table-type="{ row }">-->
+    <!--            <span>{{ computedTenantTypeDictMap[row.type] }}</span>-->
+    <!--          </template>-->
+    <!--        </SmartTable>-->
+    <!--      </template>-->
+    <!--      <template #second>-->
+    <!--        <Tabs class="bg-background">-->
+    <!--          <TabPane-->
+    <!--            key="user"-->
+    <!--            :tab="t('system.views.tenant.manager.title.tabUser')"-->
+    <!--          >-->
+    <!--            <TenantUserList :tenant-id="currentTenantRef?.id" />-->
+    <!--          </TabPane>-->
+    <!--          <TabPane-->
+    <!--            key="subscribe"-->
+    <!--            :tab="t('system.views.tenant.manager.title.tabSubscribe')"-->
+    <!--          >-->
+    <!--            <TenantSubscribeList :tenant-id="currentTenantRef?.id" />-->
+    <!--          </TabPane>-->
+    <!--        </Tabs>-->
+    <!--      </template>-->
+    <!--    </SmartLayoutSeparate>-->
   </div>
 </template>
 
