@@ -69,7 +69,7 @@ const [Modal, modalApi] = useVbenModal({
 
 const computedSelectContainerClass = computed(() => {
   if (unref(getHasSearchForm)) {
-    return ['mt-[49px]'];
+    return ['mt-[38px]'];
   }
   return [];
 });
@@ -81,13 +81,13 @@ const computedSelectContainerClass = computed(() => {
       <slot name="table" v-bind="computedTableSlotBindValues"></slot>
     </template>
     <div v-else class="flex flex-nowrap" style="height: 600px">
-      <div :class="showSelect ? 'w-1/2' : 'w-full'" class="h-full">
+      <div :class="showSelect ? 'w-1/2 pr-[5px]' : 'w-full'" class="h-full">
         <RenderTable />
       </div>
       <div
         v-if="showSelect"
         :class="computedSelectContainerClass"
-        class="w-1/2"
+        class="w-1/2 pl-[5px]"
       >
         <RenderSelectTable />
       </div>

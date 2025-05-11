@@ -74,6 +74,7 @@ const tableProps = reactive<SmartTableProps>({
   searchFormConfig: {
     actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
     wrapperClass: 'flex',
+    separator: false,
     searchWithSymbol: true,
     schema: [
       {
