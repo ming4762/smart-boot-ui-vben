@@ -11,7 +11,9 @@ import {
 } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
 
+import VxeUIPluginExportXLSX from '@vxe-ui/plugin-export-xlsx';
 import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
+import ExcelJS from 'exceljs';
 
 import { $ct as t } from '#/locales';
 
@@ -34,6 +36,7 @@ const doSetupSmartTable = () => {
         })
         // 用户配置信息存储到数据库中
         .use(SmartTableCustomStorageDBPlugin)
+        .use(VxeUIPluginExportXLSX, { ExcelJS })
         .setConfig({
           size: 'small',
         });

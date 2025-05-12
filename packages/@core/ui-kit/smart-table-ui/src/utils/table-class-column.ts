@@ -23,6 +23,7 @@ const getTableUseYnColumnClass = (field = 'useYn'): SmartTableColumn => {
       }
       return useYn ? t('smartTable.common.use') : t('smartTable.common.noUse');
     },
+    align: 'center',
     title: t('smartTable.title.useYn'),
     width: 100,
   };

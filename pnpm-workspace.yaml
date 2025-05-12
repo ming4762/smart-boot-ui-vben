@@ -71,6 +71,7 @@ catalog:
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^13.1.0
   '@vueuse/integrations': ^13.1.0
+  '@vxe-ui/plugin-export-xlsx': ^4.2.1
   '@vxe-ui/plugin-render-antd-smart-boot': ^4.0.7-v2
   '@vueuse/motion': ^3.0.3
   ant-design-vue: ^4.2.6
@@ -116,6 +117,7 @@ catalog:
   eslint-plugin-unused-imports: ^4.1.4
   eslint-plugin-vitest: ^0.5.4
   eslint-plugin-vue: ^10.1.0
+  exceljs: ^4.4.0
   execa: ^9.5.2
   find-up: ^7.0.0
   get-port: ^7.1.0

@@ -19,6 +19,7 @@ import {
   VxeSelect,
   VxeTooltip,
   VxeUI,
+  VxeUpload,
 } from 'vxe-pc-ui';
 import {
   VxeColgroup,
@@ -90,6 +91,7 @@ const initSmartTableComponent = () => {
   VxeUI.component(VxeModal);
   VxeUI.component(VxeRadioGroup);
   VxeUI.component(VxeCheckbox);
+  VxeUI.component(VxeUpload);
 
   VxeUI.component(createVirtualComponent('VxeForm'));
 
