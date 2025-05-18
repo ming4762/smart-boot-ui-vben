@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onActivated, ref, unref, watch } from 'vue';
+import { computed, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
@@ -102,7 +102,6 @@ const loadRoleFunctions = async () => {
   }
 };
 
-onActivated(() => loadFunctionTreeData());
 watch(
   () => props.roleId,
   () => {

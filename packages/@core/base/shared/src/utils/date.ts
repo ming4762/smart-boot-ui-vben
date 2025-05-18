@@ -57,7 +57,6 @@ export function convertToTimezone(
   return obj;
 }
 
-
 type TimeKey = 'days' | 'hours' | 'milliseconds' | 'minutes' | 'seconds';
 
 /**
