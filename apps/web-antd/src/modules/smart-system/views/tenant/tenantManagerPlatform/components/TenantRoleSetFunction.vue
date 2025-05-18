@@ -21,7 +21,7 @@ import { errorMessage, successMessage } from '#/utils';
 interface Props {
   roleId?: number | string;
   isSuperAdmin?: boolean;
-  tenantId?: number;
+  tenantId?: number | string;
   activated?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {

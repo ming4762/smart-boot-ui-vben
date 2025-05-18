@@ -19,7 +19,7 @@ import { listNoBindPackageByTenantIdApi } from '#/modules/smart-system/views/ten
 import { listDeptTreeByTenantApi } from './SysTenantManagerPlatformView.api';
 
 export interface SysTenantProps {
-  tenantId?: number;
+  tenantId?: number | string;
   activated?: boolean;
 }
 
@@ -301,6 +301,32 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.subscribe.expireTime}',
       width: 165,
       type: 'dateTime',
+    },
+    {
+      field: 'status',
+      title: '生效状态',
+      width: 100,
+      align: 'center',
+      formatter: ({ row }) => {
+        const { effectStatus } = row;
+        if (effectStatus === 'pending_effect') {
+          return '待生效';
+        }
+        if (effectStatus === 'expired') {
+          return '已失效';
+        }
+        return '生效中';
+      },
+      dynamicClass: ({ row }) => {
+        const { effectStatus } = row;
+        if (effectStatus === 'pending_effect') {
+          return 'text-color--warning-bold';
+        }
+        if (effectStatus === 'expired') {
+          return 'text-color--danger-bold';
+        }
+        return 'text-color--success-bold';
+      },
     },
     {
       field: 'remark',

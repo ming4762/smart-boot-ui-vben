@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, unref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
@@ -10,7 +11,13 @@ import TenantRoleList from './components/TenantRoleList.vue';
 import TenantSubscribeList from './components/TenantSubscribeList.vue';
 import TenantUserList from './components/TenantUserList.vue';
 
+const props = defineProps<{
+  tenantId?: string;
+}>();
+
 const activeTableRef = ref('user');
+
+const router = useRouter();
 
 const currentRowRef = ref<any | null>(null);
 const handleCurrentChange = (row: any) => {
@@ -18,6 +25,13 @@ const handleCurrentChange = (row: any) => {
   if (row && row.platformYn && unref(activeTableRef) === 'subscribe') {
     activeTableRef.value = 'user';
   }
+  const { path } = unref(router.currentRoute);
+  router.push({
+    path,
+    query: {
+      tenantId: row?.id,
+    },
+  });
 };
 /**
  * 是否是平台管理租户
@@ -46,7 +60,7 @@ const computedIsPlatformTenant = computed(() => {
             <TabPane key="user" tab="用户管理">
               <TenantUserList
                 :activated="activeTableRef === 'user'"
-                :tenant-id="currentRowRef?.id"
+                :tenant-id="props.tenantId"
               />
             </TabPane>
             <TabPane :disabled="computedIsPlatformTenant" key="subscribe">
@@ -62,13 +76,13 @@ const computedIsPlatformTenant = computed(() => {
               </template>
               <TenantSubscribeList
                 :activated="activeTableRef === 'subscribe'"
-                :tenant-id="currentRowRef?.id"
+                :tenant-id="props.tenantId"
               />
             </TabPane>
             <TabPane key="role" tab="角色管理">
               <TenantRoleList
                 :activated="activeTableRef === 'role'"
-                :tenant-id="currentRowRef?.id"
+                :tenant-id="props.tenantId"
               />
             </TabPane>
           </Tabs>

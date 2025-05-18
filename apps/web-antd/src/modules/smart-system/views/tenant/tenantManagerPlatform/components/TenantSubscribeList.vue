@@ -66,9 +66,30 @@ const [SmartTable, tableApi] = useSmartTable({
         if (!tenantId) {
           return [];
         }
-        return listSubscribeApi({
+        const dataList = await listSubscribeApi({
           ...params.ajaxParameter,
           tenantId,
+        });
+        if (!dataList || dataList.length === 0) {
+          return [];
+        }
+        const currentTime = zonedDayjs();
+        return dataList.map((item: any) => {
+          const { effectTime, expireTime } = item;
+          const effectTimeDayjs = zonedDayjs(effectTime);
+          const expireTimeDayjs = zonedDayjs(expireTime);
+          let effectStatus;
+          if (currentTime.isBefore(effectTimeDayjs)) {
+            effectStatus = 'pending_effect';
+          } else if (currentTime.isAfter(expireTimeDayjs)) {
+            effectStatus = 'expired';
+          } else {
+            effectStatus = 'in_effect';
+          }
+          return {
+            ...item,
+            effectStatus,
+          };
         });
       },
       save: ({ body: { insertRecords, updateRecords } }) => {
