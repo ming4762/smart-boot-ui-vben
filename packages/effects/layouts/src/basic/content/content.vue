@@ -13,7 +13,7 @@ import {
   SmartPageProvider,
   usePreferences,
 } from '@vben/preferences';
-import { storeToRefs, useTabbarStore } from '@vben/stores';
+import { getTabKey, storeToRefs, useTabbarStore } from '@vben/stores';
 
 import { IFrameRouterView } from '../../iframe';
 
@@ -125,13 +125,13 @@ const dictApi = inject<(args: any) => Promise<any>>('dict-api', () =>
               :is="transformComponent(Component, route)"
               v-if="renderRouteView"
               v-show="!route.meta.iframeSrc"
-              :key="route.fullPath"
+              :key="getTabKey(route)"
             />
           </KeepAlive>
           <component
             :is="Component"
             v-else-if="renderRouteView"
-            :key="route.fullPath"
+            :key="getTabKey(route)"
           />
         </Transition>
         <template v-else>
@@ -144,13 +144,13 @@ const dictApi = inject<(args: any) => Promise<any>>('dict-api', () =>
               :is="transformComponent(Component, route)"
               v-if="renderRouteView"
               v-show="!route.meta.iframeSrc"
-              :key="route.fullPath"
+              :key="getTabKey(route)"
             />
           </KeepAlive>
           <component
             :is="Component"
             v-else-if="renderRouteView"
-            :key="route.fullPath"
+            :key="getTabKey(route)"
           />
         </template>
       </SmartPageProvider>
