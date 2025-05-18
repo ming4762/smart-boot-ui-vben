@@ -57,8 +57,8 @@ export const getByIdApi = async (data: any) => {
   };
 };
 
-export const saveApi = ({ body: { insertRecords, updateRecords } }: any) => {
-  return requestClient.post(Api.save, [...insertRecords, ...updateRecords][0], {
+export const saveApi = (dataList: any[]) => {
+  return requestClient.post(Api.save, dataList[0], {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };

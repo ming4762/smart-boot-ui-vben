@@ -5,6 +5,7 @@ export * from './diff';
 export * from './dom';
 export * from './download';
 export * from './inference';
+export * from './json';
 export * from './letter';
 export * from './merge';
 export * from './nprogress';

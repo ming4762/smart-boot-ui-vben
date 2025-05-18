@@ -1,8 +1,9 @@
 import type { RouteRecordStringComponent } from '@vben/types';
 
-import { requestClient } from '#/api/request';
 import { ApiServiceEnum } from '@vben/constants';
 import { camelToLine, listToTree } from '@vben/utils';
+
+import { requestClient } from '#/api/request';
 
 enum Api {
   GetMenuList = '/sys/user/listUserMenu',
@@ -21,6 +22,7 @@ namespace MenuApi {
     cached?: boolean;
     isMenu?: boolean;
     i18nCode?: string;
+    meta?: string;
   }
 }
 
@@ -41,9 +43,7 @@ const getFunctionName = (menu: MenuApi.MenuItem) => {
 /**
  * 获取当前登录用户菜单
  */
-export async function getUserMenusApi(): Promise<
-  RouteRecordStringComponent<string>[]
-> {
+export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
   const menuList = await requestClient.post<MenuApi.MenuItem[]>(
     Api.GetMenuList,
     [],
@@ -52,56 +52,53 @@ export async function getUserMenusApi(): Promise<
     },
   );
   // 转为路由格式
-  const routeList: RouteRecordStringComponent<string>[] = menuList.map(
-    (menu) => {
-      const {
-        cached,
-        component,
-        componentName,
-        functionId,
-        functionName,
-        icon,
-        isMenu,
-        parentId,
-        redirect,
-        url,
-      } = menu;
+  const routeList: RouteRecordStringComponent[] = menuList.map((menu) => {
+    const {
+      cached,
+      component,
+      componentName,
+      functionId,
+      functionName,
+      icon,
+      isMenu,
+      parentId,
+      redirect,
+      url,
+      meta,
+    } = menu;
 
-      // 兼容icon
-      let compatibleIcon = icon;
-      if (compatibleIcon && !compatibleIcon.includes(':')) {
-        compatibleIcon = `ant-design:${camelToLine(compatibleIcon)}`;
-      }
+    // 兼容icon
+    let compatibleIcon = icon;
+    if (compatibleIcon && !compatibleIcon.includes(':')) {
+      compatibleIcon = `ant-design:${camelToLine(compatibleIcon)}`;
+    }
 
-      let formatComponent = component;
-      if (formatComponent === 'LAYOUT') {
-        formatComponent = 'BasicLayout';
-      } else if (
-        formatComponent &&
-        formatComponent.startsWith(COMPONENT_START)
-      ) {
-        formatComponent = formatComponent.slice(1);
-      }
-      const routeItem: RouteRecordStringComponent<string> = {
-        component: formatComponent,
-        meta: {
-          hideInMenu: isMenu === false,
-          icon: compatibleIcon,
-          keepAlive: !cached || cached,
-          key: functionId,
-          parentKey: parentId,
-          title: getFunctionName(menu),
-          // TODO: 由后台传送?
-          queryToProps: true,
-        },
-        name: componentName || functionName,
-        path: url || '',
-        redirect,
-      };
+    let formatComponent = component;
+    if (formatComponent === 'LAYOUT') {
+      formatComponent = 'BasicLayout';
+    } else if (formatComponent && formatComponent.startsWith(COMPONENT_START)) {
+      formatComponent = formatComponent.slice(1);
+    }
+    const routeItem: RouteRecordStringComponent = {
+      component: formatComponent,
+      meta: {
+        ...JSON.parse(meta ?? '{}'),
+        hideInMenu: isMenu === false,
+        icon: compatibleIcon,
+        keepAlive: !cached || cached,
+        key: functionId,
+        parentKey: parentId,
+        title: getFunctionName(menu),
+        // TODO: 由后台传送?
+        queryToProps: true,
+      },
+      name: componentName || functionName,
+      path: url || '',
+      redirect,
+    };
 
-      return routeItem;
-    },
-  );
+    return routeItem;
+  });
   // 构建路由树
   return listToTree(
     routeList,

@@ -124,6 +124,7 @@ const [SmartTable, tableApi] = useSmartTable({
   addEditConfig: {
     modalConfig: {
       class: 'w-[860px]',
+      destroyOnClose: false,
     },
     formConfig: {
       wrapperClass: 'grid grid-cols-2',
@@ -156,7 +157,10 @@ const [SmartTable, tableApi] = useSmartTable({
         );
       },
       delete: (params) => deleteApi(params),
-      save: saveApi,
+      save: ({ body: { insertRecords, updateRecords } }) => {
+        const dataList = [...insertRecords, ...updateRecords];
+        return saveApi(dataList);
+      },
       getById: getByIdApi,
     },
   },

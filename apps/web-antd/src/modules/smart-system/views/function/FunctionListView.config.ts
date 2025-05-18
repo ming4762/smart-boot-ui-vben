@@ -7,6 +7,7 @@ import type {
 import { h } from 'vue';
 
 import { createIconifyIcon } from '@vben/icons';
+import { isJsonString } from '@vben/utils';
 
 import { z } from '#/adapter/form';
 import { $t as t } from '#/locales';
@@ -324,6 +325,33 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           return value.functionType === 'MENU';
         },
       },
+    },
+    {
+      fieldName: 'meta',
+      label: 'Meta',
+      component: 'Textarea',
+      componentProps: {
+        rows: 3,
+        placeholder: 'Json',
+      },
+      dependencies: {
+        triggerFields: ['functionType'],
+        show: (value) => {
+          return value.functionType !== 'FUNCTION';
+        },
+      },
+      formItemClass: 'col-span-2',
+      rules: z.string().refine(
+        (value) => {
+          if (!value) {
+            return true;
+          }
+          return isJsonString(value);
+        },
+        {
+          message: 'meta必须为json字符串',
+        },
+      ),
     },
   ];
 };
