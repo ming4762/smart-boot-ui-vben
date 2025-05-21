@@ -44,6 +44,7 @@ const getCaptchaApi = () => {
     'auth/createCaptcha',
     {},
     {
+      authErrorProcessed: false,
       service: ApiServiceEnum.SMART_AUTH,
     },
   );
