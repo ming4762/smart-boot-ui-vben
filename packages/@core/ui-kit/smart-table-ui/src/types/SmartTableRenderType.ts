@@ -12,3 +12,6 @@ export const VxeTableToolVxeButtonRenderer: VxeTableRenderer =
 
 export const VxeTableToolComponentRenderer: VxeTableRenderer =
   'VxeTableToolComponentRenderer';
+
+export const VxeTableToolButtonSlotRenderer: VxeTableRenderer =
+  'VxeTableToolButtonSlotRenderer';

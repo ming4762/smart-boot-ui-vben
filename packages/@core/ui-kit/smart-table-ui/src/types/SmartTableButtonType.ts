@@ -2,7 +2,6 @@ import type { VxeToolbarPropTypes } from 'vxe-table';
 
 import type { Component, ComputedRef, Ref, VNode } from 'vue';
 
-import type { VbenButtonProps } from '@vben-core/shadcn-ui';
 import type { SmartAuthType } from '@vben-core/typings';
 
 type SmartTableButtonType = 'button' | 'reset' | 'submit' | 'text';
@@ -75,7 +74,7 @@ interface SmartTableButton extends SmartTableBasicButtonDropdowns {
     | Record<string, any>
     | Ref<Record<string, any>>;
   // 是否使用插槽
-  slot?: (button: SmartTableButton & VbenButtonProps) => string | VNode;
+  slot?: ((button: SmartTableButton) => [VNode] | string | VNode) | string;
   transfer?: boolean;
 }
 

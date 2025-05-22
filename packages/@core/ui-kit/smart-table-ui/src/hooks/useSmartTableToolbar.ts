@@ -1,6 +1,6 @@
 import type { VxeGridListeners, VxeToolbarPropTypes } from 'vxe-table';
 
-import type { ComputedRef } from 'vue';
+import type { ComputedRef, Ref, Slots } from 'vue';
 
 import type {
   SmartTableRenderProps,
@@ -16,16 +16,21 @@ import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarCon
 
 import { computed, ref, unref } from 'vue';
 
-import { isBoolean, isPromise, merge } from '@vben-core/shared/utils';
+import { isBoolean, isPromise, isString, merge } from '@vben-core/shared/utils';
+
+import { VxeUI } from 'vxe-table';
 
 import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
 import SmartTableSizeSetting from '../components/SmartTableSizeSetting.vue';
 import { SmartTableCode } from '../constant';
 import {
   VxeTableToolButtonCustomRenderer,
+  VxeTableToolButtonSlotRenderer,
   VxeTableToolComponentRenderer,
   VxeTableToolVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
+
+const t = VxeUI.getI18n;
 
 const tableButtonSizeMap: { [key: string]: string } = {
   medium: 'middle',
@@ -108,10 +113,138 @@ const getDefaultUseYnButtonConfig = (
   };
 };
 
+/**
+ * 获取添加按钮配置
+ * @param button
+ * @param buttonSize
+ * @param handler
+ */
+const getModalAddButton = (
+  button: SmartTableButton,
+  buttonSize: string | undefined,
+  handler: () => void,
+) => {
+  return merge(
+    button,
+    {
+      props: {
+        onClick: () => {
+          handler();
+        },
+      },
+    },
+    getDefaultAddButtonConfig(t),
+    { size: buttonSize },
+  ) as SmartTableButton;
+};
+
+/**
+ * 获取编辑按钮配置
+ * @param button
+ * @param buttonSize
+ * @param handler
+ */
+const getModalEditButton = (
+  button: SmartTableButton,
+  buttonSize: string | undefined,
+  handler: () => void,
+) => {
+  return merge(
+    button,
+    {
+      props: {
+        onClick: () => {
+          handler();
+        },
+      },
+    },
+    getDefaultEditButtonConfig(t),
+    { size: buttonSize },
+  ) as SmartTableButton;
+};
+
+/**
+ * 获取删除按钮配置
+ * @param button
+ * @param buttonSize
+ * @param handler
+ */
+const getDeleteButton = (
+  button: SmartTableButton,
+  buttonSize: string | undefined,
+  handler?: () => void,
+) => {
+  return merge(
+    button,
+    {
+      props: {
+        onClick: () => {
+          handler && handler();
+        },
+      },
+    },
+    getDefaultDeleteButtonConfig(t),
+    { size: buttonSize },
+  ) as SmartTableButton;
+};
+
+const getUseYnButton = (
+  button: SmartTableButton,
+  buttonSize: string | undefined,
+  handler?: (useYn: boolean) => void,
+) => {
+  const useYn = button.code === 'useYnTrue';
+  return merge(
+    button,
+    {
+      props: {
+        onClick: () => {
+          handler && handler(useYn);
+        },
+      },
+    },
+    getDefaultUseYnButtonConfig(t, useYn),
+    { size: buttonSize },
+  ) as SmartTableButton;
+};
+
+/**
+ * 获取响应性button props
+ * @param button
+ */
+const getReactiveButtonProps = (button: SmartTableButton) => {
+  const loading = ref(false);
+  return computed<any>(() => {
+    const buttonProps = unref(button.props) as any;
+    const result: any = {
+      ...buttonProps,
+    };
+    result.loading = unref(loading);
+    const defaultClickHandler = buttonProps?.onClick;
+    if (defaultClickHandler) {
+      const handler = Array.isArray(defaultClickHandler)
+        ? defaultClickHandler[0]
+        : defaultClickHandler;
+      result.onClick = async () => {
+        try {
+          loading.value = true;
+          const handlerResult = handler();
+          if (isPromise(handlerResult)) {
+            await handlerResult;
+          }
+        } finally {
+          loading.value = false;
+        }
+      };
+    }
+    return result;
+  });
+};
+
 export const useSmartTableToolbar = (
   tableProps: ComputedRef<SmartTableRenderProps>,
+  slots: Ref<Slots>,
   getSmartTableContext: SmartTableContextHandler,
-  t: (args: string) => string,
   emit: (event: string, ...args: any[]) => void,
 ) => {
   /**
@@ -136,98 +269,43 @@ export const useSmartTableToolbar = (
     return buttonList.map((item) => {
       const { code } = item;
       if (code === 'ModalAdd') {
-        return merge(
-          item,
-          {
-            props: {
-              onClick: () => {
-                showAddModal();
-              },
-            },
-          },
-          getDefaultAddButtonConfig(t),
-          { size: buttonSize },
-        ) as SmartTableButton;
+        return getModalAddButton(item, buttonSize, showAddModal);
       }
       if (code === 'ModalEdit') {
-        return merge(
-          item,
-          {
-            props: {
-              onClick: () => {
-                editByCheckbox();
-              },
-            },
-          },
-          getDefaultEditButtonConfig(t),
-          { size: buttonSize },
-        ) as SmartTableButton;
+        return getModalEditButton(item, buttonSize, editByCheckbox);
       }
       if (code === 'delete') {
-        return merge(
-          item,
-          {
-            props: {
-              onClick: () => {
-                deleteByCheckbox && deleteByCheckbox();
-              },
-            },
-          },
-          getDefaultDeleteButtonConfig(t),
-          { size: buttonSize },
-        ) as SmartTableButton;
+        return getDeleteButton(item, buttonSize, deleteByCheckbox);
       }
       if (code === 'useYnTrue' || code === 'useYnFalse') {
-        const useYn = item.code === 'useYnTrue';
-        return merge(
-          item,
-          {
-            props: {
-              onClick: () => {
-                setUseYnByCheckbox && setUseYnByCheckbox(useYn);
-              },
-            },
-          },
-          getDefaultUseYnButtonConfig(t, useYn),
-          { size: buttonSize },
-        ) as SmartTableButton;
+        return getUseYnButton(item, buttonSize, setUseYnByCheckbox);
       }
       // props添加响应性
-      const loading = ref(false);
-      const props = computed<any>(() => {
-        const buttonProps = unref(item.props) as any;
-        const result: any = {
-          ...buttonProps,
-        };
-        // 点击事件加载状态添加操作
-        if (item.clickLoading && buttonProps?.loading === undefined) {
-          result.loading = unref(loading);
-          const defaultClickHandler = buttonProps?.onClick;
-          if (defaultClickHandler) {
-            const handler = Array.isArray(defaultClickHandler)
-              ? defaultClickHandler[0]
-              : defaultClickHandler;
-            result.onClick = async () => {
-              try {
-                loading.value = true;
-                const handlerResult = handler();
-                if (isPromise(handlerResult)) {
-                  await handlerResult;
-                }
-              } finally {
-                loading.value = false;
-              }
-            };
-          }
-        }
-        return result;
-      });
+      let props = item.props as any;
+      if (item.clickLoading && props?.loading === undefined) {
+        props = getReactiveButtonProps(item);
+      }
+      // 插槽渲染
+      if (item.slot) {
+        const slotFunction = isString(item.slot)
+          ? unref(slots)[item.slot]
+          : item.slot;
+        return {
+          size: buttonSize,
+          buttonRender: {
+            name: VxeTableToolButtonSlotRenderer,
+          },
+          ...item,
+          props,
+          slot: slotFunction,
+        } as SmartTableButton;
+      }
       if (item.customRender) {
         return {
           buttonRender: {
             name: VxeTableToolButtonCustomRenderer,
           },
-          size: tableSize ? tableButtonSizeMap[tableSize] : undefined,
+          size: buttonSize,
           ...item,
           props,
         };

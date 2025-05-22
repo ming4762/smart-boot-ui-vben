@@ -182,8 +182,8 @@ const {
 
 const { computedToolbarConfig, getToolbarEvents } = useSmartTableToolbar(
   computedTableProps,
+  computedSlots,
   getSmartTableContext,
-  t,
   emitHandler,
 );
 
