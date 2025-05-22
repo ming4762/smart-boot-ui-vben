@@ -36,8 +36,8 @@ function useSmartTable(options: SmartTableProps) {
         );
     },
     {
-      inheritAttrs: false,
       name: 'SmartUseTable',
+      inheritAttrs: false,
     },
   );
   if (IS_REACTIVE) {

@@ -201,7 +201,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'changeContent',
       label: t('system.views.changeLog.title.changeContent'),
-      component: 'SmartTinymceEditor',
+      component: 'SmartMarkdown',
       componentProps: {},
       rules: 'required',
     },
