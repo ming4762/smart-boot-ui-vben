@@ -84,6 +84,8 @@ interface SmartTableToolbarTool extends VxeToolbarPropTypes.ToolConfig {
   component?: Component;
 
   props?: Record<string, any>;
+
+  slot?: ((tool: SmartTableToolbarTool) => [VNode] | string | VNode) | string;
 }
 
 export type { SmartTableButton, SmartTableToolbarTool };

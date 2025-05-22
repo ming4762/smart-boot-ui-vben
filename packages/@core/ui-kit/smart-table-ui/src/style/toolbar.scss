@@ -10,6 +10,10 @@ $button-margin: 5px;
   margin-left: $button-margin;
 }
 
+.vxe-toolbar .vxe-tools--wrapper > .vxe-button + .vxe-tool--item {
+  margin-left: $button-margin;
+}
+
 .vxe-toolbar .vxe-tools--wrapper .vxe-button,
 .vxe-toolbar .vxe-tools--operate .vxe-button {
   margin-left: $button-margin;

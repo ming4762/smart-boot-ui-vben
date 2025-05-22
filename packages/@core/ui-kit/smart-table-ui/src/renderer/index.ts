@@ -1,7 +1,11 @@
-import { initButtonRenderer } from './VxeTableButtonRenderer';
-import { initToolRenderer } from './VxeTableToolRenderer';
+const renderers = import.meta.glob('./modules/*.ts', {
+  eager: true,
+});
 
 export const initSmartTableRender = () => {
-  initButtonRenderer();
-  initToolRenderer();
+  for (const path in renderers) {
+    const handler = (renderers[path] as any)?.default;
+
+    handler && handler();
+  }
 };

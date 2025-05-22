@@ -1,17 +1,17 @@
 export type VxeTableRenderer =
-  | 'VxeTableToolButtonCustomRenderer'
-  | 'VxeTableToolButtonSlotRenderer'
-  | 'VxeTableToolComponentRenderer'
-  | 'VxeTableToolVxeButtonRenderer';
+  | 'SmartTableToolbarComponentRenderer'
+  | 'SmartTableToolbarCustomRenderer'
+  | 'SmartTableToolbarSlotRenderer'
+  | 'SmartTableToolbarVxeButtonRenderer';
 
-export const VxeTableToolButtonCustomRenderer: VxeTableRenderer =
-  'VxeTableToolButtonCustomRenderer';
+export const SmartTableToolbarCustomRenderer: VxeTableRenderer =
+  'SmartTableToolbarCustomRenderer';
 
-export const VxeTableToolVxeButtonRenderer: VxeTableRenderer =
-  'VxeTableToolVxeButtonRenderer';
+export const SmartTableToolbarVxeButtonRenderer: VxeTableRenderer =
+  'SmartTableToolbarVxeButtonRenderer';
 
-export const VxeTableToolComponentRenderer: VxeTableRenderer =
-  'VxeTableToolComponentRenderer';
+export const SmartTableToolbarComponentRenderer: VxeTableRenderer =
+  'SmartTableToolbarComponentRenderer';
 
-export const VxeTableToolButtonSlotRenderer: VxeTableRenderer =
-  'VxeTableToolButtonSlotRenderer';
+export const SmartTableToolbarSlotRenderer: VxeTableRenderer =
+  'SmartTableToolbarSlotRenderer';

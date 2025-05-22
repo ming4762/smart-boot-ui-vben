@@ -24,10 +24,10 @@ import SmartTableColumnConfig from '../components/SmartTableColumnConfig.vue';
 import SmartTableSizeSetting from '../components/SmartTableSizeSetting.vue';
 import { SmartTableCode } from '../constant';
 import {
-  VxeTableToolButtonCustomRenderer,
-  VxeTableToolButtonSlotRenderer,
-  VxeTableToolComponentRenderer,
-  VxeTableToolVxeButtonRenderer,
+  SmartTableToolbarComponentRenderer,
+  SmartTableToolbarCustomRenderer,
+  SmartTableToolbarSlotRenderer,
+  SmartTableToolbarVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
 
 const t = VxeUI.getI18n;
@@ -48,7 +48,7 @@ const getDefaultAddButtonConfig = (
 ): SmartTableButton => {
   return {
     buttonRender: {
-      name: VxeTableToolButtonCustomRenderer,
+      name: SmartTableToolbarCustomRenderer,
     },
     code: 'ModalAdd',
     name: t('smartTable.button.add'),
@@ -64,7 +64,7 @@ const getDefaultEditButtonConfig = (
 ): SmartTableButton => {
   return {
     buttonRender: {
-      name: VxeTableToolButtonCustomRenderer,
+      name: SmartTableToolbarCustomRenderer,
     },
     code: 'ModalEdit',
     name: t('smartTable.button.edit'),
@@ -80,7 +80,7 @@ const getDefaultDeleteButtonConfig = (
 ): SmartTableButton => {
   return {
     buttonRender: {
-      name: VxeTableToolButtonCustomRenderer,
+      name: SmartTableToolbarCustomRenderer,
     },
     code: 'delete',
     name: t('smartTable.button.delete'),
@@ -101,7 +101,7 @@ const getDefaultUseYnButtonConfig = (
     : 'ant-design:close-outlined';
   return {
     buttonRender: {
-      name: VxeTableToolButtonCustomRenderer,
+      name: SmartTableToolbarCustomRenderer,
     },
     code: useYn ? 'useYnTrue' : 'useYnFalse',
     name: useYn ? t('smartTable.common.use') : t('smartTable.common.noUse'),
@@ -241,6 +241,26 @@ const getReactiveButtonProps = (button: SmartTableButton) => {
   });
 };
 
+const convertCustomTools = (
+  tools: SmartTableToolbarTool[],
+  slots: Ref<Slots>,
+) => {
+  return tools.map((tool) => {
+    const { slot } = tool;
+    if (!slot) {
+      return tool;
+    }
+    const slotFunction = isString(slot) ? unref(slots)[slot] : slot;
+    return {
+      ...tool,
+      toolRender: {
+        name: SmartTableToolbarSlotRenderer,
+      },
+      slot: slotFunction,
+    } as SmartTableToolbarTool;
+  });
+};
+
 export const useSmartTableToolbar = (
   tableProps: ComputedRef<SmartTableRenderProps>,
   slots: Ref<Slots>,
@@ -293,7 +313,7 @@ export const useSmartTableToolbar = (
         return {
           size: buttonSize,
           buttonRender: {
-            name: VxeTableToolButtonSlotRenderer,
+            name: SmartTableToolbarSlotRenderer,
           },
           ...item,
           props,
@@ -303,7 +323,7 @@ export const useSmartTableToolbar = (
       if (item.customRender) {
         return {
           buttonRender: {
-            name: VxeTableToolButtonCustomRenderer,
+            name: SmartTableToolbarCustomRenderer,
           },
           size: buttonSize,
           ...item,
@@ -399,7 +419,7 @@ export const useSmartTableToolbar = (
       code: SmartTableCode.sizeSetting,
       component: SmartTableSizeSetting,
       toolRender: {
-        name: VxeTableToolComponentRenderer,
+        name: SmartTableToolbarComponentRenderer,
         props: {
           // todo: 默认配置
           config: isBoolean(sizeSetting) ? {} : sizeSetting,
@@ -416,7 +436,11 @@ export const useSmartTableToolbar = (
     if (!tools && !showSearch && !column && !sizeSetting) {
       return undefined;
     }
-    const result: SmartTableToolbarTool[] = [...(tools || [])];
+    const result: SmartTableToolbarTool[] = [];
+    // 处理tools
+    if (tools && tools.length > 0) {
+      result.push(...convertCustomTools(tools, slots));
+    }
     if (showSearch && unref(tableProps).useSearchForm) {
       if (isBoolean(showSearch)) {
         const {
@@ -436,7 +460,7 @@ export const useSmartTableToolbar = (
           code: SmartTableCode.showSearch,
           props,
           toolRender: {
-            name: VxeTableToolVxeButtonRenderer,
+            name: SmartTableToolbarVxeButtonRenderer,
           },
         });
       } else {
@@ -450,7 +474,7 @@ export const useSmartTableToolbar = (
         code: SmartTableCode.column,
         component: SmartTableColumnConfig,
         toolRender: {
-          name: VxeTableToolComponentRenderer,
+          name: SmartTableToolbarComponentRenderer,
           props: {
             config: columnConfig,
           },

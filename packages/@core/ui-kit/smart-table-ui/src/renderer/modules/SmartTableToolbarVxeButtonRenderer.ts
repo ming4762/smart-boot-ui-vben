@@ -5,13 +5,10 @@ import { h, unref } from 'vue';
 import { VxeButton } from 'vxe-pc-ui';
 import VXETable from 'vxe-table';
 
-import {
-  VxeTableToolComponentRenderer,
-  VxeTableToolVxeButtonRenderer,
-} from '../types/SmartTableRenderType';
+import { SmartTableToolbarVxeButtonRenderer } from '../../types/SmartTableRenderType';
 
-export const initToolRenderer = () => {
-  VXETable.renderer.add(VxeTableToolVxeButtonRenderer, {
+export default function smartTableToolbarVxeButtonRenderer() {
+  VXETable.renderer.add(SmartTableToolbarVxeButtonRenderer, {
     renderToolbarTool(
       _: VxeGlobalRendererHandles.RenderToolOptions,
       params: VxeGlobalRendererHandles.RenderToolParams<any>,
@@ -27,13 +24,4 @@ export const initToolRenderer = () => {
       });
     },
   });
-
-  VXETable.renderer.add(VxeTableToolComponentRenderer, {
-    renderToolbarTool(
-      { props }: VxeGlobalRendererHandles.RenderToolOptions,
-      { tool }: VxeGlobalRendererHandles.RenderToolParams,
-    ): VxeComponentSlotType | VxeComponentSlotType[] {
-      return h((tool as any).component, props);
-    },
-  });
-};
+}

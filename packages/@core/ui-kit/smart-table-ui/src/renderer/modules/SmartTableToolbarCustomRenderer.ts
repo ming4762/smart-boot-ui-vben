@@ -1,22 +1,19 @@
 import type { VxeComponentSlotType, VxeGlobalRendererHandles } from 'vxe-table';
 
-import type { SmartTableButton } from '../types/SmartTableButtonType';
+import type { SmartTableButton } from '../../types/SmartTableButtonType';
 
 import { h, unref } from 'vue';
 
 import { VbenButton } from '@vben-core/shadcn-ui';
-import { isString, omit } from '@vben-core/shared/utils';
+import { omit } from '@vben-core/shared/utils';
 
 import VXETable from 'vxe-table';
 
-import {
-  VxeTableToolButtonCustomRenderer,
-  VxeTableToolButtonSlotRenderer,
-} from '../types/SmartTableRenderType';
-import { getComponent } from '../utils';
+import { SmartTableToolbarCustomRenderer } from '../../types/SmartTableRenderType';
+import { getComponent } from '../../utils';
 
-export const initButtonRenderer = (): void => {
-  VXETable.renderer.add(VxeTableToolButtonCustomRenderer, {
+export default function smartTableToolbarCustomRenderer() {
+  VXETable.renderer.add(SmartTableToolbarCustomRenderer, {
     renderToolbarButton(
       _: VxeGlobalRendererHandles.RenderButtonOptions,
       params: VxeGlobalRendererHandles.RenderButtonParams,
@@ -55,18 +52,4 @@ export const initButtonRenderer = (): void => {
       }
     },
   });
-
-  // 添加插槽渲染器
-  VXETable.renderer.add(VxeTableToolButtonSlotRenderer, {
-    renderToolbarButton(
-      _: VxeGlobalRendererHandles.RenderButtonOptions,
-      params: VxeGlobalRendererHandles.RenderButtonParams<any>,
-    ): VxeComponentSlotType | VxeComponentSlotType[] {
-      const button = params.button as SmartTableButton;
-      if (!button.slot || isString(button.slot)) {
-        return '';
-      }
-      return button.slot(button);
-    },
-  });
-};
+}
