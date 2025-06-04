@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, unref, watch } from "vue";
+import { computed, onMounted, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
