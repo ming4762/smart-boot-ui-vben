@@ -43,7 +43,7 @@ import {
   warnMessage,
 } from '#/utils';
 
-import { doSetupVbenForm } from '../form';
+import { initSetupVbenForm } from '../form';
 import { doSetupSmartTable } from '../smart-table';
 
 const AutoComplete = defineAsyncComponent(
@@ -284,7 +284,7 @@ async function initComponentAdapter() {
     error: errorMessage,
     warning: warnMessage,
   });
-  doSetupVbenForm();
+  initSetupVbenForm();
   doSetupSmartTable();
 }
 

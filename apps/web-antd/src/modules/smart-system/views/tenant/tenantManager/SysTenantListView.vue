@@ -86,6 +86,7 @@ const [SmartTable] = useSmartTable({
   addEditConfig: {
     modalConfig: {
       class: 'w-[900px]',
+      destroyOnClose: false,
     },
     formConfig: {
       schema: getFormSchemas(isolationStrategyListRef),
