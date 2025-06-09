@@ -1,7 +1,10 @@
-import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { VxeGridInstance } from 'vxe-table';
 
+import type { ExtendedFormApi } from '@vben-core/form-ui';
+
 import type { VxeGridProps } from './types';
+
+import { toRaw } from 'vue';
 
 import { Store } from '@vben-core/shared/store';
 import {
@@ -11,7 +14,6 @@ import {
   mergeWithArrayOverride,
   StateHandler,
 } from '@vben-core/shared/utils';
-import { toRaw } from 'vue';
 
 function getDefaultState(): VxeGridProps {
   return {
@@ -25,17 +27,17 @@ function getDefaultState(): VxeGridProps {
 }
 
 export class VxeGridApi {
-  private isMounted = false;
-
-  private stateHandler: StateHandler;
   public formApi = {} as ExtendedFormApi;
 
   // private prevState: null | VxeGridProps = null;
   public grid = {} as VxeGridInstance;
-
   public state: null | VxeGridProps = null;
 
   public store: Store<VxeGridProps>;
+
+  private isMounted = false;
+
+  private stateHandler: StateHandler;
 
   constructor(options: VxeGridProps = {}) {
     const storeState = { ...options };
