@@ -1,11 +1,16 @@
-const renderers = import.meta.glob('./modules/*.ts', {
-  eager: true,
-});
+import SmartTableToolbarComponentRenderer from './modules/SmartTableToolbarComponentRenderer';
+import SmartTableToolbarCustomRenderer from './modules/SmartTableToolbarCustomRenderer';
+import SmartTableToolbarSlotRenderer from './modules/SmartTableToolbarSlotRenderer';
+import SmartTableToolbarVxeButtonRenderer from './modules/SmartTableToolbarVxeButtonRenderer';
 
 export const initSmartTableRender = () => {
-  for (const path in renderers) {
-    const handler = (renderers[path] as any)?.default;
-
-    handler && handler();
+  const handers = [
+    SmartTableToolbarComponentRenderer,
+    SmartTableToolbarCustomRenderer,
+    SmartTableToolbarSlotRenderer,
+    SmartTableToolbarVxeButtonRenderer,
+  ];
+  for (const handler of handers) {
+    handler();
   }
 };
