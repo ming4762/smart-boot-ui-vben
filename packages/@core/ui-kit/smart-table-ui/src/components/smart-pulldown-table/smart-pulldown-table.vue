@@ -31,8 +31,8 @@ import { getComponent } from '../../utils';
 interface Props extends SmartPulldownTableProps {}
 
 defineOptions({
-  inheritAttrs: false,
   name: 'SmartPulldownTable',
+  inheritAttrs: false,
 });
 
 const props = withDefaults(defineProps<Props>(), {
@@ -44,6 +44,24 @@ const props = withDefaults(defineProps<Props>(), {
   showSearch: true,
 });
 const emit = defineEmits<SmartPulldownTableEvent>();
+
+watch(
+  () => props.alwaysLoad,
+  (value) => {
+    if (!value) {
+      return;
+    }
+    const keyField = props.tableProps?.rowConfig?.keyField;
+    if (!keyField) {
+      console.error(
+        'alwaysLoad为true时，tableProps.rowConfig.keyField不能为空',
+      );
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 
 const attrs = useAttrs();
 
