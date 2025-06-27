@@ -41,6 +41,7 @@ const [SmartTable] = useSmartTable({
     remote: true,
     defaultSort: { field: 'seq', order: 'asc' },
   },
+  checkboxConfig: true,
   searchFormConfig: {
     actionWrapperClass: 'text-left',
     compact: true,

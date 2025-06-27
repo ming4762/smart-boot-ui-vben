@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
 import type { HttpResponse } from '@vben/request';
 
 import { ref, unref } from 'vue';
 
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '@vben/common-ui';
 import { $t, $t as t } from '@vben/locales';
 
 import { Transfer } from 'ant-design-vue';
