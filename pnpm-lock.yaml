@@ -1723,6 +1723,9 @@ importers:
       cropperjs:
         specifier: 'catalog:'
         version: 1.6.2
+      json-bigint:
+        specifier: 'catalog:'
+        version: 1.0.0
       qrcode:
         specifier: 'catalog:'
         version: 1.5.4
