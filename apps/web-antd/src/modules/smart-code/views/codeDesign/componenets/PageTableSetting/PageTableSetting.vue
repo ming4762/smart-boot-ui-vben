@@ -50,20 +50,26 @@ const createDataFromTableData = (
   editData: Array<any> | undefined,
 ) => {
   if (editData) {
-    const tableDataMap: Record<string, any> = {};
+    const tableDataMap = new Map<string, any>();
     tableData.forEach((item) => {
-      tableDataMap[item.javaProperty] = item;
+      tableDataMap.set(item.javaProperty, item);
     });
-    return editData.map((item) => {
-      const itemData = {
-        ...item,
-      };
-      const tableDataItem = tableDataMap[item.javaProperty] || {};
-      copyField.forEach((field) => {
-        itemData[field] = tableDataItem[field];
-      });
-      return itemData;
-    });
+    return editData
+      .map((item) => {
+        const itemData = {
+          ...item,
+        };
+        const tableDataItem = tableDataMap.get(item.javaProperty);
+        if (!tableDataItem) {
+          // 说明字段被删除
+          return null;
+        }
+        copyField.forEach((field) => {
+          itemData[field] = tableDataItem[field];
+        });
+        return itemData;
+      })
+      .filter((item) => item !== null);
   }
   return tableData.map((item) => {
     const data: any = {};
@@ -336,28 +342,28 @@ const headerEditableCheckboxChecked = vueTableHeaderCheckboxSupport(
           v-model:checked="headerResizableCheckboxChecked"
           :size="getFormSize as never"
         />
-        {{ $t(column.title.replace('{', '').replace('}', '')) }}
+        {{ t(column.title.replace('{', '').replace('}', '')) }}
       </template>
       <template #table-visible-header="{ column }">
         <Switch
           v-model:checked="headerVisibleCheckboxChecked"
           :size="getFormSize as never"
         />
-        {{ $t(column.title.replace('{', '').replace('}', '')) }}
+        {{ t(column.title.replace('{', '').replace('}', '')) }}
       </template>
       <template #table-hidden-header="{ column }">
         <Switch
           v-model:checked="headerHiddenCheckboxChecked"
           :size="getFormSize as never"
         />
-        {{ $t(column.title.replace('{', '').replace('}', '')) }}
+        {{ t(column.title.replace('{', '').replace('}', '')) }}
       </template>
       <template #table-editable-header="{ column }">
         <Switch
           v-model:checked="headerEditableCheckboxChecked"
           :size="getFormSize as never"
         />
-        {{ $t(column.title.replace('{', '').replace('}', '')) }}
+        {{ t(column.title.replace('{', '').replace('}', '')) }}
       </template>
     </SmartTable>
   </div>

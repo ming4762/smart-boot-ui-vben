@@ -226,8 +226,12 @@ const createDataFromTableData = (
   tableData: Array<any>,
   editData: Array<any> | undefined,
 ) => {
+  const tableDataMap = new Map<string, any>();
+  tableData.forEach((item) => {
+    tableDataMap.set(item.javaProperty, item);
+  });
   if (editData) {
-    return editData;
+    return editData.filter((item) => tableDataMap.has(item.javaProperty));
   }
   return tableData.map((item) => {
     const data: any = {};
