@@ -94,7 +94,7 @@ const tableColumns: Array<SmartTableColumn & { ident?: LoginIdent[] }> = [
     field: 'createTime',
     width: 180,
     sortable: true,
-    type: 'dateTime',
+    formatter: 'datetime',
   },
   {
     title: '{common.table.operation}',

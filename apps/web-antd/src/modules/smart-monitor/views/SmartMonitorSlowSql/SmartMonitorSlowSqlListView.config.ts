@@ -55,7 +55,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'left',
       title: '{smart.monitor.slowSql.title.timestamp}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'useTime',
@@ -70,7 +70,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'center',
       title: '{common.table.createTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',

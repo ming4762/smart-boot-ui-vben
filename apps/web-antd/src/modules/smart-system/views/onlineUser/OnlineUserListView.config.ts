@@ -74,7 +74,7 @@ export const getTableExpandColumns = (): SmartTableColumn[] => {
       field: 'loginTime',
       sortable: true,
       width: 170,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{system.views.onlineUser.title.loginIp}',

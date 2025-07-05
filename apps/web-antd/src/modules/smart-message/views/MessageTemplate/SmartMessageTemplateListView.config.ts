@@ -44,7 +44,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
       sortable: true,
     },
     {
@@ -56,7 +56,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
       sortable: true,
     },
     {

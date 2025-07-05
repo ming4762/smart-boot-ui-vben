@@ -129,14 +129,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.effectTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'expireTime',
       title: '{system.views.tenant.manager.title.expireTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'remark',
@@ -158,7 +158,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.createTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -170,7 +170,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.updateTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',
@@ -426,7 +426,7 @@ export const getTabUserListColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.user.bindTime}',
       field: 'createTime',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{system.views.tenant.manager.title.user.bindBy}',
@@ -516,14 +516,14 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.effectTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'expireTime',
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.expireTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'remark',
@@ -544,7 +544,7 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',

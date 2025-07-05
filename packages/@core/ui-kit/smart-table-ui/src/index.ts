@@ -1,3 +1,5 @@
+import './formatter';
+
 export { default as SmartPulldownTable } from './components/smart-pulldown-table/smart-pulldown-table.vue';
 export { default as SmartVxeTableAction } from './components/SmartVxeTableAction.vue';
 

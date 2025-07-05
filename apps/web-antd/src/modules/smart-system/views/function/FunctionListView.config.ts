@@ -84,7 +84,7 @@ export const tableColumns: SmartTableColumn[] = [
     field: 'createTime',
     width: 165,
     sortable: true,
-    type: 'dateTime',
+    formatter: 'datetime',
   },
   {
     title: '{common.table.createUser}',
@@ -96,7 +96,7 @@ export const tableColumns: SmartTableColumn[] = [
     field: 'updateTime',
     width: 165,
     sortable: true,
-    type: 'dateTime',
+    formatter: 'datetime',
   },
   {
     title: '{common.table.updateUser}',

@@ -195,14 +195,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{smart.message.systemMessage.title.sendTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'cancelTime',
       title: '{smart.message.systemMessage.title.cancelTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'useYn',
@@ -215,7 +215,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.createTime}',
       width: 170,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -227,7 +227,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{common.table.updateTime}',
       width: 170,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',

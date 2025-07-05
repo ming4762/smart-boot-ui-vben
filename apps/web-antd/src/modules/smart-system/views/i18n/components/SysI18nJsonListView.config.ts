@@ -83,7 +83,7 @@ export const getTableColumns = (
       title: '{common.table.createTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -98,7 +98,7 @@ export const getTableColumns = (
       title: '{common.table.updateTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',

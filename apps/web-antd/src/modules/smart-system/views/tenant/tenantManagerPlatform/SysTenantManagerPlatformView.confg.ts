@@ -81,7 +81,7 @@ export const getTabUserListColumns = (): SmartTableColumn[] => {
       title: '{system.views.tenant.manager.title.user.bindTime}',
       field: 'createTime',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{system.views.tenant.manager.title.user.bindBy}',
@@ -293,14 +293,14 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.effectTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'expireTime',
       sortable: true,
       title: '{system.views.tenant.manager.title.subscribe.expireTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'status',
@@ -347,7 +347,7 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -413,7 +413,7 @@ export const getRoleTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{common.table.createUser}',
@@ -425,7 +425,7 @@ export const getRoleTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{common.table.updateUser}',

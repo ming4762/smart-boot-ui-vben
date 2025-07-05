@@ -99,6 +99,15 @@ type SmartTableColumnDynamicClass =
   | string;
 
 /**
+ * 列格式化类型
+ */
+type SmartTableColumnFormatType = 'date' | 'datetime';
+type SmartTableColumnFormat =
+  | [SmartTableColumnFormatType, string]
+  | SmartTableColumnFormatType
+  | VxeColumnPropTypes.Formatter;
+
+/**
  * 列配置
  */
 interface SmartTableColumn
@@ -115,6 +124,7 @@ interface SmartTableColumn
   dynamicStyle?: SmartColumnDynamicStyle;
   editRender?: SmartTableEditRender;
   flag?: 'ACTION' | 'CHECKBOX' | 'DEFAULT' | 'INDEX' | 'RADIO';
+  formatter?: SmartTableColumnFormat;
   type?: SmartTableColumnType;
 }
 

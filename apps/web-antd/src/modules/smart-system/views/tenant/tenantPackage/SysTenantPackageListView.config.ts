@@ -43,14 +43,14 @@ export const getTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{system.views.tenant.package.title.effectTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'expireTime',
       sortable: true,
       title: '{system.views.tenant.package.title.expireTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'remark',
@@ -72,7 +72,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       title: '{common.table.createTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -83,7 +83,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',

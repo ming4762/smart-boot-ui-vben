@@ -42,7 +42,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'logTime',
       align: 'left',
       title: '{system.views.changeLog.title.logTime}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'title',
@@ -92,7 +93,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'releaseTime',
       align: 'left',
       title: '{system.views.changeLog.title.releaseTime}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'releaseBy',
@@ -111,7 +113,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'revokeTime',
       align: 'left',
       title: '{system.views.changeLog.title.revokeTime}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'revokeBy',
@@ -129,7 +132,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'createTime',
       align: 'left',
       title: '{common.table.createTime}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'createBy',
@@ -141,7 +145,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       align: 'left',
       title: '{common.table.updateTime}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',

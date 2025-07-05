@@ -58,7 +58,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       sortable: true,
       title: '{common.table.createTime}',
       width: 150,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       ...getTableBooleanColumnClass('userFeedback'),
@@ -75,7 +75,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'feedbackTime',
       title: '{system.views.exception.title.feedbackTime}',
       width: 150,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       ...getTableBooleanColumnClass('resolved'),
@@ -100,7 +100,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'resolvedTime',
       title: '{system.views.exception.title.resolvedTime}',
       width: 150,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{common.table.operation}',

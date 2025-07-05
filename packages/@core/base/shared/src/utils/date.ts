@@ -29,8 +29,11 @@ export function formatDate(time?: number | string, format = 'YYYY-MM-DD') {
   }
 }
 
-export function formatDateTime(time?: number | string) {
-  return formatDate(time, 'YYYY-MM-DD HH:mm:ss');
+export function formatDateTime(
+  time?: number | string,
+  format = 'YYYY-MM-DD HH:mm:ss',
+) {
+  return formatDate(time, format);
 }
 
 /**

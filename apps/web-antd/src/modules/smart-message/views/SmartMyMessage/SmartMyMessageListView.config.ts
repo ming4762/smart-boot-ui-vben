@@ -68,7 +68,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{smart.message.smartMyMessage.title.sendTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       field: 'priority',
@@ -117,7 +117,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{smart.message.smartMyMessage.title.readTime}',
       width: 165,
       sortable: true,
-      type: 'dateTime',
+      formatter: 'datetime',
     },
     {
       title: '{common.table.operation}',
