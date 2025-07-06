@@ -51,6 +51,13 @@ const htmlContentRef = ref('');
 const computedIsHtml = computed(() => props.mode === 'html');
 
 /**
+ * 编辑器是否已创建
+ */
+const isEditorHasCreate = () => {
+  return markdownEditor?.vditor !== undefined;
+};
+
+/**
  * 国际化语言
  */
 const computedLang = computed<SmartMarkdownLang>(() => {
@@ -184,12 +191,11 @@ watch(
     } else if (props.mode === 'preview') {
       renderPreview();
     } else {
-      if (markdownEditor) {
-        markdownEditor.setValue(value);
+      if (isEditorHasCreate()) {
+        markdownEditor?.setValue(value);
       }
     }
   },
-  { immediate: true },
 );
 
 /**

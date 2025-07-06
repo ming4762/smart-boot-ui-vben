@@ -49,3 +49,6 @@ vite.config.ts.*
 *.sln
 *.sw?
 .history
+
+# 不排除vditor的文件
+!apps/web-antd/public/vditor/dist/
