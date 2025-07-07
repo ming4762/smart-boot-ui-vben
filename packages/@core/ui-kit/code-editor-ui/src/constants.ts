@@ -1,3 +1,7 @@
+import type { Extension } from '@codemirror/state';
+
+import nullParseLinter from './utils/NullParseLinter';
+
 enum Language {
   HTML = 'html',
   JAVA = 'java',
@@ -14,8 +18,32 @@ const modeMap: Record<Language, () => Promise<Record<string, any>>> = {
   [Language.XML]: () => import('@codemirror/lang-xml'),
 };
 
+const lintModeMap: Record<Language, () => Promise<Extension[]>> = {
+  [Language.HTML]: async () => [],
+  [Language.JAVA]: async () => [],
+  [Language.JAVASCRIPT]: async () => [],
+  [Language.JSON]: async () => {
+    const { linter, lintGutter } = await import('@codemirror/lint');
+    const { jsonParseLinter } = await import('@codemirror/lang-json');
+    return [
+      linter(nullParseLinter(jsonParseLinter), { delay: 200 }),
+      lintGutter(),
+    ];
+  },
+  [Language.XML]: async () => [],
+};
+
 const getLanguagePackage = (model: Language) => {
   return modeMap[model];
+};
+
+/**
+ * 获取lint扩展
+ * @param model
+ */
+const getLintExtension = (model: Language) => {
+  const handler = lintModeMap[model];
+  return handler ? handler() : [];
 };
 
 const DarkTheme = {
@@ -30,4 +58,10 @@ const LightTheme = {
   '.cm-line': { color: '#000000' },
 };
 
-export { DarkTheme, getLanguagePackage, Language, LightTheme };
+export {
+  DarkTheme,
+  getLanguagePackage,
+  getLintExtension,
+  Language,
+  LightTheme,
+};

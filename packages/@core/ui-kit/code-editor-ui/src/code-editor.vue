@@ -4,9 +4,6 @@ import type { EditorViewConfig } from '@codemirror/view';
 
 import type { Theme } from './types';
 
-import { StateEffect } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
-import { basicSetup } from 'codemirror';
 import {
   nextTick,
   onMounted,
@@ -16,9 +13,14 @@ import {
   watch,
 } from 'vue';
 
+import { StateEffect } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
+import { basicSetup } from 'codemirror';
+
 import {
   DarkTheme,
   getLanguagePackage,
+  getLintExtension,
   Language,
   LightTheme,
 } from './constants';
@@ -27,6 +29,7 @@ interface Props {
   bordered?: boolean;
   config?: Omit<EditorViewConfig, 'parent'>;
   disabled?: boolean;
+  isLint?: boolean;
   language: Language;
   readonly?: boolean;
   theme?: Theme;
@@ -121,19 +124,27 @@ const getLanguage = async () => {
 };
 
 /**
+ * 获取扩展
+ */
+const getExtensions = async () => {
+  const language = await getLanguage();
+  return [
+    ...getDefaultExtensions(),
+    language,
+    getThemeExtension(),
+    ...(props.isLint ? [await getLintExtension(props.language)] : []),
+  ];
+};
+
+/**
  * 更新扩展
  */
 const updateExtension = async () => {
   if (!editor) {
     return;
   }
-  const language = await getLanguage();
   editor.dispatch({
-    effects: StateEffect.appendConfig.of([
-      ...getDefaultExtensions(),
-      language,
-      getThemeExtension(),
-    ]),
+    effects: StateEffect.appendConfig.of(await getExtensions()),
   });
 };
 
@@ -168,10 +179,9 @@ watch([() => props.theme, () => props.language], () => {
  * 初始化函数
  */
 const init = async () => {
-  const language = await getLanguage();
   editor = new EditorView({
     doc: props.value,
-    extensions: [...getDefaultExtensions(), language, getThemeExtension()],
+    extensions: await getExtensions(),
     parent: unref(el) ?? document.body,
     ...props.config,
   });

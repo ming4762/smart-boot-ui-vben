@@ -18,13 +18,14 @@ catalog:
   '@changesets/cli': ^2.29.2
   '@changesets/git': ^3.0.4
   '@clack/prompts': ^0.10.1
-  '@codemirror/lang-html': ^6.0.1
-  '@codemirror/lang-java': ^6.0.1
-  '@codemirror/lang-javascript': ^6.0.1
-  '@codemirror/lang-json': ^6.0.1
-  '@codemirror/lang-xml': ^6.0.1
-  '@codemirror/state': ^6.4.1
-  '@codemirror/view': ^6.35.0
+  '@codemirror/lang-html': ^6.4.9
+  '@codemirror/lang-java': ^6.0.2
+  '@codemirror/lang-javascript': ^6.2.4
+  '@codemirror/lang-json': ^6.0.2
+  '@codemirror/lang-xml': ^6.1.0
+  '@codemirror/state': ^6.5.2
+  '@codemirror/view': ^6.38.0
+  '@codemirror/lint': ^6.8.5
   '@commitlint/cli': ^19.8.0
   '@commitlint/config-conventional': ^19.8.0
   '@ctrl/tinycolor': ^4.1.0

@@ -3,7 +3,9 @@ import type { SmartTableColumn } from '#/adapter/smart-table';
 
 import { SUPPORT_LANGUAGES } from '@vben/constants';
 import { $t as t } from '@vben/locales';
+import { isJsonString } from '@vben/utils';
 
+import { z } from '#/adapter/form';
 import { getTableUseYnColumnClass } from '#/adapter/smart-table';
 
 export enum Permissions {
@@ -119,9 +121,21 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       componentProps: {
         language: 'json',
         class: 'h-full',
+        isLint: true,
       },
       wrapperClass: 'h-full',
       formItemClass: 'items-start grow overflow-auto shrink',
+      rules: z.string().refine(
+        (value) => {
+          if (!value) {
+            return true;
+          }
+          return isJsonString(value);
+        },
+        {
+          message: 'data必须为json字符串',
+        },
+      ),
     },
   ];
 };
