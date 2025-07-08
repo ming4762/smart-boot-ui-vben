@@ -8,13 +8,7 @@ import type { Component } from 'vue';
 import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import {
-  defineAsyncComponent,
-  defineComponent,
-  getCurrentInstance,
-  h,
-  ref,
-} from 'vue';
+import { defineAsyncComponent, defineComponent, h, ref } from 'vue';
 
 import {
   ApiComponent,
@@ -114,16 +108,15 @@ const withDefaultPlaceholder = <T extends Component>(
         props?.placeholder || attrs?.placeholder || t(`ui.placeholder.${type}`);
       // 透传组件暴露的方法
       const innerRef = ref();
-      const publicApi: Recordable<any> = {};
-      expose(publicApi);
-      const instance = getCurrentInstance();
-      instance?.proxy?.$nextTick(() => {
-        for (const key in innerRef.value) {
-          if (typeof innerRef.value[key] === 'function') {
-            publicApi[key] = innerRef.value[key];
-          }
-        }
-      });
+      expose(
+        new Proxy(
+          {},
+          {
+            get: (_target, key) => innerRef.value?.[key],
+            has: (_target, key) => key in (innerRef.value || {}),
+          },
+        ),
+      );
       return () =>
         h(
           component,
