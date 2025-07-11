@@ -271,6 +271,7 @@ createSmartTableContext(smartTableContext);
 
 onMounted(() => {
   emit('register', tableAction);
+  emit('initialized');
 });
 
 defineExpose({

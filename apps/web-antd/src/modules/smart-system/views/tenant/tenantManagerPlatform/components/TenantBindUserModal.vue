@@ -87,15 +87,23 @@ const [Modal, modalAPi] = useVbenModal({
     const { tenantId } = modalAPi.getData();
     tenantIdRef.value = tenantId;
     nextTick(() => {
-      tableApi.getGrid().clearData();
-      tableApi.query();
-      tableApi.getGrid().clearCheckboxRow();
+      if (tableApi.isMounted) {
+        tableApi.getGrid().clearData();
+        tableApi.query();
+        tableApi.getGrid().clearCheckboxRow();
+      }
     });
   },
   onConfirm: () => {
     handleBindUser(false);
   },
 });
+
+const handleTableInitialized = () => {
+  tableApi.getGrid().clearData();
+  tableApi.query();
+  tableApi.getGrid().clearCheckboxRow();
+};
 
 const bindLoadingRef = ref(false);
 /**
@@ -135,7 +143,7 @@ const handleBindUser = async (createAccount: boolean) => {
 
 <template>
   <Modal class="system-tenant-manager-addUserModal">
-    <SmartTable />
+    <SmartTable @initialized="handleTableInitialized" />
     <template #center-footer>
       <SmartAuthButton
         type="primary"

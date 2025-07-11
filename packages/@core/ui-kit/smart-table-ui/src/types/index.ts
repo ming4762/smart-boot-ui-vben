@@ -127,6 +127,8 @@ type SmartTableRenderListeners = {
   afterSaveUpdate: [boolean];
   cellClick: [VxeGridDefines.CellClickEventParams];
   formQuery: [];
+  // 表格初始化完成时间
+  initialized: [];
   'proxy-query': [any];
   proxyDelete: [{ status: boolean }];
   register: [SmartTableAction];
