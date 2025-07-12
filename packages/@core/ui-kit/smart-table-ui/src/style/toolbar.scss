@@ -5,7 +5,7 @@ $button-margin: 5px;
 }
 
 .vxe-toolbar .vxe-tools--wrapper,
-.vxe-toolbar .vxe-tools--operate button:first-child {
+.vxe-toolbar .vxe-tools--operate .type--button {
   margin: 0;
   margin-left: $button-margin;
 }
