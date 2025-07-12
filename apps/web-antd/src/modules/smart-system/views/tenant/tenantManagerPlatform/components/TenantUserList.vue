@@ -49,6 +49,7 @@ const [SmartTable, tableApi] = useSmartTable({
   id: 'system-tenant-userList',
   border: true,
   height: 'auto',
+  stripe: true,
   customConfig: { storage: true },
   columns: getTabUserListColumns(),
   showOverflow: 'tooltip',

@@ -38,6 +38,7 @@ const [SmartTable] = useSmartTable({
   columns: getTableColumns(),
   height: 'auto',
   border: true,
+  stripe: true,
   customConfig: { storage: true },
   sortConfig: {
     remote: true,

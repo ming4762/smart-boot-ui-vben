@@ -24,6 +24,7 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   height: 'auto',
   border: true,
+  stripe: true,
   sortConfig: {
     remote: true,
   },
@@ -31,7 +32,6 @@ const [SmartTable, tableApi] = useSmartTable({
   columnConfig: {
     resizable: true,
   },
-  stripe: true,
   rowConfig: {
     isHover: true,
     isCurrent: true,

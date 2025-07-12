@@ -43,6 +43,8 @@ const [SmartTable, tableApi] = useSmartTable({
   customConfig: { storage: true },
   columns: getTableColumns(),
   height: 'auto',
+  useSearchForm: false,
+  stripe: true,
   border: true,
   sortConfig: {
     remote: true,

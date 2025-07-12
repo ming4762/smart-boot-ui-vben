@@ -37,6 +37,7 @@ const [SmartTable] = useSmartTable({
   customConfig: { storage: true },
   height: 'auto',
   border: true,
+  stripe: true,
   sortConfig: {
     remote: true,
     defaultSort: {

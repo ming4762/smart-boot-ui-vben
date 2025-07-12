@@ -25,6 +25,7 @@ const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   checkboxConfig: true,
   border: true,
+  stripe: true,
   height: 'auto',
   useSearchForm: true,
   pagerConfig: true,

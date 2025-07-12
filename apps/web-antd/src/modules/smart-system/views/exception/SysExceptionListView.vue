@@ -70,6 +70,9 @@ const [SmartTable, tableApi] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   checkboxConfig: true,
+  rowConfig: {
+    isHover: true,
+  },
   searchFormConfig: {
     schema: getSearchFormSchemas(getIsPlatformTenant),
     wrapperClass: 'grid-cols-5 grid',

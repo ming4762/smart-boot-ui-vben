@@ -44,6 +44,7 @@ const [SmartTable, tableApi] = useSmartTable({
   customConfig: { storage: true },
   columns: getTableColumns(pageDictMap),
   height: 'auto',
+  stripe: true,
   checkboxConfig: true,
   border: true,
   sortConfig: {

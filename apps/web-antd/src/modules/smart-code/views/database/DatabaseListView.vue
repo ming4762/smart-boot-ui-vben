@@ -58,6 +58,7 @@ const [SmartTable, tableApi] = useSmartTable({
     resizable: true,
   },
   border: true,
+  stripe: true,
   height: 'auto',
   columns: tableColumns,
   useSearchForm: true,
