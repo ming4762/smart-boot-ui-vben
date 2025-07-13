@@ -29,6 +29,7 @@ import {
   VxeToolbar,
 } from 'vxe-table';
 
+import initSmartTableFormatter from './formatter';
 import { getI18nData } from './locales';
 import { initSmartTableRender } from './renderer';
 
@@ -154,6 +155,8 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
 
   // 初始化按钮渲染器
   initSmartTableRender();
+  // 初始化全局formatter
+  initSmartTableFormatter();
 };
 
 export { DEFAULT_SETUP_HANDLER, setupSmartTable };

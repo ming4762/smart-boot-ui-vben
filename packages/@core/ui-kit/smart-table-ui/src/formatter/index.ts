@@ -1,1 +1,5 @@
-import './SmartTableDataTimeFormatter';
+import initSmartTableDataTimeFormatter from './SmartTableDataTimeFormatter';
+
+export default function initSmartTableFormatter() {
+  initSmartTableDataTimeFormatter();
+}
