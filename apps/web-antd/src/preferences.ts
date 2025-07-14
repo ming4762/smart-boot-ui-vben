@@ -11,7 +11,7 @@ export const overridesPreferences = defineOverridesPreferences({
     accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
     loginExpiredMode: 'modal',
-    enableRefreshToken: false,
+    enableRefreshToken: true,
   },
   theme: {
     mode: 'light',

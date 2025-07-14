@@ -106,11 +106,11 @@ const computedUsername = computed(() => {
   return userStore.userInfo?.username;
 });
 
-async function handleLogout(logoutSuccessHandler: () => void) {
+async function handleLogout(logoutSuccessHandler?: () => void) {
   try {
     await authStore.logout(false);
   } finally {
-    logoutSuccessHandler();
+    logoutSuccessHandler?.();
   }
 }
 
