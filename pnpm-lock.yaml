@@ -757,7 +757,7 @@ importers:
         version: 13.4.0(vue@3.5.17(typescript@5.8.3))
       '@vxe-ui/plugin-export-xlsx':
         specifier: 'catalog:'
-        version: 4.2.1(vxe-table@4.13.51(vue@3.5.17(typescript@5.8.3)))
+        version: 4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))
       '@vxe-ui/plugin-render-antd-smart-boot':
         specifier: 'catalog:'
         version: 4.0.7
@@ -1622,10 +1622,10 @@ importers:
         version: 3.5.17(typescript@5.8.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.6.42(vue@3.5.17(typescript@5.8.3))
+        version: 4.7.12(vue@3.5.17(typescript@5.8.3))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.13.51(vue@3.5.17(typescript@5.8.3))
+        version: 4.14.4(vue@3.5.17(typescript@5.8.3))
       zod:
         specifier: 'catalog:'
         version: 3.24.3
@@ -16169,9 +16169,9 @@ snapshots:
       vue: 3.5.17(typescript@5.8.3)
       xe-utils: 3.7.7
 
-  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.13.51(vue@3.5.17(typescript@5.8.3)))':
+  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))':
     dependencies:
-      vxe-table: 4.13.51(vue@3.5.17(typescript@5.8.3))
+      vxe-table: 4.14.4(vue@3.5.17(typescript@5.8.3))
 
   '@vxe-ui/plugin-render-antd-smart-boot@4.0.7': {}
 
