@@ -562,11 +562,11 @@ catalogs:
       specifier: 2.2.10
       version: 2.2.10
     vxe-pc-ui:
-      specifier: ^4.6.42
-      version: 4.6.42
+      specifier: ^4.7.12
+      version: 4.7.12
     vxe-table:
-      specifier: ^4.13.51
-      version: 4.13.51
+      specifier: ^4.14.4
+      version: 4.14.4
     watermark-js-plus:
       specifier: ^1.6.2
       version: 1.6.2
@@ -757,7 +757,7 @@ importers:
         version: 13.4.0(vue@3.5.17(typescript@5.8.3))
       '@vxe-ui/plugin-export-xlsx':
         specifier: 'catalog:'
-        version: 4.2.1(vxe-table@4.13.51(vue@3.5.17(typescript@5.8.3)))
+        version: 4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))
       '@vxe-ui/plugin-render-antd-smart-boot':
         specifier: 'catalog:'
         version: 4.0.7
@@ -1622,10 +1622,10 @@ importers:
         version: 3.5.17(typescript@5.8.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.6.42(vue@3.5.17(typescript@5.8.3))
+        version: 4.7.12(vue@3.5.17(typescript@5.8.3))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.13.51(vue@3.5.17(typescript@5.8.3))
+        version: 4.14.4(vue@3.5.17(typescript@5.8.3))
       zod:
         specifier: 'catalog:'
         version: 3.24.3
@@ -1897,10 +1897,10 @@ importers:
         version: 3.5.17(typescript@5.8.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.6.42(vue@3.5.17(typescript@5.8.3))
+        version: 4.7.12(vue@3.5.17(typescript@5.8.3))
       vxe-table:
         specifier: 'catalog:'
-        version: 4.13.51(vue@3.5.17(typescript@5.8.3))
+        version: 4.14.4(vue@3.5.17(typescript@5.8.3))
 
   packages/effects/request:
     dependencies:
@@ -5613,8 +5613,8 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
-  '@vxe-ui/core@4.1.5':
-    resolution: {integrity: sha512-IgRwVueejOGC5t+bVmBAUkoUplvp1R77pfYX6bb4fcLEPUdBGOdm4I0LCKTDWQ24Mj3Bki7wNpt3sdtEZEzdoA==}
+  '@vxe-ui/core@4.2.3':
+    resolution: {integrity: sha512-OV57p4jGstB6o16k7GmECWg6kZ4UVrsU2ize4YYA11MtIQm1WWyF+gSJd/hpRLg05nIXhE5xr2kdoITY4vzvJA==}
     peerDependencies:
       vue: ^3.5.17
 
@@ -11770,11 +11770,11 @@ packages:
     peerDependencies:
       vue: ^3.5.17
 
-  vxe-pc-ui@4.6.42:
-    resolution: {integrity: sha512-grBaVbagoc5rbTq2jj1P/cWYP+sBo+VSXFRpNGYOe9Ka4EG9JP+LIa7h0lKfojDE5fGlPUYTkkYNe0fsQVDQ0g==}
+  vxe-pc-ui@4.7.12:
+    resolution: {integrity: sha512-/CRsrMqgTh8hbGi5B8jk5DAR+a78jrBIjwRGaCUbYdFuyvHHNMoY47WY+KEM2YCtf0KeBSs4X6Z0v0fqSy6xHQ==}
 
-  vxe-table@4.13.51:
-    resolution: {integrity: sha512-g7y/67EC43KfiSGmZU6xh9kzGIsNQlFzvX1Yl/qz8U3dcQ8oOcnnvymhkHY54teaqyTr6m6RyWkcMKe3RMP64g==}
+  vxe-table@4.14.4:
+    resolution: {integrity: sha512-h4KDw8DHZz037kNULSJD2lEiNifAtHNw5XvXSH0Ropk60WK5My1zj9Kb2rX+uU1oGfh75dmv71JzR6V2iWoSUw==}
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
@@ -11955,8 +11955,8 @@ packages:
   xe-utils@3.7.4:
     resolution: {integrity: sha512-9yuCHLOU+og4OEkPWWtzrYk1Zt1hgN66U/NCJ0+vYJSx1MplBtoQRz8aEA+2RmCr3leLru98vQxNpw/vJsu/sg==}
 
-  xe-utils@3.7.5:
-    resolution: {integrity: sha512-wDjqnXw02EQxf2jqlE1nhvT9HP3PDVcyrol5whDJN/NOvnMyXIzcwEiPB/H2T3aq07f2QQXsSs4Z8g5L3BVH5A==}
+  xe-utils@3.7.7:
+    resolution: {integrity: sha512-5suEb7N5fVsO9V14KIpFvIIrTgtnjUf3XizzQHWynYn2zO8ytQ/+I5CX8zQNZD8zpEyuvcBuDmDw0v0L7pZZpA==}
 
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -16163,15 +16163,15 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vxe-ui/core@4.1.5(vue@3.5.17(typescript@5.8.3))':
+  '@vxe-ui/core@4.2.3(vue@3.5.17(typescript@5.8.3))':
     dependencies:
       dom-zindex: 1.0.6
       vue: 3.5.17(typescript@5.8.3)
-      xe-utils: 3.7.5
+      xe-utils: 3.7.7
 
-  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.13.51(vue@3.5.17(typescript@5.8.3)))':
+  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))':
     dependencies:
-      vxe-table: 4.13.51(vue@3.5.17(typescript@5.8.3))
+      vxe-table: 4.14.4(vue@3.5.17(typescript@5.8.3))
 
   '@vxe-ui/plugin-render-antd-smart-boot@4.0.7': {}
 
@@ -23002,15 +23002,15 @@ snapshots:
       vooks: 0.2.12(vue@3.5.17(typescript@5.8.3))
       vue: 3.5.17(typescript@5.8.3)
 
-  vxe-pc-ui@4.6.42(vue@3.5.17(typescript@5.8.3)):
+  vxe-pc-ui@4.7.12(vue@3.5.17(typescript@5.8.3)):
     dependencies:
-      '@vxe-ui/core': 4.1.5(vue@3.5.17(typescript@5.8.3))
+      '@vxe-ui/core': 4.2.3(vue@3.5.17(typescript@5.8.3))
     transitivePeerDependencies:
       - vue
 
-  vxe-table@4.13.51(vue@3.5.17(typescript@5.8.3)):
+  vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)):
     dependencies:
-      vxe-pc-ui: 4.6.42(vue@3.5.17(typescript@5.8.3))
+      vxe-pc-ui: 4.7.12(vue@3.5.17(typescript@5.8.3))
     transitivePeerDependencies:
       - vue
 
@@ -23288,7 +23288,7 @@ snapshots:
 
   xe-utils@3.7.4: {}
 
-  xe-utils@3.7.5: {}
+  xe-utils@3.7.7: {}
 
   xml-name-validator@4.0.0: {}
 
