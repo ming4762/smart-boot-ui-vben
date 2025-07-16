@@ -122,7 +122,7 @@ const useSmartTableAjax = (
     }
     const sort = sortConfig?.remote === true;
     return {
-      props: {
+      response: {
         result: 'rows',
         total: 'total',
       },

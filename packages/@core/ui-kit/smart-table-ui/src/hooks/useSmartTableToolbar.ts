@@ -30,6 +30,11 @@ import {
   SmartTableToolbarVxeButtonRenderer,
 } from '../types/SmartTableRenderType';
 
+interface RefreshConfig {
+  refresh: VxeToolbarPropTypes.Refresh;
+  refreshOptions?: VxeToolbarPropTypes.RefreshOptions;
+}
+
 const t = VxeUI.getI18n;
 
 const tableButtonSizeMap: { [key: string]: string } = {
@@ -388,7 +393,7 @@ export const useSmartTableToolbar = (
       .filter((item) => item !== null) as SmartTableButton[];
   };
 
-  const getDefaultRefreshConfig = (): VxeToolbarPropTypes.Refresh => {
+  const getDefaultRefreshConfig = (): VxeToolbarPropTypes.RefreshOptions => {
     const { query } = getSmartTableContext();
     return {
       queryMethod: (params) => {
@@ -398,17 +403,32 @@ export const useSmartTableToolbar = (
   };
 
   const convertRefresh = (
-    config: undefined | VxeToolbarPropTypes.Refresh,
-  ): undefined | VxeToolbarPropTypes.Refresh => {
-    if (!config) {
+    refresh?: VxeToolbarPropTypes.Refresh,
+    refreshOptions?: VxeToolbarPropTypes.RefreshOptions,
+  ): RefreshConfig | undefined => {
+    if (!refresh) {
       return undefined;
     }
-    if (isBoolean(config)) {
-      return getDefaultRefreshConfig();
+    if (isBoolean(refresh)) {
+      return refresh
+        ? {
+            refresh: true,
+            refreshOptions: {
+              ...getDefaultRefreshConfig(),
+              ...refreshOptions,
+            },
+          }
+        : {
+            refresh: false,
+          };
     }
     return {
-      ...(getDefaultRefreshConfig() as any),
-      ...config,
+      refresh: true,
+      refreshOptions: {
+        ...(getDefaultRefreshConfig() as any),
+        ...refresh,
+        ...refreshOptions,
+      },
     };
   };
 
@@ -487,11 +507,12 @@ export const useSmartTableToolbar = (
     return result;
   };
 
-  const computedToolBarRefresh = computed<
-    undefined | VxeToolbarPropTypes.Refresh
-  >(() => {
+  const computedToolBarRefresh = computed<RefreshConfig | undefined>(() => {
     const { toolbarConfig } = unref(tableProps);
-    return convertRefresh(toolbarConfig?.refresh);
+    return convertRefresh(
+      toolbarConfig?.refresh,
+      toolbarConfig?.refreshOptions,
+    );
   });
 
   const computedToolbarTools = computed(() => {
@@ -509,7 +530,7 @@ export const useSmartTableToolbar = (
     return {
       ...toolbarConfig,
       buttons,
-      refresh: unref(computedToolBarRefresh),
+      ...unref(computedToolBarRefresh),
       tools: unref(computedToolbarTools),
     };
   });
