@@ -6,29 +6,29 @@ $button-margin: 5px;
 
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate .type--button {
-  margin: 0;
-  margin-left: $button-margin;
+  margin-right: 0 !important;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
 
 .vxe-toolbar .vxe-tools--wrapper > .vxe-button + .vxe-tool--item {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
 
 .vxe-toolbar .vxe-tools--wrapper .vxe-button,
 .vxe-toolbar .vxe-tools--operate .vxe-button {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
   border-radius: 0 !important;
 }
 
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate .vxe-custom--wrapper {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
   border-radius: 0 !important;
 }
 
 .vxe-toolbar .vxe-tools--wrapper,
 .vxe-toolbar .vxe-tools--operate .vxe-custom--wrapper .vxe-button {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
 
 .vxe-toolbar .vxe-tools--wrapper .vxe-tool--item .vxe-button {
@@ -38,9 +38,9 @@ $button-margin: 5px;
 .vxe-toolbar .vxe-buttons--wrapper > .vxe-button + .vxe-button--item,
 .vxe-toolbar .vxe-buttons--wrapper > .vxe-button--item + .vxe-button,
 .vxe-toolbar .vxe-buttons--wrapper > .vxe-button--item + .vxe-button--item {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
 
 .vxe-toolbar .vxe-tools--wrapper > .vxe-tool--item + .vxe-tool--item {
-  margin-left: $button-margin;
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
