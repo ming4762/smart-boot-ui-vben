@@ -144,7 +144,7 @@ const useSmartTableAjax = (
     const { getGrid, setLoading } = getSmartTableContext();
     try {
       setLoading(true);
-      const code = initQuery ? 'query' : '_init';
+      const code = initQuery ? 'query' : 'initial';
       await getGrid().commitProxy(code, params);
     } finally {
       setLoading(false);
