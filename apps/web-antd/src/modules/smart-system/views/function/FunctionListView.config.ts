@@ -341,17 +341,20 @@ export const getAddEditForm = (): VbenFormSchema[] => {
         },
       },
       formItemClass: 'col-span-2',
-      rules: z.string().refine(
-        (value) => {
-          if (!value) {
-            return true;
-          }
-          return isJsonString(value);
-        },
-        {
-          message: 'meta必须为json字符串',
-        },
-      ),
+      rules: z
+        .string()
+        .optional()
+        .refine(
+          (value) => {
+            if (!value) {
+              return true;
+            }
+            return isJsonString(value);
+          },
+          {
+            message: 'meta必须为json字符串',
+          },
+        ),
     },
   ];
 };
