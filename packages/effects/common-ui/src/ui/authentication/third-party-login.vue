@@ -2,6 +2,7 @@
 import { useAppConfig } from '@vben/hooks';
 import { MdiGithub, MdiGoogle, MdiQqchat, MdiWechat } from '@vben/icons';
 import { $t } from '@vben/locales';
+
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
 import DingdingLogin from './dingding-login.vue';
