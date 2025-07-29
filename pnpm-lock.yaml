@@ -1622,7 +1622,7 @@ importers:
         version: 3.5.17(typescript@5.8.3)
       vxe-pc-ui:
         specifier: 'catalog:'
-        version: 4.7.12(vue@3.5.17(typescript@5.8.3))
+        version: 4.7.16(vue@3.5.17(typescript@5.8.3))
       vxe-table:
         specifier: 'catalog:'
         version: 4.14.4(vue@3.5.17(typescript@5.8.3))
@@ -11776,6 +11776,9 @@ packages:
   vxe-table@4.14.4:
     resolution: {integrity: sha512-h4KDw8DHZz037kNULSJD2lEiNifAtHNw5XvXSH0Ropk60WK5My1zj9Kb2rX+uU1oGfh75dmv71JzR6V2iWoSUw==}
 
+  w3c-keyname@2.2.8:
+    resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
+
   warning@4.0.3:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
 
@@ -16160,17 +16163,17 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))':
-    dependencies:
-      vxe-table: 4.14.4(vue@3.5.17(typescript@5.8.3))
-
-  '@vxe-ui/plugin-render-antd-smart-boot@4.0.7': {}
-
   '@vxe-ui/core@4.2.5(vue@3.5.17(typescript@5.8.3))':
     dependencies:
       dom-zindex: 1.0.6
       vue: 3.5.17(typescript@5.8.3)
       xe-utils: 3.7.8
+
+  '@vxe-ui/plugin-export-xlsx@4.2.1(vxe-table@4.14.4(vue@3.5.17(typescript@5.8.3)))':
+    dependencies:
+      vxe-table: 4.14.4(vue@3.5.17(typescript@5.8.3))
+
+  '@vxe-ui/plugin-render-antd-smart-boot@4.0.7': {}
 
   '@whatwg-node/disposablestack@0.0.6':
     dependencies:
