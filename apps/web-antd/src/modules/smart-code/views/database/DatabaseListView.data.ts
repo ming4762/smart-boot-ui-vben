@@ -96,6 +96,15 @@ export const addEditForm = (): Array<VbenFormSchema> => {
       },
     },
     {
+      fieldName: 'isAdd',
+      label: '',
+      component: 'Switch',
+      dependencies: {
+        triggerFields: ['isAdd'],
+        show: false,
+      },
+    },
+    {
       fieldName: 'systemId',
       component: 'Input',
       dependencies: {
@@ -163,7 +172,10 @@ export const addEditForm = (): Array<VbenFormSchema> => {
       componentProps: {
         placeholder: t('smart.code.views.database.validate.password'),
       },
-      rules: 'required',
+      dependencies: {
+        triggerFields: ['password'],
+        required: (value) => value.isAdd === true,
+      },
     },
     {
       label: t('smart.code.views.database.table.tableSchema'),
