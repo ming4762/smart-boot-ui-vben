@@ -150,7 +150,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
           zIndex: 10_000,
         });
       } else if (!errorMessageMode || errorMessageMode === 'message') {
-        errorMessage(responseData);
+        errorMessage(responseData.code ? responseData : errorMessageStr);
       } else {
         console.error(errorMessageStr);
       }
