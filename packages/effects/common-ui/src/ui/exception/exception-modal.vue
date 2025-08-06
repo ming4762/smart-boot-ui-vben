@@ -41,6 +41,7 @@ const [Modal, modalApi] = useVbenModal({
   closeOnPressEscape: false,
   fullscreenButton: false,
   closable: false,
+  zIndex: 10_000,
   onOpenChange: (isOpen) => {
     if (isOpen) {
       model.feedbackMessage = '';
