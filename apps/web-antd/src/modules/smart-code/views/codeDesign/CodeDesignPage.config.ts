@@ -1,8 +1,11 @@
+import type { AnyNormalFunction } from '@vben/types';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type { SmartTableColumn } from '#/adapter/smart-table';
 
 import { $t as t } from '@vben/locales';
 
+import { listConnectionApi } from './CodeDesignPage.api';
 import { getControlList, SEARCH_SYMBOL_LIST } from './constants';
 
 type ButtonType =
@@ -186,7 +189,9 @@ const columnNumList = (hasZeroColumn = true) => {
   return column;
 };
 
-export const formSchemas = (): VbenFormSchema[] => {
+export const formSchemas = (
+  connectionParameter?: AnyNormalFunction<any[], any>,
+): VbenFormSchema[] => {
   return [
     {
       label: '',
@@ -200,10 +205,23 @@ export const formSchemas = (): VbenFormSchema[] => {
     {
       label: t('smart.code.views.codeManager.table.connectionName'),
       fieldName: 'connectionId',
-      slot: 'addEditForm-connectionId',
+      // slot: 'addEditForm-connectionId',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       controlClass: 'w-full',
+      componentProps: {
+        autoSelect: 'one',
+        api: async () => {
+          const connectionList = await listConnectionApi({
+            sortName: 'seq',
+            ...connectionParameter?.(),
+          });
+          return connectionList.map((item) => ({
+            label: item.connectionName,
+            value: item.id,
+          }));
+        },
+      },
     },
     {
       label: t('smart.code.views.codeManager.table.tableName'),

@@ -14,7 +14,6 @@ import { SmartIconButton } from '#/components';
 import { formSchemas } from '../CodeDesignPage.config';
 import { useLoadDbData } from '../CodeDesignPageHook';
 import { injectCodeDesignHandler } from '../useContext';
-import DatabaseSelect from './DatabaseSelect/DatabaseSelect.vue';
 import PageAddendumTableChoseModal from './PageAddendumTableChoseModal.vue';
 
 interface Props {
@@ -34,8 +33,16 @@ const [RenderPageAddendumTableChoseModal, addendumTableModalApi] = useVbenModal(
   },
 );
 
+const getDatabaseListParameter = () => {
+  return {
+    parameter: {
+      'systemId@=': unref(systemId),
+    },
+  };
+};
+
 const [Form, formApi] = useVbenForm({
-  schema: formSchemas(),
+  schema: formSchemas(getDatabaseListParameter),
   wrapperClass: 'grid-cols-4 grid',
   showDefaultActions: false,
   commonConfig: {
@@ -59,14 +66,6 @@ const { handleSyncTableData, configLoadingRef } = useLoadDbData(
   systemId,
 );
 
-const getDatabaseListParameter = () => {
-  return {
-    parameter: {
-      'systemId@=': unref(systemId),
-    },
-  };
-};
-
 const handleRemoveRelateTable = (dataList: any[], index: number) => {
   dataList.splice(index, 1);
 };
@@ -79,13 +78,6 @@ const handleSetAddendumTable = (tableData: any[]) => {
 <template>
   <Spin :spinning="configLoadingRef">
     <Form>
-      <template #addEditForm-connectionId="{ model, size }">
-        <DatabaseSelect
-          v-model:value="model.connectionId"
-          :parameter="getDatabaseListParameter"
-          :size="size"
-        />
-      </template>
       <template #addEditForm-RelateTable="{ model }">
         <Tag
           v-for="(table, index) in model.addendumTableList"
