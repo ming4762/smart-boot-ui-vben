@@ -59,9 +59,9 @@ const [SmartTable] = useSmartTable({
   searchFormConfig: {
     schema: getSearchFormSchemas(),
     searchWithSymbol: true,
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {
@@ -140,10 +140,11 @@ const [SmartTable] = useSmartTable({
 </script>
 
 <template>
-  <div class="smart-table-padding page-container h-full">
+  <div class="page-container h-full">
     <SmartLayoutSeparate class="h-full" draggable second-size="240px">
       <template #first>
         <SmartTable
+          class="smart-table-padding"
           @current-change="handleCurrentChange"
           :size="getTableSize as never"
         />

@@ -177,7 +177,6 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 
 <style lang="less" scoped>
 .layout-set-function {
-  margin-left: 5px;
   background: hsl(var(--background));
 
   :deep(.ant-layout-sider-children) {

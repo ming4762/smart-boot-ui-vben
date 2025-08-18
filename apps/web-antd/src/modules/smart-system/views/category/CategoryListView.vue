@@ -44,11 +44,11 @@ const [SmartTable, tableApi] = useSmartTable({
     hasChildField: 'hasChild',
   },
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     schema: getSearchFormSchemas(),
     searchWithSymbol: true,
-    actionWrapperClass: 'text-left',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       labelWidth: 90,
       formItemClass: 'pb-2',

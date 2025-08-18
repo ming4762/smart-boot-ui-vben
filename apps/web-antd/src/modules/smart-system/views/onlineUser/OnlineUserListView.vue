@@ -28,9 +28,9 @@ const [SmartTable, tableApi] = useSmartTable({
     isHover: true,
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     schema: getSearchFormSchemas(getIsPlatformTenant),
     commonConfig: {
       componentProps: {
@@ -39,7 +39,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       labelWidth: 90,
-      formItemClass: 'pb-2',
     },
   },
   proxyConfig: {

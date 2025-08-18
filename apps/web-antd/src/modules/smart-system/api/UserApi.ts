@@ -10,7 +10,7 @@ enum Api {
  * @param userIds
  */
 export const deleteUserByIdApi = (
-  tenantId: null | number | undefined,
+  tenantId: null | number | string | undefined,
   userIds: number[],
 ) => {
   return requestClient.post(

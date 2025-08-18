@@ -43,9 +43,9 @@ const [SmartTable, tableApi] = useSmartTable({
     },
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex  flex-wrap',
     schema: getUserSearchSchemas(),
     commonConfig: {
       componentProps: {

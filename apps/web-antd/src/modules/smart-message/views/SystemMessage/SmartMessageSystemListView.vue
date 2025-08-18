@@ -51,9 +51,9 @@ const [SmartTable, tableApi] = useSmartTable({
   showOverflow: 'tooltip',
   useSearchForm: true,
   searchFormConfig: {
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     schema: getSearchFormSchemas(),
     searchWithSymbol: true,
     commonConfig: {

@@ -63,10 +63,11 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   stripe: true,
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
+    compact: true,
     searchWithSymbol: true,
     schema: searchFormColumns(),
-    actionWrapperClass: 'text-left pb-2 ml-1.5',
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {

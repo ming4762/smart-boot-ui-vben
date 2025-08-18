@@ -52,10 +52,11 @@ const [SmartTable, tableApi] = useSmartTable({
     defaultSort: { field: 'createTime', order: 'desc' },
   },
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     schema: getSearchFormSchemas(),
+    compact: true,
     searchWithSymbol: true,
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {
@@ -63,7 +64,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       labelWidth: 90,
-      formItemClass: 'pb-2',
     },
   },
   addEditConfig: {

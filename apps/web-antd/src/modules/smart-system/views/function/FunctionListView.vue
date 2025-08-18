@@ -89,9 +89,9 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   checkboxConfig: true,
   searchFormConfig: {
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     schema: getSearchSchemas(),
     commonConfig: {
       componentProps: {

@@ -54,10 +54,10 @@ const [SmartTable] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     schema: getSearchFormSchemas(props.ident, getIsPlatformTenant),
-    actionWrapperClass: 'text-left',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {
@@ -65,7 +65,6 @@ const [SmartTable] = useSmartTable({
         },
       },
       labelWidth: 90,
-      formItemClass: 'pb-2',
     },
     searchWithSymbol: true,
   },

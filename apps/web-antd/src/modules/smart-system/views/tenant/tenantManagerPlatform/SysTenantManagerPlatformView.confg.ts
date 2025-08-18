@@ -503,7 +503,7 @@ export enum Permission {
  * 租户管理 添加修改用户表单
  */
 export const getAddEditUserFormSchemas = (
-  tenantIdRef: Ref<number | undefined>,
+  tenantIdRef: Ref<number | string | undefined>,
 ): VbenFormSchema[] => {
   return [
     {

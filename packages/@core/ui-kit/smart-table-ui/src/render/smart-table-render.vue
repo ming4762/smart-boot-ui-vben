@@ -312,7 +312,7 @@ defineExpose({
             class="bg-background-deep h-[5px]"
           ></div>
           <slot name="form">
-            <SearchForm class="pt-[5px]" />
+            <SearchForm class="px-[5px] pt-2" />
           </slot>
           <div
             v-if="computedHasSeparator && computedSeparatorTop"

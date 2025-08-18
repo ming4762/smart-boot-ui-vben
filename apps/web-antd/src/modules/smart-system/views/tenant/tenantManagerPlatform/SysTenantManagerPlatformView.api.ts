@@ -123,7 +123,7 @@ export const listUserByRoleTenantApi = (parameter: any) => {
 };
 
 export const setRoleUserWithTenantApi = (
-  tenantId: number,
+  tenantId: number | string,
   roleId: number,
   userIdList: number[],
 ) => {
@@ -140,7 +140,9 @@ export const setRoleUserWithTenantApi = (
   );
 };
 
-export const listDeptTreeByTenantApi = async (tenantId: number | undefined) => {
+export const listDeptTreeByTenantApi = async (
+  tenantId: number | string | undefined,
+) => {
   if (!tenantId) {
     return [];
   }
@@ -168,7 +170,7 @@ export const saveTenantUserApi = (data: any) => {
 };
 
 export const getUserByTenantIdWithDeptApi = (
-  tenantId: number,
+  tenantId: number | string,
   userId: number,
 ) => {
   return requestClient.post(

@@ -50,9 +50,9 @@ const [SmartTable, tableApi] = useSmartTable({
     },
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     compact: true,
-    wrapperClass: 'flex flex-wrap',
     schema: getSearchSchemas(),
     commonConfig: {
       componentProps: {
@@ -128,8 +128,8 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 </script>
 
 <template>
-  <div class="smart-table-padding page-container h-full">
-    <SmartTable>
+  <div class="page-container h-full">
+    <SmartTable class="smart-table-padding">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />
       </template>

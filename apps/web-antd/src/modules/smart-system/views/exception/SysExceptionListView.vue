@@ -77,6 +77,8 @@ const [SmartTable, tableApi] = useSmartTable({
     schema: getSearchFormSchemas(getIsPlatformTenant),
     wrapperClass: 'grid-cols-5 grid',
     actionWrapperClass: 'col-span-1 text-left',
+    actionPosition: 'left',
+    actionLayout: 'inline',
     compact: true,
     commonConfig: {
       componentProps: {

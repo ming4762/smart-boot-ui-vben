@@ -31,10 +31,11 @@ const [SmartTable, tableApi] = useSmartTable({
   id: 'smart-tool-code-databaseList',
   customConfig: { storage: true },
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
+    compact: true,
     searchWithSymbol: true,
     schema: searchForm(),
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {

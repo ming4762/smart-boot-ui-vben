@@ -41,10 +41,11 @@ const [SmartTable, tableApi] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
+    compact: true,
     schema: getSearchSchemas(),
     searchWithSymbol: true,
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex flex-wrap',
     commonConfig: {
       componentProps: {
         style: {

@@ -43,9 +43,9 @@ const [SmartTable, tableApi] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     searchWithSymbol: true,
-    wrapperClass: 'flex flex-wrap',
-    actionWrapperClass: 'text-left',
     compact: true,
     schema: getSearchFormSchemas(),
     commonConfig: {
@@ -55,7 +55,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       labelWidth: 90,
-      formItemClass: 'pb-2',
     },
   },
   addEditConfig: {

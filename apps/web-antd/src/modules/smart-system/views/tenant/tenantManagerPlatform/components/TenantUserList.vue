@@ -64,9 +64,9 @@ const [SmartTable, tableApi] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
+    layout: 'inline',
     schema: getTabUserListSearchSchemas(),
-    wrapperClass: 'flex',
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    actionWrapperClass: 'col-span-1 pb-2 ml-1.5 gap-1',
     commonConfig: {
       componentProps: {
         style: {
