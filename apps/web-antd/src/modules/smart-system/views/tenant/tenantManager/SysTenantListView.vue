@@ -39,7 +39,7 @@ const initIsolationStrategy = async () => {
 
 const { pageDictMap, pageDictRegister } = useInjectPageDict();
 const computedTenantTypeDictMap = computed(() => {
-  return (unref(pageDictMap || {}) as any)[SYSTEM_TENANT_TYPE_DICT] || {};
+  return unref(pageDictMap).get(SYSTEM_TENANT_TYPE_DICT) || new Map();
 });
 onMounted(() => pageDictRegister(SYSTEM_TENANT_TYPE_DICT));
 
@@ -166,7 +166,7 @@ const [SmartTable] = useSmartTable({
         <span>{{ computedIsolationStrategyMap[row.isolationStrategy] }}</span>
       </template>
       <template #table-type="{ row }">
-        <span>{{ computedTenantTypeDictMap[row.type] }}</span>
+        <span>{{ computedTenantTypeDictMap.get(row.type) }}</span>
       </template>
     </SmartTable>
     <!--    <SmartLayoutSeparate-->

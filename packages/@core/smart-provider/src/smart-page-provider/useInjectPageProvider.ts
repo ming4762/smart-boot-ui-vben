@@ -23,9 +23,9 @@ export const useInjectPageDict = () => {
     new Map(),
   );
 
-  const pageDictMap: Ref<Record<string, Record<string, any>>> = inject(
+  const pageDictMap: Ref<Map<string, Map<string, string>>> = inject(
     SmartProviderConstants.dictMap,
-    ref({}),
+    ref(new Map()),
   );
 
   const pageDictRegisterIdent: boolean = inject(

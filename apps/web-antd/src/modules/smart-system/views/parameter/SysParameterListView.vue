@@ -36,6 +36,7 @@ const [SmartTable, tableApi] = useSmartTable({
   },
   rowConfig: {
     isHover: true,
+    isCurrent: true,
   },
   showOverflow: 'tooltip',
   columns: getTableColumns(),

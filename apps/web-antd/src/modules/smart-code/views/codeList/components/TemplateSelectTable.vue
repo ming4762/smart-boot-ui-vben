@@ -74,6 +74,7 @@ const [SmartTable, tableApi] = useSmartTable({
             parameter: {
               ...ajaxParameter?.parameter,
               ...parameter,
+              'templateType@=': 'TEMPLATE_CODE',
             },
           },
           {
