@@ -52,3 +52,4 @@ vite.config.ts.*
 
 # 不排除vditor的文件
 !apps/web-antd/public/vditor/dist/
+.cursor
