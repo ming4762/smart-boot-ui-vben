@@ -49,20 +49,20 @@ export const useSmartTableDynamicClassStyle = (
         if (column.field) {
           tableDynamicClass[column.field] = column.dynamicClass;
         } else {
-          warningMessage('列未设置field，dynamicClass失效');
+          console.warn('列未设置field，dynamicClass失效');
         }
       } else if (column.autoClass) {
         if (column.field) {
           tableDynamicClass[column.field] = autoClass[column.autoClass];
         } else {
-          warningMessage('列未设置field，dynamicClass失效');
+          console.warn('列未设置field，dynamicClass失效');
         }
       }
     });
-    if (tableProps.cellClassName || tableProps.rowClassName) {
+    if (tableProps.cellClassName) {
       if (Object.keys(tableDynamicClass).length > 0) {
-        warningMessage(
-          '表格设置了cellClassName或rowClassName，列dynamicClass失效',
+        console.warn(
+          '表格设置了cellClassName，列dynamicClass失效',
         );
       }
       return undefined;
@@ -93,7 +93,7 @@ export const useSmartTableDynamicClassStyle = (
           if (column.field) {
             tableDynamicStyle[column.field] = column.dynamicStyle;
           } else {
-            warningMessage('列未设置field，dynamicStyle失效');
+            console.warn('列未设置field，dynamicStyle失效');
           }
         }
       });
