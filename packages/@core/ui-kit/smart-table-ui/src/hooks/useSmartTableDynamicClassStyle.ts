@@ -15,8 +15,6 @@ import { computed, unref } from 'vue';
 
 import { isObject, isString } from '@vben-core/shared/utils';
 
-import { warningMessage } from '../utils';
-
 const autoClass: {
   [index in SmartTableColumnAutoClass]: SmartTableColumnDynamicClass;
 } = {
@@ -61,9 +59,7 @@ export const useSmartTableDynamicClassStyle = (
     });
     if (tableProps.cellClassName) {
       if (Object.keys(tableDynamicClass).length > 0) {
-        console.warn(
-          '表格设置了cellClassName，列dynamicClass失效',
-        );
+        console.warn('表格设置了cellClassName，列dynamicClass失效');
       }
       return undefined;
     }

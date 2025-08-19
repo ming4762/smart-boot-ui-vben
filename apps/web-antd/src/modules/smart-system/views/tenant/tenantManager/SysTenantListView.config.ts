@@ -321,7 +321,9 @@ export const getFormSchemas = (
   ];
 };
 
-export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
+export const getSearchFormSchemas = (
+  isolationStrategyListRef: Ref<any[]>,
+): SmartSearchFormSchema[] => {
   return [
     {
       fieldName: 'tenantCode',
@@ -344,27 +346,46 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
     {
       fieldName: 'type',
       label: t('system.views.tenant.manager.title.type'),
-      component: 'Input',
       searchSymbol: '=',
+      component: 'ApiDictSelect',
+      componentProps: {
+        dictCode: SYSTEM_TENANT_TYPE_DICT,
+        labelWithCode: true,
+        style: { width: '100px' }
+      },
+      controlClass: 'w-full',
     },
     {
       fieldName: 'isolationStrategy',
       label: t('system.views.tenant.manager.title.isolationStrategy'),
-      component: 'Input',
+      component: 'Select',
+      componentProps: () => {
+        return {
+          options: unref(isolationStrategyListRef),
+          style: { width: '100px' },
+        };
+      },
+      controlClass: 'w-full',
       searchSymbol: '=',
     },
-    {
-      fieldName: 'effectTime',
-      label: t('system.views.tenant.manager.title.effectTime'),
-      component: 'Input',
-      searchSymbol: '=',
-    },
-    {
-      fieldName: 'expireTime',
-      label: t('system.views.tenant.manager.title.expireTime'),
-      component: 'Input',
-      searchSymbol: '=',
-    },
+    // {
+    //   fieldName: 'effectTime',
+    //   label: t('system.views.tenant.manager.title.effectTime'),
+    //   component: 'DatePicker',
+    //   componentProps: {
+    //     showTime: true,
+    //   },
+    //   searchSymbol: '=',
+    // },
+    // {
+    //   fieldName: 'expireTime',
+    //   label: t('system.views.tenant.manager.title.expireTime'),
+    //   component: 'DatePicker',
+    //   componentProps: {
+    //     showTime: true,
+    //   },
+    //   searchSymbol: '=',
+    // },
   ];
 };
 

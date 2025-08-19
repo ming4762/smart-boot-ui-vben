@@ -75,14 +75,17 @@ const [SmartTable] = useSmartTable({
   pagerConfig: true,
   useSearchForm: true,
   searchFormConfig: {
-    schema: getSearchFormSchemas(),
+    schema: getSearchFormSchemas(isolationStrategyListRef),
     searchWithSymbol: true,
     commonConfig: {
       labelWidth: 90,
     },
-    actionWrapperClass: 'col-span-1 text-left',
+    actionWrapperClass: 'gap-x-2',
     compact: true,
-    wrapperClass: 'grid grid-cols-4',
+    layout: 'inline',
+    // wrapperClass: 'grid grid-cols-5',
+    actionLayout: 'inline',
+    actionPosition: 'left',
   },
   addEditConfig: {
     modalConfig: {
