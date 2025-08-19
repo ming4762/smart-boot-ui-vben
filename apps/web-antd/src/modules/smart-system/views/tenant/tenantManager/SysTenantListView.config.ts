@@ -351,7 +351,7 @@ export const getSearchFormSchemas = (
       componentProps: {
         dictCode: SYSTEM_TENANT_TYPE_DICT,
         labelWithCode: true,
-        style: { width: '100px' }
+        style: { width: '100px' },
       },
       controlClass: 'w-full',
     },
