@@ -41,6 +41,7 @@
     "@codemirror/lang-java": "catalog:",
     "@codemirror/lang-javascript": "catalog:",
     "@codemirror/lang-json": "catalog:",
+    "@codemirror/lang-sql": "catalog:",
     "@codemirror/lang-xml": "catalog:",
     "@codemirror/state": "catalog:",
     "@codemirror/view": "catalog:",

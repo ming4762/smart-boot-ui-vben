@@ -12,9 +12,9 @@ import { defineAsyncComponent, defineComponent, h, ref } from 'vue';
 
 import {
   ApiComponent,
-  CodeEditor,
   globalShareState,
   IconPicker,
+  SmartCodeEditor,
   SmartPulldownTable,
 } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
@@ -134,7 +134,6 @@ export type ComponentType =
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
-  | 'CodeEditor'
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
@@ -153,6 +152,7 @@ export type ComponentType =
   | 'RangePicker'
   | 'Rate'
   | 'Select'
+  | 'SmartCodeEditor'
   | 'SmartMarkdown'
   | 'SmartPulldownTable'
   | 'SmartTinymceEditor'
@@ -254,7 +254,7 @@ async function initComponentAdapter() {
       return SmartTinymceEditor;
     }),
     // SmartTinymceEditor,
-    CodeEditor,
+    SmartCodeEditor,
     Tooltip,
     SmartTableSelectUser,
   };

@@ -7,6 +7,7 @@ enum Language {
   JAVA = 'java',
   JAVASCRIPT = 'javascript',
   JSON = 'json',
+  SQL = 'sql',
   XML = 'xml',
 }
 
@@ -16,6 +17,7 @@ const modeMap: Record<Language, () => Promise<Record<string, any>>> = {
   [Language.JAVASCRIPT]: () => import('@codemirror/lang-javascript'),
   [Language.JSON]: () => import('@codemirror/lang-json'),
   [Language.XML]: () => import('@codemirror/lang-xml'),
+  [Language.SQL]: () => import('@codemirror/lang-sql'),
 };
 
 const lintModeMap: Record<Language, () => Promise<Extension[]>> = {
@@ -31,6 +33,7 @@ const lintModeMap: Record<Language, () => Promise<Extension[]>> = {
     ];
   },
   [Language.XML]: async () => [],
+  [Language.SQL]: async () => [],
 };
 
 const getLanguagePackage = (model: Language) => {

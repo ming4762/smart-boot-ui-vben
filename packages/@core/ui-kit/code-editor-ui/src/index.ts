@@ -1,4 +1,4 @@
-export { default as CodeEditor } from './code-editor.vue';
+export { default as SmartCodeEditor } from './code-editor.vue';
 
 export { Language } from './constants';
 

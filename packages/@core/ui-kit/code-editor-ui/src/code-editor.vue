@@ -197,7 +197,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="el" class="relative !h-full w-full overflow-hidden"></div>
+  <div ref="el" class="relative w-full overflow-hidden"></div>
 </template>
 
 <style scoped>
