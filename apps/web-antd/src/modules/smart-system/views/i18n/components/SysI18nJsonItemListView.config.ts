@@ -117,7 +117,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'data',
       label: t('system.views.i18n.json.head.title.data'),
-      component: 'CodeEditor',
+      component: 'SmartCodeEditor',
       componentProps: {
         language: 'json',
         class: 'h-full',

@@ -165,7 +165,7 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       label: '',
       fieldName: 'template',
       labelWidth: 0,
-      component: 'CodeEditor',
+      component: 'SmartCodeEditor',
       componentProps: {
         language: 'java',
       },

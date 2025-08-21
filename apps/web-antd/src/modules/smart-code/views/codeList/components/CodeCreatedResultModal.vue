@@ -1,12 +1,9 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
+
 import { ref, unref } from 'vue';
 
-import {
-  CodeEditor,
-  type ExtendedModalApi,
-  Language,
-  useVbenModal,
-} from '@vben/common-ui';
+import { Language, SmartCodeEditor, useVbenModal } from '@vben/common-ui';
 import { downloadFileFromBlobPart } from '@vben/utils';
 
 import { TabPane, Tabs } from 'ant-design-vue';
@@ -54,7 +51,11 @@ const [Modal, modalApi] = useVbenModal({
         :key="item.templateId"
         :tab="item.templateName"
       >
-        <CodeEditor :language="Language.JAVA" :value="item.code" disabled />
+        <SmartCodeEditor
+          :language="Language.JAVA"
+          :value="item.code"
+          disabled
+        />
       </TabPane>
     </Tabs>
   </Modal>

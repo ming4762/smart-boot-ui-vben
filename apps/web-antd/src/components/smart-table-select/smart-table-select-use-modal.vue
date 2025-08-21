@@ -72,9 +72,10 @@ const tableProps = reactive<SmartTableProps>({
     rowTrigger: 'multiple',
   },
   searchFormConfig: {
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
-    wrapperClass: 'flex',
+    layout: 'inline',
+    actionWrapperClass: 'gap-x-2',
     separator: false,
+    compact: true,
     searchWithSymbol: true,
     schema: [
       {
@@ -86,7 +87,6 @@ const tableProps = reactive<SmartTableProps>({
     ],
     commonConfig: {
       labelWidth: 60,
-      formItemClass: 'pb-2',
     },
   },
   proxyConfig: {
