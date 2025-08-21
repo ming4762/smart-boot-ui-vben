@@ -14,7 +14,7 @@ const codeListRef = ref<any>([]);
 const generatorCode = async (values: CodeSqlFormValues) => {
   codeListRef.value = await generateMapperBySql(values);
 };
- 
+
 defineExpose({
   generatorCode,
 });
