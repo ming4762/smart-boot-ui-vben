@@ -40,7 +40,7 @@ export namespace AuthApi {
 
   export interface RefreshTokenResult {
     data: string;
-    status: number;
+    code: number;
   }
 }
 
@@ -70,6 +70,9 @@ export async function refreshTokenApi(): Promise<string> {
       service: ApiServiceEnum.SMART_AUTH,
     },
   );
+  if (response.data.code !== 200) {
+    throw response;
+  }
   return response.data.data;
 }
 
