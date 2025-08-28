@@ -11,7 +11,9 @@ import type {
 import { unref } from 'vue';
 
 import { $t as t } from '@vben/locales';
+import { isJsonString } from '@vben/utils';
 
+import { z } from '#/adapter/form';
 import {
   getTableBooleanColumnClass,
   getTableUseYnColumnClass,
@@ -347,6 +349,17 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
           return value.channelType1 === 'EMAIL';
         },
       },
+      rules: z.string().refine(
+        (value) => {
+          if (!value) {
+            return true;
+          }
+          return isJsonString(value);
+        },
+        {
+          message: 'data必须为json字符串',
+        },
+      ),
       // required: ({ model }) => model.channelType1 === 'EMAIL',
     },
   ];
