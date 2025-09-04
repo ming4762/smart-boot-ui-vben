@@ -261,6 +261,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'used/kettle',
           text: '集成kettle',
         },
+        {
+          link: 'used/common',
+          text: '常用功能',
+        },
       ],
     },
     {
