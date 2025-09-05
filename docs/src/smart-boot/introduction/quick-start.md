@@ -56,8 +56,8 @@ mvn compile
 
 ### 3、使用idea界面安装依赖
 
-![image-20250905102144058](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/introduction/images/image-20250905102144058.png)
+![image-20250905102144058](images/image-20250905102144058.png)
 
 ### 4、启动项目
 
-![image-20250905102609559](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/introduction/images/image-20250905102609559.png)
+![image-20250905102609559](images/image-20250905102609559.png)
