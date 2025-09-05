@@ -212,6 +212,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'introduction/about',
           text: '关于Smart Boot',
         },
+        {
+          link: 'introduction/quick-start',
+          text: '快速开始',
+        },
       ],
     },
     {
