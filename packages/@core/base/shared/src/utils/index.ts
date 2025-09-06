@@ -4,6 +4,7 @@ export * from './date';
 export * from './diff';
 export * from './dom';
 export * from './download';
+export * from './event-bus';
 export * from './inference';
 export * from './json';
 export * from './letter';
