@@ -176,7 +176,7 @@ export const getSubscribeFormSchemas = (
       label: t('system.views.tenant.manager.title.subscribe.packageId'),
       component: 'SmartPulldownTable',
       dependencies: {
-        triggerFields: ['packageId'],
+        triggerFields: ['isAdd'],
         disabled: (value) => {
           const isAdd = value.isAdd;
           return isAdd === false;
@@ -202,11 +202,12 @@ export const getSubscribeFormSchemas = (
           },
           tableProps: {
             border: true,
+            useSearchForm: false,
             columns: [
               {
                 field: 'packageCode',
                 sortable: true,
-                title: '123',
+                title: '{system.views.tenant.package.title.packageCode}',
                 width: 120,
               },
               {
@@ -219,12 +220,14 @@ export const getSubscribeFormSchemas = (
                 sortable: true,
                 title: '{system.views.tenant.package.title.effectTime}',
                 width: 165,
+                formatter: 'datetime',
               },
               {
                 field: 'expireTime',
                 sortable: true,
                 title: '{system.views.tenant.package.title.expireTime}',
                 width: 165,
+                formatter: 'datetime',
               },
               {
                 field: 'remark',
