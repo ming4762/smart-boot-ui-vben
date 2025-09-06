@@ -91,7 +91,7 @@ interface SmartBasicAuthType {
   permission: string | string[];
 }
 
-type SmartAuthType = SmartBasicAuthType | string;
+type SmartAuthType = (() => boolean) | SmartBasicAuthType | string;
 
 export type {
   BasicOption,

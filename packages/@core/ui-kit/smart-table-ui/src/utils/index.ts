@@ -1,8 +1,8 @@
+import type { Component } from 'vue';
+
 import type { SmartAuthType } from '@vben-core/typings';
 
 import type { SmartTableSize } from '../types';
-
-import type { Component } from 'vue';
 
 import { DEFAULT_SETUP_HANDLER } from '../init';
 

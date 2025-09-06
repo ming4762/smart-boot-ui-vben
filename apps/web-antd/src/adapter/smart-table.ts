@@ -10,6 +10,7 @@ import {
   VbenLoading,
 } from '@vben/common-ui';
 import { usePreferences } from '@vben/preferences';
+import { isFunction } from '@vben/utils';
 
 import VxeUIPluginExportXLSX from '@vxe-ui/plugin-export-xlsx';
 import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
@@ -62,6 +63,9 @@ const doSetupSmartTable = () => {
     permissionHandler: (code?: SmartAuthType) => {
       if (!code) {
         return true;
+      }
+      if (isFunction(code)) {
+        return code();
       }
       const { hasAccessByAuth } = useAccess();
       return hasAccessByAuth(code);

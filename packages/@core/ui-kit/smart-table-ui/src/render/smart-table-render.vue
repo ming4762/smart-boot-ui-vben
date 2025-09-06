@@ -27,7 +27,7 @@ import {
   useTemplateRef,
 } from 'vue';
 
-import { buildUUID, cn, omit } from '@vben-core/shared/utils';
+import { buildUUID, cn, isFunction, omit } from '@vben-core/shared/utils';
 
 import { VxeGrid, VxeUI } from 'vxe-table';
 
@@ -230,6 +230,9 @@ const tableAction: SmartTableAction = {
 };
 
 const defaultAuthHandler = (code?: SmartAuthType) => {
+  if (isFunction(code)) {
+    return code();
+  }
   return !code;
 };
 

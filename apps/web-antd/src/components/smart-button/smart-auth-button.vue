@@ -9,6 +9,7 @@ import { computed, unref, useAttrs, useSlots } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { $t } from '@vben/locales';
+import { isFunction } from '@vben/utils';
 
 import { Tooltip } from 'ant-design-vue';
 
@@ -32,6 +33,12 @@ const attrs = useAttrs();
 const slots = useSlots();
 
 const computedHasAuth = computed(() => {
+  if (!props.auth) {
+    return true;
+  }
+  if (isFunction(props.auth)) {
+    return props.auth();
+  }
   const { hasAccessByAuth } = useAccess();
   return hasAccessByAuth(props.auth);
 });

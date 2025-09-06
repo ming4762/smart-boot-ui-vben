@@ -4,7 +4,7 @@ import { computed } from 'vue';
 
 import { preferences, updatePreferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
-import { isString } from '@vben/utils';
+import { isFunction, isString } from '@vben/utils';
 
 function useAccess() {
   const accessStore = useAccessStore();
@@ -52,6 +52,9 @@ function useAccess() {
   function hasAccessByAuth(auth?: SmartAuthType) {
     if (!auth) {
       return true;
+    }
+    if (isFunction(auth)) {
+      return auth();
     }
     if (isString(auth)) {
       return hasAccessByCodes([auth]);
