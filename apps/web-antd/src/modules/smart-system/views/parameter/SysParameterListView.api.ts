@@ -5,8 +5,14 @@ import { ApiServiceEnum, requestClient } from '#/api/request';
 enum Api {
   batchSaveUpdate = '/sys/parameter/saveUpdateBatch',
   delete = '/sys/parameter/batchDeleteById',
+  deleteParameterTenant = '/sys/parameterTenant/batchDeleteById',
   getById = '/sys/parameter/getById',
-  list = '/sys/parameter/list',
+  getByIdParameterTenant = '/sys/parameterTenant/getById',
+  list = '/sys/parameter/listWithCommon',
+  listParameterTenant = '/sys/parameterTenant/listWithTenant',
+  saveParameterTenant = '/sys/parameterTenant/save',
+  setUseYnParameterTenant = '/sys/parameterTenant/setUseYn',
+  updateParameterTenant = '/sys/parameterTenant/update',
 }
 
 export const listApi = (params: any) => {
@@ -34,5 +40,42 @@ export const deleteApi = (removeRecords: Recordable<any>[]) => {
 export const getByIdApi = (id: any) => {
   return requestClient.post(Api.getById, id, {
     service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const listParameterTenantApi = (params: any) => {
+  return requestClient.post(Api.listParameterTenant, params);
+};
+
+export const saveParameterTenantApi = (model: any) => {
+  return requestClient.post(Api.saveParameterTenant, model);
+};
+
+export const updateParameterTenantApi = (model: any) => {
+  return requestClient.post(Api.updateParameterTenant, model);
+};
+
+export const deleteParameterTenantApi = (
+  removeRecords: Record<string, any>[],
+) => {
+  return requestClient.post(
+    Api.deleteParameterTenant,
+    removeRecords.map((item) => item.id),
+  );
+};
+
+export const getByIdParameterTenantApi = (id: number) => {
+  return requestClient.post(Api.getByIdParameterTenant, id);
+};
+
+/**
+ * 启用停用接口
+ * @param rows 选中的数据
+ * @param useYn 启用停用
+ */
+export const setUseYnParameterTenantApi = (rows: any[], useYn: boolean) => {
+  return requestClient.post(Api.setUseYnParameterTenant, {
+    idList: rows.map((item) => item.id),
+    useYn,
   });
 };
