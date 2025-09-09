@@ -5,6 +5,7 @@ import type { SmartTableActionItem } from '#/adapter/smart-table';
 
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+import { convertToTimezone } from '@vben/utils';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
 import { SysTenantSelect } from '#/components';
@@ -68,7 +69,13 @@ const [SmartTable, tableApi] = useSmartTable({
       save: ({ body: { insertRecords, updateRecords } }) =>
         saveUpdateApi([...insertRecords, ...updateRecords]),
       delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
-      getById: (params) => getByIdApi(params.id),
+      getById: async (params) => {
+        const data = await getByIdApi(params.id);
+        if (data && data.expireDate) {
+          return convertToTimezone(data, ['expireDate']);
+        }
+        return data;
+      },
     },
   },
   toolbarConfig: {
