@@ -206,6 +206,12 @@ export const useSmartTableModalAddEditEdit = (
       emit('addEditModalShow', { formData, isAdd, selectData });
     });
     modalApi.setData(getCallbackData(isAdd, selectData, formData));
+    const title = isAdd
+      ? t('smartTable.title.add')
+      : t('smartTable.title.edit');
+    modalApi.setState({
+      title,
+    });
     modalApi.open();
   };
 

@@ -33,12 +33,6 @@ const attrs = useAttrs();
 
 const isAddRef = ref(true);
 
-const computedTitle = computed(() => {
-  return unref(isAddRef)
-    ? props.t('smartTable.title.add')
-    : props.t('smartTable.title.edit');
-});
-
 const [From, formApi] = useVbenForm({});
 
 /**
@@ -193,7 +187,7 @@ emit('register', {
 </script>
 
 <template>
-  <Modal :title="computedTitle" v-bind="attrs">
+  <Modal v-bind="attrs">
     <From v-bind="props.formConfig">
       <template
         v-for="formSlotName in formSlots"
