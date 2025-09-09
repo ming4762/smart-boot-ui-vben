@@ -1,6 +1,6 @@
 import type { VNode } from 'vue';
 
-import type { ModalProps } from '@vben-core/popup-ui';
+import type { ModalApiOptions } from '@vben-core/popup-ui';
 
 import type { SmartTableBasicFormConfig } from './SmartTableCommon';
 
@@ -24,7 +24,7 @@ interface SmartTableModalSlots {
 /**
  * 添加修改弹窗modal配置
  */
-interface SmartTableAddEditModalConfig extends ModalProps {
+interface SmartTableAddEditModalConfig extends ModalApiOptions {
   slots?: SmartTableModalSlots;
 }
 
