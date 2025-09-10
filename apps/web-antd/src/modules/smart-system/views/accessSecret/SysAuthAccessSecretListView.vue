@@ -105,9 +105,9 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
       onClick: () => tableApi.editByRowModal(row),
     },
     {
-      label: '生成签名',
+      label: '测试签名',
       onClick: () => {
-        modalApi.setData({ id: row.id });
+        modalApi.setData({ accessId: row.id });
         modalApi.open();
       },
     },
