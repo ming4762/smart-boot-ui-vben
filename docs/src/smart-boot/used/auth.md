@@ -430,7 +430,7 @@ userStore.getUserTenant;
 
 ::: tip
 
-access secret模式用于第三方系统对接校验
+access secret模式用于第三方系统基于AK/SK模式进行对接
 
 :::
 
@@ -470,46 +470,56 @@ public class SecurityConfig extends AuthWebSecurityConfigurerAdapter {
 
 ::: tip
 
-签名放到header Authorization
+需要将生成的token放到header或URL query：Authorization
 
-请求头中需要添加的参数：CONTENT_TYPE，DATE，NONCE
+请求header需要额外添加的参数：Content-Type、Date，具体请参考下面的参数说明；
 
 :::
 
 参数说明
 
-| 序号 | 参数 | 类型 | 说明 |
-| --- | --- | --- | --- |
-| 1 | ACCESS_KEY | string | 提供的ACCESS_KEY |
-| 2 | SECRET_KEY | string | 提供的SECRET_KEY，secret应严格保存，不用放到前台或通过接口传输 |
-| 3 | HTTP_METHOD | PUT、GET、POST、HEAD、DELETE、OPTIONS | http请求头 |
-| 4 | CONTENT_TYPE | string | 请求类型，例如：application/json |
-| 5 | DATE | string | 请求的时间，格式为GMT，且与服务器时间差值不能大于10分钟，请求头key为：Date |
-| 6 | NONCE | string | 随机字符串，无论请求成功失败，只能使用一次，请求头的key为：nonce |
-| 7 | PREFIX | string | 系统前缀，一般用第三方系统的简称 |
+| 序号 | 参数 | 类型 | 说明 | 传输方式 |
+| --- | --- | --- | --- | --- |
+| 1 | ACCESS_KEY | string | 提供的ACCESS_KEY |  |
+| 2 | SECRET_KEY | string | 提供的SECRET_KEY，secret应严格保存，不用放到前台或通过接口传输 |  |
+| 3 | HTTP_METHOD | PUT、GET、POST、HEAD、DELETE、OPTIONS | http请求头 | header |
+| 4 | CONTENT_TYPE | string | 请求类型，例如：application/json | header |
+| 5 | DATE | string | 请求的时间，格式为GMT，且与服务器时间差值不能大于10分钟，请求头key为：Date | header/query |
+| 6 | PARAMETER | string | 参数信息，由3部分构成，参考下面的说明 |  |
+| 7 | PREFIX | string | 系统前缀，一般用第三方系统的简称 |  |
+
+PARAMETER构成
+
+parameter按照下面参数的顺序拼接
+
+| 序号 | 参数                                                         |
+| ---- | ------------------------------------------------------------ |
+| 1    | PATH：请求路径，例如接口地址：http://localhost:8080/access/api/test，path：/access/api/test |
+| 2    | query：URLquery参数，按照字典排序拼接，例如：a1=a&a2=a&b1=b  |
+| 3    | body参数：按照字典排序，json如果是多层，每一层都需要排序     |
 
 ::: details 代码示例
 
 ```java
 String httpMethod = request.getMethod();
-String contentType = request.getHeader(HttpHeaders.CONTENT_TYPE);
+String contentType = request.getHeader(HttpHeaders.CONTENT_TYPE).split(";")[0];
 String date = request.getHeader(HttpHeaders.DATE);
-String nonce = request.getHeader("nonce");
-String encryptKey = String.join(":", List.of(HTTP_METHOD, CONTENT_TYPE, DATE, NONCE));
+String parameterStr = "构建参数";
+String encryptKey = String.join(":", List.of(httpMethod, contentType, date, parameterStr));
 
 // 生成签名
-String signature = base64(hmac-sha1(SECRET_KEY, encryptKey))
+String signature = base64(hmacSha256Encrypt(SECRET_KEY, encryptKey))
 // 生成Authorization
 String Authorization = "${PREFIX}" + ACCESS_KEY + ":" + signature;
 
 
 // hmacSha1 加密
-public static byte[] hmacSha1Encrypt(String encryptContent, String encryptKey) {
+public static byte[] hmacSha256Encrypt(String encryptContent, String encryptKey) {
 
     byte[] keyBytes = encryptKey.getBytes(StandardCharsets.UTF_8);
-    SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, HMAC_SHA1);
+    SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "HmacSHA256");
 
-    Mac mac = Mac.getInstance(HMAC_SHA1);
+    Mac mac = Mac.getInstance("HmacSHA256");
     mac.init(secretKeySpec);
     byte[] contentBytes = encryptContent.getBytes(StandardCharsets.UTF_8);
 
@@ -517,7 +527,7 @@ public static byte[] hmacSha1Encrypt(String encryptContent, String encryptKey) {
 }
 
 // base64编码
-public static String encode(@NonNull byte[] bytes) {
+public static String base64(@NonNull byte[] bytes) {
     return Base64.getEncoder().encodeToString(bytes);
 }
 ```
