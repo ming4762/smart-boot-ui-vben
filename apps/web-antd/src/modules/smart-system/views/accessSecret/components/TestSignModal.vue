@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ExtendedModalApi } from '@vben/common-ui';
 
-import {nextTick, unref} from 'vue';
+import { nextTick, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
