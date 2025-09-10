@@ -492,11 +492,11 @@ PARAMETER构成
 
 parameter按照下面参数的顺序拼接
 
-| 序号 | 参数                                                         |
-| ---- | ------------------------------------------------------------ |
-| 1    | PATH：请求路径，例如接口地址：http://localhost:8080/access/api/test，path：/access/api/test |
-| 2    | query：URLquery参数，按照字典排序拼接，例如：a1=a&a2=a&b1=b  |
-| 3    | body参数：按照字典排序，json如果是多层，每一层都需要排序     |
+| 序号 | 参数 |
+| --- | --- |
+| 1 | PATH：请求路径，例如接口地址：localhost:8080/access/api/test，path：/access/api/test |
+| 2 | query：URLquery参数，按照字典排序拼接，例如：a1=a&a2=a&b1=b |
+| 3 | body参数：按照字典排序，json如果是多层，每一层都需要排序 |
 
 ::: details 代码示例
 
