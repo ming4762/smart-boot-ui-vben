@@ -487,6 +487,7 @@ public class SecurityConfig extends AuthWebSecurityConfigurerAdapter {
 | 5 | DATE | string | 请求的时间，格式为GMT，且与服务器时间差值不能大于10分钟，请求头key为：Date | header/query |
 | 6 | PARAMETER | string | 参数信息，由3部分构成，参考下面的说明 |  |
 | 7 | PREFIX | string | 系统前缀，一般用第三方系统的简称 |  |
+| 8 | nonce | string | 随机字符串，10分钟内不可重复使用 | header/query |
 
 PARAMETER构成
 
@@ -505,7 +506,8 @@ String httpMethod = request.getMethod();
 String contentType = request.getHeader(HttpHeaders.CONTENT_TYPE).split(";")[0];
 String date = request.getHeader(HttpHeaders.DATE);
 String parameterStr = "构建参数";
-String encryptKey = String.join(":", List.of(httpMethod, contentType, date, parameterStr));
+String nonce ="随机字符串";
+String encryptKey = String.join(":", List.of(httpMethod, contentType, date, nonce, parameterStr));
 
 // 生成签名
 String signature = base64(hmacSha256Encrypt(SECRET_KEY, encryptKey))
