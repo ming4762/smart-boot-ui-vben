@@ -34,6 +34,23 @@ const [Form, formApi] = useVbenForm({
       },
     },
     {
+      label: 'tokenPrefix',
+      fieldName: 'tokenPrefix',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: 'nonce',
+      fieldName: 'nonce',
+      component: 'Input',
+      rules: 'required',
+    },
+    {
+      label: 'contentType',
+      fieldName: 'contentType',
+      component: 'Input',
+    },
+    {
       label: 'queryParameter',
       fieldName: 'queryParameter',
       component: 'Textarea',
@@ -42,12 +59,6 @@ const [Form, formApi] = useVbenForm({
       label: 'jsonParameter',
       fieldName: 'jsonParameter',
       component: 'Textarea',
-      rules: 'required',
-    },
-    {
-      label: 'tokenPrefix',
-      fieldName: 'tokenPrefix',
-      component: 'Input',
       rules: 'required',
     },
   ],
