@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSizeSetting } from '@vben/hooks';
-import { convertToTimezone } from '@vben/utils';
+import { convertToTimezone, zonedDayjs } from '@vben/utils';
 
 import { useSmartTable } from '#/adapter/smart-table';
 
@@ -19,7 +19,7 @@ import {
 
 const { getTableSize } = useSizeSetting();
 
-const [SmartTable] = useSmartTable({
+const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
   height: 'auto',
   border: true,
@@ -59,7 +59,11 @@ const [SmartTable] = useSmartTable({
       wrapperClass: 'grid-cols-1 grid',
     },
     modalConfig: {
+      destroyOnClose: false,
       fullscreen: true,
+      onOpened() {
+        tableApi.getAddEditForm()?.setFieldValue('logTime', zonedDayjs());
+      },
     },
   },
   proxyConfig: {

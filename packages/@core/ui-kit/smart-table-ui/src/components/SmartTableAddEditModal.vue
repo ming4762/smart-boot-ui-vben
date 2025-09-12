@@ -11,7 +11,12 @@ import { computed, nextTick, ref, unref, useAttrs, useSlots } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
 import { useVbenModal } from '@vben-core/popup-ui';
-import { isBoolean, isFunction, isPromise } from '@vben-core/shared/utils';
+import {
+  isBoolean,
+  isFunction,
+  isPromise,
+  pick,
+} from '@vben-core/shared/utils';
 
 import { successMessage } from '../utils';
 
@@ -28,13 +33,14 @@ const attrs = useAttrs();
 
 const isAddRef = ref(true);
 
-const computedTitle = computed(() => {
-  return unref(isAddRef)
-    ? props.t('smartTable.title.add')
-    : props.t('smartTable.title.edit');
-});
-
 const [From, formApi] = useVbenForm({});
+
+/**
+ * 获取所有on开头的函数
+ */
+const computedOnFunction = computed(() => {
+  return pick(attrs, (key) => key.startsWith('on'));
+});
 
 /**
  * 加载编辑数据
@@ -75,7 +81,9 @@ const loadEditData = async (
   }
 };
 
+// console.log(unref(computedOnFunction))
 const [Modal, modalApi] = useVbenModal({
+  ...unref(computedOnFunction),
   onConfirm: async () => {
     try {
       const { valid } = await formApi.validate();
@@ -129,12 +137,18 @@ const [Modal, modalApi] = useVbenModal({
     } finally {
       modalApi.setState({ confirmLoading: false });
     }
+    if (attrs.onOpened) {
+      attrs.onOpened();
+    }
   },
-  onOpenChange: (isOpen) => {
+  onOpenChange: async (isOpen) => {
     if (!isOpen) {
+      if (attrs.onOpenChange) {
+        attrs.onOpenChange(isOpen);
+      }
       return false;
     }
-    nextTick(() => {
+    await nextTick(() => {
       const data = modalApi.getData<SmartAddEditModalCallbackData>();
       const { formData, isAdd } = data;
       formApi.resetForm();
@@ -148,6 +162,9 @@ const [Modal, modalApi] = useVbenModal({
         loadEditData(data, modalApi);
       }
     });
+    if (attrs.onOpenChange) {
+      attrs.onOpenChange(isOpen);
+    }
   },
 });
 
@@ -170,7 +187,7 @@ emit('register', {
 </script>
 
 <template>
-  <Modal :title="computedTitle" v-bind="attrs">
+  <Modal v-bind="attrs">
     <From v-bind="props.formConfig">
       <template
         v-for="formSlotName in formSlots"

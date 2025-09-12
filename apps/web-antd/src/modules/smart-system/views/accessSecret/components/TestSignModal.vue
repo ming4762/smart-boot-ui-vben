@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { unref } from 'vue';
+import type { ExtendedModalApi } from '@vben/common-ui';
 
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { nextTick, unref } from 'vue';
+
+import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 
 import { useClipboard } from '@vueuse/core';
-import { Dayjs } from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { ApiServiceEnum, requestClient } from '#/api/request';
@@ -24,7 +25,7 @@ const [Form, formApi] = useVbenForm({
   },
   schema: [
     {
-      label: 'id',
+      label: 'accessId',
       fieldName: 'accessId',
       component: 'Input',
       dependencies: {
@@ -33,50 +34,21 @@ const [Form, formApi] = useVbenForm({
       },
     },
     {
-      label: 'Date',
-      fieldName: 'date',
-      component: 'DatePicker',
-      componentProps: {
-        showTime: true,
-        style: {
-          width: '100%',
-        },
-        onChange: (value: Dayjs) => {
-          if (value) {
-            formApi.setFieldValue(
-              'dateGmt',
-              `${value.tz('GMT').format('ddd, DD MMM YYYY HH:mm:ss')} GMT`,
-            );
-          }
-        },
-      },
+      label: 'queryParameter',
+      fieldName: 'queryParameter',
+      component: 'Textarea',
+    },
+    {
+      label: 'jsonParameter',
+      fieldName: 'jsonParameter',
+      component: 'Textarea',
       rules: 'required',
     },
     {
-      label: 'GMT',
-      fieldName: 'dateGmt',
-      component: 'Input',
-      disabled: true,
-    },
-    {
-      label: 'Nonce',
-      fieldName: 'nonce',
+      label: 'tokenPrefix',
+      fieldName: 'tokenPrefix',
       component: 'Input',
       rules: 'required',
-    },
-    {
-      label: 'Http method',
-      fieldName: 'httpMethod',
-      component: 'Input',
-      rules: 'required',
-      defaultValue: 'POST',
-    },
-    {
-      label: 'Content-Type',
-      fieldName: 'contentType',
-      component: 'Input',
-      rules: 'required',
-      defaultValue: 'application/json',
     },
   ],
 });
@@ -91,7 +63,7 @@ const handleCreateSign = async (modalApi: ExtendedModalApi) => {
     modalApi.setState({ confirmLoading: true });
 
     const result = await requestClient.post(
-      'sys/auth/accessSecret/createSign',
+      'sys/auth/accessSecret/testAccessSecret',
       model,
       {
         service: ApiServiceEnum.SMART_SYSTEM,
@@ -112,8 +84,15 @@ const handleCreateSign = async (modalApi: ExtendedModalApi) => {
 };
 
 const [Modal, modalApi] = useVbenModal({
-  title: '生成签名',
+  title: '测试签名',
   onConfirm: () => handleCreateSign(modalApi),
+  onOpened: () => {
+    nextTick(() => {
+      formApi.setValues({
+        accessId: modalApi.getData().accessId,
+      });
+    });
+  },
 });
 </script>
 
