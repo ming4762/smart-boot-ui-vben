@@ -138,13 +138,13 @@ const [Modal, modalApi] = useVbenModal({
       modalApi.setState({ confirmLoading: false });
     }
     if (attrs.onOpened) {
-      attrs.onOpened();
+      (attrs as any).onOpened();
     }
   },
   onOpenChange: async (isOpen) => {
     if (!isOpen) {
       if (attrs.onOpenChange) {
-        attrs.onOpenChange(isOpen);
+        (attrs as any).onOpenChange(isOpen);
       }
       return false;
     }
@@ -163,7 +163,7 @@ const [Modal, modalApi] = useVbenModal({
       }
     });
     if (attrs.onOpenChange) {
-      attrs.onOpenChange(isOpen);
+      (attrs as any).onOpenChange(isOpen);
     }
   },
 });
