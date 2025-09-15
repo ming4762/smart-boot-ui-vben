@@ -52,6 +52,15 @@ type RequestContentType =
 
 type RequestClientOptions = CreateAxiosDefaults & ExtendOptions;
 
+/**
+ * SSE 请求选项
+ */
+interface SseRequestOptions extends RequestInit {
+  service?: string;
+  onMessage?: (message: string) => void;
+  onEnd?: () => void;
+}
+
 interface RequestInterceptorConfig {
   fulfilled?: (
     config: ExtendOptions & InternalAxiosRequestConfig,
@@ -92,12 +101,6 @@ interface RequestOptions extends AxiosRequestConfig {
   authErrorProcessed?: boolean;
 }
 
-interface StreamRequestOptions extends RequestInit {
-  service?: string;
-  onMessage?: (message: string) => void;
-  onEnd?: () => void;
-}
-
 interface UploadFileItemParams {
   // File parameter interface field name
   name?: string;
@@ -125,6 +128,6 @@ export type {
   RequestOptions,
   RequestResponse,
   ResponseInterceptorConfig,
-  StreamRequestOptions,
+  SseRequestOptions,
   UploadFileParams,
 };
