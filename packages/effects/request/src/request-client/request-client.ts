@@ -9,7 +9,7 @@ import qs from 'qs';
 
 import { FileDownloader } from './modules/downloader';
 import { InterceptorManager } from './modules/interceptor';
-import { Stream } from './modules/stream';
+import { SSE } from './modules/sse';
 import { FileUploader } from './modules/uploader';
 
 function getParamsSerializer(
@@ -43,16 +43,14 @@ class RequestClient {
   public batchUpload: FileUploader['batchUpload'];
 
   public download: FileDownloader['download'];
+  public readonly instance: AxiosInstance;
   // 是否正在刷新token
   public isRefreshing = false;
-  public postStream: Stream['postStream'];
-
+  public postSSE: SSE['postSSE'];
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
+  public requestSSE: SSE['requestSSE'];
   public upload: FileUploader['upload'];
-
-  private baseUrl: string = '';
-  private readonly instance: AxiosInstance;
   // 是否单体架构
   private isStandalone = true;
 
@@ -77,7 +75,6 @@ class RequestClient {
     );
     this.instance = axios.create(requestConfig);
     this.isStandalone = options.isStandalone === true;
-    this.baseUrl = requestConfig.baseURL ?? '';
 
     bindMethods(this);
 
@@ -95,9 +92,6 @@ class RequestClient {
     // 实例化文件下载器
     const fileDownloader = new FileDownloader(this);
     this.download = fileDownloader.download.bind(fileDownloader);
-    // 实例化流请求功能
-    const stream = new Stream(this);
-    this.postStream = stream.postStream.bind(stream);
 
     // 微服务模式下，添加请求拦截器，用于添加服务名
     this.addRequestInterceptor({
@@ -113,6 +107,10 @@ class RequestClient {
         return config;
       },
     });
+    // 实例化SSE模块
+    const sse = new SSE(this);
+    this.postSSE = sse.postSSE.bind(sse);
+    this.requestSSE = sse.requestSSE.bind(sse);
   }
 
   /**
@@ -137,10 +135,11 @@ class RequestClient {
    * @param service
    */
   public getApiUrlByService(service?: string): string {
+    const baseUrl = this.instance.defaults.baseURL || '';
     if (!this.isStandalone && service) {
-      return `${this.baseUrl}/${service}`;
+      return `${baseUrl}/${service}`;
     }
-    return this.baseUrl;
+    return baseUrl;
   }
 
   /**
