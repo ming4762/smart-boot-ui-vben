@@ -1,13 +1,14 @@
 <script setup lang="tsx">
-import type { Recordable } from '@vben-core/typings';
+import type { VxePulldownInstance } from 'vxe-pc-ui';
 import type {
   VxeColumnPropTypes,
   VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
-  VxePulldownInstance,
   VxeTableDefines,
 } from 'vxe-table';
+
+import type { Recordable } from '@vben-core/typings';
 
 import type { SmartTableToolbarColumnConfig } from '../types/SmartTableToolbarConfigType';
 
