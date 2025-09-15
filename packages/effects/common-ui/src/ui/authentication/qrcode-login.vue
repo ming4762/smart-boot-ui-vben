@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { $t } from '@vben/locales';
-import { VbenButton } from '@vben-core/shadcn-ui';
-import { useQRCode } from '@vueuse/integrations/useQRCode';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
+import { $t } from '@vben/locales';
+
+import { VbenButton } from '@vben-core/shadcn-ui';
+
+import { useQRCode } from '@vueuse/integrations/useQRCode';
 
 import Title from './auth-title.vue';
 
@@ -90,7 +93,12 @@ function goToLogin() {
       </p>
     </div>
 
-    <VbenButton v-if="showBack" class="mt-4 w-full" variant="outline" @click="goToLogin()">
+    <VbenButton
+      v-if="showBack"
+      class="mt-4 w-full"
+      variant="outline"
+      @click="goToLogin()"
+    >
       {{ $t('common.back') }}
     </VbenButton>
   </div>
