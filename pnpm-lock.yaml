@@ -573,6 +573,9 @@ catalogs:
     watermark-js-plus:
       specifier: ^1.6.2
       version: 1.6.2
+    wujie-vue3:
+      specifier: ^1.0.29
+      version: 1.0.29
     zod:
       specifier: ^3.25.67
       version: 3.24.3
@@ -782,6 +785,9 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
+      wujie-vue3:
+        specifier: 'catalog:'
+        version: 1.0.29(vue@3.5.17(typescript@5.8.3))
 
   apps/web-ele:
     dependencies:
@@ -2101,6 +2107,9 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
+      wujie-vue3:
+        specifier: 'catalog:'
+        version: 1.0.29(vue@3.5.17(typescript@5.8.3))
     devDependencies:
       '@types/json-bigint':
         specifier: 'catalog:'
@@ -12087,6 +12096,14 @@ packages:
   write-file-atomic@6.0.0:
     resolution: {integrity: sha512-GmqrO8WJ1NuzJ2DrziEI2o57jKAVIQNf8a18W3nCYU3H7PNWqCCVTeH6/NQE93CIllIgQS98rrmVkYgTX9fFJQ==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  wujie-vue3@1.0.29:
+    resolution: {integrity: sha512-OGt5Veyq/DtmFzHQCANmv8nZgu877u7ZjS5qjFpSrtKARKhLjID3x99D40a4pb3Kj5UmRatkV5Gn5hqOWpziZQ==}
+    peerDependencies:
+      vue: ^3.5.17
+
+  wujie@1.0.29:
+    resolution: {integrity: sha512-u7PmBT4l5ov7ciwmZNG8DLIRKrYrnXDa0LnAFgRQikJ/ZrVZYzzSNz6duzEJoj8/o46dnMy/g9Hh/PBYGbgFUw==}
 
   xdg-basedir@5.1.0:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
@@ -23580,6 +23597,15 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
+
+  wujie-vue3@1.0.29(vue@3.5.17(typescript@5.8.3)):
+    dependencies:
+      vue: 3.5.17(typescript@5.8.3)
+      wujie: 1.0.29
+
+  wujie@1.0.29:
+    dependencies:
+      '@babel/runtime': 7.27.6
 
   xdg-basedir@5.1.0: {}
 
