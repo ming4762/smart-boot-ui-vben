@@ -1,4 +1,4 @@
-import type { VxePagerPropTypes } from 'vxe-table';
+import type { VxePagerPropTypes } from 'vxe-pc-ui';
 
 export const DEFAULT_PAGE_SIZE = 50;
 

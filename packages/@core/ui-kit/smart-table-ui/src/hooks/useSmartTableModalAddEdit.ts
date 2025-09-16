@@ -15,6 +15,7 @@ import { useVbenModal } from '@vben-core/popup-ui';
 import { isPromise, isString } from '@vben-core/shared/utils';
 
 import SmartTableAddEditModal from '../components/SmartTableAddEditModal.vue';
+import { ADD_EDIT_MODAL_DEFAULT_PROPS } from '../const/default-props';
 import { warningMessage } from '../utils';
 import { getFormSlots } from '../utils/slots';
 
@@ -83,6 +84,7 @@ export const useSmartTableModalAddEditEdit = (
     const { afterSave, beforeSave, modalConfig } = addEditConfig;
     const saveFunction = proxyConfig?.ajax?.save;
     return {
+      ...ADD_EDIT_MODAL_DEFAULT_PROPS,
       ...modalConfig,
       afterSave:
         afterSave ||
