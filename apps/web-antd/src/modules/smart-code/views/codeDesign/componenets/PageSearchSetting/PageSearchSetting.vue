@@ -2,6 +2,7 @@
 import { ref, toRaw, unref, watchEffect } from 'vue';
 
 import { useSizeSetting } from '@vben/hooks';
+import { $t } from '@vben/locales';
 
 import { Switch } from 'ant-design-vue';
 

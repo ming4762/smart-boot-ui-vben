@@ -64,24 +64,28 @@ const { handleSave, saveLoading } = useSaveConfig(
         <Tabs animated style="min-height: 400px">
           <TabPane
             key="1"
+            force-render
             :tab="t('smart.code.views.codeManager.title.dbMessage')"
           >
             <TableFieldTable :size="getTableSize" />
           </TabPane>
           <TabPane
             key="2"
+            force-render
             :tab="t('smart.code.views.codeManager.title.tableSetting')"
           >
             <PageTableSetting :size="getTableSize" />
           </TabPane>
           <TabPane
             key="3"
+            force-render
             :tab="t('smart.code.views.codeManager.title.formSetting')"
           >
             <PageFormSetting :size="getTableSize" />
           </TabPane>
           <TabPane
             key="4"
+            force-render
             :tab="t('smart.code.views.codeManager.title.searchSetting')"
           >
             <PageSearchSetting :size="getTableSize" />
