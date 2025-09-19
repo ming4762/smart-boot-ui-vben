@@ -8,6 +8,7 @@ import type { SmartTableActionItem } from '#/adapter/smart-table';
 import { ref, toRefs } from 'vue';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
+import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
 import { TabPane, Tabs } from 'ant-design-vue';
@@ -35,6 +36,9 @@ interface Props extends SysTenantProps {}
 const props = defineProps<Props>();
 
 const { tenantId: tenantIdRef, activated } = toRefs(props);
+
+const { getTableSize } = useSizeSetting();
+
 /**
  * 监控当前tab是否激活
  * 激活时，自动查询数据
@@ -138,7 +142,11 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
       class="h-full"
     >
       <template #first>
-        <SmartTable class="h-full" @current-change="handleCurrentChange">
+        <SmartTable
+          :size="getTableSize as never"
+          class="h-full"
+          @current-change="handleCurrentChange"
+        >
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getTableActions(row)" />
           </template>

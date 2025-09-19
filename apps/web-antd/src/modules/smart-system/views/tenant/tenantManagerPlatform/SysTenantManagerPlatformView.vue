@@ -33,12 +33,6 @@ const handleCurrentChange = (row: any) => {
     },
   });
 };
-/**
- * 是否是平台管理租户
- */
-const computedIsPlatformTenant = computed(() => {
-  return unref(currentRowRef)?.platformYn;
-});
 </script>
 
 <template>
@@ -63,17 +57,7 @@ const computedIsPlatformTenant = computed(() => {
                 :tenant-id="props.tenantId"
               />
             </TabPane>
-            <TabPane :disabled="computedIsPlatformTenant" key="subscribe">
-              <template #tab>
-                <Tooltip
-                  color="#f50"
-                  v-if="computedIsPlatformTenant"
-                  title="平台管理租户不支持订阅管理"
-                >
-                  <span>订阅管理</span>
-                </Tooltip>
-                <span v-else>订阅管理</span>
-              </template>
+            <TabPane key="subscribe" tab="订阅管理">
               <TenantSubscribeList
                 :activated="activeTableRef === 'subscribe'"
                 :tenant-id="props.tenantId"
