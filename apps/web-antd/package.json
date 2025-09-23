@@ -18,6 +18,7 @@
   "scripts": {
     "build": "pnpm vite build --mode production",
     "build:analyze": "pnpm vite build --mode analyze",
+    "build:cloud": "pnpm vite build --mode cloud",
     "dev": "pnpm vite --mode development",
     "cloud": "pnpm vite --mode cloud",
     "preview": "vite preview",
