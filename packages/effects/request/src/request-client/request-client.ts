@@ -96,14 +96,15 @@ class RequestClient {
     // 微服务模式下，添加请求拦截器，用于添加服务名
     this.addRequestInterceptor({
       fulfilled: (config) => {
-        if (this.isStandalone || !(config as any).service) {
+        const service = (config as any).service;
+        if (this.isStandalone || !service) {
           return config;
         }
-        let spi = '';
-        if (!config.url?.startsWith('/')) {
-          spi = '/';
+        const url = config.url ?? '';
+        if (url.includes(service)) {
+          return config;
         }
-        config.url = `${(config as any).service}${spi}${config.url}`;
+        config.url = `${service.replace(/\/+$/, '')}/${url.replace(/^\/+/, '')}`;
         return config;
       },
     });
