@@ -41,28 +41,28 @@
 
 参数说明
 
-| 序号 | 参数                   | 类型           | 描述                                         | 默认值 | 是否必须 |
-| ---- | ---------------------- | -------------- | -------------------------------------------- | ------ | -------- |
-| 1 | messageId              | Long           | 标记发送消息的ID，用于系统消息发送           |        |          |
-| 2 | messageChannelCodeList | `List<String>` | 消息通道列表                                 |        | 是       |
-| 3 | toUserIds              | `Set<Long>`    | 接收人ID集合                                 |        |          |
-| 4 | title                  | String         | 消息标题                                     |        | 是       |
-| 5 | content                | String         | 消息内容，和模板编码二选一                   |        |          |
-| 6 | templateCode           | String         | 模板编码，如果发送模板消息需要指定           |        |          |
-| 7 | templateData           | Object         | 模板数据                                     |        |          |
-| 8 | isMarkdown             | boolean        | 是否是markdown消息，钉钉消息通知支持markdown | false  |          |
-| 9 | priority               | `enum<L/M/H>`  | 系统消息的优先级                             |        |          |
-| 10 | business|Object|业务参数，发送系统消息会存储业务信息，用户反向查询消息对应的业务数据|||
-| 10.1 | businessIdent |String|业务标识|||
-| 10.2 | businessId |Long|业务ID|||
-| 10.3 | businessData |String|业务数据|||
-| 11 | smsSendParameter|Object|短息发送参数|||
-| 11.1 | signName |String|短信签名|||
-| 11.2 | template |String|短信模板|||
-| 12 | emailSendParameter|Object|邮件发送参数|||
-| 12.1 | from |String|发件人||是|
-| 12.2 | toList |`List<String>`|收件人列表，如果为null，则根据toUserIds获取收件人|||
-| 12.3 | ccList |`List<String>`|抄送人|||
+| 序号 | 参数 | 类型 | 描述 | 默认值 | 是否必须 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | messageId | Long | 标记发送消息的ID，用于系统消息发送 |  |  |
+| 2 | messageChannelCodeList | `List<String>` | 消息通道列表 |  | 是 |
+| 3 | toUserIds | `Set<Long>` | 接收人ID集合 |  |  |
+| 4 | title | String | 消息标题 |  | 是 |
+| 5 | content | String | 消息内容，和模板编码二选一 |  |  |
+| 6 | templateCode | String | 模板编码，如果发送模板消息需要指定 |  |  |
+| 7 | templateData | Object | 模板数据 |  |  |
+| 8 | isMarkdown | boolean | 是否是markdown消息，钉钉消息通知支持markdown | false |  |
+| 9 | priority | `enum<L/M/H>` | 系统消息的优先级 |  |  |
+| 10 | business | Object | 业务参数，发送系统消息会存储业务信息，用户反向查询消息对应的业务数据 |  |  |
+| 10.1 | &nbsp;&nbsp;&nbsp;businessIdent | String | 业务标识 |  |  |
+| 10.2 | &nbsp;&nbsp;&nbsp;businessId | Long | 业务ID |  |  |
+| 10.3 | &nbsp;&nbsp;&nbsp;businessData | String | 业务数据 |  |  |
+| 11 | smsSendParameter | Object | 短息发送参数 |  |  |
+| 11.1 | &nbsp;&nbsp;&nbsp;signName | String | 短信签名 |  |  |
+| 11.2 | &nbsp;&nbsp;&nbsp;template | String | 短信模板 |  |  |
+| 12 | emailSendParameter | Object | 邮件发送参数 |  |  |
+| 12.1 | &nbsp;&nbsp;&nbsp;from | String | 发件人 |  | 是 |
+| 12.2 | &nbsp;&nbsp;&nbsp;toList | `List<String>` | 收件人列表，如果为null，则根据toUserIds获取收件人 |  |  |
+| 12.3 | &nbsp;&nbsp;&nbsp;ccList | `List<String>` | 抄送人 |  |  |
 
 ### 3、示例
 
@@ -181,4 +181,3 @@ this.smartMessageApi.send(
     <artifactId>smart-boot-starter-message-websocket</artifactId>
 </dependency>
 ```
-
