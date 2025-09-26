@@ -132,19 +132,19 @@ this.smartMessageApi.send(
 
 模板数据填充基于freemarker
 
-![image-20250926160700334](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/used/images/image-20250926160700334.png)
+![image-20250926160700334](images/image-20250926160700334.png)
 
 ### 3、系统消息
 
 发送系统消息通道发送系统消息、通知公告等
 
-![image-20250926160812343](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/used/images/image-20250926160812343.png)
+![image-20250926160812343](images/image-20250926160812343.png)
 
 ### 4、我的消息
 
 我收到的系统消息列表
 
-![image-20250926160917647](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/used/images/image-20250926160917647.png)
+![image-20250926160917647](images/image-20250926160917647.png)
 
 ## 四、启动服务
 
