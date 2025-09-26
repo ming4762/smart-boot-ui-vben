@@ -122,7 +122,7 @@ this.smartMessageApi.send(
 
 通过消息通道页面维护消息通道
 
-![image-20250926160450493](/Users/shizhongming/Documents/01-workspace/01-my-github/smart-boot-ui-vben/docs/src/smart-boot/used/images/image-20250926160450493.png)
+![image-20250926160450493](images/image-20250926160450493.png)
 
 ### 二、维护消息模板
 
