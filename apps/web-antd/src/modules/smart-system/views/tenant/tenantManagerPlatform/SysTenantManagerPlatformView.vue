@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, unref } from 'vue';
+import { ref, unref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
-import { TabPane, Tabs, Tooltip } from 'ant-design-vue';
+import { TabPane, Tabs } from 'ant-design-vue';
 
 import SysTenantList from './components/SysTenantList.vue';
 import TenantRoleList from './components/TenantRoleList.vue';

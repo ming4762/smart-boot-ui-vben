@@ -44,15 +44,21 @@ export const getByIdApi = (id: any) => {
 };
 
 export const listParameterTenantApi = (params: any) => {
-  return requestClient.post(Api.listParameterTenant, params);
+  return requestClient.post(Api.listParameterTenant, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const saveParameterTenantApi = (model: any) => {
-  return requestClient.post(Api.saveParameterTenant, model);
+  return requestClient.post(Api.saveParameterTenant, model, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const updateParameterTenantApi = (model: any) => {
-  return requestClient.post(Api.updateParameterTenant, model);
+  return requestClient.post(Api.updateParameterTenant, model, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 export const deleteParameterTenantApi = (
@@ -61,11 +67,16 @@ export const deleteParameterTenantApi = (
   return requestClient.post(
     Api.deleteParameterTenant,
     removeRecords.map((item) => item.id),
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
   );
 };
 
 export const getByIdParameterTenantApi = (id: number) => {
-  return requestClient.post(Api.getByIdParameterTenant, id);
+  return requestClient.post(Api.getByIdParameterTenant, id, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };
 
 /**
@@ -74,8 +85,14 @@ export const getByIdParameterTenantApi = (id: number) => {
  * @param useYn 启用停用
  */
 export const setUseYnParameterTenantApi = (rows: any[], useYn: boolean) => {
-  return requestClient.post(Api.setUseYnParameterTenant, {
-    idList: rows.map((item) => item.id),
-    useYn,
-  });
+  return requestClient.post(
+    Api.setUseYnParameterTenant,
+    {
+      idList: rows.map((item) => item.id),
+      useYn,
+    },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
