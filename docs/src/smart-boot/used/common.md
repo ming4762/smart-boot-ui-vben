@@ -60,3 +60,29 @@ Redis支持分布式限流
 </dependency>
 ```
 
+## 二、雪花算法ID
+
+### 1、基于REDIS自动设置work id
+
+#### 1）引入redis依赖并配置redis连接
+
+```xml
+<dependency>
+    <groupId>com.smart</groupId>
+    <artifactId>smart-boot-starter-redis</artifactId>
+</dependency>
+```
+
+#### 2）设置namespace
+
+> 多个系统共用redis需要设置namespace，如独立使用不需要设置
+>
+> 单个系统的多个服务需要设置相同的namespace，可以通过nacos的application.yml统一设置
+
+```yml
+smart:
+  snowflake-work-id:
+    redis:
+      workspace: default
+```
+
