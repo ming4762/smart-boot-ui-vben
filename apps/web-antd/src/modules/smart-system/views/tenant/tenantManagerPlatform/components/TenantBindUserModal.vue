@@ -50,8 +50,8 @@ const [SmartTable, tableApi] = useSmartTable({
   useSearchForm: true,
   searchFormConfig: {
     schema: getTabUserListSearchSchemas(),
-    wrapperClass: 'flex',
-    actionWrapperClass: 'text-left col-span-1 pb-2 ml-1.5',
+    layout: 'inline',
+    actionWrapperClass: 'gap-1',
     commonConfig: {
       componentProps: {
         style: {
@@ -59,7 +59,6 @@ const [SmartTable, tableApi] = useSmartTable({
         },
       },
       labelWidth: 70,
-      formItemClass: 'pb-2',
     },
     searchWithSymbol: true,
   },
