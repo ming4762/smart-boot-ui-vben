@@ -25,6 +25,7 @@ const defaultPreferences: Preferences = {
     enableCheckUpdates: true,
     enablePreferences: true,
     enableRefreshToken: false,
+    enableStickyPreferencesNavigationBar: true,
     isMobile: false,
     layout: 'sidebar-nav',
     locale: 'zh-CN',
@@ -36,6 +37,7 @@ const defaultPreferences: Preferences = {
       options: TIME_ZONE_OPTIONS,
     },
     watermark: false,
+    watermarkContent: '',
     zIndex: 200,
   },
   breadcrumb: {

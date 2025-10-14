@@ -6,7 +6,7 @@ import { computed, provide, ref, watch } from 'vue';
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
 import { useWatermark } from '@vben/hooks';
-import { BookOpenText, CircleHelp, MdiGithub } from '@vben/icons';
+import { BookOpenText, CircleHelp, SvgGithubIcon } from '@vben/icons';
 import {
   BasicLayout,
   LockScreen,
@@ -62,41 +62,35 @@ const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
 );
 
-const menus = computed(() => {
-  const menus: any[] = [];
-  if (import.meta.env.DEV) {
-    menus.push(
-      {
-        handler: () => {
-          openWindow(VBEN_DOC_URL, {
-            target: '_blank',
-          });
-        },
-        icon: BookOpenText,
-        text: $t('ui.widgets.document'),
-      },
-      {
-        handler: () => {
-          openWindow(VBEN_GITHUB_URL, {
-            target: '_blank',
-          });
-        },
-        icon: MdiGithub,
-        text: 'GitHub',
-      },
-      {
-        handler: () => {
-          openWindow(`${VBEN_GITHUB_URL}/issues`, {
-            target: '_blank',
-          });
-        },
-        icon: CircleHelp,
-        text: $t('ui.widgets.qa'),
-      },
-    );
-  }
-  return menus;
-});
+const menus = computed(() => [
+  {
+    handler: () => {
+      openWindow(VBEN_DOC_URL, {
+        target: '_blank',
+      });
+    },
+    icon: BookOpenText,
+    text: $t('ui.widgets.document'),
+  },
+  {
+    handler: () => {
+      openWindow(VBEN_GITHUB_URL, {
+        target: '_blank',
+      });
+    },
+    icon: SvgGithubIcon,
+    text: 'GitHub',
+  },
+  {
+    handler: () => {
+      openWindow(`${VBEN_GITHUB_URL}/issues`, {
+        target: '_blank',
+      });
+    },
+    icon: CircleHelp,
+    text: $t('ui.widgets.qa'),
+  },
+]);
 
 const avatar = computed(() => {
   return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
@@ -143,11 +137,16 @@ const handleChangePassword = async (data: {
   return true;
 };
 watch(
-  () => preferences.app.watermark,
-  async (enable) => {
+  () => ({
+    enable: preferences.app.watermark,
+    content: preferences.app.watermarkContent,
+  }),
+  async ({ enable, content }) => {
     if (enable) {
       await updateWatermark({
-        content: `${userStore.userInfo?.username} - ${userStore.userInfo?.realName}`,
+        content:
+          content ||
+          `${userStore.userInfo?.username} - ${userStore.userInfo?.realName}`,
       });
     } else {
       destroyWatermark();
