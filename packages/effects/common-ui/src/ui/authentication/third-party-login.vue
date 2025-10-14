@@ -56,9 +56,8 @@ const {
         <MdiGoogle />
       </VbenIconButton>
       <DingdingLogin
-        v-if="dingdingAuthConfig"
-        :corp-id="dingdingAuthConfig.corpId"
-        :client-id="dingdingAuthConfig.clientId"
+        :corp-id="dingdingAuthConfig?.corpId"
+        :client-id="dingdingAuthConfig?.clientId"
         class="mb-3"
       />
     </div>

@@ -41,6 +41,7 @@
   "githubLogin": "Github Login",
   "googleLogin": "Google Login",
   "dingdingLogin": "Dingding Login",
+  "dingdingLoginConfigError": "Please configure Dingding Login first",
   "codeSubtitle": "Enter your phone number to start managing your project",
   "code": "Security code",
   "codeTip": "Security code required {0} characters",

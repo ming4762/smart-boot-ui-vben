@@ -9,8 +9,8 @@ import { VbenIconButton } from '@vben-core/shadcn-ui';
 import { loadScript } from '@vben-core/shared/utils';
 
 interface Props {
-  clientId: string;
-  corpId: string;
+  clientId?: string;
+  corpId?: string;
   // 登录回调地址
   redirectUri?: string;
   // 是否内嵌二维码登录
@@ -80,6 +80,10 @@ const handleQrCodeLogin = async () => {
 
 const handleLogin = () => {
   const { clientId, corpId, isQrCode } = props;
+  if (!clientId || !corpId) {
+    alert($t('authentication.dingdingLoginConfigError'));
+    return;
+  }
   if (isQrCode) {
     // 内嵌二维码登录
     modalApi.open();
