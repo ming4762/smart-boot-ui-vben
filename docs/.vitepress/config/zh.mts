@@ -269,6 +269,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'used/common',
           text: '常用功能',
         },
+        {
+          link: 'used/buildDeploy',
+          text: '构建部署',
+        }
       ],
     },
     {
