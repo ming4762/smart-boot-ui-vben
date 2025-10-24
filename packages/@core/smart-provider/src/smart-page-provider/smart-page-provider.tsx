@@ -1,4 +1,6 @@
-import { defineComponent, type PropType } from 'vue';
+import type { PropType } from 'vue';
+
+import { defineComponent } from 'vue';
 
 import { useProviderDict } from './useProviderDict';
 

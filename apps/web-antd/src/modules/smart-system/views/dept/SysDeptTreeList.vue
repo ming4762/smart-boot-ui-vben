@@ -24,6 +24,7 @@ const { getFormSize, getButtonSize } = useSizeSetting();
 
 const [Modal, modalApi] = useVbenModal({
   connectedComponent: SysDeptEditModal,
+  destroyOnClose: false,
 });
 
 /**

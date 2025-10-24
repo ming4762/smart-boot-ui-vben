@@ -218,7 +218,9 @@ const getDropDownActions = (row: Recordable<any>): SmartTableActionItem[] => {
         />
       </template>
       <template #table-storageType="{ row }">
-        <span>{{ pageDictMap?.FILE_STORAGE_TYPE?.[row.storageType] }}</span>
+        <span>{{
+          pageDictMap?.get('FILE_STORAGE_TYPE')?.get(row.storageType)
+        }}</span>
       </template>
     </SmartTable>
   </div>

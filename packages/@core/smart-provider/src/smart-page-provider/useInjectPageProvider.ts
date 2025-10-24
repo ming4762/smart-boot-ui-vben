@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
 
-import { inject, ref } from 'vue';
+import { getCurrentInstance, inject, onUnmounted, ref } from 'vue';
 
 import { SmartProviderConstants } from '../constants';
 
@@ -8,8 +8,15 @@ import { SmartProviderConstants } from '../constants';
  * 注入页面字典
  */
 export const useInjectPageDict = () => {
-  const pageDictRegister: (...code: string[]) => void = inject(
-    SmartProviderConstants.dictRegisterKey,
+  const instance = getCurrentInstance();
+
+  const injectRegister: (instanceId: number, ...code: string[]) => void =
+    inject(SmartProviderConstants.dictRegisterKey, () => {});
+  const pageDictRegister: (...codeList: string[]) => void = (...codeList) => {
+    injectRegister(instance?.uid || 0, ...codeList);
+  };
+  const pageDictUnregister: (instanceId: number) => void = inject(
+    SmartProviderConstants.dictUnregisterKey,
     () => {},
   );
 
@@ -32,6 +39,16 @@ export const useInjectPageDict = () => {
     SmartProviderConstants.dictRegisterIdent,
     false,
   );
+
+  /**
+   * 页面字典实例卸载时，自动注销字典
+   */
+  onUnmounted(() => {
+    if (instance?.uid) {
+      pageDictUnregister(instance.uid);
+    }
+  });
+
   return {
     pageDictData,
     pageDictLoadingRef,
