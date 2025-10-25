@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { VbenAvatar } from '../avatar';
 
 interface Props {
@@ -17,7 +19,11 @@ interface Props {
   /**
    * @zh_CN Logo 图片大小
    */
-  logoSize?: number;
+  logoHeight?: number;
+  sourceDark?: string;
+  sourceLight?: string;
+  sourceWithTitleDark?: string;
+  sourceWithTitleLight?: string;
   /**
    * @zh_CN Logo 图标
    */
@@ -36,13 +42,27 @@ defineOptions({
   name: 'VbenLogo',
 });
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   collapsed: false,
   href: 'javascript:void 0',
-  logoSize: 32,
+  logoHeight: 30,
   src: '',
   theme: 'light',
   fit: 'cover',
+});
+
+const computedLogoWithTitleSrc = computed(() => {
+  if (props.theme === 'dark') {
+    return props.sourceWithTitleDark;
+  }
+  return props.sourceWithTitleLight;
+});
+
+const computedLogoSrc = computed(() => {
+  if (props.theme === 'dark') {
+    return props.sourceDark;
+  }
+  return props.sourceLight;
 });
 </script>
 
@@ -53,21 +73,49 @@ withDefaults(defineProps<Props>(), {
       :href="href"
       class="flex h-full items-center gap-2 overflow-hidden px-3 text-lg leading-normal transition-all duration-500"
     >
-      <VbenAvatar
-        v-if="src"
-        :alt="text"
-        :src="src"
-        :size="logoSize"
-        :fit="fit"
-        class="relative rounded-none bg-transparent"
-      />
-      <template v-if="!collapsed">
-        <slot name="text">
-          <span class="text-foreground truncate text-nowrap font-semibold">
-            {{ text }}
-          </span>
-        </slot>
-      </template>
+      <div
+        v-if="!collapsed"
+        class="text-foreground animation-scale truncate text-nowrap font-semibold"
+      >
+        <VbenAvatar
+          v-if="!collapsed && computedLogoWithTitleSrc"
+          :height="props.logoHeight"
+          :alt="text"
+          :src="computedLogoWithTitleSrc"
+          :fit="fit"
+          class="relative rounded-none bg-transparent"
+        />
+      </div>
+      <div
+        v-else
+        class="text-foreground animation-scale truncate text-nowrap font-semibold"
+      >
+        <VbenAvatar
+          :height="props.logoHeight"
+          v-if="computedLogoSrc"
+          :alt="text"
+          :src="computedLogoSrc"
+          :fit="fit"
+          class="relative rounded-none bg-transparent"
+        />
+      </div>
     </a>
   </div>
 </template>
+<style scoped>
+.animation-scale {
+  animation: scale-in 0.2s ease-out;
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>

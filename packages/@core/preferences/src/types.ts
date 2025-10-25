@@ -157,8 +157,12 @@ interface LogoPreferences {
   enable: boolean;
   /** logo图片适应方式 */
   fit: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  size: number;
   /** logo地址 */
-  source: string;
+  sourceDark: string;
+  sourceLight: string;
+  sourceWithTitleDark: string;
+  sourceWithTitleLight: string;
 }
 
 interface NavigationPreferences {

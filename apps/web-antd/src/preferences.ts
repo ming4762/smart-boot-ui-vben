@@ -9,7 +9,8 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     accessMode: 'backend',
-    name: import.meta.env.VITE_APP_TITLE,
+    // name: import.meta.env.VITE_APP_TITLE,
+    name: '',
     loginExpiredMode: 'modal',
     enableRefreshToken: true,
   },
@@ -17,5 +18,15 @@ export const overridesPreferences = defineOverridesPreferences({
     mode: 'light',
     radius: '0.25',
     semiDarkSidebar: true,
+  },
+  logo: {
+    size: 30,
+    sourceLight: '/logo/logo_light.svg',
+    sourceWithTitleLight: '/logo/logoWithTitle_light.svg',
+    sourceDark: '/logo/logo_dark.svg',
+    sourceWithTitleDark: '/logo/logoWithTitle_dark.svg',
+  },
+  sidebar: {
+    width: 235,
   },
 });

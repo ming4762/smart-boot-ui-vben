@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ToolbarType } from './types';
 
+import { computed, unref } from 'vue';
+
 import { preferences, usePreferences } from '@vben/preferences';
 
 import { Copyright } from '../basic/copyright';
@@ -10,7 +12,9 @@ import Toolbar from './toolbar.vue';
 
 interface Props {
   appName?: string;
-  logo?: string;
+  logoLight?: string;
+  logoDark?: string;
+  logoSize?: number;
   pageTitle?: string;
   pageDescription?: string;
   sloganImage?: string;
@@ -20,20 +24,30 @@ interface Props {
   clickLogo?: () => void;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   appName: '',
   copyright: true,
-  logo: '',
+  logoLight: '',
+  logoDark: '',
   pageDescription: '',
   pageTitle: '',
   sloganImage: '',
   toolbar: true,
   toolbarList: () => ['color', 'language', 'layout', 'theme'],
   clickLogo: () => {},
+  logoSize: 42,
 });
 
 const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
   usePreferences();
+
+const computedLogo = computed(() => {
+  return unref(isDark) ? props.logoDark : props.logoLight;
+});
+
+const computeImgStyle = computed(() => ({
+  height: `${props.logoSize}px`,
+}));
 </script>
 
 <template>
@@ -65,14 +79,20 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
     <slot name="logo">
       <!-- 头部 Logo 和应用名称 -->
       <div
-        v-if="logo || appName"
+        v-if="computedLogo || appName"
         class="absolute left-0 top-0 z-10 flex flex-1"
         @click="clickLogo"
       >
         <div
           class="text-foreground lg:text-foreground ml-4 mt-4 flex flex-1 items-center sm:left-6 sm:top-6"
         >
-          <img v-if="logo" :alt="appName" :src="logo" class="mr-2" width="42" />
+          <img
+            v-if="computedLogo"
+            :alt="appName"
+            :src="computedLogo"
+            class="mr-2"
+            :style="computeImgStyle"
+          />
           <p v-if="appName" class="m-0 text-xl font-medium">
             {{ appName }}
           </p>

@@ -72,7 +72,15 @@ const defaultPreferences: Preferences = {
   logo: {
     enable: true,
     fit: 'contain',
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    sourceDark:
+      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    sourceLight:
+      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    sourceWithTitleDark:
+      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    sourceWithTitleLight:
+      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    size: 42,
   },
   navigation: {
     accordion: true,

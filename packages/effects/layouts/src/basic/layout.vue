@@ -4,7 +4,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import type { MenuRecordRaw } from '@vben/types';
 
-import { computed, onMounted, useSlots, watch } from 'vue';
+import { computed, onMounted, unref, useSlots, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useRefresh } from '@vben/hooks';
@@ -195,6 +195,12 @@ const slots: SetupContext['slots'] = useSlots();
 const headerSlots = computed(() => {
   return Object.keys(slots).filter((key) => key.startsWith('header-'));
 });
+
+const computedLogoTheme = computed(() => {
+  return unref(showHeaderNav) || unref(isHeaderSidebarNav)
+    ? unref(headerTheme)
+    : unref(sidebarTheme);
+});
 </script>
 
 <template>
@@ -258,9 +264,13 @@ const headerSlots = computed(() => {
         :fit="preferences.logo.fit"
         :class="logoClass"
         :collapsed="logoCollapsed"
-        :src="preferences.logo.source"
+        :source-dark="preferences.logo.sourceDark"
+        :source-light="preferences.logo.sourceLight"
+        :source-with-title-dark="preferences.logo.sourceWithTitleDark"
+        :source-with-title-light="preferences.logo.sourceWithTitleLight"
+        :logo-height="preferences.logo.size"
         :text="preferences.app.name"
-        :theme="showHeaderNav ? headerTheme : theme"
+        :theme="computedLogoTheme"
         @click="clickLogo"
       >
         <template v-if="$slots['logo-text']" #text>
