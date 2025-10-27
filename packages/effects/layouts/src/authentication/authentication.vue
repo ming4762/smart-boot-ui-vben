@@ -93,9 +93,6 @@ const computeImgStyle = computed(() => ({
             class="mr-2"
             :style="computeImgStyle"
           />
-          <p v-if="appName" class="m-0 text-xl font-medium">
-            {{ appName }}
-          </p>
         </div>
       </div>
     </slot>

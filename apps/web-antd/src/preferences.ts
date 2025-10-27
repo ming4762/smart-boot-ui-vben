@@ -9,8 +9,7 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     accessMode: 'backend',
-    // name: import.meta.env.VITE_APP_TITLE,
-    name: '',
+    name: import.meta.env.VITE_APP_TITLE,
     loginExpiredMode: 'modal',
     enableRefreshToken: true,
   },
