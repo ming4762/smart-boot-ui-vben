@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { ExtendedModalApi } from '@vben/common-ui';
+
 import { ref, unref } from 'vue';
 
-import { type ExtendedModalApi, useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
+import { isString } from '@vben/utils';
 
 import { FormItem, Switch } from 'ant-design-vue';
 
@@ -20,15 +23,17 @@ const currentDataRef = ref<any>({});
 const ruleListRef = ref<any[]>([]);
 
 const [SmartTable, tableApi] = useSmartTable({
+  useSearchForm: false,
+  height: 'auto',
   editConfig: {
     trigger: 'click',
     mode: 'row',
   },
   border: true,
   editRules: {
-    message: [{ required: true, message: '请填写校验文案' }],
-    ruleTrigger: [{ required: true, message: '请选择触发时机' }],
-    ruleType: [{ required: true, message: '校验类型必须选择' }],
+    message: [{ required: true, content: '请填写校验文案' }],
+    ruleTrigger: [{ required: true, content: '请选择触发时机' }],
+    ruleType: [{ required: true, content: '校验类型必须选择' }],
   },
   toolbarConfig: {
     slots: {
@@ -162,9 +167,18 @@ const handleOk = async (modalApi: ExtendedModalApi) => {
   const validateMessage = validateData(tableData);
   if (validateMessage) {
     errorMessage(validateMessage);
+    return false;
   }
+  const ruleList = tableData.map((item) => {
+    const { ruleTrigger } = item;
+    const result: any = { ...item };
+    if (ruleTrigger && isString(ruleTrigger)) {
+      result.ruleTrigger = [ruleTrigger];
+    }
+    return result;
+  });
   unref(currentDataRef).autoValidate = false;
-  unref(currentDataRef).ruleList = tableData;
+  unref(currentDataRef).ruleList = ruleList;
   modalApi.close();
 };
 
