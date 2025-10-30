@@ -15,18 +15,26 @@ export const listTimezoneOptionsApi = () => {
       label: string;
       value: string;
     }[]
-  >(Api.listTimezoneOptions, {
-    service: ApiServiceEnum.SMART_SYSTEM,
-  });
+  >(
+    Api.listTimezoneOptions,
+    {},
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
 
 /**
  * 获取当前用户时区
  */
 export const getCurrentUserTimezoneApi = () => {
-  return requestClient.post<string>(Api.getCurrentUserTimezone, {
-    service: ApiServiceEnum.SMART_SYSTEM,
-  });
+  return requestClient.post<string>(
+    Api.getCurrentUserTimezone,
+    {},
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
 };
 
 /**
