@@ -15,17 +15,9 @@ import type {
   PreferencesButtonPositionType,
   TabsStyleType,
   ThemeModeType,
-  TimeZoneOption,
 } from '@vben-core/typings';
 
 type SupportedLanguagesType = 'en-US' | 'zh-CN';
-
-interface TimeZonePreference {
-  /** 默认时区 */
-  defaultTimeZone: string;
-  /** 可选时区 */
-  options: Array<TimeZoneOption>;
-}
 
 interface AppPreferences {
   /** 权限模式 */
@@ -86,8 +78,6 @@ interface AppPreferences {
   name: string;
   /** 偏好设置按钮位置 */
   preferencesButtonPosition: PreferencesButtonPositionType;
-  /** 时区配置 */
-  timeZone: TimeZonePreference;
   /**
    * @zh_CN 是否开启水印
    */

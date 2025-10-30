@@ -75,6 +75,11 @@ export const getTableColumns = (): SmartTableColumn[] => {
       minWidth: 140,
     },
     {
+      title: '{system.views.user.table.timezone}',
+      field: 'timezone',
+      width: 120,
+    },
+    {
       ...getTableUseYnColumnClass(),
       sortable: true,
     },
@@ -156,6 +161,15 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       label: t('system.views.user.table.mobile'),
       fieldName: 'mobile',
       component: 'Input',
+    },
+    {
+      label: t('system.views.user.table.timezone'),
+      fieldName: 'timezone',
+      component: 'ApiDictSelect',
+      componentProps: {
+        dictCode: 'SYSTEM_TIMEZONE_OPTIONS',
+        class: 'w-full',
+      },
     },
     {
       label: t('common.table.seq'),

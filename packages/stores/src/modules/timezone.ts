@@ -103,10 +103,13 @@ const useTimezoneStore = defineStore(
       console.error('Failed to initialize timezone during store setup:', error);
     });
 
+    function $reset() {}
+
     return {
       timezone: timezoneRef,
       setTimezone,
       getTimezoneOptions,
+      $reset,
     };
   },
   {

@@ -23,7 +23,7 @@ import {
   getSystemPropertiesApi,
 } from '#/api';
 import { antdLocale } from '#/locales';
-import { useAuthStore, useUserProfileStore } from '#/store';
+import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'App' });
 
@@ -61,7 +61,6 @@ const { handleHide, exceptionNoList, modalShow } = toRefs(
   useApiExceptionStore(),
 );
 
-const { initTimeZone } = useUserProfileStore();
 const { showLoginExpired, loginExpired } = toRefs(useAuthStore());
 onMounted(async () => {
   // 加载系统参数
@@ -74,9 +73,6 @@ onMounted(async () => {
     ...authProperties,
     sysParameter: systemProperties,
   });
-
-  // 初始化时区
-  initTimeZone();
 });
 </script>
 

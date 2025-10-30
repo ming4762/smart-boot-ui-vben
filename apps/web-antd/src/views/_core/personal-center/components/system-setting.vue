@@ -11,28 +11,16 @@ import { storeToRefs } from 'pinia';
 
 import { listCurrentUserTenantApi } from '#/api';
 import { SmartIconButton } from '#/components';
-import { useAuthStore, useUserProfileStore } from '#/store';
+import { useAuthStore } from '#/store';
 
 import Container from './container.vue';
-import TimeZoneSetModal from './time-zone-set-modal.vue';
 
 const ListItem = List.Item;
 const ListItemMeta = List.Item.Meta;
 
-const { timeZone } = storeToRefs(useUserProfileStore());
 const { userInfo } = storeToRefs(useUserStore());
 
 const authStore = useAuthStore();
-
-/**
- * 时区设置
- */
-const [RenderTimeZoneSetModal, timeZoneSetModalApi] = useVbenModal({
-  connectedComponent: TimeZoneSetModal,
-});
-const handleSetTimeZone = () => {
-  timeZoneSetModalApi.open();
-};
 
 /**
  * 租户切换
@@ -45,16 +33,13 @@ const handleChangeTenant = (tenantId: number) => {
 };
 
 const handleAction = (key: string) => {
-  if (key === 'timeZone') {
-    handleSetTimeZone();
-  } else if (key === 'tenant') {
+  if (key === 'tenant') {
     changeTenantModalApi.open();
   }
 };
 
 const computedConfigValue = computed<Record<string, any>>(() => {
   return {
-    timeZone: unref(timeZone),
     tenant: [
       unref(userInfo)?.userTenant.tenantCode,
       unref(userInfo)?.userTenant?.tenantName,
@@ -65,14 +50,6 @@ const computedConfigValue = computed<Record<string, any>>(() => {
 });
 
 const configList = [
-  {
-    title: t('ui.widgets.personalCenter.systemSetting.timeZone'),
-    description: t(
-      'ui.widgets.personalCenter.systemSetting.timeZoneDescription',
-    ),
-    key: 'timeZone',
-    actionName: t('common.set'),
-  },
   {
     title: t('ui.widgets.personalCenter.systemSetting.tenant'),
     description: t('ui.widgets.personalCenter.systemSetting.tenantDescription'),
@@ -114,8 +91,6 @@ const configList = [
         </ListItem>
       </template>
     </List>
-    <!--  时区设置modal  -->
-    <RenderTimeZoneSetModal />
     <!--  租户切换modal  -->
     <RenderChangeTenantModal
       :change-tenant-handler="handleChangeTenant"
