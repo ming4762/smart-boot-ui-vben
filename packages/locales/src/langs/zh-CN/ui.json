@@ -138,6 +138,10 @@
         "tenantDescription": "当前租户："
       },
       "authSetting": "安全设置"
+    },
+    "timezone": {
+      "setTimezone": "设置时区",
+      "setSuccess": "时区设置成功"
     }
   }
 }

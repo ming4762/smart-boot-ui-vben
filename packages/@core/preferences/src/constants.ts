@@ -1,4 +1,4 @@
-import type { BuiltinThemeType, TimeZoneOption } from '@vben-core/typings';
+import type { BuiltinThemeType, TimezoneOption } from '@vben-core/typings';
 
 interface BuiltinThemePreset {
   color: string;
@@ -84,31 +84,36 @@ const BUILT_IN_THEME_PRESETS: BuiltinThemePreset[] = [
 /**
  * 时区选项
  */
-const TIME_ZONE_OPTIONS: TimeZoneOption[] = [
+const DEFAULT_TIME_ZONE_OPTIONS: TimezoneOption[] = [
   {
     offset: -5,
-    timeZone: 'America/New_York',
+    timezone: 'America/New_York',
+    label: 'America/New_York(GMT-5)',
   },
   {
     offset: 0,
-    timeZone: 'Europe/London',
+    timezone: 'Europe/London',
+    label: 'Europe/London(GMT0)',
   },
   {
     offset: 8,
-    timeZone: 'Asia/Shanghai',
+    timezone: 'Asia/Shanghai',
+    label: 'Asia/Shanghai(GMT+8)',
   },
   {
     offset: 9,
-    timeZone: 'Asia/Tokyo',
+    timezone: 'Asia/Tokyo',
+    label: 'Asia/Tokyo(GMT+9)',
   },
   {
     offset: 9,
-    timeZone: 'Asia/Seoul',
+    timezone: 'Asia/Seoul',
+    label: 'Asia/Seoul(GMT+9)',
   },
 ];
 
 export const COLOR_PRESETS = [...BUILT_IN_THEME_PRESETS].slice(0, 7);
 
-export { BUILT_IN_THEME_PRESETS, TIME_ZONE_OPTIONS };
+export { BUILT_IN_THEME_PRESETS, DEFAULT_TIME_ZONE_OPTIONS };
 
 export type { BuiltinThemePreset };

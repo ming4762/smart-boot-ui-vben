@@ -312,6 +312,9 @@ const computedLogoTheme = computed(() => {
         <template #notification>
           <slot name="notification"></slot>
         </template>
+        <template #timezone>
+          <slot name="timezone"></slot>
+        </template>
         <template v-for="item in headerSlots" #[item]>
           <slot :name="item"></slot>
         </template>

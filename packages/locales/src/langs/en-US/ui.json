@@ -138,6 +138,10 @@
         "tenantDescription": "Current Tenant: "
       },
       "authSetting": "Security Settings"
+    },
+    "timezone": {
+      "setTimezone": "Set Timezone",
+      "setSuccess": "Timezone set successfully"
     }
   }
 }
