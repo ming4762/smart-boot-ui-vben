@@ -182,7 +182,7 @@ const RenderDropdown = () => {
     return null;
   }
   const slotMore = slots.more;
-  const children: { [index: string]: () => VNode } = {};
+  const children: { [index: string]: () => VNode | VNode[] } = {};
   // TODO: 插槽不支持?
   if (slotMore) {
     children.more = () => slotMore();
