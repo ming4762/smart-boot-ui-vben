@@ -331,6 +331,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'components/smart-page-provider',
           text: 'SmartPageProvider 页面级数据共享组件',
         },
+        {
+          link: 'components/smart-copy-text',
+          text: 'SmartCopyText 复制文本组件',
+        },
       ],
     },
     {

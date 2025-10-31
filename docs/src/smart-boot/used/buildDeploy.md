@@ -12,8 +12,7 @@ outline: deep
 mvn -B clean package -pl ${ROOT_MODULE}/${MODULE} -am -P${PROFILE} -Dmaven.test.skip=true -Dautoconfig.skip
 ```
 
-参数说明：
-PARENT_MODULE：根模块名
+参数说明：PARENT_MODULE：根模块名
 
 MODULE：要打包的模块名
 
@@ -67,7 +66,7 @@ docker build -f deployment/docker/Dockerfile-all-in \
 
 流水线第一次执行会在ACR生成镜像，然后在ACK创建对应的POD
 
-::: 
+:::
 
 ::: details 阿里云FLOW YAML
 
@@ -151,12 +150,6 @@ stages:
               rolloutTimeout: 10
         driven: auto
         plugins: []
-
 ```
 
-::: 
-
-
-
-
-
+:::
