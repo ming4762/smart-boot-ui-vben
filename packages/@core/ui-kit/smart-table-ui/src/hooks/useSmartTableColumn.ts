@@ -108,6 +108,17 @@ const componentMap: {
       });
     };
   },
+  copyText: (column) => {
+    return (params) => {
+      const value = params.row[params.column.field];
+      const props = {
+        ...getComponentProps(params, column),
+        text: value,
+      };
+
+      return h(getComponent('SmartCopyText') as Component, props);
+    };
+  },
 };
 
 /**

@@ -15,6 +15,7 @@ import {
   globalShareState,
   IconPicker,
   SmartCodeEditor,
+  SmartCopyText,
   SmartPulldownTable,
 } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
@@ -153,6 +154,7 @@ export type ComponentType =
   | 'Rate'
   | 'Select'
   | 'SmartCodeEditor'
+  | 'SmartCopyText'
   | 'SmartMarkdown'
   | 'SmartPulldownTable'
   | 'SmartTinymceEditor'
@@ -209,6 +211,7 @@ async function initComponentAdapter() {
     Checkbox,
     CheckboxGroup,
     DatePicker: ZonedDatePicker,
+    SmartCopyText,
     Menu,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {

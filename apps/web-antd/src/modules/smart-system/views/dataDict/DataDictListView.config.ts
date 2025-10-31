@@ -27,6 +27,10 @@ export const getDataDictGroupColumns = (): SmartTableColumn[] => {
       //   filter: 'dictCode-filter',
       // },
       fixed: 'left',
+      component: 'copyText',
+      componentProps: {
+        iconPosition: 'end',
+      },
     },
     {
       title: '{system.views.dictGroup.title.dictName}',

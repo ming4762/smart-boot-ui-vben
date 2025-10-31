@@ -13,6 +13,7 @@ import type {
 type SmartTableColumnComponent =
   | 'booleanTag'
   | 'button'
+  | 'copyText'
   | 'switch'
   | 'tag'
   | 'useYnTag';

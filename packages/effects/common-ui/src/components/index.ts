@@ -8,6 +8,7 @@ export * from './json-viewer';
 export * from './loading';
 export * from './page';
 export * from './resize';
+export * from './smart-copy-text';
 export * from './smart-cropper';
 export * from './tippy';
 export * from './tree';
