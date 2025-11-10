@@ -149,7 +149,7 @@ export const getBindUserModalListColumns = (): SmartTableColumn[] => {
  * 添加修改表单
  */
 export const getSubscribeFormSchemas = (
-  tenantIdRef: ComputedRef<number | undefined>,
+  tenantIdRef: ComputedRef<number | string | undefined>,
 ): VbenFormSchema[] => {
   return [
     {

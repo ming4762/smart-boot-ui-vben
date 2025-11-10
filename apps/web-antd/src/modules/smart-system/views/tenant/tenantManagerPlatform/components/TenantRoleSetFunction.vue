@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, toRefs, unref, watch } from 'vue';
 
+import { useTabLazy } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
 
@@ -15,7 +16,6 @@ import {
 } from 'ant-design-vue';
 
 import { ApiServiceEnum, requestClient } from '#/api/request';
-import { useTabLazy } from '#/hooks';
 import { errorMessage, successMessage } from '#/utils';
 
 interface Props {

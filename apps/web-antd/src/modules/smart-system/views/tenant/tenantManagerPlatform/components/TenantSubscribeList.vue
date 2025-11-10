@@ -3,10 +3,10 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 
 import { computed, toRefs } from 'vue';
 
+import { useTabLazy } from '@vben/hooks';
 import { zonedDayjs } from '@vben/utils';
 
 import { useSmartTable } from '#/adapter/smart-table';
-import { useTabLazy } from '#/hooks';
 
 import {
   batchSaveUpdateSubscribeApi,

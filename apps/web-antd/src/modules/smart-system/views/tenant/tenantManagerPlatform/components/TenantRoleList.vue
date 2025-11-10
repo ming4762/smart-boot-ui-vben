@@ -8,13 +8,12 @@ import type { SmartTableActionItem } from '#/adapter/smart-table';
 import { ref, toRefs } from 'vue';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
-import { useSizeSetting } from '@vben/hooks';
+import { useSizeSetting, useTabLazy } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import { SmartVxeTableAction, useSmartTable } from '#/adapter/smart-table';
-import { useTabLazy } from '#/hooks';
 import RoleDataPermission from '#/modules/smart-system/views/role/components/RoleDataPermission.vue';
 import { useRoleSetUser } from '#/modules/smart-system/views/role/hook/useRoleSetUser';
 

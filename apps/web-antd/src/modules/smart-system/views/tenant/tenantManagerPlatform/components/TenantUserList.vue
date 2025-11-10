@@ -4,12 +4,12 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 import { computed, ref, toRefs, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
+import { useTabLazy } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
 
 import { useSmartTable } from '#/adapter/smart-table';
 import { SmartAuthButton } from '#/components';
-import { useTabLazy } from '#/hooks';
 import { deleteUserByIdApi } from '#/modules/smart-system/api/UserApi';
 import { createTenantUserAccountApi } from '#/modules/smart-system/views/tenant/tenantManager/SysTenantListView.api';
 import { createConfirm, successMessage, warnMessage } from '#/utils';
