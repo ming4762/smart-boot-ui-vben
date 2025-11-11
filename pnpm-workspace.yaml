@@ -10,6 +10,8 @@ packages:
   - packages/business/*
   - apps/*
   - scripts/*
+  - smart-boot/*
+  - smart-boot/smart-modules/*
   - docs
   - playground
 

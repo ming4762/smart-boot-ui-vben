@@ -9,6 +9,10 @@
       "path": "apps/web-antd",
     },
     {
+      "name": "@vben/web-antd-module",
+      "path": "apps/web-antd-module",
+    },
+    {
       "name": "@vben/web-ele",
       "path": "apps/web-ele",
     },
@@ -179,6 +183,18 @@
     {
       "name": "@vben/vsh",
       "path": "scripts/vsh",
+    },
+    {
+      "name": "@smart/common",
+      "path": "smart-boot/smart-common",
+    },
+    {
+      "name": "@smart/components",
+      "path": "smart-boot/smart-components",
+    },
+    {
+      "name": "@smart-module/system",
+      "path": "smart-boot/smart-modules/smart-module-system",
     },
   ],
 }

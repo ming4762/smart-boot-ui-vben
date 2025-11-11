@@ -1,4 +1,4 @@
-import type { VxeButtonProps } from 'vxe-table';
+import type { VxeButtonProps } from 'vxe-pc-ui';
 
 /**
  * toolbar column config

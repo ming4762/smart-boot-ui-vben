@@ -1,0 +1,15 @@
+{
+  "smartTableSelect": {
+    "user": {
+      "username": "用户名",
+      "fullName": "姓名",
+      "userType": "类型"
+    },
+    "button": {
+      "chooseUser": "选择用户"
+    }
+  },
+  "form": {
+    "apiSelectNotFound": "请等待数据加载完成..."
+  }
+}
