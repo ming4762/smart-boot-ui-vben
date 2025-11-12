@@ -2,7 +2,7 @@ import type {
   SmartSearchFormSchema,
   SmartTableColumn,
   VbenFormSchema,
-} from '@smart/common-ui';
+} from '@vben/common-ui';
 
 import { $t as t } from '@vben/locales';
 

@@ -4,14 +4,11 @@ import { ApiServiceEnum } from '@vben/constants';
 import { camelToLine, listToTree } from '@vben/utils';
 
 import { requestClient } from '#/api/request';
+import { MODULE_PATH_MAPPING } from '#/constants';
 
 enum Api {
   GetMenuList = '/sys/user/listUserMenu',
 }
-
-const COMPONENT_MAPPING: { [index: string]: string } = {
-  '/modules/smart-system': '/smart-boot/smart-modules/smart-module-system/src',
-};
 
 namespace MenuApi {
   export interface MenuItem {
@@ -84,10 +81,10 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
       formatComponent = formatComponent.slice(1);
     }
     if (formatComponent) {
-      for (const key of Object.keys(COMPONENT_MAPPING)) {
+      for (const [key, mapping] of MODULE_PATH_MAPPING) {
         if (formatComponent.startsWith(key)) {
           formatComponent =
-            COMPONENT_MAPPING[key] + formatComponent.slice(key.length);
+            mapping?.filePath + formatComponent.slice(key.length);
           break;
         }
       }

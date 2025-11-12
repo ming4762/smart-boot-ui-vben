@@ -1,53 +1,59 @@
 {
-  "name": "@smart/common",
+  "name": "@smart-module/message",
   "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
-    "directory": "smart-boot/smart-common"
+    "directory": "smart-boot/smart-modules/smart-module-code"
   },
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "build": "pnpm unbuild",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
   "sideEffects": [
     "**/*.css"
   ],
-  "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    },
-    "./api": {
-      "types": "./src/api/index.ts",
-      "default": "./src/api/index.ts"
-    },
-    "./constants": {
-      "types": "./src/constants/index.ts",
-      "default": "./src/constants/index.ts"
-    },
-    "./store": {
-      "types": "./src/store/index.ts",
-      "default": "./src/store/index.ts"
-    },
-    "./utils": {
-      "types": "./src/utils/index.ts",
-      "default": "./src/utils/index.ts"
-    }
-  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
   "imports": {
     "#/*": "./src/*"
   },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "dependencies": {
+    "@smart/common": "workspace:*",
+    "@smart/components": "workspace:*",
+    "@vben/access": "workspace:*",
+    "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
+    "@vben/locales": "workspace:*",
+    "@vben/plugins": "workspace:*",
+    "@vben/preferences": "workspace:*",
     "@vben/hooks": "workspace:*",
     "@vben/icons": "workspace:*",
-    "@vben/locales": "workspace:*",
-    "@vben/preferences": "workspace:*",
-    "@vben/request": "workspace:*",
     "@vben/stores": "workspace:*",
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
+    "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",

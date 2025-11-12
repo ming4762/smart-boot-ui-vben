@@ -4,7 +4,7 @@ import { computed, onMounted, ref, unref, watch } from 'vue';
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
 
-import { ApiServiceEnum, requestClient } from '@smart/common/api/request';
+import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { errorMessage, successMessage } from '@smart/common/utils';
 import {
   Button,

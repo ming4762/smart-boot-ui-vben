@@ -8,6 +8,7 @@ import { preferences } from '@vben/preferences';
 
 import { getUserMenusApi } from '@smart/common/api';
 import { message } from 'ant-design-vue';
+import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
@@ -19,7 +20,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
   const pageMap: ComponentRecordType = {
     ...import.meta.glob('../views/**/*.vue'),
     ...import.meta.glob('../modules/**/*.{vue,tsx}'),
-    ...import.meta.glob('@smart-module/system/**/*.{vue,tsx}'),
+    ...modulePageMap,
   };
 
   const layoutMap: ComponentRecordType = {
