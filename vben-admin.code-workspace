@@ -193,6 +193,14 @@
       "path": "smart-boot/smart-components",
     },
     {
+      "name": "@smart-module/code",
+      "path": "smart-boot/smart-modules/smart-module-code",
+    },
+    {
+      "name": "@smart-module/file",
+      "path": "smart-boot/smart-modules/smart-module-file",
+    },
+    {
       "name": "@smart-module/message",
       "path": "smart-boot/smart-modules/smart-module-message",
     },

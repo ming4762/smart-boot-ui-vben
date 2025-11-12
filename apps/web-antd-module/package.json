@@ -30,6 +30,7 @@
   "dependencies": {
     "@smart/common": "workspace:*",
     "@smart/components": "workspace:*",
+    "@smart-module/file": "workspace:*",
     "@smart-module/system": "workspace:*",
     "@smart-module/message": "workspace:*",
     "@vben/access": "workspace:*",
