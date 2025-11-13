@@ -3,13 +3,7 @@ import type { Recordable } from '@vben/types';
 
 import { ref, unref, useTemplateRef } from 'vue';
 
-import {
-  SmartAuthButton,
-  SmartIconButton,
-  SmartLayoutSeparate,
-  SysDeptTree,
-  useVbenModal,
-} from '@vben/common-ui';
+import { SmartLayoutSeparate, useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t } from '@vben/locales';
 
@@ -18,6 +12,11 @@ import {
   errorMessage,
   successMessage,
 } from '@smart/common/utils';
+import {
+  SmartAuthButton,
+  SmartIconButton,
+  SysDeptTree,
+} from '@smart/components';
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import DeptUserList from './components/DeptUserList.vue';

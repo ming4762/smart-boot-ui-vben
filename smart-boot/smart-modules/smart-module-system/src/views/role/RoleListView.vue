@@ -4,10 +4,13 @@ import type { Recordable } from '@vben/types';
 
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate, SmartVxeTableAction } from '@vben/common-ui';
+import {
+  SmartLayoutSeparate,
+  SmartVxeTableAction,
+  useSmartTable,
+} from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { useSmartTable } from '@smart/common-ui';
 import { TabPane, Tabs } from 'ant-design-vue';
 
 import {

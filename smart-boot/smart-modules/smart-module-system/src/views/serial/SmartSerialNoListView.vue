@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { SmartTableActionItem } from '@smart/common-ui';
-
+import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
+import { SmartVxeTableAction, useSmartTable } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
-
-import { SmartVxeTableAction, useSmartTable } from '@smart/common-ui';
 
 import {
   batchSaveUpdateApi,

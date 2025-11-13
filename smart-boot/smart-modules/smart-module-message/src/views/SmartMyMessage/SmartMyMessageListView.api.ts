@@ -1,4 +1,4 @@
-import { ApiServiceEnum, requestClient } from '#/api/request';
+import { ApiServiceEnum, requestClient } from '@smart/common/api';
 
 enum Api {
   list = '/smart/message/messageSend/pageCurrentUserMessage',

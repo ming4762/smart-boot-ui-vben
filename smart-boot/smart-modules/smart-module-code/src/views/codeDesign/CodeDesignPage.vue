@@ -5,9 +5,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { Divider, TabPane, Tabs } from 'ant-design-vue';
-
 import { SmartAuthButton, SmartIconButton } from '@smart/components';
+import { Divider, TabPane, Tabs } from 'ant-design-vue';
 
 import { useSaveConfig } from './CodeDesignPageHook';
 import CodeDesignForm from './componenets/CodeDesignForm.vue';
@@ -18,8 +17,8 @@ import TableFieldTable from './componenets/TableFieldTable/TableFieldTable.vue';
 import { useProvideCodeDesignContext } from './useContext';
 
 interface Props {
-  systemId?: number | string;
   configId?: number | string;
+  systemId?: number | string;
 }
 const props = defineProps<Props>();
 

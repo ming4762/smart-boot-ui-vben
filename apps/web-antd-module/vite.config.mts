@@ -1,7 +1,7 @@
-import {readdirSync} from 'node:fs';
-import {resolve} from 'node:path';
+import { readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-import {defineConfig} from '@vben/vite-config';
+import { defineConfig } from '@vben/vite-config';
 
 // 自动读取 smart-modules 目录下所有模块并创建别名
 function getSmartModuleAliases() {
