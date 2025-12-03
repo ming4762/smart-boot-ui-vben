@@ -25,7 +25,8 @@
     "radix-vue": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
     "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
-    "@vben/preferences": "workspace:*"
+    "@vben/preferences": "workspace:*",
+    "reka-ui": "catalog:"
   },
   "devDependencies": {
     "@nolebase/vitepress-plugin-git-changelog": "catalog:",

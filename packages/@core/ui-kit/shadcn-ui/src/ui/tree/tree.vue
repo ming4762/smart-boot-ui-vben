@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Arrayable } from '@vueuse/core';
-import type { FlattenedItem } from 'radix-vue';
+import type { FlattenedItem } from 'reka-ui';
 
 import type { ClassType, Recordable } from '@vben-core/typings';
 
@@ -11,7 +11,7 @@ import { onMounted, ref, watchEffect } from 'vue';
 import { ChevronRight, IconifyIcon } from '@vben-core/icons';
 import { cn, get } from '@vben-core/shared/utils';
 
-import { TreeItem, TreeRoot } from 'radix-vue';
+import { TreeItem, TreeRoot } from 'reka-ui';
 
 import { Checkbox } from '../checkbox';
 import { treePropsDefaults } from './types';
@@ -220,7 +220,7 @@ function onSelect(item: FlattenedItem<Recordable<any>>, isSelected: boolean) {
         );
       })
       ?.parents?.filter((item) => !get(item, props.disabledField))
-      ?.reverse()
+      ?.toReversed()
       .forEach((p) => {
         const children = flattenData.value.filter((i) => {
           return (
@@ -307,7 +307,10 @@ defineExpose({
         <Checkbox
           v-if="multiple"
           @click.stop
-          @update:checked="(checked) => (checked ? checkAll() : unCheckAll())"
+          @update:model-value="
+            (checked: boolean | 'indeterminate') =>
+              checked === true ? checkAll() : unCheckAll()
+          "
         />
       </div>
     </div>
@@ -377,7 +380,7 @@ defineExpose({
         <div class="flex items-center gap-1">
           <Checkbox
             v-if="multiple"
-            :checked="isSelected && !isNodeDisabled(item)"
+            :model-value="isSelected && !isNodeDisabled(item)"
             :disabled="isNodeDisabled(item)"
             :indeterminate="isIndeterminate && !isNodeDisabled(item)"
             @click="

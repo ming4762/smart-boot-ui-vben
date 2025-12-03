@@ -4,3 +4,4 @@ export * from './dashboard';
 export * from './exception';
 export * from './fallback';
 export * from './login-expired';
+export * from './profile';

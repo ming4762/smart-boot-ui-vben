@@ -339,7 +339,7 @@ onUnmounted(() => {
                 :is="FieldComponent"
                 ref="fieldComponentRef"
                 :class="{
-                  'border-destructive focus:border-destructive hover:border-destructive/80 focus:shadow-[0_0_0_2px_rgba(255,38,5,0.06)]':
+                  'border-destructive hover:border-destructive/80 focus:border-destructive focus:shadow-[0_0_0_2px_rgba(255,38,5,0.06)]':
                     isInValid,
                   'relative hover:z-10 focus:z-10': compact,
                 }"
@@ -358,6 +358,24 @@ onUnmounted(() => {
                 </template>
                 <!-- <slot></slot> -->
               </component>
+              <VbenTooltip
+                v-if="compact && isInValid"
+                :delay-duration="300"
+                side="left"
+              >
+                <template #trigger>
+                  <slot name="trigger">
+                    <CircleAlert
+                      :class="
+                        cn(
+                          'text-foreground/80 hover:text-foreground inline-flex size-5 cursor-pointer',
+                        )
+                      "
+                    />
+                  </slot>
+                </template>
+                <FormMessage />
+              </VbenTooltip>
             </slot>
           </FormControl>
           <!-- 自定义后缀 -->
