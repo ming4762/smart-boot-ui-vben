@@ -264,7 +264,7 @@ function handleMouseleave() {
       theme,
       {
         'bg-sidebar-deep': isSidebarMixed,
-        'bg-sidebar border-border border-r': !isSidebarMixed,
+        'border-border bg-sidebar border-r': !isSidebarMixed,
       },
     ]"
     :style="style"

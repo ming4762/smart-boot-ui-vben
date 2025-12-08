@@ -29,6 +29,10 @@ interface Props {
    */
   src?: string;
   /**
+   * @zh_CN 暗色主题 Logo 图标 (可选，若不设置则使用 src)
+   */
+  srcDark?: string;
+  /**
    * @zh_CN Logo 文本
    */
   text: string;
@@ -47,6 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
   href: 'javascript:void 0',
   logoHeight: 30,
   src: '',
+  srcDark: '',
   theme: 'light',
   fit: 'cover',
 });

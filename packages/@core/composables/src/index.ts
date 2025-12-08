@@ -12,4 +12,4 @@ export {
   useForwardExpose,
   useForwardProps,
   useForwardPropsEmits,
-} from 'radix-vue';
+} from 'reka-ui';
