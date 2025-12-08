@@ -358,24 +358,6 @@ onUnmounted(() => {
                 </template>
                 <!-- <slot></slot> -->
               </component>
-              <VbenTooltip
-                v-if="compact && isInValid"
-                :delay-duration="300"
-                side="left"
-              >
-                <template #trigger>
-                  <slot name="trigger">
-                    <CircleAlert
-                      :class="
-                        cn(
-                          'text-foreground/80 hover:text-foreground inline-flex size-5 cursor-pointer',
-                        )
-                      "
-                    />
-                  </slot>
-                </template>
-                <FormMessage />
-              </VbenTooltip>
             </slot>
           </FormControl>
           <!-- 自定义后缀 -->
