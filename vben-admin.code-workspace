@@ -13,6 +13,10 @@
       "path": "apps/web-antd-module",
     },
     {
+      "name": "@smart/web-auth-server-manager",
+      "path": "apps/web-auth-server-manager",
+    },
+    {
       "name": "@vben/web-ele",
       "path": "apps/web-ele",
     },
@@ -191,6 +195,10 @@
     {
       "name": "@smart/components",
       "path": "smart-boot/smart-components",
+    },
+    {
+      "name": "@smart-module/auth-server-manager",
+      "path": "smart-boot/smart-modules/smart-module-auth-server-manager",
     },
     {
       "name": "@smart-module/code",

@@ -25,6 +25,8 @@ export const SUPPORT_LANGUAGES: LanguageOption[] = [
 export enum ApiServiceEnum {
   NONE = '',
   SMART_AUTH = 'smart-auth',
+  // 认证服务，包括 OAuth2 等
+  SMART_AUTH_SERVER = 'smart-auth-server',
   // 代码生成器
   SMART_CODE = 'smart-code',
   SMART_FILE = 'smart-file',
