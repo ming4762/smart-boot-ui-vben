@@ -237,13 +237,19 @@ const createDataFromTableData = (
     copyField.forEach((field) => {
       data[field] = item[field];
     });
+    let autoValidate = false;
+    if (item.nullable === 0) {
+      autoValidate = true;
+    }
     return Object.assign(data, {
       title: data.remarks || data.javaProperty,
       readonly: false,
       visible: true,
       hidden: false,
       used: true,
+      // todo：根据类型自动映射
       controlType: 'INPUT',
+      autoValidate,
       rules: [],
       useTableSearch: false,
     });

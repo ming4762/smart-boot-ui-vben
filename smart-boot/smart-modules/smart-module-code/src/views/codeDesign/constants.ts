@@ -13,6 +13,10 @@ const CONTROL_LIST = [
     value: 'smart.code.views.codeManager.title.controlList.textarea',
   },
   {
+    key: 'TEXTAREA_JSON',
+    value: 'smart.code.views.codeManager.title.controlList.textareaJson',
+  },
+  {
     key: 'NUMBER',
     value: 'smart.code.views.codeManager.title.controlList.number',
   },
