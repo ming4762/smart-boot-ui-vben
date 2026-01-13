@@ -225,14 +225,17 @@ const createDataFromTableData = (
   tableData: Array<any>,
   editData: Array<any> | undefined,
 ) => {
-  const tableDataMap = new Map<string, any>();
-  tableData.forEach((item) => {
-    tableDataMap.set(item.javaProperty, item);
-  });
+  const editDataMap = new Map<string, any>();
   if (editData) {
-    return editData.filter((item) => tableDataMap.has(item.javaProperty));
+    editData.forEach((item) => {
+      editDataMap.set(item.javaProperty, item);
+    });
   }
+
   return tableData.map((item) => {
+    if (editDataMap.has(item.javaProperty)) {
+      return editDataMap.get(item.javaProperty);
+    }
     const data: any = {};
     copyField.forEach((field) => {
       data[field] = item[field];

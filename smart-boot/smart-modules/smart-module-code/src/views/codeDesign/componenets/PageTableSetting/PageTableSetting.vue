@@ -43,32 +43,28 @@ const copyField = [
  * 创建数据
  */
 const createDataFromTableData = (
-  tableData: Array<any>,
-  editData: Array<any> | undefined,
+  tableDataList: Array<any>,
+  editDataList: Array<any> | undefined,
 ) => {
-  if (editData) {
-    const tableDataMap = new Map<string, any>();
-    tableData.forEach((item) => {
-      tableDataMap.set(item.javaProperty, item);
+  const editDataMap = new Map<string, any>();
+  if (editDataList) {
+    editDataList.forEach((item) => {
+      editDataMap.set(item.javaProperty, item);
     });
-    return editData
-      .map((item) => {
-        const itemData = {
-          ...item,
-        };
-        const tableDataItem = tableDataMap.get(item.javaProperty);
-        if (!tableDataItem) {
-          // 说明字段被删除
-          return null;
-        }
-        copyField.forEach((field) => {
-          itemData[field] = tableDataItem[field];
-        });
-        return itemData;
-      })
-      .filter((item) => item !== null);
   }
-  return tableData.map((item) => {
+
+  return tableDataList.map((item) => {
+    // 是否包含编辑的数据
+    if (editDataMap.has(item.javaProperty)) {
+      const editData = editDataMap.get(item.javaProperty);
+      const itemData = {
+        ...editData,
+      };
+      copyField.forEach((field) => {
+        itemData[field] = item[field];
+      });
+      return itemData;
+    }
     const data: any = {};
     copyField.forEach((field) => {
       data[field] = item[field];
