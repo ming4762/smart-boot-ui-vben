@@ -14,7 +14,7 @@ import { createConfirm } from '@smart/common/utils';
 import { SmartIconButton } from '@smart/components';
 import { Switch } from 'ant-design-vue';
 
-import { getControlList } from '../../constants';
+import { DB_TYPE_CONTROL_MAPPING, getControlList } from '../../constants';
 import {
   injectCodeDesignContext,
   injectCodeDesignHandler,
@@ -241,14 +241,14 @@ const createDataFromTableData = (
     if (item.nullable === 0) {
       autoValidate = true;
     }
+    const controlType = DB_TYPE_CONTROL_MAPPING[item.typeName] || 'INPUT';
     return Object.assign(data, {
       title: data.remarks || data.javaProperty,
       readonly: false,
       visible: true,
       hidden: false,
       used: true,
-      // todo：根据类型自动映射
-      controlType: 'INPUT',
+      controlType,
       autoValidate,
       rules: [],
       useTableSearch: false,

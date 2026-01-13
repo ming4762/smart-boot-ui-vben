@@ -1,9 +1,28 @@
 import { $t as t } from '@vben/locales';
 
+export type CONTROL_TYPE =
+  | 'CATEGORY_DICT'
+  | 'CHECKBOX'
+  | 'DATA_DICT'
+  | 'DATE'
+  | 'DATETIME'
+  | 'FILE'
+  | 'INPUT'
+  | 'NUMBER'
+  | 'PASSWORD'
+  | 'RADIO'
+  | 'SELECT'
+  | 'SELECT_TABLE'
+  | 'SWITCH_TYPE'
+  | 'TEXTAREA'
+  | 'TEXTAREA_JSON'
+  | 'TIME'
+  | 'TRANSFER';
+
 /**
  * 控件列表
  */
-const CONTROL_LIST = [
+const CONTROL_LIST: { key: CONTROL_TYPE; value: string }[] = [
   {
     key: 'INPUT',
     value: 'smart.code.views.codeManager.title.controlList.input',
@@ -126,3 +145,29 @@ export const RULE_LIST = [
     label: 'smart.code.views.codeManager.title.ruleList.REGEXP',
   },
 ];
+
+/**
+ * 数据库类型和控件映射关系
+ */
+export const DB_TYPE_CONTROL_MAPPING: Record<string, CONTROL_TYPE> = {
+  TINYINT: 'SWITCH_TYPE',
+  INTEGER: 'NUMBER',
+  BIGINT: 'NUMBER',
+  FLOAT: 'NUMBER',
+  DOUBLE: 'NUMBER',
+  NUMERIC: 'NUMBER',
+  DECIMAL: 'NUMBER',
+  CHAR: 'INPUT',
+  VARCHAR: 'INPUT',
+  LONGVARCHAR: 'TEXTAREA',
+  DATE: 'DATE',
+  TIME: 'DATETIME',
+  TIMESTAMP: 'DATETIME',
+  BLOB: 'TEXTAREA',
+  CLOB: 'TEXTAREA',
+  NCHAR: 'INPUT',
+  NVARCHAR: 'INPUT',
+  LONGNVARCHAR: 'TEXTAREA',
+  NCLOB: 'TEXTAREA',
+  JSON: 'TEXTAREA_JSON',
+};
