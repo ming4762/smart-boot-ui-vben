@@ -6,6 +6,7 @@ enum Api {
   delete = 'sys/function/batchDeleteById',
   getById = 'sys/function/getById',
   list = 'sys/function/list',
+  listMicroFrontend = '/sys/microApp/microFrontend/list',
   save = 'sys/function/saveUpdate',
 }
 
@@ -46,11 +47,13 @@ export const getByIdApi = async (data: any) => {
     createUser,
     parent,
     updateUser,
+    microFrontend,
   } = await requestClient.post(Api.getById, data.functionId, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
   return {
     ...functionData,
+    ...microFrontend,
     createUser: createUser && createUser.fullName,
     updateUser: updateUser && updateUser.fullName,
     parentName: (parent && parent.functionName) || '根目录',
@@ -71,4 +74,19 @@ export const deleteApi = ({ body: { removeRecords } }: any) => {
       service: ApiServiceEnum.SMART_SYSTEM,
     },
   );
+};
+
+/**
+ * 列表微应用前端
+ * @param params
+ */
+export const listMicroFrontend = async (params: any) => {
+  const parameter = {
+    sortName: 'seq',
+    'useYn@=': '1',
+    ...params,
+  };
+  return requestClient.post<any[]>(Api.listMicroFrontend, parameter, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
 };

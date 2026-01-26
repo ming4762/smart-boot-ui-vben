@@ -11,7 +11,8 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { isJsonString } from '@vben/utils';
-import {getUseYnSelectOptions} from '@smart/common/utils';
+
+import { getUseYnSelectOptions } from '@smart/common/utils';
 
 export enum Permissions {
   delete = 'sys:microApp:microFrontend:delete',

@@ -37,6 +37,7 @@
     }
   },
   "dependencies": {
+    "@codemirror/autocomplete": "catalog:",
     "@codemirror/lang-html": "catalog:",
     "@codemirror/lang-java": "catalog:",
     "@codemirror/lang-javascript": "catalog:",
