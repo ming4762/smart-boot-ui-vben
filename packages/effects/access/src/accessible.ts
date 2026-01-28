@@ -18,8 +18,10 @@ import {
   mapTree,
 } from '@vben/utils';
 
+type AccessModeTypeWithMicroApp = 'micro-app' | AccessModeType;
+
 async function generateAccessible(
-  mode: AccessModeType,
+  mode: AccessModeTypeWithMicroApp,
   options: GenerateMenuAndRoutesOptions,
 ) {
   const { router } = options;
@@ -77,7 +79,7 @@ async function generateAccessible(
  * @param options
  */
 async function generateRoutes(
-  mode: AccessModeType,
+  mode: AccessModeTypeWithMicroApp,
   options: GenerateMenuAndRoutesOptions,
 ) {
   const { forbiddenComponent, roles, routes } = options;
@@ -94,6 +96,10 @@ async function generateRoutes(
         roles || [],
         forbiddenComponent,
       );
+      break;
+    }
+    case 'micro-app': {
+      resultRoutes = await generateRoutesByBackend(options);
       break;
     }
     case 'mixed': {

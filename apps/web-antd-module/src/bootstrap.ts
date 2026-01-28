@@ -8,6 +8,7 @@ import '@vben/styles';
 import '@vben/styles/antd';
 import { registerDirective } from '@vben/utils';
 
+import { setupWujieMain } from '@smart/wujie';
 import { useTitle } from '@vueuse/core';
 
 import { $t, setupI18n } from '#/locales';
@@ -56,6 +57,9 @@ async function bootstrap(namespace: string) {
   // 注册全局指令
   registerDirective(app);
 
+  // wujie主应用启动
+  setupWujieMain(app);
+
   // 初始化 tippy
   const { initTippy } = await import('@vben/common-ui/es/tippy');
   initTippy(app);
@@ -78,6 +82,8 @@ async function bootstrap(namespace: string) {
   });
 
   app.mount('#app');
+  
+  return app;
 }
 
 export { bootstrap };

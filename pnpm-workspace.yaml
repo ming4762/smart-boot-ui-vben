@@ -21,6 +21,7 @@ catalog:
   '@changesets/cli': ^2.29.7
   '@changesets/git': ^3.0.4
   '@clack/prompts': ^0.11.0
+  '@codemirror/autocomplete': ^6.18.3
   '@codemirror/lang-html': ^6.4.9
   '@codemirror/lang-java': ^6.0.2
   '@codemirror/lang-javascript': ^6.2.4

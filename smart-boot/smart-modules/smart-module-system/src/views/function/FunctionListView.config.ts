@@ -432,7 +432,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'microFrontendUrl',
+      fieldName: 'microFrontendPageUrl',
       label: '前端微页面地址',
       component: 'Input',
       defaultValue: '',
