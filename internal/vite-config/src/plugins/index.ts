@@ -245,3 +245,5 @@ export {
   viteVisualizerPlugin,
   viteVxeTableImportsPlugin,
 };
+
+export { SmartModulesVirtualPlugin } from './virtual-smart-modules';
