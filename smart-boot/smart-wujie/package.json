@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@smart/common": "workspace:*",
+    "@vben/stores": "workspace:*",
     "@vben/types": "workspace:*",
     "vue-router": "catalog:",
     "wujie-vue3": "catalog:",

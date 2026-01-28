@@ -471,6 +471,18 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
+      fieldName: 'preloadYn',
+      label: '是否预加载',
+      component: 'Switch',
+      defaultValue: false,
+      dependencies: {
+        triggerFields: ['isMicroFrontend'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+      },
+    },
+    {
       fieldName: 'microFrontendConfig',
       label: '前端微应用配置',
       component: 'SmartCodeEditor',

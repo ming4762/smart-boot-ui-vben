@@ -132,6 +132,8 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
     let props = {
       ...metaObj.props,
     };
+    // 微应用配置
+    let microFrontendConfig: any = {};
     if (microFrontend && functionMicroFrontend) {
       const {
         code,
@@ -145,9 +147,7 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
         degrade,
         attrs,
       } = microFrontend;
-      props = {
-        ...props,
-        ...(microFrontendProps ? JSON.parse(microFrontendProps) : {}),
+      microFrontendConfig = {
         name: functionMicroFrontend.multiInstanceYn
           ? `${code}_${functionId}`
           : code,
@@ -159,6 +159,24 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
         fiber,
         degrade,
         attrs: attrs ? JSON.parse(attrs) : undefined,
+        props: microFrontendProps ? JSON.parse(microFrontendProps) : {},
+        multiInstanceYn: functionMicroFrontend?.multiInstanceYn,
+        routeLinkageYn: functionMicroFrontend?.routeLinkageYn,
+      };
+      // 如果是多实例，将菜单自定义配置合并到微应用配置中
+      if (functionMicroFrontend.multiInstanceYn) {
+        const menuFrontendConfig = functionMicroFrontend.microFrontendConfig
+          ? JSON.parse(functionMicroFrontend.microFrontendConfig)
+          : {};
+        microFrontendConfig = {
+          ...microFrontendConfig,
+          ...menuFrontendConfig,
+        };
+      }
+      props = {
+        ...props,
+        ...microFrontendConfig,
+        ...microFrontendConfig.props,
       };
     }
     const routeItem: RouteRecordStringComponent = {
@@ -173,8 +191,7 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
         title: getFunctionName(menu),
         // TODO: 由后台传送?
         queryToProps: true,
-        multiInstanceYn: functionMicroFrontend?.multiInstanceYn,
-        routeLinkageYn: functionMicroFrontend?.routeLinkageYn,
+        microFrontendConfig,
       },
       name: componentName || functionName,
       path: url || '',
@@ -200,9 +217,9 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
  */
 function concatUrlPaths(path1: string, path2: string = ''): string {
   // 处理第一个路径：移除末尾所有的/
-  const processedPath1 = path1.replace(/\/+$/, '');
+  const processedPath1 = path1.trim().replace(/\/+$/, '');
   // 处理第二个路径：移除开头所有的/
-  const processedPath2 = path2.replace(/^\/+/, '');
+  const processedPath2 = path2.trim().replace(/^\/+/, '');
 
   // 边界情况：如果其中一个路径处理后为空，直接返回另一个（避免出现多余的/）
   if (!processedPath1) return processedPath2;
