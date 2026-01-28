@@ -1,9 +1,13 @@
 import type { Router } from 'vue-router';
 
+import type { RouteRecordStringComponent } from '@vben/types';
+
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
+
+import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { accessRoutes, coreRouteNames } from '#/router/routes';
 
@@ -119,6 +123,35 @@ function setupAccessGuard(router: Router) {
 }
 
 /**
+ * 微应用的路由守卫
+ * 用于生成微应用的路由
+ * @param router
+ */
+function setupMicroAppGuard(router: Router) {
+  if (!isMicroApp()) {
+    return;
+  }
+  router.beforeEach(async (to) => {
+    if (router.hasRoute(to.name || to.fullPath)) {
+      // 路由已经存在，直接返回
+      return true;
+    }
+    const routes = (await getRouterHandler?.()) as
+      | RouteRecordStringComponent[]
+      | undefined;
+    if (!routes) {
+      return to;
+    }
+    await generateAccess({
+      router,
+      // 则会在菜单中显示，但是访问会被重定向到403
+      routes: accessRoutes,
+    });
+    return true;
+  });
+}
+
+/**
  * 项目守卫配置
  * @param router
  */
@@ -126,7 +159,11 @@ function createRouterGuard(router: Router) {
   /** 通用 */
   setupCommonGuard(router);
   /** 权限访问 */
-  setupAccessGuard(router);
+  if (isMicroApp()) {
+    setupMicroAppGuard(router);
+  } else {
+    setupAccessGuard(router);
+  }
 }
 
 export { createRouterGuard };

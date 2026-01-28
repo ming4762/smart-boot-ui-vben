@@ -78,6 +78,8 @@ async function bootstrap(namespace: string) {
   });
 
   app.mount('#app');
+
+  return app;
 }
 
 export { bootstrap };

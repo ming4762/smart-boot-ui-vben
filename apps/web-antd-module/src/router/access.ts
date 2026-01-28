@@ -7,12 +7,14 @@ import { generateAccessible } from '@vben/access';
 import { preferences } from '@vben/preferences';
 
 import { getUserMenusApi } from '@smart/common/api';
+import { getRouterHandler, isMicroApp } from '@smart/wujie';
 import { message } from 'ant-design-vue';
 import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
 
+const WujieVue = () => import('@smart/wujie').then((mod) => mod.WujieVue);
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
@@ -26,16 +28,23 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
   const layoutMap: ComponentRecordType = {
     BasicLayout,
     IFrameView,
+    WujieVue,
   };
 
-  return await generateAccessible(preferences.app.accessMode, {
+  const microApp = isMicroApp();
+  const accessMode = microApp ? 'micro-app' : preferences.app.accessMode;
+  return await generateAccessible(accessMode, {
     ...options,
     fetchMenuListAsync: async () => {
-      message.loading({
-        content: `${$t('common.loadingMenu')}...`,
-        duration: 1.5,
-      });
-      return await getUserMenusApi();
+      if (microApp) {
+        return getRouterHandler?.() || [];
+      } else {
+        message.loading({
+          content: `${$t('common.loadingMenu')}...`,
+          duration: 1.5,
+        });
+        return await getUserMenusApi();
+      }
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,

@@ -28,6 +28,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@smart/wujie": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",

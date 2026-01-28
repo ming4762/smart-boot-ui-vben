@@ -477,7 +477,7 @@ const getAccountData = (status: null | string | undefined) => {
   <div class="page-container h-full">
     <SmartLayoutSeparate class="h-full" draggable first-size="280px">
       <template #first>
-        <div class="dept-container bg-background h-full">
+        <div class="dept-container h-full bg-background">
           <SysDeptTree async show-search @select="handleDeptSelected" />
         </div>
       </template>

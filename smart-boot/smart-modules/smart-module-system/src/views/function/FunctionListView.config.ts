@@ -6,10 +6,12 @@ import type {
 
 import { h } from 'vue';
 
-import { z } from '@vben/common-ui';
+import { getTableBooleanColumnClass, z } from '@vben/common-ui';
 import { createIconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 import { isJsonString } from '@vben/utils';
+
+import { listMicroFrontend } from './FunctionListView.api';
 
 export const Permission = {
   add: 'sys:function:save',
@@ -41,6 +43,14 @@ export const tableColumns: SmartTableColumn[] = [
     slots: {
       default: 'table-functionType',
     },
+  },
+  {
+    title: '是否微前端',
+    ...getTableBooleanColumnClass('isMicroFrontend', false),
+    field: 'isMicroFrontend',
+    width: 90,
+    align: 'center',
+    headerAlign: 'left',
   },
   {
     title: '{system.views.function.table.icon}',
@@ -194,12 +204,22 @@ export const getAddEditForm = (): VbenFormSchema[] => {
         },
       },
     },
+    // 用来标识是否添加
+    {
+      fieldName: 'isAdd',
+      label: '',
+      component: 'Switch',
+      dependencies: {
+        triggerFields: ['isAdd'],
+        show: false,
+      },
+    },
     {
       fieldName: 'component',
       label: t('system.views.function.table.component'),
       component: 'Input',
       dependencies: {
-        triggerFields: ['functionType'],
+        triggerFields: ['functionType', 'isMicroFrontend'],
         show: (value) => {
           return value.functionType !== 'FUNCTION';
         },
@@ -210,6 +230,16 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           return z.string().min(1, {
             message: t('system.views.function.validate.component'),
           });
+        },
+        disabled: (value) => {
+          return value.isMicroFrontend;
+        },
+        trigger: (value, formApi) => {
+          if (!value.isAdd) {
+            return;
+          }
+          const component = value.isMicroFrontend ? 'WujieVue' : '';
+          formApi.setFieldValue('component', component);
         },
       },
     },
@@ -290,14 +320,34 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'internalOrExternal',
-      label: t('system.views.function.table.internalOrExternal'),
+      fieldName: 'isMicroFrontend',
+      label: '是否微前端',
       component: 'Switch',
       defaultValue: false,
       dependencies: {
         triggerFields: ['functionType'],
         show: (value) => {
           return value.functionType === 'MENU';
+        },
+        trigger: (value, formApi) => {
+          if (value.functionType !== 'MENU') {
+            formApi.setFieldValue('isMicroFrontend', false);
+          }
+        },
+      },
+    },
+    {
+      fieldName: 'internalOrExternal',
+      label: t('system.views.function.table.internalOrExternal'),
+      component: 'Switch',
+      defaultValue: false,
+      dependencies: {
+        triggerFields: ['functionType', 'isMicroFrontend'],
+        show: (value) => {
+          return value.functionType === 'MENU';
+        },
+        disabled: (value) => {
+          return value.isMicroFrontend;
         },
       },
     },
@@ -352,6 +402,102 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           },
           {
             message: 'meta必须为json字符串',
+          },
+        ),
+    },
+    {
+      fieldName: 'microFrontendId',
+      label: '微应用',
+      component: 'ApiSelect',
+      controlClass: 'w-full',
+      componentProps: {
+        valueField: 'id',
+        labelField: 'name',
+        api: async () => {
+          const dataList = await listMicroFrontend({});
+          return dataList.map((item) => ({
+            id: item.id,
+            name: `${item.code}-${item.name}`,
+          }));
+        },
+      },
+      dependencies: {
+        triggerFields: ['isMicroFrontend'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+        required: (value) => {
+          return value.isMicroFrontend;
+        },
+      },
+    },
+    {
+      fieldName: 'microFrontendPageUrl',
+      label: '前端微页面地址',
+      component: 'Input',
+      defaultValue: '',
+      dependencies: {
+        triggerFields: ['isMicroFrontend'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+      },
+    },
+    {
+      fieldName: 'multiInstanceYn',
+      label: '是否多实例',
+      component: 'Switch',
+      defaultValue: false,
+      dependencies: {
+        triggerFields: ['isMicroFrontend'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+      },
+    },
+    {
+      fieldName: 'routeInclusionYn',
+      label: '是否联动路由',
+      component: 'Switch',
+      defaultValue: false,
+      dependencies: {
+        triggerFields: ['isMicroFrontend', 'multiInstanceYn'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+        disabled: (value) => {
+          return value.multiInstanceYn;
+        },
+      },
+    },
+    {
+      fieldName: 'microFrontendConfig',
+      label: '前端微应用配置',
+      component: 'SmartCodeEditor',
+      componentProps: {
+        language: 'json',
+        lineNumbers: false,
+      },
+      formItemClass: 'col-span-2',
+      defaultValue: '',
+      dependencies: {
+        triggerFields: ['isMicroFrontend'],
+        show: (value) => {
+          return value.isMicroFrontend;
+        },
+      },
+      rules: z
+        .string()
+        .optional()
+        .refine(
+          (value) => {
+            if (!value) {
+              return true;
+            }
+            return isJsonString(value);
+          },
+          {
+            message: '必须为json字符串',
           },
         ),
     },
