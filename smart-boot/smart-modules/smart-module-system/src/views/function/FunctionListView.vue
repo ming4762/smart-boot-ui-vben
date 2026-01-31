@@ -11,7 +11,7 @@ import {
   useVbenDrawer,
 } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
-import { listToTree } from '@vben/utils';
+import { listToTree, omit } from '@vben/utils';
 
 import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
 
@@ -160,7 +160,13 @@ const [SmartTable, tableApi] = useSmartTable({
       delete: (params) => deleteApi(params),
       save: ({ body: { insertRecords, updateRecords } }) => {
         const dataList = [...insertRecords, ...updateRecords];
-        return saveApi(dataList);
+        const saveList = dataList.map((item) => {
+          if (!item.isMicroFrontend && item.microFrontend) {
+            return omit(item, ['microFrontend']);
+          }
+          return item;
+        });
+        return saveApi(saveList);
       },
       getById: getByIdApi,
     },

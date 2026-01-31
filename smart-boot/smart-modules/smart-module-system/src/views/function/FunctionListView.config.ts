@@ -235,11 +235,19 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           return value.isMicroFrontend;
         },
         trigger: (value, formApi) => {
+          const MicroFrontendLayout = 'MicroFrontendLayout';
+          const { isMicroFrontend, component } = value;
+          if (isMicroFrontend && !component) {
+            formApi.setFieldValue('component', MicroFrontendLayout);
+            return;
+          }
           if (!value.isAdd) {
             return;
           }
-          const component = value.isMicroFrontend ? 'WujieVue' : '';
-          formApi.setFieldValue('component', component);
+          formApi.setFieldValue(
+            'component',
+            value.isMicroFrontend ? MicroFrontendLayout : '',
+          );
         },
       },
     },
@@ -406,7 +414,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
         ),
     },
     {
-      fieldName: 'microFrontendId',
+      fieldName: 'microFrontend.microFrontendId',
       label: '微应用',
       component: 'ApiSelect',
       controlClass: 'w-full',
@@ -432,7 +440,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'microFrontendPageUrl',
+      fieldName: 'microFrontend.microFrontendPageUrl',
       label: '前端微页面地址',
       component: 'Input',
       defaultValue: '',
@@ -444,7 +452,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'multiInstanceYn',
+      fieldName: 'microFrontend.multiInstanceYn',
       label: '是否多实例',
       component: 'Switch',
       defaultValue: false,
@@ -456,22 +464,22 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'routeInclusionYn',
+      fieldName: 'microFrontend.routeInclusionYn',
       label: '是否联动路由',
       component: 'Switch',
       defaultValue: false,
       dependencies: {
-        triggerFields: ['isMicroFrontend', 'multiInstanceYn'],
+        triggerFields: ['isMicroFrontend', 'microFrontend.multiInstanceYn'],
         show: (value) => {
           return value.isMicroFrontend;
         },
         disabled: (value) => {
-          return value.multiInstanceYn;
+          return value.microFrontend?.multiInstanceYn;
         },
       },
     },
     {
-      fieldName: 'preloadYn',
+      fieldName: 'microFrontend.preloadYn',
       label: '是否预加载',
       component: 'Switch',
       defaultValue: false,
@@ -483,7 +491,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'microFrontendConfig',
+      fieldName: 'microFrontend.microFrontendConfig',
       label: '前端微应用配置',
       component: 'SmartCodeEditor',
       componentProps: {

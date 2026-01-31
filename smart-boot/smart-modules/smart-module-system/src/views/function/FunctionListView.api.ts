@@ -53,7 +53,7 @@ export const getByIdApi = async (data: any) => {
   });
   return {
     ...functionData,
-    ...microFrontend,
+    microFrontend,
     createUser: createUser && createUser.fullName,
     updateUser: updateUser && updateUser.fullName,
     parentName: (parent && parent.functionName) || '根目录',
