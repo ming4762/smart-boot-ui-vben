@@ -19,8 +19,8 @@ async function initApplication() {
   // vue应用主要逻辑及视图
   await (isMicroApp()
     ? setupWujieMicroApp(async () => {
-      return doInitApplication(namespace);
-    })
+        return doInitApplication(namespace);
+      })
     : doInitApplication(namespace));
 
   // 移除并销毁loading
@@ -28,12 +28,12 @@ async function initApplication() {
 }
 
 async function doInitApplication(namespace: string) {
-  const { bootstrap } = await import('./bootstrap');
   // app偏好设置初始化
   await initPreferences({
     namespace,
     overrides: overridesPreferences,
   });
+  const { bootstrap } = await import('./bootstrap');
   return bootstrap(namespace);
 }
 
