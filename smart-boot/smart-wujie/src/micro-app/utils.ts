@@ -23,3 +23,11 @@ export const getProps = () => {
 export const getRouterHandler = () => {
   return getProps()?.routerHandler;
 };
+
+/**
+ * 获取wujie微应用的事件总线
+ * @returns wujie微应用的事件总线
+ */
+export const getMicroBus = () => {
+  return (window as any).$wujie?.bus;
+};

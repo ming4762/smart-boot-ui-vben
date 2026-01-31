@@ -14,7 +14,8 @@ import modulePageMap from 'virtual:smart-modules';
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
 
-const WujieVue = () => import('@smart/wujie').then((mod) => mod.WujieVue);
+const WujieWrapper = () =>
+  import('@smart/wujie').then((mod) => mod.WujieWrapper);
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
@@ -28,7 +29,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
   const layoutMap: ComponentRecordType = {
     BasicLayout,
     IFrameView,
-    WujieVue,
+    MicroFrontendLayout: WujieWrapper,
   };
 
   const microApp = isMicroApp();
