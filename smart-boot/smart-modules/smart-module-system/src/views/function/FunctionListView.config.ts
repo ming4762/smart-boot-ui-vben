@@ -445,9 +445,17 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       defaultValue: '',
       dependencies: {
-        triggerFields: ['isMicroFrontend'],
+        triggerFields: ['isMicroFrontend', 'microFrontend.routeLinkageYn'],
         show: (value) => {
           return value.isMicroFrontend;
+        },
+        disabled: (value) => {
+          return value.microFrontend?.routeLinkageYn;
+        },
+        trigger: (value, formApi) => {
+          if (value.microFrontend?.routeLinkageYn) {
+            formApi.setFieldValue('microFrontend.microFrontendPageUrl', '');
+          }
         },
       },
     },
@@ -464,7 +472,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'microFrontend.routeInclusionYn',
+      fieldName: 'microFrontend.routeLinkageYn',
       label: '是否联动路由',
       component: 'Switch',
       defaultValue: false,

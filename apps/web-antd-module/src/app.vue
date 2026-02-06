@@ -21,6 +21,7 @@ import {
   getSystemPropertiesApi,
 } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
+import { useOnMicroRouteChange } from '@smart/wujie';
 import { App, ConfigProvider, theme } from 'ant-design-vue';
 
 import { antdLocale } from '#/locales';
@@ -74,6 +75,8 @@ onMounted(async () => {
     sysParameter: systemProperties,
   });
 });
+
+useOnMicroRouteChange();
 </script>
 
 <template>

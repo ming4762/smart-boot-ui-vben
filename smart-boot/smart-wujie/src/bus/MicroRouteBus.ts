@@ -9,6 +9,7 @@ const MICRO_ROUTER_BUS_EVENT = 'micro-bus-router-change';
 
 interface MicroRouteChangeEvent {
   fullPath: string;
+  name: string;
   path: string;
   query: Record<string, any>;
 }
@@ -16,13 +17,14 @@ interface MicroRouteChangeEvent {
 /**
  * 主应用路由变化事件
  */
-export const useEmitMainRouteChange = () => {
+export const useEmitMainRouteChange = (name: string) => {
   const route = useRoute();
   watch(route, () => {
     const event: MicroRouteChangeEvent = {
       fullPath: route.fullPath,
       path: route.path,
       query: route.query,
+      name,
     };
     WujieVue.bus.$emit(MICRO_ROUTER_BUS_EVENT, event);
   });
@@ -32,10 +34,8 @@ export const useEmitMainRouteChange = () => {
  * 微应用路由变化事件
  */
 export const useOnMicroRouteChange = () => {
-  getMicroBus()?.$on(
-    MICRO_ROUTER_BUS_EVENT,
-    (_event: MicroRouteChangeEvent) => {
-      // todo
-    },
-  );
+  getMicroBus()?.$on(MICRO_ROUTER_BUS_EVENT, (_event: MicroRouteChangeEvent) => {
+    // todo
+    // console.log(event);
+  });
 };

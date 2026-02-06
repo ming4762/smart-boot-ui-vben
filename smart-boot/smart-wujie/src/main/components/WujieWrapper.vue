@@ -1,26 +1,50 @@
 <script setup lang="ts">
 import {
+  computed,
   onActivated,
   onBeforeUnmount,
   onDeactivated,
   ref,
+  toRefs,
   useAttrs,
 } from 'vue';
+import { useRoute } from 'vue-router';
 
 import WujieVue from 'wujie-vue3';
 
 import { useEmitMainRouteChange } from '#/bus';
+import { concatUrlPaths } from '#/helper';
 
 interface Props {
+  baseUrl: string;
   // 是否多实例
   multiInstanceYn: boolean;
   name: string;
+  pageUrl?: string;
+  routeLinkageYn?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  routeLinkageYn: false,
+  pageUrl: undefined,
+});
 const attrs = useAttrs();
+const route = useRoute();
 
 const activeRef = ref(false);
+
+const { routeLinkageYn: routeLinkageYnRef } = toRefs(props);
+
+/**
+ * 微前端地址
+ */
+const computedUrl = computed(() => {
+  const routeLinkageYn = routeLinkageYnRef.value;
+  if (!routeLinkageYn) {
+    return concatUrlPaths(props.baseUrl, props.pageUrl);
+  }
+  return concatUrlPaths(props.baseUrl, route.path);
+});
 
 onBeforeUnmount(() => {
   if (props.multiInstanceYn) {
@@ -40,13 +64,20 @@ onDeactivated(() => {
 });
 
 // 监听主应用路由变化，触发微前端路由变化事件
-useEmitMainRouteChange();
+if (props.routeLinkageYn) {
+  useEmitMainRouteChange(props.name);
+}
 </script>
 
 <template>
   <div class="wujie-wrapper">
-    {{ activeRef }}
-    <WujieVue class="wujie-wrapper" :name="props.name" v-bind="attrs" />
+    {{ computedUrl }}
+    <WujieVue
+      class="wujie-wrapper"
+      :url="computedUrl"
+      :name="props.name"
+      v-bind="attrs"
+    />
   </div>
 </template>
 
