@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NotificationItem } from '@vben/layouts';
 
-import { computed, provide, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
@@ -18,10 +18,8 @@ import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
-import { listCurrentUserTenantApi, listDictItemByCodeApi } from '#/api';
 import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
-import { createConfirm } from '#/utils';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([
@@ -127,16 +125,8 @@ const avatar = computed(() => {
   return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
 });
 
-const computedUsername = computed(() => {
-  return userStore.userInfo?.username;
-});
-
-async function handleLogout(logoutSuccessHandler?: () => void) {
-  try {
-    await authStore.logout(false);
-  } finally {
-    logoutSuccessHandler?.();
-  }
+async function handleLogout() {
+  await authStore.logout(false);
 }
 
 function handleNoticeClear() {
@@ -157,27 +147,6 @@ function remove(id: number | string) {
 function handleMakeAll() {
   notifications.value.forEach((item) => (item.isRead = true));
 }
-
-const handleChangeTenant = (tenantId: number) => {
-  return authStore.changeTenant(tenantId);
-};
-
-/**
- * 修改密码
- * @param data
- */
-const handleChangePassword = async (data: {
-  newPassword: string;
-  newPasswordConfirm: string;
-  oldPassword: string;
-}) => {
-  await authStore.changePassword(data);
-  createConfirm({
-    content: $t('ui.widgets.changePassword.changePasswordSuccess'),
-    onOk: () => authStore.logout(),
-  });
-  return true;
-};
 watch(
   () => ({
     enable: preferences.app.watermark,
@@ -198,8 +167,6 @@ watch(
     immediate: true,
   },
 );
-
-provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
 </script>
 
 <template>
@@ -207,12 +174,9 @@ provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
     <template #user-dropdown>
       <UserDropdown
         :avatar
-        :change-password-handler="handleChangePassword"
-        :change-tenant-handler="handleChangeTenant"
-        :description="computedUsername"
         :menus
         :text="userStore.userInfo?.realName"
-        :user-tenant-api="listCurrentUserTenantApi"
+        description="ann.vben@gmail.com"
         tag-text="Pro"
         @logout="handleLogout"
       />

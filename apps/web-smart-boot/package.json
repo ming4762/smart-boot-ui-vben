@@ -1,12 +1,12 @@
 {
-  "name": "@vben/web-antd",
+  "name": "@vben/web-smart-boot",
   "version": "5.5.9",
   "homepage": "https://vben.pro",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
-    "directory": "apps/web-antd"
+    "directory": "apps/web-smart-boot"
   },
   "license": "MIT",
   "author": {
@@ -18,7 +18,9 @@
   "scripts": {
     "build": "pnpm vite build --mode production",
     "build:analyze": "pnpm vite build --mode analyze",
+    "build:cloud": "pnpm vite build --mode cloud",
     "dev": "pnpm vite --mode development",
+    "cloud": "pnpm vite --mode cloud",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
@@ -26,6 +28,12 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@smart/common": "workspace:*",
+    "@smart/components": "workspace:*",
+    "@smart-module/file": "workspace:*",
+    "@smart-module/system": "workspace:*",
+    "@smart-module/message": "workspace:*",
+    "@smart/wujie": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
@@ -40,8 +48,12 @@
     "@vben/styles": "workspace:*",
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
+    "@vben-core/code-editor-ui": "workspace:*",
     "@vueuse/core": "catalog:",
+    "@vxe-ui/plugin-export-xlsx": "catalog:",
+    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
     "ant-design-vue": "catalog:",
+    "exceljs": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:",

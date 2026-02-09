@@ -1,9 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { $t as t } from '@vben/locales';
 import { mergeRouteModules, traverseTreeValues } from '@vben/utils';
-
-import { BasicLayout } from '#/layouts';
 
 import { coreRoutes, fallbackNotFoundRoute } from './core';
 
@@ -22,24 +19,7 @@ const dynamicRoutes: RouteRecordRaw[] = mergeRouteModules(dynamicRouteFiles);
 // const externalRoutes: RouteRecordRaw[] = mergeRouteModules(externalRouteFiles);
 // const staticRoutes: RouteRecordRaw[] = mergeRouteModules(staticRouteFiles);
 const staticRoutes: RouteRecordRaw[] = [];
-const externalRoutes: RouteRecordRaw[] = [
-  {
-    component: BasicLayout,
-    name: 'Profile',
-    path: '/profile',
-    children: [
-      {
-        name: 'PersonalCenter',
-        path: 'personal-center',
-        component: () =>
-          import('#/views/_core/personal-center/personal-center.vue'),
-        meta: {
-          title: t('ui.widgets.personalCenter.title'),
-        },
-      },
-    ],
-  },
-];
+const externalRoutes: RouteRecordRaw[] = [];
 
 /** 路由列表，由基本路由、外部路由和404兜底路由组成
  *  无需走权限验证（会一直显示在菜单中） */

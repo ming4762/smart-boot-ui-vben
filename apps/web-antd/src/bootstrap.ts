@@ -6,7 +6,6 @@ import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/antd';
-import { registerDirective } from '@vben/utils';
 
 import { useTitle } from '@vueuse/core';
 
@@ -16,7 +15,6 @@ import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
 import { router } from './router';
-import { initTimezone } from './timezone-init';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -42,19 +40,14 @@ async function bootstrap(namespace: string) {
     spinning: 'spinning',
   });
 
-  // 配置 pinia-tore
-  await initStores(app, { namespace });
-
-  // 初始化时区
-  initTimezone();
-
   // 国际化 i18n 配置
   await setupI18n(app);
 
+  // 配置 pinia-tore
+  await initStores(app, { namespace });
+
   // 安装权限指令
   registerAccessDirective(app);
-  // 注册全局指令
-  registerDirective(app);
 
   // 初始化 tippy
   const { initTippy } = await import('@vben/common-ui/es/tippy');
@@ -78,8 +71,6 @@ async function bootstrap(namespace: string) {
   });
 
   app.mount('#app');
-
-  return app;
 }
 
 export { bootstrap };

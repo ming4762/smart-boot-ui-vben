@@ -7,7 +7,6 @@ import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
 import { ref } from 'vue';
 
 import {
-  $ct,
   $t,
   setupI18n as coreSetup,
   loadLocalesMapFromDir,
@@ -18,46 +17,25 @@ import antdEnLocale from 'ant-design-vue/es/locale/en_US';
 import antdDefaultLocale from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 
-import { readFrontI18nApi } from '#/api/core/i18n';
-
 const antdLocale = ref<Locale>(antdDefaultLocale);
 
-const modules = {
-  ...import.meta.glob('./langs/**/*.json'),
-  ...import.meta.glob('../modules/**/langs/**/*.json'),
-};
+const modules = import.meta.glob('./langs/**/*.json');
 
 const localesMap = loadLocalesMapFromDir(
   /\.\/langs\/([^/]+)\/(.*)\.json$/,
   modules,
 );
-
-/**
- * modules目录下的国际化信息
- */
-const modulesLocalesMap = loadLocalesMapFromDir(
-  /^\.\.\/modules\/[^/]+\/locales\/langs\/([^/]+)\/([^/]+)\.json$/,
-  modules,
-);
-
 /**
  * 加载应用特有的语言包
  * 这里也可以改造为从服务端获取翻译数据
  * @param lang
  */
 async function loadMessages(lang: SupportedLanguagesType) {
-  const [appLocaleMessages, modulesAppLocaleMessages, frontI18nMessage] =
-    await Promise.all([
-      localesMap[lang]?.(),
-      modulesLocalesMap[lang]?.(),
-      readFrontI18nApi(),
-      loadThirdPartyMessage(lang),
-    ]);
-  return {
-    ...appLocaleMessages?.default,
-    ...modulesAppLocaleMessages?.default,
-    ...frontI18nMessage,
-  };
+  const [appLocaleMessages] = await Promise.all([
+    localesMap[lang]?.(),
+    loadThirdPartyMessage(lang),
+  ]);
+  return appLocaleMessages?.default;
 }
 
 /**
@@ -121,4 +99,4 @@ async function setupI18n(app: App, options: LocaleSetupOptions = {}) {
   });
 }
 
-export { $ct, $t, antdLocale, setupI18n };
+export { $t, antdLocale, setupI18n };

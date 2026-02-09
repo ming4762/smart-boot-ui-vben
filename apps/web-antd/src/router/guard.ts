@@ -1,15 +1,12 @@
 import type { Router } from 'vue-router';
 
-import type { RouteRecordStringComponent } from '@vben/types';
-
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
-import { getRouterHandler, isMicroApp } from '@smart/wujie';
-
 import { accessRoutes, coreRouteNames } from '#/router/routes';
+import { useAuthStore } from '#/store';
 
 import { generateAccess } from './access';
 
@@ -51,7 +48,7 @@ function setupAccessGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     const accessStore = useAccessStore();
     const userStore = useUserStore();
-    // const authStore = useAuthStore();
+    const authStore = useAuthStore();
 
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
@@ -95,8 +92,8 @@ function setupAccessGuard(router: Router) {
 
     // 生成路由表
     // 当前登录用户拥有的角色标识列表
-    const userInfo = userStore.userInfo;
-    const userRoles = userInfo?.roles ?? [];
+    const userInfo = userStore.userInfo || (await authStore.fetchUserInfo());
+    const userRoles = userInfo.roles ?? [];
 
     // 生成菜单和路由
     const { accessibleMenus, accessibleRoutes } = await generateAccess({
@@ -112,42 +109,13 @@ function setupAccessGuard(router: Router) {
     accessStore.setIsAccessChecked(true);
     const redirectPath = (from.query.redirect ??
       (to.path === preferences.app.defaultHomePath
-        ? userInfo?.homePath || preferences.app.defaultHomePath
+        ? userInfo.homePath || preferences.app.defaultHomePath
         : to.fullPath)) as string;
 
     return {
       ...router.resolve(decodeURIComponent(redirectPath)),
       replace: true,
     };
-  });
-}
-
-/**
- * 微应用的路由守卫
- * 用于生成微应用的路由
- * @param router
- */
-function setupMicroAppGuard(router: Router) {
-  if (!isMicroApp()) {
-    return;
-  }
-  router.beforeEach(async (to) => {
-    if (router.hasRoute(to.name || to.fullPath)) {
-      // 路由已经存在，直接返回
-      return true;
-    }
-    const routes = (await getRouterHandler?.()) as
-      | RouteRecordStringComponent[]
-      | undefined;
-    if (!routes) {
-      return to;
-    }
-    await generateAccess({
-      router,
-      // 则会在菜单中显示，但是访问会被重定向到403
-      routes: accessRoutes,
-    });
-    return true;
   });
 }
 
@@ -159,11 +127,7 @@ function createRouterGuard(router: Router) {
   /** 通用 */
   setupCommonGuard(router);
   /** 权限访问 */
-  if (isMicroApp()) {
-    setupMicroAppGuard(router);
-  } else {
-    setupAccessGuard(router);
-  }
+  setupAccessGuard(router);
 }
 
 export { createRouterGuard };

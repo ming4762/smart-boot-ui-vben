@@ -4,6 +4,7 @@
  */
 
 /* eslint-disable vue/one-component-per-file */
+
 import type {
   UploadChangeParam,
   UploadFile,
@@ -30,35 +31,13 @@ import {
   ApiComponent,
   globalShareState,
   IconPicker,
-  SmartCodeEditor,
-  SmartCopyText,
-  SmartPulldownTable,
   VCropper,
 } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
-import { $t, $ct as t } from '@vben/locales';
+import { $t } from '@vben/locales';
 import { isEmpty } from '@vben/utils';
 
 import { message, Modal, notification } from 'ant-design-vue';
-
-import {
-  ApiDictSelect,
-  SmartDropdown,
-  SmartIconButton,
-  SmartTableSelectUser,
-  ZonedDatePicker,
-  ZonedRangePicker,
-  ZonedTimePicker,
-} from '#/components';
-import {
-  createConfirm,
-  errorMessage,
-  successMessage,
-  warnMessage,
-} from '#/utils';
-
-import { initSetupVbenForm } from '../form';
-import { doSetupSmartTable } from '../smart-table';
 
 const AutoComplete = defineAsyncComponent(
   () => import('ant-design-vue/es/auto-complete'),
@@ -70,9 +49,9 @@ const Checkbox = defineAsyncComponent(
 const CheckboxGroup = defineAsyncComponent(() =>
   import('ant-design-vue/es/checkbox').then((res) => res.CheckboxGroup),
 );
-// const DatePicker = defineAsyncComponent(
-//   () => import('ant-design-vue/es/date-picker'),
-// );
+const DatePicker = defineAsyncComponent(
+  () => import('ant-design-vue/es/date-picker'),
+);
 const Divider = defineAsyncComponent(() => import('ant-design-vue/es/divider'));
 const Input = defineAsyncComponent(() => import('ant-design-vue/es/input'));
 const InputNumber = defineAsyncComponent(
@@ -84,29 +63,23 @@ const InputPassword = defineAsyncComponent(() =>
 const Mentions = defineAsyncComponent(
   () => import('ant-design-vue/es/mentions'),
 );
-const Menu = defineAsyncComponent(() => import('ant-design-vue/es/menu'));
-const Popconfirm = defineAsyncComponent(
-  () => import('ant-design-vue/es/popconfirm'),
-);
 const Radio = defineAsyncComponent(() => import('ant-design-vue/es/radio'));
 const RadioGroup = defineAsyncComponent(() =>
   import('ant-design-vue/es/radio').then((res) => res.RadioGroup),
 );
-// const RangePicker = defineAsyncComponent(() =>
-//   import('ant-design-vue/es/date-picker').then((res) => res.RangePicker),
-// );
+const RangePicker = defineAsyncComponent(() =>
+  import('ant-design-vue/es/date-picker').then((res) => res.RangePicker),
+);
 const Rate = defineAsyncComponent(() => import('ant-design-vue/es/rate'));
 const Select = defineAsyncComponent(() => import('ant-design-vue/es/select'));
 const Space = defineAsyncComponent(() => import('ant-design-vue/es/space'));
 const Switch = defineAsyncComponent(() => import('ant-design-vue/es/switch'));
-const Tag = defineAsyncComponent(() => import('ant-design-vue/es/tag'));
 const Textarea = defineAsyncComponent(() =>
   import('ant-design-vue/es/input').then((res) => res.Textarea),
 );
-// const TimePicker = defineAsyncComponent(
-//   () => import('ant-design-vue/es/time-picker'),
-// );
-const Tooltip = defineAsyncComponent(() => import('ant-design-vue/es/tooltip'));
+const TimePicker = defineAsyncComponent(
+  () => import('ant-design-vue/es/time-picker'),
+);
 const TreeSelect = defineAsyncComponent(
   () => import('ant-design-vue/es/tree-select'),
 );
@@ -129,7 +102,9 @@ const withDefaultPlaceholder = <T extends Component>(
     inheritAttrs: false,
     setup: (props: any, { attrs, expose, slots }) => {
       const placeholder =
-        props?.placeholder || attrs?.placeholder || t(`ui.placeholder.${type}`);
+        props?.placeholder ||
+        attrs?.placeholder ||
+        $t(`ui.placeholder.${type}`);
       // 透传组件暴露的方法
       const innerRef = ref();
       expose(
@@ -510,7 +485,6 @@ const withPreviewUpload = () => {
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
   | 'ApiCascader'
-  | 'ApiDictSelect'
   | 'ApiSelect'
   | 'ApiTreeSelect'
   | 'AutoComplete'
@@ -520,32 +494,21 @@ export type ComponentType =
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
-  | 'Dropdown'
-  | 'IconButton'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
   | 'Mentions'
-  | 'Menu'
-  | 'Popconfirm'
   | 'PrimaryButton'
   | 'Radio'
   | 'RadioGroup'
   | 'RangePicker'
   | 'Rate'
   | 'Select'
-  | 'SmartCodeEditor'
-  | 'SmartCopyText'
-  | 'SmartMarkdown'
-  | 'SmartPulldownTable'
-  | 'SmartTinymceEditor'
   | 'Space'
   | 'Switch'
-  | 'Tag'
   | 'Textarea'
   | 'TimePicker'
-  | 'Tooltip'
   | 'TreeSelect'
   | 'Upload'
   | BaseFormComponentType;
@@ -555,40 +518,7 @@ async function initComponentAdapter() {
     // 如果你的组件体积比较大，可以使用异步加载
     // Button: () =>
     // import('xxx').then((res) => res.Button),
-    ApiSelect: withDefaultPlaceholder(
-      {
-        ...ApiComponent,
-        name: 'ApiSelect',
-      },
-      'select',
-      {
-        component: Select,
-        loadingSlot: 'suffixIcon',
-        visibleEvent: 'onDropdownVisibleChange',
-        modelPropName: 'value',
-      },
-    ),
-    ApiTreeSelect: withDefaultPlaceholder(
-      {
-        ...ApiComponent,
-        name: 'ApiTreeSelect',
-      },
-      'select',
-      {
-        component: TreeSelect,
-        fieldNames: { label: 'label', value: 'value', children: 'children' },
-        loadingSlot: 'suffixIcon',
-        modelPropName: 'value',
-        optionsPropName: 'treeData',
-        visibleEvent: 'onVisibleChange',
-      },
-    ),
-    AInput: Input,
-    ASelect: Select,
-    ASwitch: Switch,
-    Tag,
-    Popconfirm,
-    Dropdown: SmartDropdown,
+
     ApiCascader: withDefaultPlaceholder(ApiComponent, 'select', {
       component: Cascader,
       fieldNames: { label: 'label', value: 'value', children: 'children' },
@@ -596,13 +526,25 @@ async function initComponentAdapter() {
       modelPropName: 'value',
       visibleEvent: 'onVisibleChange',
     }),
+    ApiSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      component: Select,
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      visibleEvent: 'onVisibleChange',
+    }),
+    ApiTreeSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      component: TreeSelect,
+      fieldNames: { label: 'label', value: 'value', children: 'children' },
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      optionsPropName: 'treeData',
+      visibleEvent: 'onVisibleChange',
+    }),
     AutoComplete,
     Cascader,
     Checkbox,
     CheckboxGroup,
-    DatePicker: ZonedDatePicker,
-    SmartCopyText,
-    Menu,
+    DatePicker,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
@@ -613,7 +555,6 @@ async function initComponentAdapter() {
       inputComponent: Input,
       modelValueProp: 'value',
     }),
-    IconButton: SmartIconButton,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
@@ -624,30 +565,14 @@ async function initComponentAdapter() {
     },
     Radio,
     RadioGroup,
-    RangePicker: ZonedRangePicker,
+    RangePicker,
     Rate,
     Select: withDefaultPlaceholder(Select, 'select'),
     Space,
     Switch,
     Textarea: withDefaultPlaceholder(Textarea, 'input'),
-    TimePicker: ZonedTimePicker,
+    TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
-    ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
-    SmartMarkdown: defineAsyncComponent(async () => {
-      const { SmartMarkdown } = await import('@vben/plugins/smart-markdown');
-      return SmartMarkdown;
-    }),
-    SmartPulldownTable: withDefaultPlaceholder(SmartPulldownTable, 'select'),
-    SmartTinymceEditor: defineAsyncComponent(async () => {
-      const { SmartTinymceEditor } = await import(
-        '@vben/plugins/smart-tinymce'
-      );
-      return SmartTinymceEditor;
-    }),
-    // SmartTinymceEditor,
-    SmartCodeEditor,
-    Tooltip,
-    SmartTableSelectUser,
     Upload: withPreviewUpload(),
   };
 
@@ -664,13 +589,7 @@ async function initComponentAdapter() {
         placement: 'bottomRight',
       });
     },
-    confirm: createConfirm,
-    success: successMessage,
-    error: errorMessage,
-    warning: warnMessage,
   });
-  initSetupVbenForm();
-  doSetupSmartTable();
 }
 
 export { initComponentAdapter };

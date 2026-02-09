@@ -9,10 +9,6 @@
       "path": "apps/web-antd",
     },
     {
-      "name": "@vben/web-antd-module",
-      "path": "apps/web-antd-module",
-    },
-    {
       "name": "@smart/web-auth-server-manager",
       "path": "apps/web-auth-server-manager",
     },
@@ -23,6 +19,14 @@
     {
       "name": "@vben/web-naive",
       "path": "apps/web-naive",
+    },
+    {
+      "name": "@vben/web-nuxt",
+      "path": "apps/web-nuxt",
+    },
+    {
+      "name": "@vben/web-smart-boot",
+      "path": "apps/web-smart-boot",
     },
     {
       "name": "@vben/web-tdesign",

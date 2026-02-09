@@ -1,8 +1,6 @@
 import { initPreferences } from '@vben/preferences';
 import { unmountGlobalLoading } from '@vben/utils';
 
-import { isMicroApp, setupWujieMicroApp } from '@smart/wujie';
-
 import { overridesPreferences } from './preferences';
 
 /**
@@ -15,26 +13,19 @@ async function initApplication() {
   const appVersion = import.meta.env.VITE_APP_VERSION;
   const namespace = `${import.meta.env.VITE_APP_NAMESPACE}-${appVersion}-${env}`;
 
-  // 启动应用并挂载
-  // vue应用主要逻辑及视图
-  await (isMicroApp()
-    ? setupWujieMicroApp(async () => {
-        return doInitApplication(namespace);
-      })
-    : doInitApplication(namespace));
-
-  // 移除并销毁loading
-  unmountGlobalLoading();
-}
-
-async function doInitApplication(namespace: string) {
-  const { bootstrap } = await import('./bootstrap');
   // app偏好设置初始化
   await initPreferences({
     namespace,
     overrides: overridesPreferences,
   });
-  return bootstrap(namespace);
+
+  // 启动应用并挂载
+  // vue应用主要逻辑及视图
+  const { bootstrap } = await import('./bootstrap');
+  await bootstrap(namespace);
+
+  // 移除并销毁loading
+  unmountGlobalLoading();
 }
 
 initApplication();
