@@ -2,7 +2,7 @@ import type { VxeGridPropTypes } from 'vxe-table';
 
 import type { ComputedRef } from 'vue';
 
-import type { SmartTableRenderProps } from '../types';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 
 import { computed, ref, unref } from 'vue';
 

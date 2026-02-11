@@ -6,8 +6,8 @@ import type {
   SmartTableAjaxQueryParams,
   SmartTableFetchParams,
   SmartTableProxyAjax,
-  SmartTableRenderProps,
-} from '../types';
+} from '../types/SmartTableAjaxType';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { computed, h, nextTick, unref } from 'vue';
@@ -59,7 +59,7 @@ const useSmartTableAjax = (
               sorts,
             },
             fetchParams,
-          );
+          ) as SmartTableAjaxQueryParams<any>;
           let ajaxParameter: Record<string, any> = {
             ...form,
             ...page,
@@ -174,7 +174,9 @@ const useSmartTableAjax = (
         },
         onOk: async () => {
           const result = await deleteMethod({
+            $table: getGrid() as any,
             $grid: getGrid(),
+            $gantt: null,
             body: {
               removeRecords: rows,
             },

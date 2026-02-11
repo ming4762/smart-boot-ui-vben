@@ -2,8 +2,11 @@ import type { ComputedRef, Ref } from 'vue';
 
 import type { Nullable } from '@vben-core/typings';
 
-import type { SmartTableAction, SmartTableRenderProps } from './index';
-import type { SmartTableInnerActionType } from './SmartTableActionType';
+import type {
+  SmartTableAction,
+  SmartTableInnerActionType,
+} from './SmartTableActionType';
+import type { SmartTableRenderProps } from './SmartTableCommonType';
 
 interface SmartTableInnerContext {
   /**

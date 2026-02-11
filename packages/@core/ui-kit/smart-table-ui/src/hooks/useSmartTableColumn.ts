@@ -6,11 +6,11 @@ import type {
 
 import type { Component, ComputedRef, VNode } from 'vue';
 
+import type { SmartTableColumn } from '../types/SmartTableColumnType';
 import type {
-  SmartTableColumn,
   SmartTableRenderProps,
   SmartTableSize,
-} from '../types';
+} from '../types/SmartTableCommonType';
 
 import { computed, h, unref } from 'vue';
 
@@ -135,9 +135,8 @@ const convertEditRender = (
     if (!editRender) {
       return column;
     }
-    const convertProps: Record<string, any> = {};
+    const convertProps: Record<string, any> = { size: getFormSize(tableSize) };
     // 处理尺寸
-    convertProps.size = getFormSize(tableSize);
     const editRenderConvert: Record<string, any> = {};
     // 处理自动聚焦
     const { autofocus, name, props } = editRender;

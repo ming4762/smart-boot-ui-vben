@@ -4,12 +4,12 @@ import type { ComputedRef } from 'vue';
 
 import type { Recordable } from '@vben-core/typings';
 
-import type { SmartTableRenderProps } from '../types';
 import type {
   SmartTableColumnAutoClass,
   SmartTableColumnDynamicClass,
   SmartTableColumnDynamicStyle,
 } from '../types/SmartTableColumnType';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 
 import { computed, unref } from 'vue';
 

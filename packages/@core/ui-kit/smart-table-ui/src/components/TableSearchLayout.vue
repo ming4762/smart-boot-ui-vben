@@ -26,7 +26,7 @@ const computedSearchContainerClass = computed(() => {
     <div v-if="showSearch" :class="computedSearchContainerClass">
       <slot name="search"></slot>
     </div>
-    <div class="smart-table-container bg-background h-full">
+    <div class="smart-table-container h-full bg-background">
       <slot name="table"></slot>
     </div>
   </div>

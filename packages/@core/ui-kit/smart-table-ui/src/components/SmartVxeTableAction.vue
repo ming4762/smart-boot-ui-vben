@@ -283,7 +283,7 @@ const RenderFunction = () => {
     >
       {unref(getActions).map((action, index) => {
         const result = [];
-        if (action.slot) {
+        if ((action as any).slot) {
           result.push(slots.customButton && slots.customButton(action));
         } else {
           result.push(RenderTooltip(action));

@@ -3,8 +3,8 @@ import type {
   ExtendSmartTableApi,
   SmartTableAction,
   SmartTableProps,
-  SmartTableRenderProps,
 } from './types';
+import type { SmartTableRenderProps } from './types/SmartTableCommonType';
 
 import { computed, toRaw, unref, useSlots } from 'vue';
 

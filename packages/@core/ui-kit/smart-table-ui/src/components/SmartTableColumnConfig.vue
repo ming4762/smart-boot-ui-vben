@@ -83,8 +83,7 @@ const handleShowHideOk = () => {
 };
 
 const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
-  const columns: VxeGridPropTypes.Columns = [];
-  columns.push(
+  return [
     ...([
       {
         headerAlign: 'left',
@@ -144,8 +143,7 @@ const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
         width: 80,
       },
     ] as VxeGridPropTypes.Columns),
-  );
-  return columns;
+  ];
 };
 
 /**

@@ -4,9 +4,9 @@ import type { ExtendedFormApi } from '@vben-core/form-ui';
 import type { ExtendedModalApi } from '@vben-core/popup-ui';
 import type { SmartAuthType } from '@vben-core/typings';
 
-import type { SmartTableRenderProps } from './index';
 import type { SmartSearchFormParameter } from './SmartSearchFormType';
 import type { SmartTableFetchParams } from './SmartTableAjaxType';
+import type { SmartTableRenderProps } from './SmartTableCommonType';
 
 /**
  * 表格内部函数

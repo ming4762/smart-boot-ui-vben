@@ -1,6 +1,6 @@
 import type { VbenFormSchema } from '@vben-core/form-ui';
 
-import type { SmartTableBasicFormConfig } from './SmartTableCommon';
+import type { SmartTableBasicFormConfig } from './SmartTableCommonType';
 
 /**
  * 支持的搜索符号

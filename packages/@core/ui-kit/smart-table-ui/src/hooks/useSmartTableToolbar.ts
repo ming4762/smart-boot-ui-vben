@@ -3,14 +3,14 @@ import type { VxeGridListeners, VxeToolbarPropTypes } from 'vxe-table';
 import type { ComputedRef, Ref, Slots } from 'vue';
 
 import type {
-  SmartTableRenderProps,
-  SmartTableSize,
-  SmartTableToolbarConfig,
-} from '../types';
-import type {
   SmartTableButton,
   SmartTableToolbarTool,
 } from '../types/SmartTableButtonType';
+import type {
+  SmartTableRenderProps,
+  SmartTableSize,
+  SmartTableToolbarConfig,
+} from '../types/SmartTableCommonType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 import type { SmartTableToolbarSizeSetting } from '../types/SmartTableToolbarConfigType';
 
@@ -223,8 +223,8 @@ const getReactiveButtonProps = (button: SmartTableButton) => {
     const buttonProps = unref(button.props) as any;
     const result: any = {
       ...buttonProps,
+      loading: unref(loading),
     };
-    result.loading = unref(loading);
     const defaultClickHandler = buttonProps?.onClick;
     if (defaultClickHandler) {
       const handler = Array.isArray(defaultClickHandler)

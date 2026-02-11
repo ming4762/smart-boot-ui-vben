@@ -2,11 +2,11 @@ import type { ComputedRef, Ref, Slot, Slots } from 'vue';
 
 import type { ExtendedFormApi, VbenFormProps } from '@vben-core/form-ui';
 
-import type { SmartTableRenderProps } from '../types';
 import type {
   SmartAddEditModalCallbackData,
   SmartTableAddEditModalProps,
 } from '../types/SmartTableAddEditType';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { computed, h, nextTick, unref } from 'vue';

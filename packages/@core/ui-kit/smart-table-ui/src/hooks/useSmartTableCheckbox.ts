@@ -6,7 +6,7 @@ import type {
 
 import type { ComputedRef } from 'vue';
 
-import type { SmartTableRenderProps } from '../types';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 
 import { computed, unref } from 'vue';
 

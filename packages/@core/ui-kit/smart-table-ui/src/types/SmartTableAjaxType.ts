@@ -3,8 +3,9 @@ import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
 /**
  * 搜索参数类型
  */
-interface SmartTableAjaxQueryParams<D>
-  extends VxeGridPropTypes.ProxyAjaxQueryParams<D> {
+interface SmartTableAjaxQueryParams<
+  D,
+> extends VxeGridPropTypes.ProxyAjaxQueryParams<D> {
   ajaxParameter?: Record<string, any>;
   searchForm?: Record<string, any>;
   searchFormSymbol?: Record<string, any>;
@@ -69,8 +70,10 @@ interface SmartTableProxyAjax<D = any> {
   ): Promise<any>;
 }
 
-interface SmartTableProxyConfig<T = any>
-  extends Omit<VxeGridPropTypes.ProxyConfig, 'ajax'> {
+interface SmartTableProxyConfig<T = any> extends Omit<
+  VxeGridPropTypes.ProxyConfig,
+  'ajax'
+> {
   // 删除回调
   afterDelete?: (result?: any) => void;
   afterUserYn?: (result: any) => void;

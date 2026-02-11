@@ -3,12 +3,12 @@ import type { ComputedRef, Ref, Slots } from 'vue';
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
 
-import type { SmartTableRenderProps } from '../types';
 import type {
   SmartSearchFormParameter,
   SmartSearchFormProps,
   SmartSearchFormSchema,
 } from '../types/SmartSearchFormType';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { computed, h, ref, unref, watch } from 'vue';

@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue';
 
-import type { SmartTableRenderProps } from '../types';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 import type { SmartTableContextHandler } from '../types/SmartTableInnerType';
 
 import { unref } from 'vue';

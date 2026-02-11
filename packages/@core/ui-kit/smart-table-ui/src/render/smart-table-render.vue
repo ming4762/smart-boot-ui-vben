@@ -5,12 +5,12 @@ import type { Slots } from 'vue';
 
 import type { SmartAuthType } from '@vben-core/typings';
 
+import type { SmartTableRenderListeners } from '../types';
 import type {
   SmartTableAction,
-  SmartTableRenderListeners,
-  SmartTableRenderProps,
-} from '../types';
-import type { SmartTableInnerActionType } from '../types/SmartTableActionType';
+  SmartTableInnerActionType,
+} from '../types/SmartTableActionType';
+import type { SmartTableRenderProps } from '../types/SmartTableCommonType';
 import type {
   SmartTableContext,
   SmartTableContextHandler,
@@ -285,7 +285,7 @@ defineExpose({
 <template>
   <div
     :style="computedStyle"
-    :class="cn('smart-table bg-background h-full', props.class)"
+    :class="cn('smart-table h-full bg-background', props.class)"
   >
     <VxeGrid
       ref="gridRef"
@@ -312,7 +312,7 @@ defineExpose({
                 ? { backgroundColor: computedSeparatorBackground }
                 : undefined),
             }"
-            class="bg-background-deep h-[5px]"
+            class="h-[5px] bg-background-deep"
           ></div>
           <slot name="form">
             <SearchForm class="px-[5px] pt-2" />
@@ -324,7 +324,7 @@ defineExpose({
                 ? { backgroundColor: computedSeparatorBackground }
                 : undefined),
             }"
-            class="bg-background-deep h-[5px]"
+            class="h-[5px] bg-background-deep"
           ></div>
         </div>
       </template>

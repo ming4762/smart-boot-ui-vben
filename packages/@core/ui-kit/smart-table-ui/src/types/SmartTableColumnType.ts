@@ -69,8 +69,10 @@ type SmartTableColumnType = 'date' | 'dateTime' | VxeColumnPropTypes.Type;
 /**
  * 可编辑编辑列配置
  */
-interface SmartTableEditRender<D = any, P = Record<string, any>>
-  extends Omit<VxeColumnPropTypes.EditRender<D, P>, 'autofocus' | 'props'> {
+interface SmartTableEditRender<D = any, P = Record<string, any>> extends Omit<
+  VxeColumnPropTypes.EditRender<D, P>,
+  'autofocus' | 'props'
+> {
   autofocus?: boolean | string;
   name?: SmartTableEditRenderName;
   props?: P | SmartTableEditRenderPropsHandler;
@@ -111,8 +113,10 @@ type SmartTableColumnFormat =
 /**
  * 列配置
  */
-interface SmartTableColumn
-  extends Omit<VxeGridPropTypes.Column, 'editRender' | 'type'> {
+interface SmartTableColumn extends Omit<
+  VxeGridPropTypes.Column,
+  'editRender' | 'type'
+> {
   // 自动class
   autoClass?: SmartColumnAutoClass;
   component?: SmartTableColumnComponent;

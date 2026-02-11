@@ -1,6 +1,6 @@
-import type { SmartTableBasicFormConfig } from '../types/SmartTableCommon';
-
 import type { Slot, Slots } from 'vue';
+
+import type { SmartTableBasicFormConfig } from '../types/SmartTableCommonType';
 
 import { isString } from '@vben-core/shared/utils';
 

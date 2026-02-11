@@ -4,11 +4,11 @@ import type { VxeGridInstance } from 'vxe-table';
 
 import type { Recordable } from '@vben-core/typings';
 
-import type { SmartTableRenderProps } from '../../types';
 import type {
   SmartPulldownTableEvent,
   SmartPulldownTableProps,
 } from '../../types/SmartPulldownTable';
+import type { SmartTableRenderProps } from '../../types/SmartTableCommonType';
 
 import {
   computed,
