@@ -6,6 +6,7 @@ dist.zip
 dist.tar
 dist.war
 .nitro
+.nuxt
 .output
 *-dist.zip
 *-dist.tar

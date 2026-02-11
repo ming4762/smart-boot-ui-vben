@@ -1,0 +1,30 @@
+{
+  "name": "@vben/web-nuxt",
+  "version": "5.5.9",
+  "homepage": "https://vben.pro",
+  "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "apps/web-nuxt"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "vben",
+    "email": "ann.vben@gmail.com",
+    "url": "https://github.com/anncwb"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --dotenv .env.development",
+    "dev:prod": "nuxt dev --dotenv .env.production"
+  },
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "dependencies": {
+    "ant-design-vue": "catalog:",
+    "nuxt": "catalog:",
+    "vue":"catalog:"
+  }
+}

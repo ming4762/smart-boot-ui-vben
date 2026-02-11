@@ -34,8 +34,10 @@ export const useEmitMainRouteChange = (name: string) => {
  * 微应用路由变化事件
  */
 export const useOnMicroRouteChange = () => {
-  getMicroBus()?.$on(MICRO_ROUTER_BUS_EVENT, (_event: MicroRouteChangeEvent) => {
-    // todo
-    // console.log(event);
-  });
+  getMicroBus()?.$on(
+    MICRO_ROUTER_BUS_EVENT,
+    (_event: MicroRouteChangeEvent) => {
+      // do nothing
+    },
+  );
 };
