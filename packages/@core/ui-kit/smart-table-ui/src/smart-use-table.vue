@@ -13,7 +13,7 @@ import { mergeWithArrayOverride } from '@vben-core/shared/utils';
 
 import SmartTableRender from './render/smart-table-render.vue';
 
-interface Props extends SmartTableProps {
+interface Props extends /* @vue-ignore */ SmartTableProps {
   api: ExtendSmartTableApi;
 }
 

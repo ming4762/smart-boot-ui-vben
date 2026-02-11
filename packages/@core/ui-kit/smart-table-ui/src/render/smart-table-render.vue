@@ -44,7 +44,7 @@ import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 import { DEFAULT_SETUP_HANDLER } from '../init';
 
-interface Props extends SmartTableRenderProps {}
+interface Props extends /* @vue-ignore */ SmartTableRenderProps {}
 
 defineOptions({
   name: 'SmartTable',
