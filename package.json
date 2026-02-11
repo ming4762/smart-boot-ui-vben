@@ -47,6 +47,7 @@
     "dev": "turbo-run dev",
     "dev:antd": "pnpm -F @vben/web-antd run dev",
     "dev:smart-boot": "pnpm -F @vben/web-smart-boot run dev",
+    "dev:antdv-next": "pnpm -F @vben/web-antdv-next run dev",
     "dev:docs": "pnpm -F @vben/docs run dev",
     "dev:ele": "pnpm -F @vben/web-ele run dev",
     "dev:naive": "pnpm -F @vben/web-naive run dev",
