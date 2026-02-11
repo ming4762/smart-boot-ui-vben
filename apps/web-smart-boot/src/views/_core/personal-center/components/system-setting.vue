@@ -63,38 +63,38 @@ import { $ct as t } from '@vben/locales';
     class="system-setting h-full"
     :title="t('ui.widgets.personalCenter.systemSetting.title')"
   >
-<!--    <List>-->
-<!--      <template v-for="item in configList" :key="item.key">-->
-<!--        <ListItem>-->
-<!--          <ListItemMeta>-->
-<!--            <template #title>-->
-<!--              {{ item.title }}-->
-<!--              <div-->
-<!--                class="action text-font-normal float-right mr-[30px] mt-[10px] cursor-pointer text-primary"-->
-<!--                v-if="item.actionName"-->
-<!--              >-->
-<!--                <SmartIconButton-->
-<!--                  @click="() => handleAction(item.key)"-->
-<!--                  type="link"-->
-<!--                >-->
-<!--                  {{ item.actionName }}-->
-<!--                </SmartIconButton>-->
-<!--              </div>-->
-<!--            </template>-->
-<!--            <template #description>-->
-<!--              <div>-->
-<!--                {{ item.description }}{{ computedConfigValue[item.key] }}-->
-<!--              </div>-->
-<!--            </template>-->
-<!--          </ListItemMeta>-->
-<!--        </ListItem>-->
-<!--      </template>-->
-<!--    </List>-->
-<!--    &lt;!&ndash;  租户切换modal  &ndash;&gt;-->
-<!--    <RenderChangeTenantModal-->
-<!--      :change-tenant-handler="handleChangeTenant"-->
-<!--      :user-tenant-api="listCurrentUserTenantApi"-->
-<!--    />-->
+    <!--    <List>-->
+    <!--      <template v-for="item in configList" :key="item.key">-->
+    <!--        <ListItem>-->
+    <!--          <ListItemMeta>-->
+    <!--            <template #title>-->
+    <!--              {{ item.title }}-->
+    <!--              <div-->
+    <!--                class="action text-font-normal float-right mr-[30px] mt-[10px] cursor-pointer text-primary"-->
+    <!--                v-if="item.actionName"-->
+    <!--              >-->
+    <!--                <SmartIconButton-->
+    <!--                  @click="() => handleAction(item.key)"-->
+    <!--                  type="link"-->
+    <!--                >-->
+    <!--                  {{ item.actionName }}-->
+    <!--                </SmartIconButton>-->
+    <!--              </div>-->
+    <!--            </template>-->
+    <!--            <template #description>-->
+    <!--              <div>-->
+    <!--                {{ item.description }}{{ computedConfigValue[item.key] }}-->
+    <!--              </div>-->
+    <!--            </template>-->
+    <!--          </ListItemMeta>-->
+    <!--        </ListItem>-->
+    <!--      </template>-->
+    <!--    </List>-->
+    <!--    &lt;!&ndash;  租户切换modal  &ndash;&gt;-->
+    <!--    <RenderChangeTenantModal-->
+    <!--      :change-tenant-handler="handleChangeTenant"-->
+    <!--      :user-tenant-api="listCurrentUserTenantApi"-->
+    <!--    />-->
   </Container>
 </template>
 
