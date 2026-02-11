@@ -13,6 +13,7 @@ export * from './nprogress';
 export * from './omit';
 export * from './pick';
 export * from './resources';
+export * from './stack';
 export * from './state-handler';
 export * from './to';
 export * from './tree';
