@@ -44,7 +44,7 @@ import { useSmartTableSearchForm } from '../hooks/useSmartTableSearchForm';
 import { useSmartTableToolbar } from '../hooks/useSmartTableToolbar';
 import { DEFAULT_SETUP_HANDLER } from '../init';
 
-interface Props extends /* @vue-ignore */ SmartTableRenderProps {}
+interface Props extends SmartTableRenderProps {}
 
 defineOptions({
   name: 'SmartTable',
@@ -285,7 +285,7 @@ defineExpose({
 <template>
   <div
     :style="computedStyle"
-    :class="cn('smart-table h-full bg-background', props.class)"
+    :class="cn('smart-table bg-background h-full', props.class)"
   >
     <VxeGrid
       ref="gridRef"
@@ -312,7 +312,7 @@ defineExpose({
                 ? { backgroundColor: computedSeparatorBackground }
                 : undefined),
             }"
-            class="h-[5px] bg-background-deep"
+            class="bg-background-deep h-[5px]"
           ></div>
           <slot name="form">
             <SearchForm class="px-[5px] pt-2" />
@@ -324,7 +324,7 @@ defineExpose({
                 ? { backgroundColor: computedSeparatorBackground }
                 : undefined),
             }"
-            class="h-[5px] bg-background-deep"
+            class="bg-background-deep h-[5px]"
           ></div>
         </div>
       </template>
