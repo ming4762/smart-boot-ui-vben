@@ -15,7 +15,7 @@ import { createPassword } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
-import { Col, Row } from 'ant-design-vue';
+import { Col, Row } from 'antdv-next';
 
 defineOptions({ name: 'Login' });
 

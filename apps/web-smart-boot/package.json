@@ -52,7 +52,7 @@
     "@vueuse/core": "catalog:",
     "@vxe-ui/plugin-export-xlsx": "catalog:",
     "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
-    "ant-design-vue": "catalog:",
+    "antdv-next": "catalog:",
     "exceljs": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
