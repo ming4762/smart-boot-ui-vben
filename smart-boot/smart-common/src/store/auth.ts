@@ -10,7 +10,7 @@ import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { createPassword } from '@vben/utils';
 
-import { notification } from 'ant-design-vue';
+import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
 import { changePasswordApi, changeTenantApi, loginApi, logoutApi } from '#/api';

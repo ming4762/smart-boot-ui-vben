@@ -14,7 +14,7 @@ import {
   LayoutHeader,
   Spin,
   Tree,
-} from 'ant-design-vue';
+} from 'antdv-next';
 
 import {
   listFunctionApi,

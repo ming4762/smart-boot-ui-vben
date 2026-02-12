@@ -7,7 +7,7 @@ import { Language, SmartCodeEditor, useVbenModal } from '@vben/common-ui';
 import { downloadFileFromBlobPart } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import { extensionLanguageMap } from '#/constants/Constants';
 

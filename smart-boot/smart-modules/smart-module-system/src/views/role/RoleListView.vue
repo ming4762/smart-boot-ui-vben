@@ -11,7 +11,7 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import {
   batchSaveUpdateApi,

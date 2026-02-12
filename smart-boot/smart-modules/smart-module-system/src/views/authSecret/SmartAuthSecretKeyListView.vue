@@ -13,7 +13,7 @@ import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
 import { SmartIconButton, SysSystemSimpleList } from '@smart/components';
-import { Upload } from 'ant-design-vue';
+import { Upload } from 'antdv-next';
 
 import {
   deleteApi,

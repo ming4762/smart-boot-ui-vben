@@ -3,7 +3,7 @@ import { ref, unref } from 'vue';
 
 import { useSmartTable } from '@vben/common-ui';
 
-import { Input } from 'ant-design-vue';
+import { Input } from 'antdv-next';
 
 import { listTenantApi } from '../SysTenantManagerPlatformView.api';
 

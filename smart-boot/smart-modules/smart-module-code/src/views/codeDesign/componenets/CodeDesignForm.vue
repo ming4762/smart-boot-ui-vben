@@ -7,7 +7,7 @@ import { IconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 
 import { SmartIconButton } from '@smart/components';
-import { Spin, Tag } from 'ant-design-vue';
+import { Spin, Tag } from 'antdv-next';
 
 import { formSchemas } from '../CodeDesignPage.config';
 import { useLoadDbData } from '../CodeDesignPageHook';

@@ -14,7 +14,7 @@ import {
   LayoutFooter,
   Spin,
   Tree,
-} from 'ant-design-vue';
+} from 'antdv-next';
 
 import { Permission } from '../RoleListView.config';
 

@@ -14,7 +14,7 @@ import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
 
 import { SysTenantSelect } from '@smart/components';
-import { Tag } from 'ant-design-vue';
+import { Tag } from 'antdv-next';
 import { storeToRefs } from 'pinia';
 
 import LogDetailModal from './components/LogDetailModal.vue';
@@ -108,7 +108,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
       label: t('common.title.details'),
       preIcon: 'ant-design:bars-outlined',
       onClick: () => {
-        modalApi.setData(row.logId);
+        modalApi.setData({ id: row.logId });
         modalApi.open();
       },
     },

@@ -14,7 +14,7 @@ import {
 import { useSizeSetting, useTabLazy } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import RoleDataPermission from '#/views/role/components/RoleDataPermission.vue';
 import { useRoleSetUser } from '#/views/role/hook/useRoleSetUser';

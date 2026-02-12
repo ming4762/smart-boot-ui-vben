@@ -9,7 +9,7 @@ import { $t, $t as t } from '@vben/locales';
 
 import { useAuthStore } from '@smart/common/store';
 import { errorMessage } from '@smart/common/utils';
-import { Transfer } from 'ant-design-vue';
+import { Transfer } from 'antdv-next';
 
 import { getCreateDicUrl, listTemplate } from '../DatabaseListView.api';
 

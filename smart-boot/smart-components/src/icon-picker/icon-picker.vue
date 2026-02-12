@@ -4,7 +4,7 @@ import { computed, ref, watch, watchEffect } from 'vue';
 import { IconPicker } from '@vben/common-ui';
 import { listIcons } from '@vben/icons';
 
-import { Input } from 'ant-design-vue';
+import { Input } from 'antdv-next';
 
 import iconsData from './icons.data';
 

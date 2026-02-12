@@ -13,7 +13,7 @@ import {
 import { $ct as t } from '@vben/locales';
 import { listToTree, omit } from '@vben/utils';
 
-import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
+import { Radio, RadioGroup, Tag, TreeSelect } from 'antdv-next';
 
 import DataPermissionDrawer from './components/DataPermissionDrawer.vue';
 import {

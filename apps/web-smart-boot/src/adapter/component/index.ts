@@ -96,6 +96,7 @@ const Space = defineAsyncComponent(() => import('antdv-next/dist/space/index'));
 const Switch = defineAsyncComponent(
   () => import('antdv-next/dist/switch/index'),
 );
+const Tag = defineAsyncComponent(() => import('antdv-next/dist/tag/index'));
 const Textarea = defineAsyncComponent(
   () => import('antdv-next/dist/input/TextArea'),
 );
@@ -619,6 +620,7 @@ async function initComponentAdapter() {
     Select: withDefaultPlaceholder(Select, 'select'),
     Space,
     Switch,
+    Tag,
     Textarea: withDefaultPlaceholder(Textarea, 'input'),
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),

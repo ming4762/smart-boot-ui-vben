@@ -5,7 +5,7 @@ import { ref } from 'vue';
 
 import { Language, SmartCodeEditor } from '@vben/common-ui';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import { generateMapperBySql } from '../CodeSqlMapperView.api';
 

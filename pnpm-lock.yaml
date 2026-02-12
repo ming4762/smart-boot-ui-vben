@@ -2493,9 +2493,9 @@ importers:
       '@vben/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2544,9 +2544,9 @@ importers:
       '@vben/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2601,9 +2601,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2661,9 +2661,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2718,9 +2718,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2778,9 +2778,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19
@@ -2835,9 +2835,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19

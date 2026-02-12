@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectValue } from 'ant-design-vue/es/select';
+import type { SelectValue } from 'antdv-next/dist/select';
 
 import { computed, ref, watch } from 'vue';
 
@@ -8,7 +8,7 @@ import { createIconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
-import { Select } from 'ant-design-vue';
+import { Select } from 'antdv-next';
 
 type OptionsItem = {
   [name: string]: any;

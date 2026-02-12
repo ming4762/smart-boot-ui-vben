@@ -6,7 +6,7 @@ import { computed, ref, unref, watch } from 'vue';
 import { useUserStore } from '@vben/stores';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { Select } from 'ant-design-vue';
+import { Select } from 'antdv-next';
 import { storeToRefs } from 'pinia';
 
 let dataLoaded = false;

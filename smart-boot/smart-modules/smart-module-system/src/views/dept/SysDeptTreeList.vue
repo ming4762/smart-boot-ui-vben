@@ -17,7 +17,7 @@ import {
   SmartIconButton,
   SysDeptTree,
 } from '@smart/components';
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import DeptUserList from './components/DeptUserList.vue';
 import SysDeptEdit from './components/SysDeptEdit.vue';
@@ -121,7 +121,7 @@ const handleDelete = () => {
   <div class="page-container h-full">
     <SmartLayoutSeparate first-size="300px" draggable class="h-full">
       <template #first>
-        <div class="bg-background h-full p-[5px]">
+        <div class="h-full bg-background p-[5px]">
           <div>
             <SmartAuthButton
               :size="getButtonSize as never"
@@ -163,7 +163,7 @@ const handleDelete = () => {
         </div>
       </template>
       <template #second>
-        <div class="right-tab bg-background h-full">
+        <div class="right-tab h-full bg-background">
           <Tabs class="">
             <TabPane
               class="h-full"

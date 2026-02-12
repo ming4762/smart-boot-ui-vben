@@ -7,7 +7,7 @@ import { useVbenForm } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { formatDateTime } from '@vben/utils';
 
-import { Spin } from 'ant-design-vue';
+import { Spin } from 'antdv-next';
 
 import { getByIdApi } from '../SysDept.api';
 

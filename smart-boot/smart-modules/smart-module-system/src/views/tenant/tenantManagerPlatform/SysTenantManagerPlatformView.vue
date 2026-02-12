@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 import SysTenantList from './components/SysTenantList.vue';
 import TenantRoleList from './components/TenantRoleList.vue';
@@ -44,12 +44,12 @@ const handleCurrentChange = (row: any) => {
       draggable
     >
       <template #first>
-        <div class="bg-background h-full">
+        <div class="h-full bg-background">
           <SysTenantList @current-change="handleCurrentChange" />
         </div>
       </template>
       <template #second>
-        <div class="right-container smart-table-padding bg-background h-full">
+        <div class="right-container smart-table-padding h-full bg-background">
           <Tabs v-model:active-key="activeTableRef">
             <TabPane key="user" tab="用户管理">
               <TenantUserList

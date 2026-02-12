@@ -7,5 +7,3 @@ export * from './smart-dropdown';
 export * from './smart-system';
 export * from './smart-table-select';
 export type * from './type';
-
-export * from './zoned-date-time';

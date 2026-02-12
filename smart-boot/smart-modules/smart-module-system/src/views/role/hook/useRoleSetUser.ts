@@ -6,7 +6,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { SmartTableSelectUserModal } from '@smart/components';
-import { message } from 'ant-design-vue';
+import { message } from 'antdv-next';
 
 export const useRoleSetUser = (
   listUserApi: ((parameter: any) => Promise<any>) | undefined,

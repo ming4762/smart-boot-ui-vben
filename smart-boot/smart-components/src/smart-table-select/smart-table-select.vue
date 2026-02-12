@@ -6,7 +6,7 @@ import { computed, ref, useSlots } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { Select } from 'ant-design-vue';
+import { Select } from 'antdv-next';
 
 import { SmartIconButton } from '../';
 import SmartTableSelectModal from './smart-table-select-modal.vue';

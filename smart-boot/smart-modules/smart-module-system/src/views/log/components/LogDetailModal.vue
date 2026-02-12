@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import type { DescriptionsItemType } from 'antdv-next';
+
 import type { Recordable } from '@vben/types';
 
-import { ref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Descriptions, DescriptionsItem, Tag } from 'ant-design-vue';
+import { Descriptions, Tag } from 'antdv-next';
 
 import { getByIdApi } from '../SystemLogComponent.api';
 
-const detailsData = ref<Recordable<any>>({});
+const detailsDataRef = ref<Recordable<any>>({});
 
 const [Modal, modalApi] = useVbenModal({
   title: $t('common.title.details'),
@@ -22,88 +24,108 @@ const [Modal, modalApi] = useVbenModal({
     if (isOpen) {
       try {
         modalApi.setState({ loading: true });
-        const id = modalApi.getData();
-        detailsData.value = await getByIdApi(id);
+        const { id } = modalApi.getData();
+        detailsDataRef.value = await getByIdApi(id);
       } finally {
         modalApi.setState({ loading: false });
       }
     } else {
-      detailsData.value = {};
+      detailsDataRef.value = {};
     }
   },
 });
 
-const firstLabelStyle = {
-  width: '120px',
-};
+const computedItems = computed<DescriptionsItemType[]>(() => {
+  const detailsData = unref(detailsDataRef);
+  return [
+    {
+      label: $t('system.views.log.title.operationType'),
+      content: detailsData.operationType,
+    },
+    {
+      label: $t('system.views.log.title.requestPath'),
+      content: detailsData.requestPath,
+    },
+    {
+      label: $t('system.views.log.title.statusCode'),
+      content: detailsData.statusCode,
+    },
+    {
+      label: $t('system.views.log.title.operation'),
+      content: detailsData.operation,
+      span: 2,
+    },
+    {
+      label: $t('system.views.log.title.logSource'),
+      content: detailsData.logSource,
+    },
+    {
+      label: $t('system.views.log.title.createTime'),
+      content: detailsData.createTime,
+      span: 2,
+    },
+    {
+      label: $t('system.views.log.title.ip'),
+      content: detailsData.ip,
+    },
+    {
+      label: $t('system.views.log.title.method'),
+      content: detailsData.method,
+      span: 2,
+    },
+    {
+      label: $t('system.views.log.title.useTime'),
+      content: detailsData.useTime,
+    },
+    {
+      label: $t('system.views.log.title.params'),
+      content: detailsData.params,
+      span: 3,
+    },
+    {
+      label: $t('system.views.log.title.result'),
+      content: detailsData.result,
+      span: 3,
+    },
+    {
+      label: $t('system.views.log.title.errorMessage'),
+      content: detailsData.errorMessage,
+      span: 3,
+    },
+  ];
+});
 </script>
 
 <template>
   <Modal>
-    <Descriptions bordered>
-      <DescriptionsItem
-        :label="$t('system.views.log.title.operationType')"
-        :label-style="firstLabelStyle"
-      >
-        {{ detailsData.operationType }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.log.title.requestPath')">
-        {{ detailsData.requestPath }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.log.title.statusCode')">
-        <Tag
-          :color="
-            detailsData.statusCode >= 200 && detailsData.statusCode < 300
-              ? '#2db7f5'
-              : '#f50'
-          "
-        >
-          {{ detailsData.statusCode }}
-        </Tag>
-      </DescriptionsItem>
-
-      <DescriptionsItem
-        :label="$t('system.views.log.title.operation')"
-        :span="2"
-      >
-        {{ detailsData.operation }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.log.title.logSource')">
-        {{ detailsData.logSource }}
-      </DescriptionsItem>
-
-      <DescriptionsItem
-        :label="$t('system.views.log.title.createTime')"
-        :span="2"
-      >
-        {{ detailsData.createTime }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.log.title.ip')">
-        {{ detailsData.ip }}
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.log.title.method')" :span="2">
-        {{ detailsData.method }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.log.title.useTime')">
-        {{ detailsData.useTime }}
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.log.title.params')" :span="3">
-        {{ detailsData.params }}
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.log.title.result')" :span="3">
-        {{ detailsData.result }}
-      </DescriptionsItem>
-      <DescriptionsItem
-        :label="$t('system.views.log.title.errorMessage')"
-        :span="3"
-      >
-        {{ detailsData.errorMessage }}
-      </DescriptionsItem>
+    <Descriptions
+      :items="computedItems"
+      :column="3"
+      bordered
+      class="log-detail-desc"
+    >
+      <template #contentRender="{ index, item }">
+        <template v-if="index === 2">
+          <Tag
+            variant="solid"
+            :color="
+              (item.content as number) >= 200 && (item.content as number) < 300
+                ? '#2db7f5'
+                : '#f50'
+            "
+          >
+            {{ item.content }}
+          </Tag>
+        </template>
+      </template>
     </Descriptions>
   </Modal>
 </template>
 
-<style scoped></style>
+<style scoped lang="less">
+.log-detail-desc {
+  :deep(.ant-descriptions-item-label) {
+    width: 120px;
+  }
+}
+</style>

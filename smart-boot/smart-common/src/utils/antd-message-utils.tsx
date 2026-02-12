@@ -1,4 +1,4 @@
-import type { ButtonProps, ModalFuncProps } from 'ant-design-vue';
+import type { ButtonProps, ModalFuncProps } from 'antdv-next';
 
 import type { VNode } from 'vue';
 
@@ -12,7 +12,7 @@ import { $t } from '@vben/locales';
 import { useApiExceptionStore } from '@vben/stores';
 import { isString } from '@vben/utils';
 
-import { message as Message, Modal } from 'ant-design-vue';
+import { message as Message, Modal } from 'antdv-next';
 
 interface ModalOptionsEx extends Omit<ModalFuncProps, 'iconType'> {
   buttons?: Array<(ButtonProps & { name: string }) | string>;
