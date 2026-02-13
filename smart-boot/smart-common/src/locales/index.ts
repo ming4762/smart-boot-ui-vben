@@ -1,4 +1,4 @@
-import type { Locale } from 'antdv-next/dist/locale';
+import type { Locale } from 'antdv-next/dist/locale/index';
 
 import type { App } from 'vue';
 

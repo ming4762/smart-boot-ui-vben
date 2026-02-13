@@ -74,9 +74,9 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (userInfo?.realName) {
         notification.success({
-          description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+          title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
           duration: 3,
-          message: changeTenant
+          description: changeTenant
             ? $t('authentication.changeTenantSuccess')
             : $t('authentication.loginSuccess'),
         });

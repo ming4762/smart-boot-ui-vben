@@ -1,4 +1,5 @@
-import type { ButtonProps, ModalFuncProps } from 'antdv-next';
+import type { ButtonProps } from 'antdv-next';
+import type { ModalFuncProps } from 'antdv-next/dist/modal/interface';
 
 import type { VNode } from 'vue';
 

@@ -45,6 +45,8 @@ import {
   SmartDropdown,
   SmartIconButton,
   SmartTableSelectUser,
+  ZonedDatePicker,
+  ZonedRangePicker,
 } from '@smart/components';
 import { message, Modal, notification } from 'antdv-next';
 
@@ -63,9 +65,6 @@ const Checkbox = defineAsyncComponent(
 const CheckboxGroup = defineAsyncComponent(
   () => import('antdv-next/dist/checkbox/Group'),
 );
-const DatePicker = defineAsyncComponent(
-  () => import('antdv-next/dist/date-picker/index'),
-);
 const Divider = defineAsyncComponent(
   () => import('antdv-next/dist/divider/index'),
 );
@@ -82,11 +81,6 @@ const Mentions = defineAsyncComponent(
 const Radio = defineAsyncComponent(() => import('antdv-next/dist/radio/index'));
 const RadioGroup = defineAsyncComponent(() =>
   import('antdv-next/dist/radio/index').then((res) => res.RadioGroup),
-);
-const RangePicker = defineAsyncComponent(() =>
-  import('antdv-next/dist/date-picker/index').then(
-    (res) => res.DateRangePicker,
-  ),
 );
 const Rate = defineAsyncComponent(() => import('antdv-next/dist/rate/index'));
 const Select = defineAsyncComponent(
@@ -592,7 +586,7 @@ async function initComponentAdapter() {
     AutoComplete,
     Checkbox,
     CheckboxGroup,
-    DatePicker,
+    DatePicker: ZonedDatePicker,
     SmartCopyText,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
@@ -615,7 +609,7 @@ async function initComponentAdapter() {
     },
     Radio,
     RadioGroup,
-    RangePicker,
+    RangePicker: ZonedRangePicker,
     Rate,
     Select: withDefaultPlaceholder(Select, 'select'),
     Space,
