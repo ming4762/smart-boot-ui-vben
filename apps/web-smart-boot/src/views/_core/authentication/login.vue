@@ -137,11 +137,12 @@ const handleLogin = (loginData: Recordable<any>) => {
   const code = JSON.stringify(
     unref(captchaRef).createValidateParameter(loginData.captcha),
   );
+  const username = loginData.username.trim();
   authStore
     .authLogin({
       code,
-      password: createPassword(loginData.username, loginData.password),
-      username: loginData.username,
+      password: createPassword(username, loginData.password),
+      username,
     })
     .catch((_) => {
       unref(captchaRef).refresh();
