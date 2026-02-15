@@ -332,7 +332,7 @@ const getTreeData = (model: Recordable<any>) => {
   <div class="smart-table-padding page-container h-full">
     <SmartTable>
       <template #table-functionType="{ row }">
-        <Tag :color="getTagData(row.functionType).color">
+        <Tag :color="getTagData(row.functionType).color" variant="solid">
           {{ getTagData(row.functionType).text }}
         </Tag>
       </template>
@@ -362,8 +362,8 @@ const getTreeData = (model: Recordable<any>) => {
           :size="size"
           :tree-data="getTreeData(model)"
         >
-          <template #title="{ functionType, functionName }">
-            <Tag :color="getTagData(functionType).color">
+          <template #treeTitleRender="{ functionType, functionName }">
+            <Tag :color="getTagData(functionType).color" variant="solid">
               {{ getTagData(functionType).text }}
             </Tag>
             {{ functionName }}

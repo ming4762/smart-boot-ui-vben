@@ -182,7 +182,7 @@ onMounted(() => loadFunctionTreeData());
           v-access:code="permissions.setFunction"
           @click="handleSave"
         >
-          {{ t('common.button.save') }}
+          {{ t('common.button.save') }}{{props.roleId}}
         </Button>
       </div>
     </LayoutFooter>
