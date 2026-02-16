@@ -72,41 +72,47 @@ onMounted(() => {
   }
 });
 
-const handleChangeSize = ({ event }: any) => {
+const handleChangeSize = ({ key }: any) => {
   const { setSmartTableProps } = tableContext.tableInnerAction;
   setSmartTableProps({
-    size: event,
+    size: key,
   });
-  setTableSize(event);
+  setTableSize(key);
 };
 
 const menuList = reactive([
   {
-    event: 'medium',
-    text: getI18n('smartTable.title.sizeMiddle'),
+    key: 'medium',
+    label: getI18n('smartTable.title.sizeMiddle'),
   },
   {
-    event: 'small',
-    text: getI18n('smartTable.title.sizeSmall'),
+    key: 'small',
+    label: getI18n('smartTable.title.sizeSmall'),
   },
   {
-    event: 'mini',
-    text: getI18n('smartTable.title.sizeMini'),
+    key: 'mini',
+    label: getI18n('smartTable.title.sizeMini'),
   },
   {
-    event: 'tiny',
-    text: getI18n('smartTable.title.sizeTiny'),
+    key: 'tiny',
+    label: getI18n('smartTable.title.sizeTiny'),
   },
 ]);
+
+const computedMenu = computed(() => {
+  return {
+    items: menuList,
+    selectedKeys: unref(computedSize),
+  };
+});
 </script>
 
 <template>
   <component
     :is="getDropdownComponent()"
-    :drop-menu-list="menuList"
-    :selected-keys="computedSize"
+    :menu="computedMenu"
     :trigger="['hover']"
-    @menu-event="handleChangeSize"
+    @menu-click="handleChangeSize"
   >
     <VxeButton
       :title="getI18n('smartTable.toolbar.sizeSetting')"
@@ -117,17 +123,6 @@ const menuList = reactive([
         <ButtonIcon />
       </template>
     </VxeButton>
-    <!--    <template #overlay>-->
-    <!--      <component-->
-    <!--        :is="getMenuComponent()"-->
-    <!--        :selected-keys="computedSize"-->
-    <!--        @click="handleChangeSize"-->
-    <!--      >-->
-    <!--        <component :is="getMenuItemComponent()" key="middle">大</component>-->
-    <!--        <component :is="getMenuItemComponent()" key="small">中等</component>-->
-    <!--        <component :is="getMenuItemComponent()" key="mini">紧凑</component>-->
-    <!--      </component>-->
-    <!--    </template>-->
   </component>
 </template>
 
