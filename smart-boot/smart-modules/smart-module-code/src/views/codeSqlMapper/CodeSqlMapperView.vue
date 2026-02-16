@@ -28,11 +28,11 @@ const handleGenerate = (values: CodeSqlFormValues) => {
       <template #first>
         <CodeSqlMapperForm
           @generate="handleGenerate"
-          class="bg-background h-full"
+          class="h-full bg-background"
         />
       </template>
       <template #second>
-        <CodeSqlGenerator ref="CodeSqlGenerator" class="bg-background h-full" />
+        <CodeSqlGenerator ref="CodeSqlGenerator" class="h-full bg-background" />
       </template>
     </SmartLayoutSeparate>
   </div>

@@ -185,9 +185,11 @@ const tabItems = [
   :deep(.ant-tabs) {
     height: 100%;
   }
+
   :deep(.ant-tabs-content) {
     height: 100%;
   }
+
   :deep(.ant-tabs-tabpane) {
     height: 100%;
   }

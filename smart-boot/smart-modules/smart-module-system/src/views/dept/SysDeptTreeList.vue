@@ -17,7 +17,7 @@ import {
   SmartIconButton,
   SysDeptTree,
 } from '@smart/components';
-import { TabPane, Tabs } from 'antdv-next';
+import { Tabs } from 'antdv-next';
 
 import DeptUserList from './components/DeptUserList.vue';
 import SysDeptEdit from './components/SysDeptEdit.vue';
@@ -115,6 +115,17 @@ const handleDelete = () => {
     },
   });
 };
+
+const tabItems = [
+  {
+    key: 'baseMessage',
+    label: $t('system.views.dept.title.baseMessage'),
+  },
+  {
+    key: 'userList',
+    label: $t('system.views.dept.title.userList'),
+  },
+];
 </script>
 
 <template>
@@ -164,13 +175,9 @@ const handleDelete = () => {
       </template>
       <template #second>
         <div class="right-tab h-full bg-background">
-          <Tabs class="">
-            <TabPane
-              class="h-full"
-              key="baseMessage"
-              :tab="$t('system.views.dept.title.baseMessage')"
-            >
-              <div class="h-full p-[5px]">
+          <Tabs class="" :items="tabItems">
+            <template #contentRender="{ item }">
+              <div class="h-full p-[5px]" v-if="item.key === 'baseMessage'">
                 <SysDeptEdit
                   ref="formRef"
                   class="edit-form-container"
@@ -193,15 +200,48 @@ const handleDelete = () => {
                   </SmartIconButton>
                 </div>
               </div>
-            </TabPane>
-            <!--     部门用户列表     -->
-            <TabPane
-              class="h-full"
-              key="userList"
-              :tab="$t('system.views.dept.title.userList')"
-            >
-              <DeptUserList :dept-id="currentDeptRef?.deptId" />
-            </TabPane>
+              <DeptUserList
+                v-if="item.key === 'userList'"
+                :dept-id="currentDeptRef?.deptId"
+              />
+            </template>
+            <!--            <TabPane-->
+            <!--              class="h-full"-->
+            <!--              key="baseMessage"-->
+            <!--              :tab="$t('system.views.dept.title.baseMessage')"-->
+            <!--            >-->
+            <!--              <div class="h-full p-[5px]">-->
+            <!--                <SysDeptEdit-->
+            <!--                  ref="formRef"-->
+            <!--                  class="edit-form-container"-->
+            <!--                  :dept-id="currentDeptRef?.deptId"-->
+            <!--                  :filter-field="false"-->
+            <!--                  :size="getFormSize"-->
+            <!--                />-->
+            <!--                <div style="text-align: right" class="save-button-container">-->
+            <!--                  <SmartIconButton-->
+            <!--                    :disabled="-->
+            <!--                      currentDeptRef === null || currentDeptRef === undefined-->
+            <!--                    "-->
+            <!--                    :loading="saveLoading"-->
+            <!--                    pre-icon="ant-design:save-outlined"-->
+            <!--                    style="margin-right: 10px; text-align: right"-->
+            <!--                    type="primary"-->
+            <!--                    @click="handleSave"-->
+            <!--                  >-->
+            <!--                    {{ $t('common.button.save') }}-->
+            <!--                  </SmartIconButton>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </TabPane>-->
+            <!--            &lt;!&ndash;     部门用户列表     &ndash;&gt;-->
+            <!--            <TabPane-->
+            <!--              class="h-full"-->
+            <!--              key="userList"-->
+            <!--              :tab="$t('system.views.dept.title.userList')"-->
+            <!--            >-->
+            <!--              <DeptUserList :dept-id="currentDeptRef?.deptId" />-->
+            <!--            </TabPane>-->
           </Tabs>
         </div>
       </template>
@@ -224,6 +264,9 @@ const handleDelete = () => {
     height: 100%;
   }
   :deep(.ant-tabs-content) {
+    height: 100%;
+  }
+  :deep(.ant-tabs-tabpane) {
     height: 100%;
   }
   .save-button-container {
