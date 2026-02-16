@@ -915,9 +915,9 @@ importers:
       '@vxe-ui/plugin-render-antd-smart-boot':
         specifier: 'catalog:'
         version: 4.0.7
-      ant-design-vue:
+      antdv-next:
         specifier: 'catalog:'
-        version: 4.2.6(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.19

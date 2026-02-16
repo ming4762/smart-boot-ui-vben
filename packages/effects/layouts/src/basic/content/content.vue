@@ -106,7 +106,7 @@ const dictApi = inject<(args: any) => Promise<any>>('dict-api', () =>
 </script>
 
 <template>
-  <div class="relative h-full">
+  <div class="relative h-full overflow-y-auto">
     <IFrameRouterView />
     <RouterView v-slot="{ Component, route }">
       <SmartPageProvider :api="dictApi">

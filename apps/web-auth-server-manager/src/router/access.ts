@@ -7,7 +7,7 @@ import { generateAccessible } from '@vben/access';
 import { preferences } from '@vben/preferences';
 
 import { getUserMenusApi } from '@smart/common/api';
-import { message } from 'ant-design-vue';
+import { message } from 'antdv-next';
 import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '#/layouts';

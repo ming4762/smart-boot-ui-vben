@@ -15,7 +15,7 @@ import { createPassword } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
-import { Col, Row } from 'ant-design-vue';
+import { Col, Row } from 'antdv-next';
 
 defineOptions({ name: 'Login' });
 
@@ -137,11 +137,12 @@ const handleLogin = (loginData: Recordable<any>) => {
   const code = JSON.stringify(
     unref(captchaRef).createValidateParameter(loginData.captcha),
   );
+  const username = loginData.username.trim();
   authStore
     .authLogin({
       code,
-      password: createPassword(loginData.username, loginData.password),
-      username: loginData.username,
+      password: createPassword(username, loginData.password),
+      username,
     })
     .catch((_) => {
       unref(captchaRef).refresh();
