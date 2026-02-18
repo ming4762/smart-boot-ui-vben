@@ -44,6 +44,7 @@ import {
   ApiDictSelect,
   SmartDropdown,
   SmartIconButton,
+  SmartMultiInput,
   SmartTableSelectUser,
   ZonedDatePicker,
   ZonedRangePicker,
@@ -527,6 +528,7 @@ export type ComponentType =
   | 'SmartCodeEditor'
   | 'SmartCopyText'
   | 'SmartMarkdown'
+  | 'SmartMultiInput'
   | 'SmartPulldownTable'
   | 'SmartTinymceEditor'
   | 'Space'
@@ -564,6 +566,7 @@ async function initComponentAdapter() {
         modelPropName: 'value',
       },
     ),
+    SmartMultiInput,
     ApiTreeSelect: withDefaultPlaceholder(
       {
         ...ApiComponent,
