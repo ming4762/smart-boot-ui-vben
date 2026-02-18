@@ -15,8 +15,8 @@ import {
   setUseYnApi,
 } from './Oauth2ClientListView.api';
 import {
-  clientAuthenticationMethods,
   authorizationGrantTypes,
+  clientAuthenticationMethods,
   getFormSchemas,
   getSearchFormSchemas,
   getTableColumns,
