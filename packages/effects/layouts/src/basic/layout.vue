@@ -60,6 +60,11 @@ const sidebarTheme = computed(() => {
   return dark ? 'dark' : 'light';
 });
 
+const sidebarThemeSub = computed(() => {
+  const dark = isDark.value || preferences.theme.semiDarkSidebarSub;
+  return dark ? 'dark' : 'light';
+});
+
 const headerTheme = computed(() => {
   const dark = isDark.value || preferences.theme.semiDarkHeader;
   return dark ? 'dark' : 'light';
@@ -246,6 +251,7 @@ const computedLogoTheme = computed(() => {
     :sidebar-hidden="preferences.sidebar.hidden"
     :sidebar-mixed-width="preferences.sidebar.mixedWidth"
     :sidebar-theme="sidebarTheme"
+    :sidebar-theme-sub="sidebarThemeSub"
     :sidebar-width="preferences.sidebar.width"
     :side-collapse-width="preferences.sidebar.collapseWidth"
     :tabbar-enable="preferences.tabbar.enable"
@@ -364,7 +370,7 @@ const computedLogoTheme = computed(() => {
         :collapse="preferences.sidebar.extraCollapse"
         :menus="wrapperMenus(extraMenus)"
         :rounded="isMenuRounded"
-        :theme="sidebarTheme"
+        :theme="sidebarThemeSub"
       />
     </template>
     <template #side-extra-title>

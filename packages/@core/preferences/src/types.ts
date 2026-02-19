@@ -258,6 +258,8 @@ interface ThemePreferences {
   semiDarkHeader: boolean;
   /** 是否开启半深色菜单（只在theme='light'时生效） */
   semiDarkSidebar: boolean;
+  /** 是否开启半深色子菜单（只在theme='light'时生效） */
+  semiDarkSidebarSub: boolean;
 }
 
 interface TransitionPreferences {
