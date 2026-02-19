@@ -31,7 +31,7 @@
     "@smart/common": "workspace:*",
     "@smart/components": "workspace:*",
     "@smart-module/system": "workspace:*",
-    "@smart-module/auth-server-manager": "workspace:*",
+    "@smart-module/sso-server-manager": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",

@@ -13,7 +13,7 @@ import {
   getByIdApi,
   listApi,
   setUseYnApi,
-} from './Oauth2ClientListView.api';
+} from './SsoOauth2ClientListView.api';
 import {
   authorizationGrantTypes,
   clientAuthenticationMethods,
@@ -21,7 +21,7 @@ import {
   getSearchFormSchemas,
   getTableColumns,
   Permissions,
-} from './Oauth2ClientListView.config';
+} from './SsoOauth2ClientListView.config';
 
 const { getTableSize } = useSizeSetting();
 

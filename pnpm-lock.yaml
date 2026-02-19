@@ -849,9 +849,9 @@ importers:
 
   apps/web-auth-server-manager:
     dependencies:
-      '@smart-module/auth-server-manager':
+      '@smart-module/sso-server-manager':
         specifier: workspace:*
-        version: link:../../smart-boot/smart-modules/smart-module-auth-server-manager
+        version: link:../../smart-boot/smart-modules/smart-module-sso-server-manager
       '@smart-module/system':
         specifier: workspace:*
         version: link:../../smart-boot/smart-modules/smart-module-system
@@ -2557,66 +2557,6 @@ importers:
         specifier: ^3.5.27
         version: 3.5.27(typescript@5.9.3)
 
-  smart-boot/smart-modules/smart-module-auth-server-manager:
-    dependencies:
-      '@smart/common':
-        specifier: workspace:*
-        version: link:../../smart-common
-      '@smart/components':
-        specifier: workspace:*
-        version: link:../../smart-components
-      '@vben/access':
-        specifier: workspace:*
-        version: link:../../../packages/effects/access
-      '@vben/common-ui':
-        specifier: workspace:*
-        version: link:../../../packages/effects/common-ui
-      '@vben/constants':
-        specifier: workspace:*
-        version: link:../../../packages/constants
-      '@vben/hooks':
-        specifier: workspace:*
-        version: link:../../../packages/effects/hooks
-      '@vben/icons':
-        specifier: workspace:*
-        version: link:../../../packages/icons
-      '@vben/locales':
-        specifier: workspace:*
-        version: link:../../../packages/locales
-      '@vben/plugins':
-        specifier: workspace:*
-        version: link:../../../packages/effects/plugins
-      '@vben/preferences':
-        specifier: workspace:*
-        version: link:../../../packages/preferences
-      '@vben/stores':
-        specifier: workspace:*
-        version: link:../../../packages/stores
-      '@vben/types':
-        specifier: workspace:*
-        version: link:../../../packages/types
-      '@vben/utils':
-        specifier: workspace:*
-        version: link:../../../packages/utils
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.0(vue@3.5.27(typescript@5.9.3))
-      antdv-next:
-        specifier: 'catalog:'
-        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
-      dayjs:
-        specifier: 'catalog:'
-        version: 1.11.19
-      pinia:
-        specifier: ^3.0.4
-        version: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
-      vue:
-        specifier: ^3.5.27
-        version: 3.5.27(typescript@5.9.3)
-      vue-router:
-        specifier: 'catalog:'
-        version: 4.6.4(vue@3.5.27(typescript@5.9.3))
-
   smart-boot/smart-modules/smart-module-code:
     dependencies:
       '@smart/common':
@@ -2735,6 +2675,66 @@ importers:
         version: 4.6.4(vue@3.5.27(typescript@5.9.3))
 
   smart-boot/smart-modules/smart-module-message:
+    dependencies:
+      '@smart/common':
+        specifier: workspace:*
+        version: link:../../smart-common
+      '@smart/components':
+        specifier: workspace:*
+        version: link:../../smart-components
+      '@vben/access':
+        specifier: workspace:*
+        version: link:../../../packages/effects/access
+      '@vben/common-ui':
+        specifier: workspace:*
+        version: link:../../../packages/effects/common-ui
+      '@vben/constants':
+        specifier: workspace:*
+        version: link:../../../packages/constants
+      '@vben/hooks':
+        specifier: workspace:*
+        version: link:../../../packages/effects/hooks
+      '@vben/icons':
+        specifier: workspace:*
+        version: link:../../../packages/icons
+      '@vben/locales':
+        specifier: workspace:*
+        version: link:../../../packages/locales
+      '@vben/plugins':
+        specifier: workspace:*
+        version: link:../../../packages/effects/plugins
+      '@vben/preferences':
+        specifier: workspace:*
+        version: link:../../../packages/preferences
+      '@vben/stores':
+        specifier: workspace:*
+        version: link:../../../packages/stores
+      '@vben/types':
+        specifier: workspace:*
+        version: link:../../../packages/types
+      '@vben/utils':
+        specifier: workspace:*
+        version: link:../../../packages/utils
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 14.2.0(vue@3.5.27(typescript@5.9.3))
+      antdv-next:
+        specifier: 'catalog:'
+        version: 1.0.2(date-fns@4.1.0)(vue@3.5.27(typescript@5.9.3))
+      dayjs:
+        specifier: 'catalog:'
+        version: 1.11.19
+      pinia:
+        specifier: ^3.0.4
+        version: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+      vue:
+        specifier: ^3.5.27
+        version: 3.5.27(typescript@5.9.3)
+      vue-router:
+        specifier: 'catalog:'
+        version: 4.6.4(vue@3.5.27(typescript@5.9.3))
+
+  smart-boot/smart-modules/smart-module-sso-server-manager:
     dependencies:
       '@smart/common':
         specifier: workspace:*

@@ -209,10 +209,6 @@
       "path": "smart-boot/smart-components",
     },
     {
-      "name": "@smart-module/auth-server-manager",
-      "path": "smart-boot/smart-modules/smart-module-auth-server-manager",
-    },
-    {
       "name": "@smart-module/code",
       "path": "smart-boot/smart-modules/smart-module-code",
     },
@@ -223,6 +219,10 @@
     {
       "name": "@smart-module/message",
       "path": "smart-boot/smart-modules/smart-module-message",
+    },
+    {
+      "name": "@smart-module/sso-server-manager",
+      "path": "smart-boot/smart-modules/smart-module-sso-server-manager",
     },
     {
       "name": "@smart-module/system",
