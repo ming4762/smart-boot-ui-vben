@@ -57,6 +57,9 @@ import { doSetupSmartTable } from '../smart-table';
 const AutoComplete = defineAsyncComponent(
   () => import('antdv-next/dist/auto-complete/index'),
 );
+const Tooltip = defineAsyncComponent(
+  () => import('antdv-next/dist/tooltip/index'),
+);
 const Button = defineAsyncComponent(
   () => import('antdv-next/dist/button/index'),
 );
@@ -591,6 +594,7 @@ async function initComponentAdapter() {
     CheckboxGroup,
     DatePicker: ZonedDatePicker,
     SmartCopyText,
+    Tooltip,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);

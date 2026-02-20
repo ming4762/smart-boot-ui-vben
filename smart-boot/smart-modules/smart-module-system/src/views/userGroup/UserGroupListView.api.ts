@@ -7,8 +7,11 @@ enum Api {
   delete = 'sys/userGroup/batchDeleteById',
   getById = 'sys/userGroup/getById',
   list = 'sys/userGroup/list',
+  listNoBindUser = 'sys/userGroup/listNoBindUser',
+  listUserById = 'sys/userGroup/listUserById',
   listUserIdByGroupId = 'sys/userGroup/listUserIdById',
   setUser = 'sys/userGroup/saveUserGroupByGroupId',
+  unBindUser = 'sys/userGroup/unBindUser',
   useYn = 'sys/userGroup/setUseYn',
 }
 
@@ -40,8 +43,24 @@ export const getByIdApi = (data: any) => {
   });
 };
 
-export const listUserIdByGroupIdApi = (groupId: number) => {
+export const listUserIdByGroupIdApi = (groupId: number | string) => {
   return requestClient.post(Api.listUserIdByGroupId, groupId, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const listUserByIdApi = (groupId: number | string) => {
+  return requestClient.post(
+    Api.listUserById,
+    { id: groupId },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+};
+
+export const listNoBindUserApi = (parameter: any) => {
+  return requestClient.post(Api.listNoBindUser, parameter, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };
@@ -66,6 +85,24 @@ export const setUseYnApi = (data: Recordable<any>[], useYn: boolean) => {
     {
       idList,
       useYn,
+    },
+    {
+      service: ApiServiceEnum.SMART_SYSTEM,
+    },
+  );
+};
+
+/**
+ * 解绑用户
+ * @param groupId
+ * @param userIdList
+ */
+export const unBindUserApi = (groupId: number | string, userIdList: number[]) => {
+  return requestClient.post(
+    Api.unBindUser,
+    {
+      groupId,
+      userIdList,
     },
     {
       service: ApiServiceEnum.SMART_SYSTEM,

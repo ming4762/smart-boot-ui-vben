@@ -79,6 +79,9 @@ const InputPassword = defineAsyncComponent(() =>
 const Mentions = defineAsyncComponent(
   () => import('antdv-next/dist/mentions/index'),
 );
+const Tooltip = defineAsyncComponent(
+  () => import('antdv-next/dist/tooltip/index'),
+);
 const Radio = defineAsyncComponent(() => import('antdv-next/dist/radio/index'));
 const RadioGroup = defineAsyncComponent(() =>
   import('antdv-next/dist/radio/index').then((res) => res.RadioGroup),
@@ -566,6 +569,7 @@ async function initComponentAdapter() {
         modelPropName: 'value',
       },
     ),
+    Tooltip,
     SmartMultiInput,
     ApiTreeSelect: withDefaultPlaceholder(
       {
