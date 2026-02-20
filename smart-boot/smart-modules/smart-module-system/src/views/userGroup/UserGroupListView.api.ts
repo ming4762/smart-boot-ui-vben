@@ -97,7 +97,10 @@ export const setUseYnApi = (data: Recordable<any>[], useYn: boolean) => {
  * @param groupId
  * @param userIdList
  */
-export const unBindUserApi = (groupId: number | string, userIdList: number[]) => {
+export const unBindUserApi = (
+  groupId: number | string,
+  userIdList: number[],
+) => {
   return requestClient.post(
     Api.unBindUser,
     {
