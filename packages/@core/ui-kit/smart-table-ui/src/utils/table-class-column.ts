@@ -1,5 +1,7 @@
 import type { SmartTableColumn } from '../types';
 
+import { get } from '@vben-core/shared/utils';
+
 import { getI18n as t } from 'vxe-table';
 
 /**
@@ -9,7 +11,7 @@ import { getI18n as t } from 'vxe-table';
 const getTableUseYnColumnClass = (field = 'useYn'): SmartTableColumn => {
   return {
     dynamicClass: ({ row }) => {
-      const useYn = row[field] as boolean | null;
+      const useYn = get(row, field) as boolean | null;
       if (useYn === null) {
         return '';
       }
@@ -17,7 +19,7 @@ const getTableUseYnColumnClass = (field = 'useYn'): SmartTableColumn => {
     },
     field,
     formatter: ({ row }) => {
-      const useYn = row[field] as boolean | null;
+      const useYn = get(row, field) as boolean | null;
       if (useYn === null) {
         return '';
       }
@@ -35,7 +37,7 @@ const getTableBooleanColumnClass = (
 ): SmartTableColumn => {
   return {
     dynamicClass: ({ row }) => {
-      const value = row[field] as boolean | null;
+      const value = get(row, field) as boolean | null;
       if (value === null) {
         return '';
       }
@@ -49,7 +51,7 @@ const getTableBooleanColumnClass = (
     },
     field,
     formatter({ row }) {
-      const value = row[field] as boolean | null;
+      const value = get(row, field) as boolean | null;
       if (value === null) {
         return '';
       }

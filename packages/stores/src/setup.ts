@@ -48,6 +48,10 @@ export async function initStores(app: App, options: InitStoreOptions) {
   return pinia;
 }
 
+/**
+ * @zh_CN 重置所有store
+ * TODO: 部分store重置时，core-tabbar还未重置，组件被keepalive还未销毁，导致组件重新渲染，可以控制RouterView先销毁，然后在reset
+ */
 export function resetAllStores() {
   if (!pinia) {
     console.error('Pinia is not installed');

@@ -29,11 +29,27 @@ const router = useRouter();
 
 const permissions = Permission;
 
+const goTo = (groupId?: number | string) => {
+  const currentRoute = unref(router.currentRoute);
+  const query = {
+    ...currentRoute.query,
+    groupId,
+  };
+  router.push({
+    path: currentRoute.path,
+    query,
+  });
+};
+
 const setCurrentRow = () => {
   const groupId = props.groupId;
   tableApi.getGrid()?.clearCurrentRow();
   tableApi.getGrid()?.clearCheckboxRow();
   if (groupId) {
+    const row = tableApi.getGrid().getRowById(groupId);
+    if (!row) {
+      goTo();
+    }
     tableApi.getGrid()?.setCurrentRow({ groupId });
     tableApi.getGrid()?.setCheckboxRow({ groupId }, true);
   }
@@ -146,14 +162,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
 };
 
 const handleCurrentChange = ({ row }: any) => {
-  const currentRoute = unref(router.currentRoute);
-  router.push({
-    path: currentRoute.path,
-    query: {
-      ...currentRoute.query,
-      groupId: row.groupId,
-    },
-  });
+  goTo(row.groupId);
 };
 
 const handleAfterQuery = () => {

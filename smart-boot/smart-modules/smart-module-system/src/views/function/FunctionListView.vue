@@ -236,6 +236,7 @@ const getTableActions = (row: Recordable<any>): SmartTableActionItem[] => {
         const data: Recordable<any> = {
           parentId: row.functionId,
           parentName: row.functionName,
+          functionType: null,
         };
         const functionType = row.functionType;
         switch (functionType) {

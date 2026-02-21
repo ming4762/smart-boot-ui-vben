@@ -54,6 +54,12 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
     },
     {
+      field: 'clientType',
+      align: 'center',
+      title: '客户端类型',
+      width: 100,
+    },
+    {
       field: 'clientSecret',
       align: 'left',
       title: '{sso.oauth2.client.title.clientSecret}',
@@ -187,12 +193,34 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       rules: 'required',
     },
     {
+      fieldName: 'clientType',
+      label: '客户端类型',
+      component: 'RadioGroup',
+      componentProps: {
+        block: true,
+        optionType: 'button',
+        buttonStyle: 'solid',
+        options: [
+          {
+            label: '公开',
+            value: 'PUBLIC',
+          },
+          {
+            label: '私有',
+            value: 'PRIVATE',
+          },
+        ],
+      },
+      rules: 'required',
+    },
+    {
       fieldName: 'clientSecret',
       label: t('sso.oauth2.client.title.clientSecret'),
       component: 'Input',
       componentProps: {
         placeholder: '如果不配置，使用全局秘钥',
       },
+      formItemClass: 'col-span-2',
     },
     {
       fieldName: 'clientSecretExpire',
