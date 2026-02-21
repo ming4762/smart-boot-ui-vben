@@ -149,6 +149,7 @@ const [Table, tableApi] = useSmartTable({
   height: 3px;
   background: hsl(var(--background-deep));
 }
+
 .table-container {
   height: calc(100% - 38px);
 }
