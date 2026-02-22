@@ -14,7 +14,7 @@ import {
 import { useSizeSetting, useTabLazy } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { Tabs } from 'antdv-next';
 
 import RoleDataPermission from '#/views/role/components/RoleDataPermission.vue';
 import { useRoleSetUser } from '#/views/role/hook/useRoleSetUser';
@@ -132,6 +132,17 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
     },
   ];
 };
+
+const tabItems = [
+  {
+    key: 'functionPermission',
+    label: t('system.views.role.title.setFunction'),
+  },
+  {
+    key: 'dataPermission',
+    label: t('system.views.role.title.dataPermission'),
+  },
+];
 </script>
 
 <template>
@@ -155,27 +166,21 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
       </template>
       <template #second>
         <div class="layout-set-function h-full">
-          <Tabs>
-            <TabPane
-              :tab="t('system.views.role.title.setFunction')"
-              key="functionPermission"
-            >
+          <Tabs :items="tabItems">
+            <template #contentRender="{ item }">
               <TenantRoleSetFunction
+                v-if="item.key === 'functionPermission'"
                 :is-super-admin="currentRoleRef.superAdminYn"
                 :role-id="currentRoleRef.roleId"
                 :tenant-id="props.tenantId"
                 :activated="activated"
               />
-            </TabPane>
-            <TabPane
-              :tab="t('system.views.role.title.dataPermission')"
-              key="dataPermission"
-            >
               <RoleDataPermission
+                v-if="item.key === 'dataPermission'"
                 :is-super-admin="currentRoleRef.superAdminYn"
                 :role-id="currentRoleRef.roleId"
               />
-            </TabPane>
+            </template>
           </Tabs>
         </div>
       </template>

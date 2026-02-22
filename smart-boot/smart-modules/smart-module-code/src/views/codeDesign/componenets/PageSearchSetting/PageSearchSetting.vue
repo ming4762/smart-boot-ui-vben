@@ -5,7 +5,7 @@ import { getTableBooleanColumnClass, useSmartTable } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t } from '@vben/locales';
 
-import { Switch } from 'ant-design-vue';
+import { Switch } from 'antdv-next';
 
 import { getControlList, SEARCH_SYMBOL_LIST } from '../../constants';
 import {

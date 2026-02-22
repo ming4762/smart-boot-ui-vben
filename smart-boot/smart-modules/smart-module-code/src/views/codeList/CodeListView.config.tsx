@@ -2,7 +2,7 @@ import type { SmartSearchFormSchema, SmartTableColumn } from '@vben/common-ui';
 
 import { $t as t } from '@vben/locales';
 
-import { Tag } from 'ant-design-vue';
+import { Tag } from 'antdv-next';
 
 const tableTypeList = [
   {

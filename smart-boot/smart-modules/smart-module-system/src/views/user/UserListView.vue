@@ -24,7 +24,7 @@ import {
 } from '@smart/common/utils';
 import { SmartAuthButton, SysDeptTree } from '@smart/components';
 import { useClipboard } from '@vueuse/core';
-import { Tooltip } from 'ant-design-vue';
+import { Tooltip } from 'antdv-next';
 
 import UserAccountUpdate from './components/UserAccountUpdateModal.vue';
 import UserSetRole from './components/UserSetRoleModal.vue';

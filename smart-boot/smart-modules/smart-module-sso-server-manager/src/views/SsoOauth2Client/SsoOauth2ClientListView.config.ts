@@ -16,6 +16,20 @@ export enum Permissions {
 }
 
 /**
+ * 客户端认证方式
+ */
+export const clientAuthenticationMethods = [
+  'client_secret_basic',
+  'client_secret_post',
+  'client_secret_jwt',
+];
+
+export const authorizationGrantTypes = [
+  'authorization_code',
+  'client_credentials',
+  'refresh_token',
+];
+/**
  * 表格列表
  */
 export const getTableColumns = (): SmartTableColumn[] => {
@@ -38,6 +52,12 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'left',
       title: '{sso.oauth2.client.title.clientName}',
       width: 120,
+    },
+    {
+      field: 'clientType',
+      align: 'center',
+      title: '客户端类型',
+      width: 100,
     },
     {
       field: 'clientSecret',
@@ -173,11 +193,34 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       rules: 'required',
     },
     {
+      fieldName: 'clientType',
+      label: '客户端类型',
+      component: 'RadioGroup',
+      componentProps: {
+        block: true,
+        optionType: 'button',
+        buttonStyle: 'solid',
+        options: [
+          {
+            label: '公开',
+            value: 'PUBLIC',
+          },
+          {
+            label: '私有',
+            value: 'PRIVATE',
+          },
+        ],
+      },
+      rules: 'required',
+    },
+    {
       fieldName: 'clientSecret',
       label: t('sso.oauth2.client.title.clientSecret'),
       component: 'Input',
-      componentProps: {},
-      rules: 'required',
+      componentProps: {
+        placeholder: '如果不配置，使用全局秘钥',
+      },
+      formItemClass: 'col-span-2',
     },
     {
       fieldName: 'clientSecretExpire',
@@ -191,29 +234,25 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'clientAuthenticationMethods',
       label: t('sso.oauth2.client.title.clientAuthenticationMethods'),
-      component: 'Textarea',
-      componentProps: {
-        placeholder:
-          '支持多个，每个一行，可选值：client_secret_basic, client_secret_post, client_secret_jwt',
-      },
+      slot: 'form-clientAuthenticationMethods',
+      component: '',
       rules: 'required',
       formItemClass: 'col-span-2',
+      defaultValue: ['client_secret_basic', 'client_secret_jwt'],
     },
     {
       fieldName: 'authorizationGrantTypes',
       label: t('sso.oauth2.client.title.authorizationGrantTypes'),
-      component: 'Textarea',
-      componentProps: {
-        placeholder:
-          '支持多个，每个一行，可选值：authorization_code, refresh_token, client_credentials',
-      },
+      component: '',
+      slot: 'form-authorizationGrantTypes',
       rules: 'required',
       formItemClass: 'col-span-2',
+      defaultValue: ['authorization_code', 'refresh_token'],
     },
     {
       fieldName: 'redirectUri',
       label: t('sso.oauth2.client.title.redirectUri'),
-      component: 'Textarea',
+      component: 'SmartMultiInput',
       componentProps: {
         placeholder: '支持多个，每个一行',
       },
@@ -223,7 +262,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'postLogoutRedirectUri',
       label: t('sso.oauth2.client.title.postLogoutRedirectUri'),
-      component: 'Textarea',
+      component: 'SmartMultiInput',
       componentProps: {
         placeholder: '支持多个，每个一行',
       },
@@ -232,7 +271,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'scopes',
       label: t('sso.oauth2.client.title.scopes'),
-      component: 'Textarea',
+      component: 'SmartMultiInput',
       componentProps: {
         placeholder: '支持多个，每个一行',
       },

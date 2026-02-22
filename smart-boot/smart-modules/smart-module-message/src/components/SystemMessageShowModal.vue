@@ -5,7 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { SmartTinymcePreview } from '@vben/plugins/smart-tinymce';
 
-import { Tag } from 'ant-design-vue';
+import { Tag } from 'antdv-next';
 
 import { markAsReadApi } from '#/api';
 
@@ -94,7 +94,7 @@ const computedMessagePriority = computed(() => {
   font-size: 0;
   line-height: 20px;
   hyphens: auto;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .sub-title-sender {

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { DescriptionsItemType } from 'antdv-next';
+
 import type { ExtendedModalApi } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import { computed, ref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { useVbenForm, useVbenModal } from '@vben/common-ui';
@@ -10,14 +12,14 @@ import { $t } from '@vben/locales';
 import { formatDateTime } from '@vben/utils';
 
 import { errorMessage, successMessage } from '@smart/common/utils';
-import { Descriptions, DescriptionsItem, Divider, Tag } from 'ant-design-vue';
+import { Descriptions, Divider, Tag } from 'antdv-next';
 
 import { getByIdApi, saveAccountSettingApi } from '../UserListView.api';
 import { getAccountFormSchemas } from '../UserListView.config';
 
 const { hasAccessByAuth } = useAccess();
 
-const userData = ref<Recordable<any>>({});
+const userDataRef = ref<Recordable<any>>({});
 const accountData = ref<Recordable<any>>({});
 
 /**
@@ -54,7 +56,7 @@ const [Modal, modalApi] = useVbenModal({
   class: 'w-[1200px]',
   onConfirm: () => handleSave(modalApi),
   onClosed: () => {
-    userData.value = {};
+    userDataRef.value = {};
     accountData.value = {};
   },
   onOpened: async () => {
@@ -62,7 +64,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.setState({ loading: true });
     try {
       const result = await getByIdApi(user.userId);
-      userData.value = result;
+      userDataRef.value = result;
       if (result.userAccount) {
         accountData.value = result.userAccount;
         formApi.setValues({
@@ -76,64 +78,77 @@ const [Modal, modalApi] = useVbenModal({
     }
   },
 });
+
+const computedItems = computed<DescriptionsItemType[]>(() => {
+  const userData = unref(userDataRef);
+  return [
+    {
+      label: $t('system.views.user.table.username'),
+      content: userData.username,
+    },
+    {
+      label: $t('system.views.user.table.fullName'),
+      content: userData.fullName,
+    },
+    {
+      label: $t('system.views.user.table.userType'),
+      content: userData.userType,
+    },
+    {
+      label: $t('system.views.user.table.mobile'),
+      content: userData.mobile,
+    },
+    {
+      label: $t('system.views.user.table.email'),
+      content: userData.email,
+      span: 2,
+    },
+    {
+      label: $t('system.views.user.account.createTime'),
+      content: formatDateTime(userData.createTime),
+    },
+    {
+      label: $t('system.views.user.account.accountStatus'),
+      content: accountData.value.accountStatus,
+    },
+    {
+      label: $t('system.views.user.account.initialPasswordYn'),
+      content: accountData.value.initialPasswordYn,
+    },
+    {
+      label: $t('system.views.user.account.loginFailTime'),
+      content: accountData.value.loginFailTime,
+    },
+    {
+      label: $t('system.views.user.account.lockTime'),
+      content: formatDateTime(accountData.value.lockTime),
+    },
+    {
+      label: $t('system.views.user.account.passwordModifyTime'),
+      content: formatDateTime(accountData.value.passwordModifyTime),
+    },
+  ];
+});
 </script>
 
 <template>
   <Modal clas="w-[1200px]">
-    <Descriptions :title="$t('system.views.user.account.title')" bordered>
-      <DescriptionsItem
-        :label="$t('system.views.user.table.username')"
-        class="w-[135px]"
-      >
-        <div class="w-[140px]">
-          {{ userData.username }}
-        </div>
-      </DescriptionsItem>
-      <DescriptionsItem
-        :label="$t('system.views.user.table.fullName')"
-        class="w-[135px]"
-      >
-        <div class="w-[140px]">
-          {{ userData.fullName }}
-        </div>
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.user.table.userType')">
-        {{ userData.userType }}
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.user.table.mobile')">
-        {{ userData.mobile }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.user.table.email')" :span="2">
-        {{ userData.email }}
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.user.account.createTime')">
-        {{ formatDateTime(accountData.createTime) }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.user.account.accountStatus')">
-        {{ accountData.accountStatus }}
-      </DescriptionsItem>
-      <DescriptionsItem
-        :label="$t('system.views.user.account.initialPasswordYn')"
-      >
-        <Tag v-if="accountData.initialPasswordYn" color="#f50">
-          {{ $t('common.title.yes') }}
-        </Tag>
-        <Tag v-else color="#108ee9">{{ $t('common.title.no') }}</Tag>
-      </DescriptionsItem>
-
-      <DescriptionsItem :label="$t('system.views.user.account.loginFailTime')">
-        {{ accountData.loginFailTime }}
-      </DescriptionsItem>
-      <DescriptionsItem :label="$t('system.views.user.account.lockTime')">
-        {{ formatDateTime(accountData.lockTime) }}
-      </DescriptionsItem>
-      <DescriptionsItem
-        :label="$t('system.views.user.account.passwordModifyTime')"
-      >
-        {{ formatDateTime(accountData.passwordModifyTime) }}
-      </DescriptionsItem>
+    <Descriptions
+      class="user-account-descriptions"
+      :title="$t('system.views.user.account.title')"
+      :items="computedItems"
+      bordered
+    >
+      <template #contentRender="{ index, item }">
+        <template v-if="index === 7">
+          <Tag variant="solid" v-if="item.content" color="#f50">
+            {{ $t('common.title.yes') }}
+          </Tag>
+          <Tag variant="solid" v-else color="#108ee9">
+            {{ $t('common.title.no') }}
+          </Tag>
+        </template>
+      </template>
     </Descriptions>
     <Divider />
     <section class="account-setting">
@@ -149,6 +164,11 @@ const [Modal, modalApi] = useVbenModal({
     margin-bottom: 5px;
     font-size: 16px;
     font-weight: 700;
+  }
+}
+.user-account-descriptions {
+  :deep(.ant-descriptions-item-label) {
+    width: 150px;
   }
 }
 </style>

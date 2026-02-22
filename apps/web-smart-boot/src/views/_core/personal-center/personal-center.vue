@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 // import BasicInfo from './components/basic-info.vue';
 import SystemSetting from './components/system-setting.vue';

@@ -5,7 +5,7 @@ import { ApiComponent } from '@vben/common-ui';
 import { useInjectPageDict } from '@vben/preferences';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { Select } from 'ant-design-vue';
+import { Select } from 'antdv-next';
 
 import ApiDictSelectInject from './components/api-dict-select-inject.vue';
 

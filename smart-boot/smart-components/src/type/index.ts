@@ -1,4 +1,4 @@
-import type { ButtonProps } from 'ant-design-vue';
+import type { ButtonProps } from 'antdv-next';
 
 import type { SmartTableProps } from '@vben/common-ui';
 

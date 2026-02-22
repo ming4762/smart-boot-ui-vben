@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { Tabs } from 'antdv-next';
 
 import SysTenantList from './components/SysTenantList.vue';
 import TenantRoleList from './components/TenantRoleList.vue';
@@ -22,9 +22,6 @@ const router = useRouter();
 const currentRowRef = ref<any | null>(null);
 const handleCurrentChange = (row: any) => {
   currentRowRef.value = row;
-  if (row && row.platformYn && unref(activeTableRef) === 'subscribe') {
-    activeTableRef.value = 'user';
-  }
   const { path } = unref(router.currentRoute);
   router.push({
     path,
@@ -33,6 +30,21 @@ const handleCurrentChange = (row: any) => {
     },
   });
 };
+
+const tabItems = [
+  {
+    key: 'user',
+    label: '用户管理',
+  },
+  {
+    key: 'subscribe',
+    label: '订阅管理',
+  },
+  {
+    key: 'role',
+    label: '角色管理',
+  },
+];
 </script>
 
 <template>
@@ -44,31 +56,30 @@ const handleCurrentChange = (row: any) => {
       draggable
     >
       <template #first>
-        <div class="bg-background h-full">
+        <div class="h-full bg-background">
           <SysTenantList @current-change="handleCurrentChange" />
         </div>
       </template>
       <template #second>
-        <div class="right-container smart-table-padding bg-background h-full">
-          <Tabs v-model:active-key="activeTableRef">
-            <TabPane key="user" tab="用户管理">
+        <div class="right-container smart-table-padding h-full bg-background">
+          <Tabs v-model:active-key="activeTableRef" :items="tabItems">
+            <template #contentRender="{ item }">
               <TenantUserList
+                v-if="item.key === 'user'"
                 :activated="activeTableRef === 'user'"
                 :tenant-id="props.tenantId"
               />
-            </TabPane>
-            <TabPane key="subscribe" tab="订阅管理">
               <TenantSubscribeList
+                v-if="item.key === 'subscribe'"
                 :activated="activeTableRef === 'subscribe'"
                 :tenant-id="props.tenantId"
               />
-            </TabPane>
-            <TabPane key="role" tab="角色管理">
               <TenantRoleList
+                v-if="item.key === 'role'"
                 :activated="activeTableRef === 'role'"
                 :tenant-id="props.tenantId"
               />
-            </TabPane>
+            </template>
           </Tabs>
         </div>
       </template>
@@ -86,6 +97,9 @@ const handleCurrentChange = (row: any) => {
     height: 100%;
   }
   :deep(.ant-tabs-content) {
+    height: 100%;
+  }
+  :deep(.ant-tabs-tabpane) {
     height: 100%;
   }
   :deep(.ant-tabs-nav) {

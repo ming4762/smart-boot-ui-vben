@@ -1,15 +1,15 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { CodeSqlFormValues } from '../types';
 
-import { ref } from 'vue';
+import { computed, ref, unref } from 'vue';
 
 import { Language, SmartCodeEditor } from '@vben/common-ui';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { Tabs } from 'antdv-next';
 
 import { generateMapperBySql } from '../CodeSqlMapperView.api';
 
-const codeListRef = ref<any>([]);
+const codeListRef = ref<any[]>([]);
 
 const generatorCode = async (values: CodeSqlFormValues) => {
   codeListRef.value = await generateMapperBySql(values);
@@ -18,23 +18,27 @@ const generatorCode = async (values: CodeSqlFormValues) => {
 defineExpose({
   generatorCode,
 });
+
+const computedItems = computed(() => {
+  return unref(codeListRef).map((item) => {
+    return {
+      key: item.templateId,
+      label: item.templateName,
+      content: () => (
+        <SmartCodeEditor
+          class="h-full"
+          disabled={false}
+          language={Language.JAVA}
+          value={item.code}
+        />
+      ),
+    };
+  });
+});
 </script>
 
 <template>
-  <Tabs class="code-sql-generator-container">
-    <TabPane
-      v-for="item in codeListRef"
-      :key="item.templateId"
-      :tab="item.templateName"
-    >
-      <SmartCodeEditor
-        class="h-full"
-        :language="Language.JAVA"
-        :value="item.code"
-        disabled
-      />
-    </TabPane>
-  </Tabs>
+  <Tabs class="code-sql-generator-container" :items="computedItems" />
 </template>
 
 <style lang="less" scoped>
@@ -46,6 +50,9 @@ defineExpose({
     padding: 0 5px;
   }
   :deep(.ant-tabs-content) {
+    height: 100%;
+  }
+  :deep(.ant-tabs-tabpane) {
     height: 100%;
   }
 }

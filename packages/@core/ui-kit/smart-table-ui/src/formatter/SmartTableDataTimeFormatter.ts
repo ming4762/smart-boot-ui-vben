@@ -1,4 +1,4 @@
-import { formatDate } from '@vben-core/shared/utils';
+import { formatDate, formatDateTime } from '@vben-core/shared/utils';
 
 import { VxeUI } from 'vxe-table';
 
@@ -7,6 +7,9 @@ export default function initSmartTableDataTimeFormatter() {
     tableCellFormatMethod: ({ cellValue }, format) => {
       if (!cellValue) {
         return '';
+      }
+      if (!format) {
+        return formatDateTime(cellValue) || cellValue;
       }
       return formatDate(cellValue, format) || cellValue;
     },

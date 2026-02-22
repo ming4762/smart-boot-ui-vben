@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { TooltipProps } from 'ant-design-vue';
+import type { TooltipProps } from 'antdv-next';
 
 import type { SmartAuthType } from '@vben/types';
 
@@ -11,7 +11,7 @@ import { useAccess } from '@vben/access';
 import { $t } from '@vben/locales';
 import { isFunction } from '@vben/utils';
 
-import { Tooltip } from 'ant-design-vue';
+import { Tooltip } from 'antdv-next';
 
 import SmartIconButton from './smart-icon-button.vue';
 

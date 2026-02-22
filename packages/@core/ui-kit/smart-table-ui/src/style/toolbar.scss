@@ -44,3 +44,7 @@ $button-margin: 5px;
 .vxe-toolbar .vxe-tools--wrapper > .vxe-tool--item + .vxe-tool--item {
   margin-left: var(--vxe-ui-base-margin-gap-mini);
 }
+
+.vxe-toolbar .vxe-tool--item-wrapper > .vxe-tool--item + .vxe-tool--item {
+  margin-left: var(--vxe-ui-base-margin-gap-mini);
+}

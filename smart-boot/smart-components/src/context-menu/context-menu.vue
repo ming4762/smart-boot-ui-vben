@@ -20,7 +20,7 @@ import {
 
 import { createIconifyIcon } from '@vben/icons';
 
-import { Divider, Menu } from 'ant-design-vue';
+import { Divider, Menu } from 'antdv-next';
 
 interface Props extends ContextMenuProps {}
 

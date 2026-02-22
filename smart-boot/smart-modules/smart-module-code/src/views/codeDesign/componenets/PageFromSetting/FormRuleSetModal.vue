@@ -9,7 +9,7 @@ import { isString } from '@vben/utils';
 
 import { errorMessage } from '@smart/common/utils';
 import { SmartIconButton } from '@smart/components';
-import { FormItem, Switch } from 'ant-design-vue';
+import { FormItem, Switch } from 'antdv-next';
 
 import { getRuleList } from '../PageSettingSupport';
 

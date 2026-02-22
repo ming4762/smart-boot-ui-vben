@@ -90,10 +90,8 @@ interface SmartTableBasicProps {
   useSearchForm?: boolean;
 }
 
-// 伪装类型，解决VxeGridProps过于复杂导致解决栈帧溢出，同时保留webstorm等IDE的类型提示
-type VxeGridPropsSafe = Partial<any> & VxeGridProps;
 export type SmartTableRenderProps = Omit<
-  VxeGridPropsSafe,
+  VxeGridProps,
   | 'checkboxConfig'
   | 'columns'
   | 'pagerConfig'

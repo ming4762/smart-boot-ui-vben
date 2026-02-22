@@ -6,7 +6,7 @@ import { createIconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { message, Modal } from 'ant-design-vue';
+import { message, Modal } from 'antdv-next';
 
 const defaultSearchModel = {
   groupCode: '',

@@ -1,17 +1,29 @@
 import type { DurationUnitType } from 'dayjs/plugin/duration';
 
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import duration from 'dayjs/plugin/duration';
+import localeData from 'dayjs/plugin/localeData';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import weekday from 'dayjs/plugin/weekday';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekYear from 'dayjs/plugin/weekYear';
 
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(weekday);
 
 export const zonedDayjs = dayjs;
+
+export type Dayjs = dayjs.Dayjs;
 
 type FormatDate = Date | dayjs.Dayjs | number | string;
 

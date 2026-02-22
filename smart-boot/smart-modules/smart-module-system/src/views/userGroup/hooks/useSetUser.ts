@@ -5,7 +5,7 @@ import { ref, unref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 
 import { SmartTableSelectUserModal } from '@smart/components';
-import { message } from 'ant-design-vue';
+import { message } from 'antdv-next';
 
 import { listUserIdByGroupIdApi, setUserApi } from '../UserGroupListView.api';
 

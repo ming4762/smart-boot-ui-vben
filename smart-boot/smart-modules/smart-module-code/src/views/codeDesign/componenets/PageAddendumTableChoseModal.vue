@@ -7,7 +7,7 @@ import { useSmartTable, useVbenModal } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { Input } from 'ant-design-vue';
+import { Input } from 'antdv-next';
 
 interface Props {
   formSize?: string;

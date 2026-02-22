@@ -15,7 +15,7 @@ import {
   LayoutFooter,
   Spin,
   Tree,
-} from 'ant-design-vue';
+} from 'antdv-next';
 
 interface Props {
   activated?: boolean;

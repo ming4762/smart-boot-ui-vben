@@ -10,13 +10,13 @@ enum Api {
 
 export const listApi = (params: any) => {
   return requestClient.post(Api.list, params, {
-    service: ApiServiceEnum.SMART_AUTH_SERVER,
+    service: ApiServiceEnum.SMART_SSO_SERVER,
   });
 };
 
 export const batchSaveUpdateApi = (modelList: any[]) => {
   return requestClient.post(Api.batchSaveUpdate, modelList, {
-    service: ApiServiceEnum.SMART_AUTH_SERVER,
+    service: ApiServiceEnum.SMART_SSO_SERVER,
   });
 };
 
@@ -24,13 +24,13 @@ export const deleteApi = (removeRecords: Record<string, any>[]) => {
   return requestClient.post(
     Api.delete,
     removeRecords.map((item) => item.id),
-    { service: ApiServiceEnum.SMART_AUTH_SERVER },
+    { service: ApiServiceEnum.SMART_SSO_SERVER },
   );
 };
 
 export const getByIdApi = (id: number) => {
   return requestClient.post(Api.getById, id, {
-    service: ApiServiceEnum.SMART_AUTH_SERVER,
+    service: ApiServiceEnum.SMART_SSO_SERVER,
   });
 };
 
@@ -46,6 +46,6 @@ export const setUseYnApi = (rows: any[], useYn: boolean) => {
       idList: rows.map((item) => item.id),
       useYn,
     },
-    { service: ApiServiceEnum.SMART_AUTH_SERVER },
+    { service: ApiServiceEnum.SMART_SSO_SERVER },
   );
 };

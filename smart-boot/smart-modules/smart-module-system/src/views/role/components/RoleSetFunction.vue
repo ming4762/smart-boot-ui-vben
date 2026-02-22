@@ -14,7 +14,7 @@ import {
   LayoutFooter,
   Spin,
   Tree,
-} from 'ant-design-vue';
+} from 'antdv-next';
 
 import { Permission } from '../RoleListView.config';
 
@@ -182,7 +182,7 @@ onMounted(() => loadFunctionTreeData());
           v-access:code="permissions.setFunction"
           @click="handleSave"
         >
-          {{ t('common.button.save') }}
+          {{ t('common.button.save') }}{{ props.roleId }}
         </Button>
       </div>
     </LayoutFooter>

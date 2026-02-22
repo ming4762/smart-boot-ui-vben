@@ -6,7 +6,7 @@ import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
 import { SmartAuthButton, SmartIconButton } from '@smart/components';
-import { Divider, TabPane, Tabs } from 'ant-design-vue';
+import { Divider, TabPane, Tabs } from 'antdv-next';
 
 import { useSaveConfig } from './CodeDesignPageHook';
 import CodeDesignForm from './componenets/CodeDesignForm.vue';

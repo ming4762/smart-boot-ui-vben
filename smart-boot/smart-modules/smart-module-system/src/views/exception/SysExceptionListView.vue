@@ -20,7 +20,7 @@ import {
   warnMessage,
 } from '@smart/common/utils';
 import { SysTenantSelect } from '@smart/components';
-import { Textarea } from 'ant-design-vue';
+import { TextArea } from 'antdv-next';
 import { storeToRefs } from 'pinia';
 
 import ExceptionDetailModal from './components/ExceptionDetailModal.vue';
@@ -49,7 +49,7 @@ const handlerMarkResolved = (tableApi: ExtendSmartTableApi) => {
     title: t('system.views.exception.button.markResolved'),
     content: () => {
       return (
-        <Textarea
+        <TextArea
           placeholder={t('system.views.exception.validate.resolvedMessage')}
           rows={4}
           v-model={[resolvedMessageRef.value, 'value']}

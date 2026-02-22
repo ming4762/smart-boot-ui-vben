@@ -4,6 +4,7 @@ import type {
   VbenFormSchema,
 } from '@vben/common-ui';
 
+import { getTableBooleanColumnClass } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 /**
@@ -36,7 +37,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
     },
     {
       field: 'useYn',
-      component: 'booleanTag',
+      ...getTableBooleanColumnClass('useYn'),
       title: '{common.title.useYn}',
       width: 120,
     },

@@ -12,7 +12,7 @@ import { $t as t } from '@vben/locales';
 
 import { createConfirm } from '@smart/common/utils';
 import { SmartIconButton } from '@smart/components';
-import { Switch } from 'ant-design-vue';
+import { Switch } from 'antdv-next';
 
 import { DB_TYPE_CONTROL_MAPPING, getControlList } from '../../constants';
 import {

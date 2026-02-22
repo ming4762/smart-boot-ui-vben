@@ -2,7 +2,7 @@
 import { onMounted, ref, toRefs } from 'vue';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { Transfer } from 'ant-design-vue';
+import { Transfer } from 'antdv-next';
 
 interface Props {
   templateType?: string;

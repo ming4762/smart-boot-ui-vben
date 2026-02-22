@@ -6,7 +6,7 @@ import type {
 
 import { $t as t } from '@vben/locales';
 
-import { Tag } from 'ant-design-vue';
+import { Tag } from 'antdv-next';
 
 import {
   getMessagePriorityEnum,

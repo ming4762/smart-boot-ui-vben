@@ -21,7 +21,7 @@ import {
   getSystemPropertiesApi,
 } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
-import { App, ConfigProvider, theme } from 'ant-design-vue';
+import { App, ConfigProvider, theme } from 'antdv-next';
 
 import { antdLocale } from '#/locales';
 

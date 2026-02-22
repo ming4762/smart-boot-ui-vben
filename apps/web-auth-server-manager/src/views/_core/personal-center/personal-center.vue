@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { TabPane, Tabs } from 'antdv-next';
 
 // import BasicInfo from './components/basic-info.vue';
 import SystemSetting from './components/system-setting.vue';
@@ -9,7 +9,7 @@ import SystemSetting from './components/system-setting.vue';
 
 <template>
   <div class="page-container h-full">
-    <div class="bg-background tab-container h-full">
+    <div class="tab-container h-full bg-background">
       <Tabs tab-position="left" class="h-full">
         <!--        <TabPane-->
         <!--          :tab="t('ui.widgets.personalCenter.basicInfo.title')"-->

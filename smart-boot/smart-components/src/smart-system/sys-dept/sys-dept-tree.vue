@@ -8,7 +8,7 @@ import { listToTree } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { errorMessage } from '@smart/common/utils';
-import { InputSearch, Spin, Tree } from 'ant-design-vue';
+import { InputSearch, Spin, Tree } from 'antdv-next';
 
 interface Props {
   async?: boolean;

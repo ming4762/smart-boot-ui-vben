@@ -5,7 +5,7 @@ import { computed, h, unref, useAttrs, useSlots } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
 
-import { Button } from 'ant-design-vue';
+import { Button } from 'antdv-next';
 
 interface Props extends SmartIconButtonProps {}
 

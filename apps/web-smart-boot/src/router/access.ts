@@ -8,7 +8,7 @@ import { preferences } from '@vben/preferences';
 
 import { getUserMenusApi } from '@smart/common/api';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
-import { message } from 'ant-design-vue';
+import { message } from 'antdv-next';
 import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '#/layouts';

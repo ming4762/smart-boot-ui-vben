@@ -13,7 +13,7 @@ import {
 import { $ct as t } from '@vben/locales';
 import { listToTree, omit } from '@vben/utils';
 
-import { Radio, RadioGroup, Tag, TreeSelect } from 'ant-design-vue';
+import { Radio, RadioGroup, Tag, TreeSelect } from 'antdv-next';
 
 import DataPermissionDrawer from './components/DataPermissionDrawer.vue';
 import {
@@ -236,6 +236,7 @@ const getTableActions = (row: Recordable<any>): SmartTableActionItem[] => {
         const data: Recordable<any> = {
           parentId: row.functionId,
           parentName: row.functionName,
+          functionType: null,
         };
         const functionType = row.functionType;
         switch (functionType) {
@@ -332,7 +333,7 @@ const getTreeData = (model: Recordable<any>) => {
   <div class="smart-table-padding page-container h-full">
     <SmartTable>
       <template #table-functionType="{ row }">
-        <Tag :color="getTagData(row.functionType).color">
+        <Tag :color="getTagData(row.functionType).color" variant="solid">
           {{ getTagData(row.functionType).text }}
         </Tag>
       </template>
@@ -362,8 +363,8 @@ const getTreeData = (model: Recordable<any>) => {
           :size="size"
           :tree-data="getTreeData(model)"
         >
-          <template #title="{ functionType, functionName }">
-            <Tag :color="getTagData(functionType).color">
+          <template #treeTitleRender="{ functionType, functionName }">
+            <Tag :color="getTagData(functionType).color" variant="solid">
               {{ getTagData(functionType).text }}
             </Tag>
             {{ functionName }}

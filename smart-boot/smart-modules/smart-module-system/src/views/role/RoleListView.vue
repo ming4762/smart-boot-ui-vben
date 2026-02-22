@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
@@ -11,7 +11,7 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { TabPane, Tabs } from 'ant-design-vue';
+import { Tabs } from 'antdv-next';
 
 import {
   batchSaveUpdateApi,
@@ -119,6 +119,17 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
     },
   ];
 };
+
+const tabItems = [
+  {
+    key: 'functionPermission',
+    label: t('system.views.role.title.setFunction'),
+  },
+  {
+    key: 'dataPermission',
+    label: t('system.views.role.title.dataPermission'),
+  },
+];
 </script>
 
 <template>
@@ -138,25 +149,19 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
       </template>
       <template #second>
         <div class="layout-set-function h-full">
-          <Tabs>
-            <TabPane
-              :tab="t('system.views.role.title.setFunction')"
-              key="functionPermission"
-            >
+          <Tabs :items="tabItems">
+            <template #contentRender="{ item }">
               <RoleSetFunction
+                v-if="item.key === 'functionPermission'"
                 :is-super-admin="currentRow.superAdminYn"
                 :role-id="currentRow.roleId"
               />
-            </TabPane>
-            <TabPane
-              :tab="t('system.views.role.title.dataPermission')"
-              key="dataPermission"
-            >
               <RoleDataPermission
+                v-if="item.key === 'dataPermission'"
                 :is-super-admin="currentRow.superAdminYn"
                 :role-id="currentRow.roleId"
               />
-            </TabPane>
+            </template>
           </Tabs>
         </div>
       </template>
@@ -182,6 +187,10 @@ const getTableActions = (row: any): SmartTableActionItem[] => {
   }
 
   :deep(.ant-tabs-content) {
+    height: 100%;
+  }
+
+  :deep(.ant-tabs-tabpane) {
     height: 100%;
   }
 }

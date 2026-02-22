@@ -10,7 +10,7 @@ import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { createPassword } from '@vben/utils';
 
-import { notification } from 'ant-design-vue';
+import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
 import { changePasswordApi, changeTenantApi, loginApi, logoutApi } from '#/api';
@@ -74,9 +74,9 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (userInfo?.realName) {
         notification.success({
-          description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+          title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
           duration: 3,
-          message: changeTenant
+          description: changeTenant
             ? $t('authentication.changeTenantSuccess')
             : $t('authentication.loginSuccess'),
         });

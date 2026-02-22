@@ -5,19 +5,23 @@ import { SmartVxeTableAction, useSmartTable } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
+import { CheckableTagGroup } from 'antdv-next';
+
 import {
   batchSaveUpdateApi,
   deleteApi,
   getByIdApi,
   listApi,
   setUseYnApi,
-} from './Oauth2ClientListView.api';
+} from './SsoOauth2ClientListView.api';
 import {
+  authorizationGrantTypes,
+  clientAuthenticationMethods,
   getFormSchemas,
   getSearchFormSchemas,
   getTableColumns,
   Permissions,
-} from './Oauth2ClientListView.config';
+} from './SsoOauth2ClientListView.config';
 
 const { getTableSize } = useSizeSetting();
 
@@ -81,9 +85,6 @@ const [SmartTable, tableApi] = useSmartTable({
     refresh: true,
     custom: true,
     sizeSetting: true,
-    print: true,
-    export: true,
-    import: true,
     buttons: [
       {
         code: 'ModalAdd',
@@ -127,6 +128,20 @@ const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
     <SmartTable class="smart-table-padding" :size="getTableSize as never">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
+      </template>
+      <template #form-clientAuthenticationMethods="{ model }">
+        <CheckableTagGroup
+          multiple
+          v-model:value="model.clientAuthenticationMethods"
+          :options="clientAuthenticationMethods"
+        />
+      </template>
+      <template #form-authorizationGrantTypes="{ model }">
+        <CheckableTagGroup
+          multiple
+          v-model:value="model.authorizationGrantTypes"
+          :options="authorizationGrantTypes"
+        />
       </template>
     </SmartTable>
   </div>

@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { IconifyIcon } from '@vben/icons';
 import { isFunction, omit } from '@vben/utils';
 
-import { Dropdown, Menu, MenuItem, Popconfirm } from 'ant-design-vue';
+import { Dropdown, Menu, MenuItem, Popconfirm } from 'antdv-next';
 
 type TriggerType = 'click' | 'contextmenu' | 'hover';
 

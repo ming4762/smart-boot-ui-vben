@@ -169,3 +169,51 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
     },
   ];
 };
+
+/**
+ * 绑定用户tab
+ */
+export const getUserGroupUserColumns = (): SmartTableColumn[] => {
+  return [
+    {
+      type: 'checkbox',
+      width: 60,
+      align: 'center',
+      fixed: 'left',
+      field: 'checkbox',
+    },
+    {
+      title: '用户名',
+      field: 'username',
+      width: 120,
+      fixed: 'left',
+    },
+    {
+      title: '姓名',
+      field: 'fullName',
+      width: 120,
+      fixed: 'left',
+    },
+    {
+      title: '邮箱',
+      field: 'email',
+      minWidth: 160,
+    },
+    {
+      title: '手机号',
+      field: 'mobile',
+      minWidth: 140,
+    },
+    {
+      title: '创建时间',
+      field: 'createTime',
+      width: 165,
+      formatter: 'datetime',
+    },
+    {
+      title: '创建人',
+      field: 'createBy',
+      width: 120,
+    },
+  ];
+};
