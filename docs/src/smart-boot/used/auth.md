@@ -593,3 +593,55 @@ public static String base64(@NonNull byte[] bytes) {
         return httpSecurity.build();
     }
 ```
+
+## 八、认证域设置
+
+::: tip
+
+认证域用于强制隔离认证授权，防止不同客户端权限溢出
+
+:::
+
+### 1、引入依赖
+
+```xml
+<dependency>
+  <groupId>com.smart</groupId>
+  <artifactId>smart-boot-starter-auth-domain</artifactId>
+</dependency>
+```
+
+### 2、为SecurityFilterChain设置认证域，以JWT为例
+
+```java
+public SecurityFilterChain adminSecurityFilterChainConfig(HttpSecurity httpSecurity) {
+      super.configure(httpSecurity);
+      httpSecurity.formLogin(AbstractHttpConfigurer::disable)
+              .httpBasic(AbstractHttpConfigurer::disable)
+              // JWT配置
+              .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+              .with(AuthJwtSecurityConfigurer.jwt(), jwt -> jwt.authDomain(AuthDomainConstants.AUTH_DOMAIN_ADMIN))
+      return httpSecurity.build();
+  }
+```
+
+### 3、指定接口认证域
+
+> 函数和接口都可添加认证域，函数优先级高
+>
+> 认证域可指定多个，用户有任何一个即可访问该接口
+
+```java
+@RestController
+@RequestMapping("test")
+@AuthDomain({"ADMIN", "CLIENT"})
+public class TestController {
+
+    @PostMapping("test")
+    @AuthDomain("CLIENT")
+    public Result<Boolean> test() {
+        return Result.success(true);
+    }
+}
+```
+
