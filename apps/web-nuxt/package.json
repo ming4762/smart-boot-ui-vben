@@ -16,20 +16,20 @@
   },
   "type": "module",
   "scripts": {
+    "build": "nuxt build --dotenv .env.production",
+    "build:local": "nuxt build --dotenv .env.local",
+    "build:dev": "nuxt build --dotenv .env.development",
     "dev": "nuxt dev --dotenv .env.development",
     "dev:prod": "nuxt dev --dotenv .env.production"
   },
   "dependencies": {
     "@nuxtjs/i18n": "catalog:",
     "@pinia/nuxt": "catalog:",
-    "@vben-core/smart-table-ui": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben/types": "workspace:*",
     "@vben/icons": "workspace:*",
     "@vben/utils": "workspace:*",
     "ant-design-vue": "catalog:",
-    "@vxe-ui/plugin-export-xlsx": "catalog:",
-    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
     "nuxt": "catalog:",
     "vue":"catalog:",
     "exceljs": "catalog:"

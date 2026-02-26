@@ -1,6 +1,5 @@
 <script setup>
 import { ConfigProvider, theme } from 'ant-design-vue';
-import { antdLocale } from '~/i18n/index.ts';
 
 useHead({
   title: 'Smart Boot UI Next',
@@ -20,7 +19,7 @@ const tokenTheme = computed(() => {
 </script>
 
 <template>
-  <ConfigProvider :locale="antdLocale" :theme="tokenTheme">
+  <ConfigProvider :theme="tokenTheme">
     <NuxtLayout name="basic">
       <NuxtPage />
     </NuxtLayout>
