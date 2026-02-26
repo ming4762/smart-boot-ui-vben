@@ -19,12 +19,19 @@
     "dev": "nuxt dev --dotenv .env.development",
     "dev:prod": "nuxt dev --dotenv .env.production"
   },
-  "imports": {
-    "#/*": "./src/*"
-  },
   "dependencies": {
+    "@nuxtjs/i18n": "catalog:",
+    "@pinia/nuxt": "catalog:",
+    "@vben-core/smart-table-ui": "workspace:*",
+    "@vben-core/shared": "workspace:*",
+    "@vben/types": "workspace:*",
+    "@vben/icons": "workspace:*",
+    "@vben/utils": "workspace:*",
     "ant-design-vue": "catalog:",
+    "@vxe-ui/plugin-export-xlsx": "catalog:",
+    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
     "nuxt": "catalog:",
-    "vue":"catalog:"
+    "vue":"catalog:",
+    "exceljs": "catalog:"
   }
 }

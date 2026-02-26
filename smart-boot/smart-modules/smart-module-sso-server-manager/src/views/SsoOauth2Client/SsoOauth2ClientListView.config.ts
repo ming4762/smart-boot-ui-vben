@@ -42,7 +42,7 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'checkbox',
     },
     {
-      field: 'clientId',
+      field: 'clientCode',
       align: 'left',
       title: '{sso.oauth2.client.title.clientId}',
       width: 120,
@@ -179,7 +179,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       componentProps: {},
     },
     {
-      fieldName: 'clientId',
+      fieldName: 'clientCode',
       label: t('sso.oauth2.client.title.clientId'),
       component: 'Input',
       componentProps: {},

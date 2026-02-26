@@ -2,7 +2,6 @@ import type { VxeGridDefines, VxeUIExport } from 'vxe-table';
 
 import type { Component, Ref, Slots } from 'vue';
 
-import type { SupportedLanguagesType } from '@vben-core/preferences';
 import type { SmartAuthType } from '@vben-core/typings';
 
 import type { SmartTableApi } from '../smart-table-api';
@@ -67,7 +66,7 @@ interface SetupSmartTable {
   i18nHandler?: (key: string, args?: any) => string;
   messageHandler?: SmartTableMessageHandler;
   permissionHandler?: (code?: SmartAuthType) => boolean;
-  watcherField: Ref<{ locale: SupportedLanguagesType; theme: string }>;
+  watcherField: Ref<{ locale: string; theme: string }>;
 }
 
 export type {

@@ -26,29 +26,6 @@ class StorageManager {
   }
 
   /**
-   * 获取完整的存储键
-   * @param key 原始键
-   * @returns 带前缀的完整键
-   */
-  private getFullKey(key: string): string {
-    return `${this.prefix}-${key}`;
-  }
-
-  /**
-   * 清除所有带前缀的存储项
-   */
-  clear(): void {
-    const keysToRemove: string[] = [];
-    for (let i = 0; i < this.storage.length; i++) {
-      const key = this.storage.key(i);
-      if (key && key.startsWith(this.prefix)) {
-        keysToRemove.push(key);
-      }
-    }
-    keysToRemove.forEach((key) => this.storage.removeItem(key));
-  }
-
-  /**
    * 清除所有过期的存储项
    */
   clearExpiredItems(): void {
@@ -59,6 +36,20 @@ class StorageManager {
         this.getItem(shortKey); // 调用 getItem 方法检查并移除过期项
       }
     }
+  }
+
+  /**
+   * 清除所有带前缀的存储项
+   */
+  clesar(): void {
+    const keysToRemove: string[] = [];
+    for (let i = 0; i < this.storage.length; i++) {
+      const key = this.storage.key(i);
+      if (key && key.startsWith(this.prefix)) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach((key) => this.storage.removeItem(key));
   }
 
   /**
@@ -112,6 +103,15 @@ class StorageManager {
     } catch (error) {
       console.error(`Error setting item with key "${fullKey}":`, error);
     }
+  }
+
+  /**
+   * 获取完整的存储键
+   * @param key 原始键
+   * @returns 带前缀的完整键
+   */
+  private getFullKey(key: string): string {
+    return `${this.prefix}-${key}`;
   }
 }
 
