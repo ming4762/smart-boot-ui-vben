@@ -15,14 +15,13 @@
 
 <template>
   <div>
-<!--    <VbenForm />-->
-<!--    <Form>-->
-<!--      <FormItem>-->
-<!--        <Input />-->
-<!--      </FormItem>-->
-<!--    </Form>-->
+    <!--    <VbenForm />-->
+    <!--    <Form>-->
+    <!--      <FormItem>-->
+    <!--        <Input />-->
+    <!--      </FormItem>-->
+    <!--    </Form>-->
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
