@@ -25,10 +25,6 @@
       "path": "apps/web-naive",
     },
     {
-      "name": "@vben/web-nuxt",
-      "path": "apps/web-nuxt",
-    },
-    {
       "name": "@vben/web-smart-boot",
       "path": "apps/web-smart-boot",
     },
