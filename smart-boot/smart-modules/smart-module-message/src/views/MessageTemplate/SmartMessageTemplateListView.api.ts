@@ -7,12 +7,20 @@ enum Api {
   delete = '/smart/message/template/batchDeleteById',
   getById = '/smart/message/template/getById',
   list = '/smart/message/template/list',
+  setUseYn = '/smart/message/template/setUseYn',
 }
 
 export const listApi = (params: any) => {
-  return requestClient.post(Api.list, params, {
-    service: ApiServiceEnum.SMART_MESSAGE,
-  });
+  return requestClient.post(
+    Api.list,
+    {
+      ...params,
+      excludePropertyList: ['templateContent', 'extraData'],
+    },
+    {
+      service: ApiServiceEnum.SMART_MESSAGE,
+    },
+  );
 };
 
 export const batchSaveUpdateApi = (modelList: any[]) => {
@@ -33,6 +41,12 @@ export const deleteApi = (removeRecords: Recordable<any>[]) => {
 
 export const getByIdApi = (id: number) => {
   return requestClient.post(Api.getById, id, {
+    service: ApiServiceEnum.SMART_MESSAGE,
+  });
+};
+
+export const setUseYnApi = (parameter: any) => {
+  return requestClient.post(Api.setUseYn, parameter, {
     service: ApiServiceEnum.SMART_MESSAGE,
   });
 };

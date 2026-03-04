@@ -4,8 +4,17 @@ import type {
   VbenFormSchema,
 } from '@vben/common-ui';
 
-import { getTableBooleanColumnClass } from '@vben/common-ui';
+import { getTableBooleanColumnClass, z } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
+import { isJsonString } from '@vben/utils';
+
+import { getUseYnSelectOptions } from '@smart/common/utils';
+
+export enum Permissions {
+  delete = 'smart:message:template:delete',
+  save = 'smart:message:template:save',
+  update = 'smart:message:template:update',
+}
 
 /**
  * 表格列表
@@ -29,11 +38,6 @@ export const getTableColumns = (): SmartTableColumn[] => {
       title: '{smart.message.template.title.templateName}',
       fixed: 'left',
       width: 120,
-    },
-    {
-      field: 'templateContent',
-      title: '{smart.message.template.title.templateContent}',
-      minWidth: 200,
     },
     {
       field: 'useYn',
@@ -115,11 +119,28 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       },
     },
     {
-      fieldName: 'useYn',
-      label: t('common.title.useYn'),
-      component: 'Switch',
-      defaultValue: true,
-      componentProps: {},
+      fieldName: 'extraData',
+      label: t('Extra'),
+      component: 'SmartCodeEditor',
+      componentProps: {
+        language: 'json',
+        class: 'h-[100px]',
+        isLint: true,
+      },
+      rules: z
+        .string()
+        .optional()
+        .refine(
+          (value) => {
+            if (!value) {
+              return true;
+            }
+            return isJsonString(value);
+          },
+          {
+            message: '必须为json字符串',
+          },
+        ),
     },
   ];
 };
@@ -130,12 +151,23 @@ export const getSearchFormSchemas = (): SmartSearchFormSchema[] => {
       fieldName: 'templateCode',
       label: t('smart.message.template.title.templateCode'),
       component: 'Input',
-      searchSymbol: '=',
+      searchSymbol: 'like',
     },
     {
       fieldName: 'templateName',
       label: t('smart.message.template.title.templateName'),
       component: 'Input',
+      searchSymbol: 'like',
+    },
+    {
+      fieldName: 'useYn',
+      label: t('common.title.useYn'),
+      component: 'Select',
+      componentProps: {
+        options: getUseYnSelectOptions(),
+        class: 'w-[100px]',
+      },
+      defaultValue: 1,
       searchSymbol: '=',
     },
   ];

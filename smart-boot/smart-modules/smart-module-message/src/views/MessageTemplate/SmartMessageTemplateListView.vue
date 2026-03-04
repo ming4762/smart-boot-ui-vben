@@ -9,11 +9,13 @@ import {
   deleteApi,
   getByIdApi,
   listApi,
+  setUseYnApi,
 } from './SmartMessageTemplateListView.api';
 import {
   getFormSchemas,
   getSearchFormSchemas,
   getTableColumns,
+  Permissions,
 } from './SmartMessageTemplateListView.config';
 
 const { getTableSize } = useSizeSetting();
@@ -35,6 +37,7 @@ const [SmartTable, tableApi] = useSmartTable({
     isHover: true,
     isCurrent: true,
   },
+  checkboxConfig: true,
   showOverflow: 'tooltip',
   useSearchForm: true,
   searchFormConfig: {
@@ -68,6 +71,13 @@ const [SmartTable, tableApi] = useSmartTable({
         batchSaveUpdateApi([...insertRecords, ...updateRecords]),
       delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
       getById: (params) => getByIdApi(params.id),
+      useYn(rows: any[], useYn: boolean) {
+        const idList = rows.map((item) => item.id);
+        return setUseYnApi({
+          useYn,
+          idList,
+        });
+      },
     },
   },
   toolbarConfig: {
@@ -78,9 +88,19 @@ const [SmartTable, tableApi] = useSmartTable({
     buttons: [
       {
         code: 'ModalAdd',
+        auth: Permissions.save,
       },
       {
         code: 'delete',
+        auth: Permissions.delete,
+      },
+      {
+        code: 'useYnTrue',
+        auth: Permissions.update,
+      },
+      {
+        code: 'useYnFalse',
+        auth: Permissions.update,
       },
     ],
   },
