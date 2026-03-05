@@ -172,8 +172,8 @@ export function isDayjsObject(value: any): value is dayjs.Dayjs {
 }
 
 /**
- * 获取当前时区
- * @returns 当前时区
+ * 获取系统时区
+ * @returns 系统时区
  */
 export const getSystemTimezone = () => {
   return dayjs.tz.guess();

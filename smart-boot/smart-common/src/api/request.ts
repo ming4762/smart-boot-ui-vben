@@ -12,6 +12,7 @@ import {
   RequestClient,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
+import { getCurrentTimezone } from '@vben/utils';
 
 import { useAuthStore } from '#/store';
 import { createErrorModal, errorMessage } from '#/utils';
@@ -68,6 +69,8 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
       config.headers['Accept-Language'] = preferences.app.locale;
+      // 设置用户时区
+      config.headers['X-User-Timezone'] = getCurrentTimezone();
       return config;
     },
   });
