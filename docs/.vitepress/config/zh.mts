@@ -272,7 +272,28 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
         {
           link: 'used/buildDeploy',
           text: '构建部署',
-        }
+        },
+      ],
+    },
+    {
+      text: '认证与授权',
+      items: [
+        {
+          link: 'auth/about',
+          text: '说明',
+        },
+        {
+          link: 'auth/methodAuth',
+          text: '函数级权限校验',
+        },
+        {
+          link: 'auth/tempToken',
+          text: '临时令牌',
+        },
+        {
+          link: 'auth/aksk',
+          text: 'AK/SK',
+        },
       ],
     },
     {

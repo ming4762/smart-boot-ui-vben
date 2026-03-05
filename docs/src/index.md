@@ -23,6 +23,9 @@ hero:
     - theme: alt
       text: DeepWiki 文档
       link: https://deepwiki.com/vbenjs/vue-vben-admin
+    - theme: alt
+      text: Smart Boot文档
+      link: /smart-boot/introduction/about
 
 features:
   - icon: 🚀
