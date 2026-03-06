@@ -88,7 +88,7 @@ catalog:
   '@vueuse/integrations': ^14.1.0
   '@vueuse/motion': ^3.0.3
   ant-design-vue: ^4.2.6
-  antdv-next: ^1.0.5
+  antdv-next: ^1.1.0
   archiver: ^7.0.1
   autoprefixer: ^10.4.24
   axios: ^1.13.4
