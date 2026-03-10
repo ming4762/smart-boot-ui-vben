@@ -5,10 +5,13 @@ import type {
   SliderRotateVerifyPassingData,
 } from '../types';
 
-import { $t } from '@vben/locales';
-import { cn } from '@vben-core/shared/utils';
-import { useTimeoutFn } from '@vueuse/core';
 import { reactive, unref, useTemplateRef, watch, watchEffect } from 'vue';
+
+import { $t } from '@vben/locales';
+
+import { cn } from '@vben-core/shared/utils';
+
+import { useTimeoutFn } from '@vueuse/core';
 
 import SliderCaptchaAction from './slider-captcha-action.vue';
 import SliderCaptchaBar from './slider-captcha-bar.vue';
@@ -47,9 +50,11 @@ defineExpose({
 });
 
 const wrapperRef = useTemplateRef<HTMLDivElement>('wrapperRef');
-const barRef = useTemplateRef<typeof SliderCaptchaBar>('barRef');
-const contentRef = useTemplateRef<typeof SliderCaptchaContent>('contentRef');
-const actionRef = useTemplateRef<typeof SliderCaptchaAction>('actionRef');
+const barRef = useTemplateRef<InstanceType<typeof SliderCaptchaBar>>('barRef');
+const contentRef =
+  useTemplateRef<InstanceType<typeof SliderCaptchaContent>>('contentRef');
+const actionRef =
+  useTemplateRef<InstanceType<typeof SliderCaptchaAction>>('actionRef');
 
 watch(
   () => state.isPassing,
@@ -197,7 +202,7 @@ function resume() {
     ref="wrapperRef"
     :class="
       cn(
-        'border-border bg-background-deep relative flex h-10 w-full items-center overflow-hidden rounded-md border text-center',
+        'relative flex h-10 w-full items-center overflow-hidden rounded-md border border-border bg-background-deep text-center',
         props.class,
       )
     "

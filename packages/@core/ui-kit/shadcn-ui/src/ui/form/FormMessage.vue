@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { toValue } from 'vue';
 
-import { cn } from '@vben-core/shared/utils';
-
 import { ErrorMessage } from 'vee-validate';
 
 import { useFormField } from './useFormField';
@@ -11,7 +9,7 @@ interface Props {
   compact?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   compact: false,
 });
 
@@ -22,13 +20,8 @@ const { formMessageId, name } = useFormField();
   <ErrorMessage
     :id="formMessageId"
     :name="toValue(name)"
-    :as="props.compact ? 'div' : 'p'"
-    :class="
-      cn(
-        'text-[0.8rem]',
-        props.compact ? 'vben-form-message-compact' : 'text-destructive',
-      )
-    "
+    as="p"
+    class="text-destructive text-[0.8rem]"
   />
 </template>
 
