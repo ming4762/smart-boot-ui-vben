@@ -294,6 +294,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'auth/aksk',
           text: 'AK/SK',
         },
+        {
+          link: 'auth/wechat',
+          text: '微信登录',
+        },
       ],
     },
     {
