@@ -52,7 +52,7 @@ function activeClass(tab: string): string[] {
         <TabsTrigger
           :value="tab.value"
           :class="activeClass(tab.value)"
-          class="hover:text-primary z-20 inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium disabled:pointer-events-none disabled:opacity-50"
+          class="hover:text-primary z-20 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap disabled:pointer-events-none disabled:opacity-50"
         >
           {{ tab.label }}
         </TabsTrigger>

@@ -24,6 +24,7 @@ const { getEnabledTransition, getTransitionName } = useLayoutHook();
 const dictApi = inject<(args: any) => Promise<any>>('dict-api', () =>
   Promise.resolve({}),
 );
+
 /*
  * 是否显示component
  * @param route

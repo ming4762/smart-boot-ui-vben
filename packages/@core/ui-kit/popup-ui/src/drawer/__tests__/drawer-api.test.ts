@@ -9,25 +9,25 @@ vi.mock('@vben-core/shared/store', () => {
   return {
     isFunction: (fn: any) => typeof fn === 'function',
     Store: class {
-      private _state: DrawerState;
-      private options: any;
-
-      constructor(initialState: DrawerState, options: any) {
-        this._state = initialState;
-        this.options = options;
+      get state() {
+        return this._state;
       }
+      private _state: DrawerState;
 
-      batch(cb: () => void) {
-        cb();
+      private subscribers: Array<(state: DrawerState) => void> = [];
+
+      constructor(initialState: DrawerState) {
+        this._state = initialState;
       }
 
       setState(fn: (prev: DrawerState) => DrawerState) {
         this._state = fn(this._state);
-        this.options.onUpdate();
+        this.subscribers.forEach((sub) => sub(this._state));
       }
 
-      get state() {
-        return this._state;
+      subscribe(fn: (state: DrawerState) => void) {
+        this.subscribers.push(fn);
+        return { unsubscribe: () => {} };
       }
     },
   };

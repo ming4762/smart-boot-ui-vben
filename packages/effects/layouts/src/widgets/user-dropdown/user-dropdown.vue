@@ -234,8 +234,8 @@ const handleGoToPersonalCenter = () => {
 
   <DropdownMenu v-model:open="openPopover">
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
-      <div class="hover:bg-accent ml-1 mr-2 cursor-pointer rounded-full p-1.5">
-        <div class="hover:text-accent-foreground flex-center">
+      <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
+        <div class="flex-center hover:text-accent-foreground">
           <VbenAvatar :alt="text" :src="avatar" class="size-8" dot />
         </div>
       </div>
@@ -253,7 +253,7 @@ const handleGoToPersonalCenter = () => {
           <div class="ml-2 w-full">
             <div
               v-if="tagText || text || $slots.tagText"
-              class="text-foreground mb-1 flex items-center text-sm font-medium"
+              class="mb-1 flex items-center text-sm font-medium text-foreground"
             >
               {{ text }}
               <slot name="tagText">
@@ -262,7 +262,7 @@ const handleGoToPersonalCenter = () => {
                 </Badge>
               </slot>
             </div>
-            <div class="text-muted-foreground text-xs font-normal">
+            <div class="text-xs font-normal text-muted-foreground">
               {{ description }}
             </div>
           </div>
