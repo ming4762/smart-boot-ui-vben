@@ -248,7 +248,7 @@ function handleClosed() {
             'shadow-3xl': !bordered,
             'top-0 left-0 size-full max-h-full translate-0!': shouldFullscreen,
             'top-1/2': centered && !shouldFullscreen,
-            'duration-300': !dragging,
+            'duration-150': !dragging,
             hidden: isClosed,
           },
         )
