@@ -81,7 +81,6 @@ curl -X POST http://your-domain.com/auth/wechat/miniapp/login \
 ::: details 示例
 
 ```typescript
-
 /**
  * 定时刷新计时器
  */
@@ -155,8 +154,8 @@ async function fetchQrCode() {
   }
 }
 ```
-:::
 
+:::
 
 ## 使用认证域
 
@@ -173,4 +172,3 @@ public SecurityFilterChain adminSecurityFilterChain(HttpSecurity httpSecurity) {
     return httpSecurity.build();
 }
 ```
-
