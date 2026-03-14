@@ -83,7 +83,13 @@ interface BasicUserInfo {
   userTenant: UserTenant;
 }
 
-type ClassType = Array<object | string> | object | string;
+type ClassType =
+  | Array<ClassType>
+  | boolean
+  | null
+  | object
+  | string
+  | undefined;
 
 interface SmartBasicAuthType {
   displayMode?: SmartAuthDisplayMode;
