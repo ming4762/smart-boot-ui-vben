@@ -14,7 +14,7 @@ const localeData: Record<SupportedLanguagesType, Record<string, any>> = {
 const getI18nData: (locale: SupportedLanguagesType) => Record<string, any> = (
   locale: SupportedLanguagesType,
 ) => {
-  return localeData[locale];
+  return localeData[locale] || {};
 };
 
 export { getI18nData };

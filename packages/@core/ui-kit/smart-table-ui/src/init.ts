@@ -133,8 +133,9 @@ const setupSmartTable = (setupOptions: SetupSmartTable) => {
     watcherField,
     (value) => {
       VxeUI.setTheme(value.theme === 'dark' ? 'dark' : 'light');
-      VxeUI.setI18n(value.locale, getI18nData(value.locale));
-      VxeUI.setLanguage(value.locale);
+      console.log(value, getI18nData(value.locale))
+      VxeUI.setI18n(value.locale as any, getI18nData(value.locale));
+      VxeUI.setLanguage(value.locale as any);
     },
     { immediate: true },
   );

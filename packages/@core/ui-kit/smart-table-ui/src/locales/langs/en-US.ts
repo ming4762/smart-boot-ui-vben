@@ -1,7 +1,7 @@
 import vxeZhCN from 'vxe-pc-ui/lib/language/zh-CN';
 
 export default {
-  ...vxeZhCN,
+  ...vxeZhCN.default,
   smartTable: {
     button: {
       add: 'Add',

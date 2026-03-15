@@ -25,6 +25,7 @@
     "@vben-core/shared": "workspace:*",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
+    "@vben-core/preferences": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
     "@vben-core/typings": "workspace:*",
     "vue": "catalog:",
