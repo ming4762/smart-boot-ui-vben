@@ -323,6 +323,10 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'cloud/transaction',
           text: '分布式事务',
         },
+        {
+          link: 'cloud/rocketmqEvent',
+          text: 'RocketMQ及事件系统',
+        },
       ],
     },
     {
