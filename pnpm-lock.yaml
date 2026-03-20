@@ -300,6 +300,9 @@ catalogs:
     execa:
       specifier: ^9.6.1
       version: 9.6.1
+    fast-glob:
+      specifier: ^3.3.3
+      version: 3.3.3
     find-up:
       specifier: ^8.0.0
       version: 8.0.0
@@ -1118,6 +1121,9 @@ importers:
       exceljs:
         specifier: 'catalog:'
         version: 4.4.0
+      fast-glob:
+        specifier: 'catalog:'
+        version: 3.3.3
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
@@ -1484,6 +1490,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 17.3.1
+      fast-glob:
+        specifier: 'catalog:'
+        version: 3.3.3
       rollup-plugin-visualizer:
         specifier: 'catalog:'
         version: 7.0.1(rolldown@1.0.0-rc.9)(rollup@4.59.0)
