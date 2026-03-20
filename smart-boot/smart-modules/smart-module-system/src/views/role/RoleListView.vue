@@ -170,7 +170,7 @@ const tabItems = [
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .layout-set-function {
   background: hsl(var(--background));
 

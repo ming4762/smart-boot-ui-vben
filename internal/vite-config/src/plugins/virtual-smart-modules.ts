@@ -17,14 +17,12 @@ function SmartModulesVirtualPlugin(
       if (id !== 'virtual:smart-modules') return null;
 
       const base = resolve(import.meta.dirname, basePath);
-      console.log(base)
 
       // 扫描所有 vue / tsx 文件
       const files = fg.sync('smart-module-*/src/**/*.{vue,tsx}', {
         cwd: base,
         absolute: true,
       });
-      console.log(files)
 
       // 生成 import 语句
       const importStatements: string[] = [];
