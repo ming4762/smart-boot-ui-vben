@@ -49,6 +49,7 @@
     "dayjs": "catalog:",
     "dotenv": "catalog:",
     "fast-glob": "catalog:",
+    "rolldown": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "sass": "catalog:",
     "sass-embedded": "catalog:",
