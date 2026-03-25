@@ -58,6 +58,7 @@
     "./directive": {
       "types": "./src/directive/index.ts",
       "development": "./src/directive/index.ts",
+      "production": "./src/directive/index.ts",
       "default": "./dist/directive/index.mjs"
     }
   },

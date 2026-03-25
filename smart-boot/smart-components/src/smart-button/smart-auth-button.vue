@@ -5,7 +5,7 @@ import type { SmartAuthType } from '@vben/types';
 
 import type { SmartIconButtonProps } from '../type';
 
-import { computed, unref, useAttrs, useSlots } from 'vue';
+import { computed, useAttrs, useSlots } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { $t } from '@vben/locales';
@@ -43,20 +43,19 @@ const computedHasAuth = computed(() => {
   return hasAccessByAuth(props.auth);
 });
 
-const RenderButton = () => {
-  return <SmartIconButton {...{ ...attrs, ...props }}>{slots}</SmartIconButton>;
-};
-
-const RenderFunction = () => {
-  if (unref(computedHasAuth)) {
-    return RenderButton();
+const computedButtonBinds = computed(() => {
+  return {
+    ...attrs,
+    ...props,
   }
-  return <Tooltip {...props.tooltipProps}>{RenderButton()}</Tooltip>;
-};
+})
 </script>
 
 <template>
-  <RenderFunction />
+  <SmartIconButton v-if="computedHasAuth" v-bind="computedButtonBinds">{{ slots }}</SmartIconButton>
+  <Tooltip v-else v-bind="props.tooltipProps">
+    <SmartIconButton v-bind="computedButtonBinds">{{ slots }}</SmartIconButton>
+  </Tooltip>
 </template>
 
 <style scoped></style>

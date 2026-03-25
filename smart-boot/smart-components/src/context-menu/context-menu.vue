@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { CSSProperties, FunctionalComponent } from 'vue';
 
 import type {
@@ -9,6 +9,7 @@ import type {
 
 import {
   computed,
+  Fragment,
   h,
   nextTick,
   onMounted,
@@ -85,17 +86,19 @@ const createIcon = (icon: string) => {
   return h(createIconifyIcon(icon), { class: 'mr-2 anticon' });
 };
 
-const ItemContent: FunctionalComponent<ItemContentProps> = (props) => {
-  const { item } = props;
-  return (
-    <span
-      class="px-4"
-      onClick={props.handler.bind(null, item)}
-      style="display: inline-block; width: 100%; "
-    >
-      {props.showIcon && item.icon && createIcon(item.icon)}
-      <span>{item.label}</span>
-    </span>
+const ItemContent: FunctionalComponent<ItemContentProps> = (itemProps) => {
+  const { item } = itemProps;
+  return h(
+    'span',
+    {
+      class: 'px-4',
+      onClick: itemProps.handler.bind(null, item),
+      style: 'display: inline-block; width: 100%;',
+    },
+    [
+      itemProps.showIcon && item.icon ? createIcon(item.icon) : null,
+      h('span', null, item.label),
+    ],
   );
 };
 
@@ -111,32 +114,24 @@ const doRenderMenuItem = (items: ContextMenuItem[]) => {
     };
 
     if (!children || children.length === 0) {
-      return (
-        <>
-          <Menu.Item
-            class={`${prefixCls}__item`}
-            disabled={disabled}
-            key={label}
-          >
-            <ItemContent {...contentProps} />
-          </Menu.Item>
-          {divider ? <Divider key={`d-${label}`} /> : null}
-        </>
-      );
+      return h(Fragment, { key: label }, [
+        h(
+          Menu.Item,
+          { class: `${prefixCls}__item`, disabled, key: label },
+          () => h(ItemContent, contentProps),
+        ),
+        divider ? h(Divider, { key: `d-${label}` }) : null,
+      ]);
     }
     if (!unref(showRef)) return null;
 
-    return (
-      <Menu.SubMenu
-        disabled={disabled}
-        key={label}
-        popupClassName={`${prefixCls}__popup`}
-      >
-        {{
-          title: () => <ItemContent {...contentProps} />,
-          default: () => doRenderMenuItem(children),
-        }}
-      </Menu.SubMenu>
+    return h(
+      Menu.SubMenu,
+      { disabled, key: label, popupClassName: `${prefixCls}__popup` },
+      {
+        title: () => h(ItemContent, contentProps),
+        default: () => doRenderMenuItem(children),
+      },
     );
   });
 };
