@@ -6,12 +6,12 @@ import { generateZonedDayjsConfig } from '../zonedDayjs';
 
 const generatePicker = DatePicker.generatePicker;
 
-const ZonedDatePicker = generatePicker<Dayjs>(generateZonedDayjsConfig());
+const ZonedDatePicker: ReturnType<typeof generatePicker<Dayjs>> = generatePicker<Dayjs>(generateZonedDayjsConfig());
 
 export { ZonedDatePicker };
 
-export const ZonedRangePicker = ZonedDatePicker.RangePicker;
-export const ZonedWeekPicker = ZonedDatePicker.WeekPicker;
-export const ZonedMonthPicker = ZonedDatePicker.MonthPicker;
-export const ZonedYearPicker = ZonedDatePicker.YearPicker;
-export const ZonedQuarterPicker = ZonedDatePicker.QuarterPicker;
+export const ZonedRangePicker: typeof ZonedDatePicker.RangePicker = ZonedDatePicker.RangePicker;
+export const ZonedWeekPicker: typeof ZonedDatePicker.WeekPicker = ZonedDatePicker.WeekPicker;
+export const ZonedMonthPicker: typeof ZonedDatePicker.MonthPicker = ZonedDatePicker.MonthPicker;
+export const ZonedYearPicker: typeof ZonedDatePicker.YearPicker = ZonedDatePicker.YearPicker;
+export const ZonedQuarterPicker: typeof ZonedDatePicker.QuarterPicker = ZonedDatePicker.QuarterPicker;
