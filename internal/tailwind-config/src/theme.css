@@ -9,6 +9,7 @@
 @source '../../../apps/';
 @source '../../../docs/';
 @source '../../../playground/';
+@source '../../../smart-boot/';
 
 /* Dark mode uses .dark class selector, not prefers-color-scheme */
 @custom-variant dark (&:is(.dark *));
