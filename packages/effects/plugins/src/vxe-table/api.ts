@@ -1,6 +1,9 @@
 import type { VxeGridInstance } from 'vxe-table';
 
-import type { ExtendedFormApi } from '@vben-core/form-ui';
+import type {
+  BaseFormComponentType,
+  ExtendedFormApi,
+} from '@vben-core/form-ui';
 
 import type { VxeGridProps } from './types';
 
@@ -26,25 +29,29 @@ function getDefaultState(): VxeGridProps {
   };
 }
 
-export class VxeGridApi {
+export class VxeGridApi<
+  T extends Record<string, any> = any,
+  D extends BaseFormComponentType = BaseFormComponentType,
+  P extends Record<string, any> = Record<never, never>,
+> {
   public formApi = {} as ExtendedFormApi;
 
   // private prevState: null | VxeGridProps = null;
-  public grid = {} as VxeGridInstance;
-  public state: null | VxeGridProps = null;
+  public grid = {} as VxeGridInstance<T>;
+  public state: null | VxeGridProps<T, D, P> = null;
 
-  public store: Store<VxeGridProps>;
+  public store: Store<VxeGridProps<T, D, P>>;
 
   private isMounted = false;
 
   private stateHandler: StateHandler;
 
-  constructor(options: VxeGridProps = {}) {
+  constructor(options: VxeGridProps<T, D, P> = {} as VxeGridProps<T, D, P>) {
     const storeState = { ...options };
 
     const defaultState = getDefaultState();
-    this.store = new Store<VxeGridProps>(
-      mergeWithArrayOverride(storeState, defaultState),
+    this.store = new Store<VxeGridProps<T, D, P>>(
+      mergeWithArrayOverride(storeState, defaultState) as VxeGridProps<T, D, P>,
     );
 
     this.store.subscribe((state) => {
@@ -82,7 +89,7 @@ export class VxeGridApi {
     }
   }
 
-  setGridOptions(options: Partial<VxeGridProps['gridOptions']>) {
+  setGridOptions(options: Partial<VxeGridProps<T, D, P>['gridOptions']>) {
     this.setState({
       gridOptions: options,
     });
@@ -98,8 +105,8 @@ export class VxeGridApi {
 
   setState(
     stateOrFn:
-      | ((prev: VxeGridProps) => Partial<VxeGridProps>)
-      | Partial<VxeGridProps>,
+      | ((prev: VxeGridProps<T, D, P>) => Partial<VxeGridProps<T, D, P>>)
+      | Partial<VxeGridProps<T, D, P>>,
   ) {
     if (isFunction(stateOrFn)) {
       this.store.setState((prev) => {
