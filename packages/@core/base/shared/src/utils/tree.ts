@@ -1,6 +1,20 @@
 interface TreeConfigOptions {
-  // 子属性的名称，默认为'children'
+  /**
+   * 子属性的名称，默认为 'children'
+   */
   childProps: string;
+}
+
+/**
+ * 获取默认的子节点属性名
+ */
+const DEFAULT_CHILD_PROPS = 'children';
+
+/**
+ * 解析树配置选项
+ */
+function resolveChildProps(options?: TreeConfigOptions): string {
+  return options?.childProps ?? DEFAULT_CHILD_PROPS;
 }
 
 /**
@@ -16,20 +30,15 @@ function traverseTreeValues<T, V>(
   options?: TreeConfigOptions,
 ): V[] {
   const result: V[] = [];
-  const { childProps } = options || {
-    childProps: 'children',
-  };
+  const childProps = resolveChildProps(options);
 
   const dfs = (treeNode: T) => {
     const value = getValue(treeNode);
     result.push(value);
-    const children = (treeNode as Record<string, any>)?.[childProps];
-    if (!children) {
-      return;
-    }
-    if (children.length > 0) {
+    const children = (treeNode as Record<string, unknown>)?.[childProps];
+    if (Array.isArray(children) && children.length > 0) {
       for (const child of children) {
-        dfs(child);
+        dfs(child as T);
       }
     }
   };
@@ -37,7 +46,7 @@ function traverseTreeValues<T, V>(
   for (const treeNode of tree) {
     dfs(treeNode);
   }
-  return result.filter(Boolean);
+  return result;
 }
 
 /**
@@ -47,100 +56,127 @@ function traverseTreeValues<T, V>(
  * @param options 作为子节点数组的可选属性名称。
  * @returns 包含所有匹配节点的数组。
  */
-function filterTree<T extends Record<string, any>>(
+function filterTree<T extends Record<string, unknown>>(
   tree: T[],
   filter: (node: T) => boolean,
   options?: TreeConfigOptions,
 ): T[] {
-  const { childProps } = options || {
-    childProps: 'children',
-  };
+  const childProps = resolveChildProps(options);
 
   const _filterTree = (nodes: T[]): T[] => {
-    return nodes.filter((node: Record<string, any>) => {
-      if (filter(node as T)) {
-        if (node[childProps]) {
-          node[childProps] = _filterTree(node[childProps]);
-        }
-        return true;
+    const filteredNodes: T[] = [];
+
+    for (const node of nodes) {
+      if (filter(node)) {
+        const children = node[childProps] as T[] | undefined;
+        const filteredChildren =
+          Array.isArray(children) && children.length > 0
+            ? _filterTree(children)
+            : undefined;
+
+        // 创建新对象，避免修改原始节点
+        filteredNodes.push({
+          ...node,
+          ...(filteredChildren && filteredChildren.length > 0
+            ? { [childProps]: filteredChildren }
+            : {}),
+        } as T);
       }
-      return false;
-    });
+    }
+
+    return filteredNodes;
   };
 
   return _filterTree(tree);
 }
 
 /**
- * 根据条件重新映射给定树结构的节
- * @param tree 要过滤的树结构的根节点数组。
- * @param mapper 用于map每个节点的条件。
+ * 根据条件重新映射给定树结构的节点
+ * @param tree 要映射的树结构的根节点数组。
+ * @param mapper 用于映射每个节点的函数。
  * @param options 作为子节点数组的可选属性名称。
+ * @returns 映射后的新树形结构
  */
-function mapTree<T, V extends Record<string, any>>(
+function mapTree<T, V extends Record<string, unknown>>(
   tree: T[],
   mapper: (node: T) => V,
   options?: TreeConfigOptions,
 ): V[] {
-  const { childProps } = options || {
-    childProps: 'children',
-  };
+  const childProps = resolveChildProps(options);
+
   return tree.map((node) => {
-    const mapperNode: Record<string, any> = mapper(node);
-    if (mapperNode[childProps]) {
-      mapperNode[childProps] = mapTree(mapperNode[childProps], mapper, options);
+    const mappedNode = mapper(node);
+    const children = mappedNode[childProps] as T[] | undefined;
+
+    if (Array.isArray(children) && children.length > 0) {
+      return {
+        ...mappedNode,
+        [childProps]: mapTree(children, mapper, options),
+      } as V;
     }
-    return mapperNode as V;
+
+    return mappedNode;
   });
 }
 
-interface TreeNode extends Record<string, any> {
+interface TreeNode extends Record<string, unknown> {
   children?: TreeNode[];
   hasChild?: boolean;
   hasParent?: boolean;
 }
 
 /**
- * 将list转为树结构
- * @param list 需要转换的list
- * @param keyGetter 获取key函数
- * @param parentKeyGetter 获取value函数
- * @param topParentCode 顶级parent code
+ * 将扁平列表转换为树形结构
+ * @param list 需要转换的列表
+ * @param keyGetter 获取节点唯一标识的函数
+ * @param parentKeyGetter 获取父节点标识的函数
+ * @param topParentCode 顶级父节点标识，默认为 '0'
+ * @returns 转换后的树形结构数组
  */
 function listToTree<T extends TreeNode>(
-  list: T[],
+  list: null | T[],
   keyGetter: (arg: T) => number | string,
   parentKeyGetter: (arg: T) => number | string,
-  topParentCode?: number | string,
+  topParentCode?: null | number | string,
 ): T[] {
-  if (list === null) {
+  if (!Array.isArray(list) || list.length === 0) {
     return [];
   }
-  if (topParentCode === undefined || topParentCode === null) {
-    topParentCode = '0';
-  }
+
+  const rootCode = topParentCode ?? '0';
+
+  // 使用 Map 优化查找性能，O(n) 时间复杂度
+  const nodeMap = new Map<number | string, T>();
   const treeList: T[] = [];
-  for (const value of list) {
-    const parentId = parentKeyGetter(value);
-    // 如果父ID 等于顶级父ID，则是顶级节点
-    if (parentId === null || parentId === topParentCode) {
-      treeList.push(value);
+
+  // 第一次遍历：建立 id -> node 的映射
+  for (const node of list) {
+    const id = keyGetter(node);
+    nodeMap.set(id, node);
+  }
+
+  // 第二次遍历：建立父子关系
+  for (const node of list) {
+    const parentId = parentKeyGetter(node);
+
+    // 如果是顶级节点
+    if (parentId === null || parentId === rootCode) {
+      treeList.push(node);
       continue;
     }
-    for (const parent of list) {
-      const id = keyGetter(parent);
-      if (id === parentId) {
-        if (!parent.children) {
-          parent.children = [];
-        }
-        parent.children.push(value);
-        // 设置节点含有下级
-        parent.hasChild = true;
-        // 设置节点含有上级
-        value.hasParent = true;
+
+    // 查找父节点
+    const parent = nodeMap.get(parentId);
+    if (parent) {
+      if (!parent.children) {
+        parent.children = [];
       }
+      parent.children.push(node);
+      parent.hasChild = true;
+      node.hasParent = true;
     }
   }
+
   return treeList;
 }
 
@@ -151,25 +187,25 @@ function listToTree<T extends TreeNode>(
  * @param options - 配置选项，包括子节点属性名
  * @returns 排序后的树形数据
  */
-function sortTree<T extends Record<string, any>>(
+function sortTree<T extends Record<string, unknown>>(
   treeData: T[],
   sortFunction: (a: T, b: T) => number,
   options?: TreeConfigOptions,
 ): T[] {
-  const { childProps } = options || {
-    childProps: 'children',
-  };
+  const childProps = resolveChildProps(options);
 
   return treeData.toSorted(sortFunction).map((item) => {
-    const children = item[childProps];
-    if (children && Array.isArray(children) && children.length > 0) {
+    const children = item[childProps] as T[] | undefined;
+    if (Array.isArray(children) && children.length > 0) {
       return {
         ...item,
         [childProps]: sortTree(children, sortFunction, options),
-      };
+      } as T;
     }
     return item;
   });
 }
 
 export { filterTree, listToTree, mapTree, sortTree, traverseTreeValues };
+
+export type { TreeNode };
