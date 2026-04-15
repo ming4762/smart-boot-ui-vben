@@ -2,7 +2,13 @@ import type { TreeNode } from '../tree';
 
 import { describe, expect, it } from 'vitest';
 
-import { filterTree, listToTree, mapTree, sortTree, traverseTreeValues } from '../tree';
+import {
+  filterTree,
+  listToTree,
+  mapTree,
+  sortTree,
+  traverseTreeValues,
+} from '../tree';
 
 describe('traverseTreeValues', () => {
   interface Node {
