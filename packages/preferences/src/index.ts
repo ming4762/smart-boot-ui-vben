@@ -1,4 +1,8 @@
-import type { Preferences } from '@vben-core/preferences';
+import type {
+  CustomPreferencesRecord,
+  Preferences,
+  PreferencesExtension,
+} from '@vben-core/preferences';
 import type { DeepPartial } from '@vben-core/typings';
 
 /**
@@ -12,7 +16,13 @@ function defineOverridesPreferences(preferences: DeepPartial<Preferences>) {
   return preferences;
 }
 
-export { defineOverridesPreferences };
+function definePreferencesExtension<
+  TCustomPreferences extends object = CustomPreferencesRecord,
+>(extension: PreferencesExtension<TCustomPreferences>) {
+  return extension;
+}
+
+export { defineOverridesPreferences, definePreferencesExtension };
 
 export * from '@vben-core/preferences';
 export * from '@vben-core/smart-provider';

@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@types/json-bigint": "catalog:",
-    "@types/qrcode": "catalog:"
+    "@types/qrcode": "catalog:",
+    "@vue/test-utils": "catalog:"
   }
 }
