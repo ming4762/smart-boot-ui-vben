@@ -31,11 +31,10 @@
 短信登录的验证码发送依赖消息模块的短信渠道实现。框架提供了 3 种短信渠道，根据实际使用的云平台选择引入其中一个：
 
 | 渠道 | Maven 模块 | 云平台 | 适用场景 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 阿里云短信 | `smart-boot-starter-message-sms-aliyun` | 阿里云 | 通用场景，国内主流选择 |
 | 腾讯云短信 | `smart-boot-starter-message-sms-tencent` | 腾讯云 | 腾讯云生态用户 |
 | 山东港口短信 | `smart-boot-starter-message-sms-sdport` | 山东港口短信平台 | 山港内部系统 |
-
 
 **单体架构（Boot 模式）** 引入 Starter：
 
@@ -91,8 +90,8 @@
 smart:
   auth:
     sms:
-      sign-name: "你的短信签名"
-      template: "你的短信模板编码"
+      sign-name: '你的短信签名'
+      template: '你的短信模板编码'
 ```
 
 ### 1.4 启用短信登录
@@ -112,7 +111,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 启用后，框架自动注册以下两个接口：
 
 | 接口 | 方法 | 地址 | 说明 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 发送验证码 | POST | `/auth/sms/createCode` | 参数：`phone`（手机号） |
 | 短信登录 | POST | `/auth/sms/login` | 参数：`phone`（手机号）+ `code`（验证码） |
 
@@ -132,10 +131,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 ### 2.1 默认配置项
 
-| 配置项 | 默认值 | 说明 |
-|---|---|---|
+| 配置项                     | 默认值     | 说明         |
+| -------------------------- | ---------- | ------------ |
 | `smart.auth.sms.sign-name` | 无（必填） | 短信签名名称 |
-| `smart.auth.sms.template` | 无（必填） | 短信模板编码 |
+| `smart.auth.sms.template`  | 无（必填） | 短信模板编码 |
 
 各短信渠道还需要在消息模块中配置对应平台的参数，详见 [2.5 短信渠道配置](#25-短信渠道配置)。
 
@@ -145,16 +144,16 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 #### 阿里云短信（`SmartSmsAliyunChannelProperties`）
 
-| 参数 | 说明 |
-|---|---|
-| `accessKey` | 阿里云 AccessKey ID |
-| `accessSecret` | 阿里云 AccessKey Secret |
-| `endpoint` | 短信 API 端点，默认 `dysmsapi.aliyuncs.com` |
+| 参数           | 说明                                        |
+| -------------- | ------------------------------------------- |
+| `accessKey`    | 阿里云 AccessKey ID                         |
+| `accessSecret` | 阿里云 AccessKey Secret                     |
+| `endpoint`     | 短信 API 端点，默认 `dysmsapi.aliyuncs.com` |
 
 #### 腾讯云短信（`SmartSmsTencentChannelProperties`）
 
 | 参数 | 说明 |
-|---|---|
+| --- | --- |
 | `accessKey` | 腾讯云 SecretId |
 | `accessSecret` | 腾讯云 SecretKey |
 | `appid` | 短信应用 SdkAppId（在[短信控制台](https://console.cloud.tencent.com/smsv2/app-manage)查看） |
@@ -163,7 +162,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 #### 山东港口短信平台（`SmartSmsSdportChannelProperties`）
 
 | 参数 | 默认值 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `endpoint` | 无（必填） | SOAP 服务接口地址，例如 `http://10.171.19.193:8080/dxpt/ws/shortMessageWs` |
 | `namespace` | `http://impl.service.cxf.com/` | SOAP 服务命名空间 |
 | `dwdm` | 无（必填） | 单位代码，用于标识发送方身份，例如 `HYJT`（航运集团） |
@@ -176,10 +175,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 短信登录相关的默认 URL 由 `DefaultAuthUrlEnum` 定义：
 
-| 枚举值 | URL | 说明 |
-|---|---|---|
+| 枚举值            | URL                    | 说明           |
+| ----------------- | ---------------------- | -------------- |
 | `SMS_CREATE_CODE` | `/auth/sms/createCode` | 验证码创建路径 |
-| `SMS_LOGIN` | `/auth/sms/login` | 短信登录路径 |
+| `SMS_LOGIN`       | `/auth/sms/login`      | 短信登录路径   |
 
 ### 2.4 多认证域配置
 
@@ -251,6 +250,7 @@ public class MySmsUserDetailService implements SmsUserDetailService {
 ### 3.2 自定义验证码创建与校验逻辑
 
 框架默认实现 `DefaultSmsCreateValidateProviderImpl` 的逻辑为：
+
 - **创建**：生成6位随机数字验证码 → 调用 `SmartMessageApi.sendSms()` 发送短信 → 验证码缓存5分钟
 - **校验**：从缓存读取验证码比对 → 验证通过后删除缓存（一次性使用）
 
@@ -359,6 +359,7 @@ public void configure(H builder) {
 ```
 
 它做了两件事：
+
 1. **注册 `SmsAuthenticationProvider`**：使其能处理 `SmsAuthenticationToken` 类型的认证请求
 2. **注入 `FilterChainProxy`**：将验证码创建和登录两个过滤器包装在同一个代理中，插入到 Spring Security 过滤链
 
@@ -433,7 +434,7 @@ SmsLoginFilter.attemptAuthentication()
 `SmsAuthenticationToken` 继承自 `AbstractEnhanceAuthenticationToken`，关键属性：
 
 | 属性 | 来源 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `principal` | 手机号 | 认证主体 |
 | `credentials` | 验证码 | 认证凭证 |
 | `authType` | `AuthTypeEnum.SMS` | 固定为短信登录类型 |
@@ -441,6 +442,7 @@ SmsLoginFilter.attemptAuthentication()
 | `authorities` | 认证成功后由 `UserDetails` 提供 | 用户权限列表 |
 
 Token 有两种状态：
+
 - **未认证**：`new SmsAuthenticationToken(phone, code)` — 无权限列表，`authenticated = false`
 - **已认证**：`new SmsAuthenticationToken(userDetails, code, authorities)` — 含权限列表，`authenticated = true`
 
@@ -451,7 +453,7 @@ Token 有两种状态：
 Boot 模式下的自动配置类 `SmartAuthSmsAutoConfiguration` 通过 Spring Boot 的 `AutoConfiguration.imports` 机制加载，注册三个 Bean：
 
 | Bean | 条件 | 默认实现 |
-|---|---|---|
+| --- | --- | --- |
 | `SmsAuthenticationProvider` | `@ConditionalOnMissingBean` | 组合 `SmsUserDetailService` + `SmsCreateValidateProvider` |
 | `SmsCreateValidateProvider` | `@ConditionalOnMissingBean` | `DefaultSmsCreateValidateProviderImpl`（依赖 `AuthCache` + `SmartMessageApi` + `AuthProperties`） |
 | `SmsUserDetailService` | `@ConditionalOnMissingBean` | `DefaultSmsUserDetailServiceImpl`（依赖 `SystemAuthUserApi` + `UserDetailsBuilder`） |
@@ -501,9 +503,9 @@ smart-auth-extensions-sms          ← 认证核心模块
 
 验证码的存储和校验依赖 `AuthCache` 接口，默认实现提供两种选择：
 
-| 实现 | 依赖模块 | 适用场景 |
-|---|---|---|
-| `RedisAuthCache` | `smart-auth-cache-redis` | 生产环境，支持集群部署 |
+| 实现             | 依赖模块                 | 适用场景                |
+| ---------------- | ------------------------ | ----------------------- |
+| `RedisAuthCache` | `smart-auth-cache-redis` | 生产环境，支持集群部署  |
 | `GuavaAuthCache` | `smart-auth-cache-guava` | 开发/测试环境，单机部署 |
 
 验证码缓存 key 格式：`smart_auth_sms_login_{phone}`，有效期5分钟，验证通过后立即删除。

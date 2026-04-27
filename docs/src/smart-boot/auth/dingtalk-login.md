@@ -39,8 +39,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 ## 2. 登录接口
 
-| 接口 | 方法 | 地址 | 参数 |
-|---|---|---|---|
+| 接口     | 方法 | 地址                      | 参数                |
+| -------- | ---- | ------------------------- | ------------------- |
 | 钉钉登录 | POST | `/auth/dingtalk/webLogin` | `code` — 钉钉授权码 |
 
 ---
@@ -49,11 +49,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 配置前缀：`smart.auth.dingtalk`
 
-| 属性 | 必填 | 说明 |
-|---|---|---|
-| `client-id` | 是 | 钉钉应用 ClientID |
-| `client-secret` | 是 | 钉钉应用 ClientSecret |
-| `corp-id` | 否 | 组织ID，限定用户登录所选组织，不配置则不限制 |
+| 属性            | 必填 | 说明                                         |
+| --------------- | ---- | -------------------------------------------- |
+| `client-id`     | 是   | 钉钉应用 ClientID                            |
+| `client-secret` | 是   | 钉钉应用 ClientSecret                        |
+| `corp-id`       | 否   | 组织ID，限定用户登录所选组织，不配置则不限制 |
 
 > 在钉钉开放平台（https://open.dingtalk.com）创建应用时获取 ClientID 和 ClientSecret，需确保应用已开通 **登录** 能力并配置了授权回调地址。
 
@@ -169,11 +169,11 @@ DingtalkUserDetailService（加载用户）
 
 职责：根据钉钉用户标识查询系统用户，接口定义了三种查询方式：
 
-| 方法 | 参数 | 说明 |
-|---|---|---|
-| `loadUserByUnionId` | unionId | 默认认证流程使用，按 unionId 查询 |
-| `loadUserByOpenId` | clientId, openId | 按 openId 查询 |
-| `loadUserByMobile` | mobile | 按手机号查询 |
+| 方法                | 参数             | 说明                              |
+| ------------------- | ---------------- | --------------------------------- |
+| `loadUserByUnionId` | unionId          | 默认认证流程使用，按 unionId 查询 |
+| `loadUserByOpenId`  | clientId, openId | 按 openId 查询                    |
+| `loadUserByMobile`  | mobile           | 按手机号查询                      |
 
 返回 `null` 表示该钉钉用户未绑定系统账号，将抛出 `DingtalkNotBoundException`。
 
@@ -183,13 +183,13 @@ DingtalkUserDetailService（加载用户）
 
 钉钉登录的认证凭证，继承自 `AbstractEnhanceAuthenticationToken`：
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `corpId` | String | 用户登录时所选的组织ID |
-| `credentials` | Object | 授权码（authCode） |
-| `principal` | Object | 认证成功后为 `RestUserDetailsImpl` |
-| `authType` | AuthTypeEnum | 固定为 `DINGTALK` |
-| `authDomain` | String | 当前登录的认证域 |
+| 字段          | 类型         | 说明                               |
+| ------------- | ------------ | ---------------------------------- |
+| `corpId`      | String       | 用户登录时所选的组织ID             |
+| `credentials` | Object       | 授权码（authCode）                 |
+| `principal`   | Object       | 认证成功后为 `RestUserDetailsImpl` |
+| `authType`    | AuthTypeEnum | 固定为 `DINGTALK`                  |
+| `authDomain`  | String       | 当前登录的认证域                   |
 
 获取钉钉登录特有信息：
 
@@ -205,7 +205,7 @@ if (auth instanceof DingtalkAuthenticationToken dingtalkToken) {
 ## 8. 异常处理
 
 | 异常 | 父类 | 触发场景 |
-|---|---|---|
+| --- | --- | --- |
 | `DingtalkNotBoundException` | `BadCredentialsException` | 钉钉用户未绑定系统账号 |
 | `AuthException` | RuntimeException | 用户不在指定认证域内 |
 | `IllegalArgumentException` | RuntimeException | 请求未携带 code 参数 |

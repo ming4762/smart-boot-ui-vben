@@ -11,7 +11,7 @@ CRUD 模块是在 MyBatis Plus 的基础上做的一系列功能增强，旨在�
 ## 模块结构
 
 | 模块 | 说明 |
-|------|------|
+| --- | --- |
 | `smart-crud` | 核心框架层，定义基础实体、Controller、Service、Mapper 以及所有增强功能的实现 |
 | `smart-boot-crud` | Spring Boot 自动配置层，负责自动注册各种增强组件 |
 | `smart-boot-starter-crud` | Starter 启动器，业务项目只需引入此依赖即可 |
@@ -123,7 +123,7 @@ public class MyEntity extends BaseModel {
 框架提供了多个基础实体类，按需继承：
 
 | 基础实体类 | 自动填充字段 | 适用场景 |
-|-----------|------------|---------|
+| --- | --- | --- |
 | `BaseModel` | 无 | 不需要自动填充的简单实体 |
 | `BaseModelCreateUserTime` | createUserId、createTime、createBy | 只需记录创建信息 |
 | `BaseModelUserTime` | createUserId、createTime、createBy + updateUserId、updateTime、updateBy | 需要记录创建和更新信息 |
@@ -244,23 +244,24 @@ parameter Map 的 key 格式为：`属性名@操作符`，value 为条件值。
 
 支持的操作符：
 
-| 操作符 | 含义 | 示例 key | 示例 value |
-|-------|------|---------|-----------|
-| `=` | 等于 | `name@=` | `张三` |
-| `<>` | 不等于 | `status@<>` | `1` |
-| `like` | 模糊匹配 | `name@like` | `张` |
-| `notLike` | 不模糊匹配 | `name@notLike` | `张` |
-| `likeLeft` | 左模糊 | `name@likeLeft` | `三` |
-| `likeRight` | 右模糊 | `name@likeRight` | `张` |
-| `>` | 大于 | `age@>` | `18` |
-| `>=` | 大于等于 | `age@>=` | `18` |
-| `<` | 小于 | `age@<` | `60` |
-| `<=` | 小于等于 | `age@<=` | `60` |
-| `in` | 包含 | `status@in` | `[1,2,3]` |
-| `notIn` | 不包含 | `status@notIn` | `[4,5]` |
-| `groupBy` | 分组 | `deptId@groupBy` | （值无意义） |
+| 操作符      | 含义       | 示例 key         | 示例 value   |
+| ----------- | ---------- | ---------------- | ------------ |
+| `=`         | 等于       | `name@=`         | `张三`       |
+| `<>`        | 不等于     | `status@<>`      | `1`          |
+| `like`      | 模糊匹配   | `name@like`      | `张`         |
+| `notLike`   | 不模糊匹配 | `name@notLike`   | `张`         |
+| `likeLeft`  | 左模糊     | `name@likeLeft`  | `三`         |
+| `likeRight` | 右模糊     | `name@likeRight` | `张`         |
+| `>`         | 大于       | `age@>`          | `18`         |
+| `>=`        | 大于等于   | `age@>=`         | `18`         |
+| `<`         | 小于       | `age@<`          | `60`         |
+| `<=`        | 小于等于   | `age@<=`         | `60`         |
+| `in`        | 包含       | `status@in`      | `[1,2,3]`    |
+| `notIn`     | 不包含     | `status@notIn`   | `[4,5]`      |
+| `groupBy`   | 分组       | `deptId@groupBy` | （值无意义） |
 
 特殊处理：
+
 - 当操作符为 `=` 且值为 null 时，自动转为 `IS NULL`
 - 当操作符为 `<>` 且值为 null 时，自动转为 `IS NOT NULL`
 - 支持枚举类型字段，传入枚举名称会自动转换为枚举值
@@ -295,6 +296,7 @@ parameter Map 的 key 格式为：`属性名@操作符`，value 为条件值。
 5. **字段过滤**：`propertyList` 通过 `queryWrapper.select()` 指定查询字段，`excludePropertyList` 排除不需要的字段
 
 分页与排序通过 `CrudPageHelper` 实现：
+
 - 使用 Java 21 的 `ScopedValue` 存储分页对象（替代 ThreadLocal，更安全且自动清理）
 - `createPage` 方法根据参数创建 MyBatis Plus 的 `Page` 对象
 - `withPage` 方法在 ScopedValue 作用域内执行查询，自动关联分页信息
@@ -328,8 +330,8 @@ spring:
         enabled: true
         login-username: root
         login-password: root
-        deny: ""
-        allow: ""
+        deny: ''
+        allow: ''
       filter-class-names: stat,wall
     # 数据源1
     first:
@@ -411,6 +413,7 @@ public class FirstMybatisConfig extends MybatisPlusAutoConfiguration {
 多数据源的核心是利用 Spring 的 `@ConfigurationProperties` 将不同前缀的配置绑定到不同的 `DataSource` Bean，然后通过继承 `MybatisPlusAutoConfiguration` 复用 MyBatis Plus 的 `SqlSessionFactory` 创建逻辑。
 
 每个数据源配置类需要：
+
 1. 独立的 `DataSource` Bean，通过 `@ConfigurationProperties` 绑定对应的配置前缀
 2. 独立的事务管理器
 3. 独立的 `SqlSessionFactory` 和 `SqlSessionTemplate`
@@ -444,6 +447,7 @@ public class SmartServiceSystemApplication {
 ```
 
 `@EnableMybatisPlusTenant` 会通过 `@Import` 导入 `MybatisPlusTenantConfigurer`，自动注册：
+
 - `SmartTenantLineHandler`（租户处理器，默认实现 `DefaultTenantLineHandlerImpl`）
 - `SmartTenantLineInnerInterceptor`（增强租户拦截器）
 
@@ -608,7 +612,7 @@ private ZonedDateTime deleteTime;
 `@TableLogicField` 属性说明：
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|-------|------|
+| --- | --- | --- | --- |
 | `isDeleteKey` | boolean | false | 是否为逻辑删除 key 字段。设为 true 后，删除时自动将该字段值设为记录主键 ID，配合唯一索引使用 |
 | `isFill` | boolean | false | 删除时是否自动填充。设为 true 的字段会在逻辑删除时被自动注入 |
 | `strategy` | LogicKeyStrategy | ID | 逻辑删除 key 的生成策略，目前仅支持 ID 策略（与主键相同） |
@@ -709,6 +713,7 @@ DelegateMetaObjectFill（代理填充器，组合所有 SmartMetaObjectFill 实�
 `SmartCrudAutoConfiguration` 将三个填充器注册为 Spring Bean，并创建 `DelegateMetaObjectFill` 作为代理，统一委托给所有填充器。
 
 每个填充器在执行前都会判断：
+
 - `CreateUpdateMetaObjectFill.insertFill` — 检查表是否有 `INSERT_FILL` 标记，以及实体类是否有对应字段
 - `CreateUpdateMetaObjectFill.updateFill` — 检查表是否有 `UPDATE_FILL` 标记，额外判断是否为逻辑删除操作（逻辑删除不走更新填充）
 - `LogicDeleteMetaObjectFill.logicDeleteFill` — 检查表是否启用逻辑删除，当前方法是否为删除方法
@@ -755,10 +760,10 @@ public Result<Boolean> setUseYn(@RequestBody @Valid SetUseYnParameter parameter)
 
 `SetUseYnParameter` 参数：
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `idList` | `List<Long>` | ID 列表（不能为空） |
-| `useYn` | `Boolean` | 启用状态（不能为空） |
+| 字段     | 类型         | 说明                 |
+| -------- | ------------ | -------------------- |
+| `idList` | `List<Long>` | ID 列表（不能为空）  |
+| `useYn`  | `Boolean`    | 启用状态（不能为空） |
 
 ### 实现原理
 
@@ -797,12 +802,12 @@ private String encode;
 
 内置脱敏类型：
 
-| 类型 | 效果 |
-|------|------|
-| `ENCODE` | 转码脱敏 |
-| `ID_CARD` | 身份证脱敏 |
-| `PHONE` | 手机号脱敏 |
-| `EMAIL` | 邮箱脱敏 |
+| 类型        | 效果       |
+| ----------- | ---------- |
+| `ENCODE`    | 转码脱敏   |
+| `ID_CARD`   | 身份证脱敏 |
+| `PHONE`     | 手机号脱敏 |
+| `EMAIL`     | 邮箱脱敏   |
 | `BANK_CARD` | 银行卡脱敏 |
 
 #### 自定义脱敏处理器
@@ -911,7 +916,7 @@ public Result<Object> customList(@RequestBody PageSortQuery parameter) {
 `@SmartDataPermission` 属性说明：
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|-------|------|
+| --- | --- | --- | --- |
 | `column` | String | "" | 数据权限过滤字段，默认根据 scope 自动设置 |
 | `scope` | DataPermissionScopeEnum | DATA_ALL | 数据权限范围 |
 | `configCode` | String | "" | 在页面配置的数据权限编码 |
@@ -921,13 +926,13 @@ public Result<Object> customList(@RequestBody PageSortQuery parameter) {
 
 数据权限范围枚举：
 
-| 范围 | 说明 |
-|------|------|
-| `DATA_ALL` | 所有数据（默认，不做限制） |
-| `DATA_PERSONAL` | 仅本人数据 |
-| `DATA_DEPT` | 本部门数据 |
-| `DATA_DEPT_AND_CHILD` | 本部门及子部门数据 |
-| `DATA_CUSTOM` | 自定义规则 |
+| 范围                  | 说明                       |
+| --------------------- | -------------------------- |
+| `DATA_ALL`            | 所有数据（默认，不做限制） |
+| `DATA_PERSONAL`       | 仅本人数据                 |
+| `DATA_DEPT`           | 本部门数据                 |
+| `DATA_DEPT_AND_CHILD` | 本部门及子部门数据         |
+| `DATA_CUSTOM`         | 自定义规则                 |
 
 #### 3. 手动控制数据权限
 
@@ -996,13 +1001,13 @@ SmartDataPermissionController.addManualDataPermission(
 
 自定义 `permissionValue` 支持的占位符：
 
-| 占位符 | 替换值 |
-|--------|--------|
-| `${userDept}` | 当前用户的部门 ID 列表，格式 `(1, 2, 3)` |
-| `${userDeptWithChildren}` | 当前用户的部门及子部门 ID 列表 |
-| `${userId}` | 当前用户 ID |
-| `${userName}` | 当前用户名称 |
-| 其他用户上下文属性 | 对应的属性值 |
+| 占位符                    | 替换值                                   |
+| ------------------------- | ---------------------------------------- |
+| `${userDept}`             | 当前用户的部门 ID 列表，格式 `(1, 2, 3)` |
+| `${userDeptWithChildren}` | 当前用户的部门及子部门 ID 列表           |
+| `${userId}`               | 当前用户 ID                              |
+| `${userName}`             | 当前用户名称                             |
+| 其他用户上下文属性        | 对应的属性值                             |
 
 ---
 

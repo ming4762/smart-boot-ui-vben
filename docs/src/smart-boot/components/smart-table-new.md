@@ -203,7 +203,7 @@ const getTableActions = (row: any): SmartTableActionItem[] => [
 SmartTableColumn 继承自 vxe-table 的 `VxeGridPropTypes.Column`，扩展属性如下：
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `component` | `string` | 列内置渲染组件：`booleanTag \| button \| copyText \| switch \| tag \| useYnTag` |
 | `componentProps` | `Record<string, any> \| Function` | 内置组件 props，支持函数动态返回 |
 | `dynamicClass` | `string \| Function` | 动态 class，函数参数为 `{ row, column, rowIndex, ... }` |
@@ -217,7 +217,7 @@ SmartTableColumn 继承自 vxe-table 的 `VxeGridPropTypes.Column`，扩展属�
 **可编辑列 editRender 扩展属性：**
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| --- | --- | --- | --- |
 | `name` | `SmartTableEditRenderName` | - | 编辑组件，支持 `AInput \| ASelect \| ADatePicker \| ASwitch` 等 antd 组件 |
 | `required` | `boolean` | - | 是否必填 |
 | `rules` | `VxeTableDefines.ValidatorRule[]` | - | 校验规则 |
@@ -242,8 +242,9 @@ const columns: SmartTableColumn[] = [
     field: 'useYn',
     width: 80,
     align: 'center',
-    dynamicClass: ({ row }) => row.useYn ? 'text-color--success-bold' : 'text-color--danger-bold',
-    formatter: ({ row }) => row.useYn ? '启用' : '停用',
+    dynamicClass: ({ row }) =>
+      row.useYn ? 'text-color--success-bold' : 'text-color--danger-bold',
+    formatter: ({ row }) => (row.useYn ? '启用' : '停用'),
   },
   // 内置组件渲染
   {
@@ -263,7 +264,13 @@ const columns: SmartTableColumn[] = [
     minWidth: 120,
     editRender: { name: 'AInput', autofocus: true, required: true },
   },
-  { title: '操作', field: 'operation', width: 120, fixed: 'right', slots: { default: 'table-operation' } },
+  {
+    title: '操作',
+    field: 'operation',
+    width: 120,
+    fixed: 'right',
+    slots: { default: 'table-operation' },
+  },
 ];
 ```
 
@@ -272,7 +279,7 @@ const columns: SmartTableColumn[] = [
 `searchFormConfig` 类型为 `SmartSearchFormProps`，继承自 `VbenFormProps`，扩展属性如下：
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| --- | --- | --- | --- |
 | `schema` | `SmartSearchFormSchema[]` | - | 搜索表单项配置 |
 | `searchWithSymbol` | `boolean` | `false` | 参数是否携带查询符号（如 `username@like`） |
 | `defaultVisible` | `boolean` | `true` | 默认是否显示搜索表单 |
@@ -282,7 +289,7 @@ const columns: SmartTableColumn[] = [
 `SmartSearchFormSchema` 继承自 `VbenFormSchema`，扩展了 `searchSymbol` 和 `customSymbol`：
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `searchSymbol` | `SearchSymbol` | 查询符号：`like \| likeLeft \| likeRight \| = \| <> \| > \| >= \| < \| <= \| between \| in \| notIn \| notLike \| groupBy` |
 | `customSymbol` | `Function` | 自定义符号处理，返回 `Record<string, any>` |
 
@@ -325,28 +332,28 @@ searchFormConfig: {
 `proxyConfig` 类型为 `SmartTableProxyConfig`，继承自 vxe-table 的 `VxeGridPropTypes.ProxyConfig`，`ajax` 扩展如下：
 
 | ajax 属性 | 类型 | 说明 |
-|-----------|------|------|
+| --- | --- | --- |
 | `query` | `Function` | 列表查询，参数中 `ajaxParameter` 包含合并后的搜索参数 |
 | `delete` | `Function` | 删除，`body.removeRecords` 为待删除行数据 |
 | `save` | `Function` | 保存，`body.insertRecords` 新增行，`body.updateRecords` 修改行 |
 | `getById` | `Function` | 根据行数据获取详情，用于编辑时加载表单 |
 | `useYn` | `Function` | 启用/停用，参数为 `(rows, useYn, params)` |
 
-| 其他属性 | 类型 | 说明 |
-|----------|------|------|
-| `afterDelete` | `Function` | 删除成功后的回调 |
+| 其他属性      | 类型       | 说明                  |
+| ------------- | ---------- | --------------------- |
+| `afterDelete` | `Function` | 删除成功后的回调      |
 | `afterUserYn` | `Function` | 启用/停用成功后的回调 |
 
 **query 函数参数说明：**
 
-| 参数 | 说明 |
-|------|------|
-| `ajaxParameter` | 合并后的请求参数（含搜索表单、分页等） |
-| `searchForm` | 搜索表单原始参数（无符号） |
-| `searchFormSymbol` | 带符号的搜索表单参数 |
-| `pager` | 分页参数：`currentPage`、`pageSize` |
-| `sorts` | 排序参数 |
-| `filters` | 过滤参数 |
+| 参数               | 说明                                   |
+| ------------------ | -------------------------------------- |
+| `ajaxParameter`    | 合并后的请求参数（含搜索表单、分页等） |
+| `searchForm`       | 搜索表单原始参数（无符号）             |
+| `searchFormSymbol` | 带符号的搜索表单参数                   |
+| `pager`            | 分页参数：`currentPage`、`pageSize`    |
+| `sorts`            | 排序参数                               |
+| `filters`          | 过滤参数                               |
 
 ```typescript
 proxyConfig: {
@@ -365,7 +372,7 @@ proxyConfig: {
 ### 4. 添加修改表单配置 (addEditConfig)
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `formConfig` | `SmartTableAddEditFormConfig` | 表单配置，参考 VbenForm |
 | `modalConfig` | `SmartTableAddEditModalConfig` | 弹窗配置，参考 VbenModal；`slots` 支持 `prepend-footer \| center-footer \| append-footer` |
 | `openModalHandler` | `Function` | 自定义弹窗打开逻辑，设置后接管默认弹窗行为 |
@@ -405,7 +412,7 @@ addEditConfig: {
 `toolbarConfig` 类型为 `SmartTableToolbarConfig`，继承自 vxe-table 的 `VxeGridPropTypes.ToolbarConfig`，扩展如下：
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `buttons` | `SmartTableButton[]` | 左侧操作按钮 |
 | `tools` | `SmartTableToolbarTool[]` | 右侧工具按钮 |
 | `sizeSetting` | `boolean \| SmartTableToolbarSizeSetting` | 是否显示尺寸设置按钮 |
@@ -414,23 +421,23 @@ addEditConfig: {
 
 **SmartTableButton 内置 code 值：**
 
-| code | 说明 |
-|------|------|
-| `ModalAdd` | 打开新增弹窗 |
-| `ModalEdit` | 打开编辑弹窗（选中行） |
-| `delete` | 删除选中行 |
-| `useYnTrue` | 启用选中行 |
-| `useYnFalse` | 停用选中行 |
-| `save` | 保存（可编辑表格） |
-| `insert` / `insert_actived` | 新增行（可编辑表格） |
-| `reload` | 重新加载 |
-| `export` / `open_export` | 导出 |
-| `import` / `open_import` | 导入 |
+| code                        | 说明                   |
+| --------------------------- | ---------------------- |
+| `ModalAdd`                  | 打开新增弹窗           |
+| `ModalEdit`                 | 打开编辑弹窗（选中行） |
+| `delete`                    | 删除选中行             |
+| `useYnTrue`                 | 启用选中行             |
+| `useYnFalse`                | 停用选中行             |
+| `save`                      | 保存（可编辑表格）     |
+| `insert` / `insert_actived` | 新增行（可编辑表格）   |
+| `reload`                    | 重新加载               |
+| `export` / `open_export`    | 导出                   |
+| `import` / `open_import`    | 导入                   |
 
 **SmartTableButton 配置属性：**
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `code` | `SmartTableButtonCode` | 内置按钮编码 |
 | `name` | `string` | 按钮文本 |
 | `auth` | `string` | 权限编码 |
@@ -474,7 +481,7 @@ toolbarConfig: {
 ### 6. 权限配置 (authConfig)
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| --- | --- | --- | --- |
 | `authHandler` | `(auth?) => boolean` | - | 判断权限的函数 |
 | `displayMode` | `'disabled' \| 'hide'` | `'disabled'` | 无权限时的显示方式：禁用或隐藏 |
 
@@ -490,7 +497,7 @@ authConfig: {
 SmartCheckboxConfig 继承自 vxe-table 的 `VxeTablePropTypes.CheckboxConfig`，扩展属性如下：
 
 | 属性 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `rowTrigger` | `'single' \| 'multiple'` | 点击行时触发选中的模式 |
 | `rowCtrl` | `boolean` | 是否支持 Ctrl 键多选（需 `rowTrigger` 为 `single`） |
 | `rowShift` | `boolean` | 是否支持 Shift 键范围多选（需 `rowTrigger` 为 `single`） |
@@ -508,8 +515,8 @@ checkboxConfig: {
 
 SmartTableSeqConfig 继承自 `VxeTablePropTypes.SeqConfig`，扩展属性如下：
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| 属性          | 类型      | 默认值  | 说明                             |
+| ------------- | --------- | ------- | -------------------------------- |
 | `seqBindPage` | `boolean` | `false` | 序号是否绑定分页（跨页连续编号） |
 
 ## 四、表格方法 (tableApi)
@@ -547,39 +554,39 @@ tableApi.switchSearchFormVisible(false);
 tableApi.setLoading(true);
 
 // 获取组件实例
-const grid = tableApi.getGrid();           // vxe-grid 实例
+const grid = tableApi.getGrid(); // vxe-grid 实例
 const editForm = tableApi.getAddEditForm(); // 添加/编辑表单 API
-const modal = tableApi.getAddEditModal();   // 添加/编辑弹窗 API
+const modal = tableApi.getAddEditModal(); // 添加/编辑弹窗 API
 const searchForm = tableApi.getSearchForm(); // 搜索表单 API
 ```
 
 **tableApi 方法列表：**
 
-| 方法 | 说明 |
-|------|------|
-| `query(params?)` | 重新查询表格数据 |
-| `setLoading(loading)` | 设置表格 loading 状态 |
-| `setPagerConfig(config)` | 动态设置分页配置 |
-| `updateRowByIdProxy(id)` | 根据 ID 调用后台更新单行数据 |
-| `showAddModal(selectData?, formData?)` | 打开新增弹窗 |
-| `editByRowModal(row, formData?)` | 打开编辑弹窗 |
-| `editByCheckbox()` | 编辑 checkbox 选中行 |
-| `deleteByRow(row)` | 删除指定行 |
-| `deleteByCheckbox()` | 删除 checkbox 选中行 |
-| `setUseYnByRow(row, useYn, params?)` | 设置指定行启用/停用状态 |
-| `setUseYnByCheckbox(useYn, params?)` | 设置选中行启用/停用状态 |
-| `switchSearchFormVisible(visible?)` | 切换搜索表单显隐 |
-| `getGrid()` | 获取 vxe-grid 实例 |
-| `getAddEditForm()` | 获取添加/编辑表单 API |
-| `getAddEditModal()` | 获取添加/编辑弹窗 API |
-| `getSearchForm()` | 获取搜索表单 API |
+| 方法                                   | 说明                         |
+| -------------------------------------- | ---------------------------- |
+| `query(params?)`                       | 重新查询表格数据             |
+| `setLoading(loading)`                  | 设置表格 loading 状态        |
+| `setPagerConfig(config)`               | 动态设置分页配置             |
+| `updateRowByIdProxy(id)`               | 根据 ID 调用后台更新单行数据 |
+| `showAddModal(selectData?, formData?)` | 打开新增弹窗                 |
+| `editByRowModal(row, formData?)`       | 打开编辑弹窗                 |
+| `editByCheckbox()`                     | 编辑 checkbox 选中行         |
+| `deleteByRow(row)`                     | 删除指定行                   |
+| `deleteByCheckbox()`                   | 删除 checkbox 选中行         |
+| `setUseYnByRow(row, useYn, params?)`   | 设置指定行启用/停用状态      |
+| `setUseYnByCheckbox(useYn, params?)`   | 设置选中行启用/停用状态      |
+| `switchSearchFormVisible(visible?)`    | 切换搜索表单显隐             |
+| `getGrid()`                            | 获取 vxe-grid 实例           |
+| `getAddEditForm()`                     | 获取添加/编辑表单 API        |
+| `getAddEditModal()`                    | 获取添加/编辑弹窗 API        |
+| `getSearchForm()`                      | 获取搜索表单 API             |
 
 ## 五、事件
 
 SmartTable 支持 vxe-table 的所有事件，扩展事件如下：
 
 | 事件名 | 参数 | 说明 |
-|--------|------|------|
+| --- | --- | --- |
 | `@register` | `SmartTableAction` | 表格注册完成 |
 | `@initialized` | - | 表格初始化完成 |
 | `@formQuery` | - | 搜索表单查询触发 |
@@ -597,7 +604,7 @@ SmartTable 支持 vxe-table 的所有事件，扩展事件如下：
 **Props：**
 
 | 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| --- | --- | --- | --- |
 | `actions` | `SmartTableActionItem[]` | - | 操作按钮列表 |
 | `dropDownActions` | `SmartTableActionItem[]` | - | 下拉菜单操作列表 |
 | `divider` | `boolean` | `true` | 按钮之间是否显示分隔线 |
@@ -605,24 +612,28 @@ SmartTable 支持 vxe-table 的所有事件，扩展事件如下：
 
 **SmartTableActionItem 配置：**
 
-| 属性 | 类型 | 说明 |
-|------|------|------|
-| `label` | `string` | 按钮文本 |
-| `code` | `'edit' \| 'delete'` | 内置编码，自动设置图标和颜色 |
-| `icon` | `string` | 图标 |
-| `auth` | `SmartAuthType` | 权限编码 |
-| `ifShow` | `boolean \| Function` | 业务控制是否显示 |
-| `disabled` | `boolean` | 是否禁用 |
-| `danger` | `boolean` | 是否为危险按钮 |
-| `onClick` | `Function` | 点击事件 |
-| `popConfirm` | `PopConfirm` | 气泡确认框配置 |
-| `tooltip` | `string \| object` | 提示文本 |
-| `divider` | `boolean` | 是否在该按钮后显示分隔线 |
+| 属性         | 类型                  | 说明                         |
+| ------------ | --------------------- | ---------------------------- |
+| `label`      | `string`              | 按钮文本                     |
+| `code`       | `'edit' \| 'delete'`  | 内置编码，自动设置图标和颜色 |
+| `icon`       | `string`              | 图标                         |
+| `auth`       | `SmartAuthType`       | 权限编码                     |
+| `ifShow`     | `boolean \| Function` | 业务控制是否显示             |
+| `disabled`   | `boolean`             | 是否禁用                     |
+| `danger`     | `boolean`             | 是否为危险按钮               |
+| `onClick`    | `Function`            | 点击事件                     |
+| `popConfirm` | `PopConfirm`          | 气泡确认框配置               |
+| `tooltip`    | `string \| object`    | 提示文本                     |
+| `divider`    | `boolean`             | 是否在该按钮后显示分隔线     |
 
 ```typescript
 const getTableActions = (row: any): SmartTableActionItem[] => [
   // 内置编码，自动图标+颜色
-  { code: 'edit', auth: 'sys:user:update', onClick: () => tableApi.editByRowModal(row) },
+  {
+    code: 'edit',
+    auth: 'sys:user:update',
+    onClick: () => tableApi.editByRowModal(row),
+  },
   // 气泡确认框
   {
     code: 'delete',

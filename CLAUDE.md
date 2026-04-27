@@ -145,6 +145,7 @@ The `adapter/` directory in each app bridges Vben core components with specific 
 ### Smart Modules
 
 Custom modules in `smart-boot/smart-modules/` are auto-aliased via Vite config. Each module has:
+
 - `src/api/` → API service layer
 - `src/views/` → Page views
 - `src/constants/` → Module constants
@@ -155,6 +156,7 @@ Modules are imported via `@smart-module/<name>` alias (auto-resolved in `vite.co
 ### Micro-Frontend (Wujie)
 
 The project supports micro-frontend architecture via `wujie-vue3`:
+
 - `@smart/wujie` package handles main app setup and micro-app hosting
 - Check `isMicroApp()` in `main.ts` for micro-app vs standalone mode
 
@@ -177,6 +179,7 @@ The project supports micro-frontend architecture via `wujie-vue3`:
 ## Environment Variables
 
 Apps use `.env` files:
+
 - `.env` — Base defaults
 - `.env.development` — Dev overrides
 - `.env.production` — Production overrides
@@ -208,6 +211,7 @@ types: TypeScript type definition changes
 ## VS Code Configuration
 
 The project ships `.vscode/settings.json` with:
+
 - oxc (oxlint/oxfmt) as default formatter
 - Auto-fix on save for eslint, oxc, stylelint
 - TailwindCSS experimental config pointed to `internal/tailwind-config/src/theme.css`
