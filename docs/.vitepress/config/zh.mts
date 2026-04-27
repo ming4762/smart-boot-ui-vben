@@ -298,6 +298,14 @@ function sidebarSmartBoot(): DefaultTheme.SidebarItem[] {
           link: 'auth/wechat',
           text: '微信登录',
         },
+        {
+          link: 'auth/dingtalk-login',
+          text: '钉钉登录',
+        },
+        {
+          link: 'auth/sms-login',
+          text: '短信登录',
+        },
       ],
     },
     {
