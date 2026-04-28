@@ -345,7 +345,7 @@ smart-message-extension-sms
 
 `AuthSmsSecurityConfigurer` 继承自 `SmartSecurityConfigurerAdapter`，后者继承自 Spring Security 的 `SecurityConfigurerAdapter`。通过 `HttpSecurity.with()` 方法将其纳入安全过滤链。
 
-**核心配置逻辑**（[AuthSmsSecurityConfigurer.configure()](../smart-framework/smart-auth/smart-auth-extensions-sms/src/main/java/com/smart/framework/auth/extensions/sms/AuthSmsSecurityConfigurer.java)）：
+**核心配置逻辑**AuthSmsSecurityConfigurer.configure()：
 
 ```java
 @Override

@@ -52,5 +52,8 @@
     "dayjs": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:"
+  },
+  "devDependencies": {
+    "unplugin-vue": "catalog:"
   }
 }

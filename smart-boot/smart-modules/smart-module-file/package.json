@@ -58,5 +58,8 @@
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "unplugin-vue": "catalog:"
   }
 }

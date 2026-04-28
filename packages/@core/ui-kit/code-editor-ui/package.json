@@ -50,5 +50,8 @@
     "@vben-core/typings": "workspace:*",
     "codemirror": "catalog:",
     "vue": "catalog:"
+  },
+  "devDependencies": {
+    "unplugin-vue": "catalog:"
   }
 }
