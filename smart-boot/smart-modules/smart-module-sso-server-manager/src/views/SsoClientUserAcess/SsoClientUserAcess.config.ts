@@ -12,7 +12,7 @@ import { getUseYnSelectOptions } from '@smart/common/utils';
 export const getClientTableColumns = (): SmartTableColumn[] => {
   return [
     {
-      field: 'clientId',
+      field: 'clientCode',
       align: 'left',
       title: '{sso.oauth2.client.title.clientId}',
       width: 120,
