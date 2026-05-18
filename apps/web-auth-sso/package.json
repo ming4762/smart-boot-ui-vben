@@ -38,7 +38,5 @@
     "vue": "catalog:",
     "vue-router": "catalog:"
   },
-  "devDependencies": {
-    "unplugin-info": "catalog:"
-  }
+  "devDependencies": {}
 }
