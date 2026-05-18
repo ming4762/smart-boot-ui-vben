@@ -3,8 +3,8 @@ import type { Component } from 'vue';
 import { componentAdapter } from '@vben/common-ui';
 
 type ComponentName =
-  | 'CopyInput'
   | 'Alert'
+  | 'CopyInput'
   | 'VbenButton'
   | 'VbenInput'
   | 'VbenInputPassword'

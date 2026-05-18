@@ -6,7 +6,14 @@ import { $t } from '#/locales';
 
 const AuthPageLayout = () => import('#/layouts/auth.vue');
 
-export const coreRouteNames: string[] = [];
+export const coreRouteNames: string[] = [
+  'Login',
+  'CodeLogin',
+  'QrCodeLogin',
+  'Register',
+  'Consent',
+  'FallbackNotFound',
+];
 
 const coreRoutes: RouteRecordRaw[] = [
   {
@@ -34,7 +41,8 @@ const coreRoutes: RouteRecordRaw[] = [
       {
         name: 'QrCodeLogin',
         path: 'qrcode-login',
-        component: () => import('#/views/_core/authentication/qrcode-login.vue'),
+        component: () =>
+          import('#/views/_core/authentication/qrcode-login.vue'),
         meta: { title: $t('page.auth.qrcodeLogin') },
       },
       {
@@ -53,7 +61,12 @@ const coreRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('#/views/_core/fallback/not-found.vue'),
-    meta: { hideInBreadcrumb: true, hideInMenu: true, hideInTab: true, title: '404' },
+    meta: {
+      hideInBreadcrumb: true,
+      hideInMenu: true,
+      hideInTab: true,
+      title: '404',
+    },
     name: 'FallbackNotFound',
     path: '/:path(.*)*',
   },

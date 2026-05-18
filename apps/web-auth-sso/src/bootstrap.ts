@@ -10,10 +10,10 @@ import { registerDirective } from '@vben/utils';
 
 import { useTitle } from '@vueuse/core';
 
-import { $t, setupI18n } from '#/locales';
-
 import { initComponentAdapter } from '#/adapter/component';
 import { initSetupVbenForm } from '#/adapter/form';
+import { $t, setupI18n } from '#/locales';
+
 import App from './app.vue';
 import { router } from './router';
 

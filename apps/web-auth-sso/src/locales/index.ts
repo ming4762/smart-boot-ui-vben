@@ -12,6 +12,7 @@ import {
   loadLocalesMapFromDir,
 } from '@vben/locales';
 import { preferences } from '@vben/preferences';
+
 import antdEnLocale from 'antdv-next/dist/locale/en_US';
 import antdDefaultLocale from 'antdv-next/dist/locale/zh_CN';
 import dayjs from 'dayjs';
@@ -42,14 +43,17 @@ async function loadThirdPartyMessage(lang: SupportedLanguagesType) {
 async function loadDayjsLocale(lang: SupportedLanguagesType) {
   let locale;
   switch (lang) {
-    case 'en-US':
+    case 'en-US': {
       locale = await import('dayjs/locale/en');
       break;
-    case 'zh-CN':
+    }
+    case 'zh-CN': {
       locale = await import('dayjs/locale/zh-cn');
       break;
-    default:
+    }
+    default: {
       locale = await import('dayjs/locale/en');
+    }
   }
   if (locale) {
     dayjs.locale(locale);
@@ -58,12 +62,14 @@ async function loadDayjsLocale(lang: SupportedLanguagesType) {
 
 async function loadAntdLocale(lang: SupportedLanguagesType) {
   switch (lang) {
-    case 'en-US':
+    case 'en-US': {
       antdLocale.value = antdEnLocale;
       break;
-    case 'zh-CN':
+    }
+    case 'zh-CN': {
       antdLocale.value = antdDefaultLocale;
       break;
+    }
   }
 }
 
