@@ -17,6 +17,10 @@
       "path": "apps/web-auth-server-manager"
     },
     {
+      "name": "@smart/web-auth-sso",
+      "path": "apps/web-auth-sso"
+    },
+    {
       "name": "@vben/web-ele",
       "path": "apps/web-ele"
     },

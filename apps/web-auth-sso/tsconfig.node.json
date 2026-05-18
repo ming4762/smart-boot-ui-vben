@@ -1,0 +1,4 @@
+{
+  "extends": "@vben/tsconfig/node.json",
+  "include": ["vite.config.mts"]
+}
