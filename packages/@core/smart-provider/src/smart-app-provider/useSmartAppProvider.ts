@@ -1,6 +1,8 @@
+import type { InjectionKey } from 'vue';
+
 import type { SmartAppProviderProps } from '../types';
 
-import { inject, type InjectionKey, provide, unref } from 'vue';
+import { inject, provide, unref } from 'vue';
 
 const key: InjectionKey<SmartAppProviderProps> = Symbol('smart-app-rovider');
 

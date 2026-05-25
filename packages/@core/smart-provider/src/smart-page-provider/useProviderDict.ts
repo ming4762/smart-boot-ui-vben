@@ -61,7 +61,7 @@ export const useProviderDict = (api: (args: any) => Promise<any>) => {
       for (const key in result) {
         dictDataMap.set(
           key,
-          (result?.[key] as any[]).map((item: any) => {
+          ((result?.[key] as any[]) || undefined)?.map((item: any) => {
             return {
               ...item,
               label: item.dictItemName,

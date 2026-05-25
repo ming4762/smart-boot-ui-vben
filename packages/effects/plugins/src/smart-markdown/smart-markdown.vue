@@ -157,7 +157,11 @@ const initEditor = () => {
   if (markdownEditor) {
     return;
   }
-  markdownEditor = new Vditor(unref(elRef)!, {
+  const el = unref(elRef);
+  if (!el) {
+    return;
+  }
+  markdownEditor = new Vditor(el, {
     ...unref(computedVditorOptions),
   });
 };
@@ -175,7 +179,11 @@ const getPreviewOptions = () => {
 };
 
 const renderPreview = () => {
-  Vditor.preview(unref(elRef)!, props.value, getPreviewOptions());
+  const el = unref(elRef);
+  if (!el) {
+    return;
+  }
+  Vditor.preview(el, props.value, getPreviewOptions());
 };
 
 watch(

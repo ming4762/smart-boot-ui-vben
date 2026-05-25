@@ -19,11 +19,12 @@ const computedHasIcon = computed(() => {
 
 const computedSlots = computed(() => {
   let defaultSlot: any = slots.default;
-  if (props.postIcon) {
+  const postIcon = props.postIcon;
+  if (postIcon) {
     defaultSlot = () => {
       return [
         slots.default?.(),
-        h(IconifyIcon, { class: 'anticon', icon: props.postIcon! }),
+        h(IconifyIcon, { class: 'anticon', icon: postIcon }),
       ];
     };
   }
@@ -33,7 +34,7 @@ const computedSlots = computed(() => {
   };
   if (unref(computedHasIcon)) {
     result.icon = () =>
-      h(IconifyIcon, { class: 'anticon', icon: props.preIcon! });
+      h(IconifyIcon, { class: 'anticon', icon: props.preIcon || '' });
   }
   return result;
 });

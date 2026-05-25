@@ -146,7 +146,7 @@ export const listDeptTreeByTenantApi = async (
   if (!tenantId) {
     return [];
   }
-  const dataList = await requestClient.post(
+  const dataList: any[] = await requestClient.post(
     Api.listDeptTreeByTenant,
     { id: tenantId },
     {

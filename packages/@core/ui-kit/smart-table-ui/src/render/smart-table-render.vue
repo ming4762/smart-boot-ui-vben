@@ -64,8 +64,7 @@ const smartTableContext: SmartTableContext = {} as never;
 const getSmartTableContext: SmartTableContextHandler = (): SmartTableContext =>
   smartTableContext;
 
-// @ts-ignore
-const emitHandler = (code: string, ...args: any[]) => emit(code, args);
+const emitHandler = (code: string, ...args: any[]) => emit(code as never, args);
 
 const t = VxeUI.getI18n;
 
@@ -217,7 +216,13 @@ const tableAction: SmartTableAction = {
   editByRowModal: (row, formData) => editByRowModal(row, formData),
   getAddEditForm: () => getAddEditForm(),
   getAddEditModal: () => getAddEditModal(),
-  getGrid: () => getVxeTableInstance()!,
+  getGrid: () => {
+    const instance = getVxeTableInstance();
+    if (!instance) {
+      throw new Error('Table instance is not found');
+    }
+    return instance;
+  },
   getSearchForm: () => searchFormApi,
   query: (params) => query(params),
   setLoading: (loading: boolean) => setLoading(loading),

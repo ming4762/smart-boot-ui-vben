@@ -186,7 +186,7 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
         ...metaObj,
         hideInMenu: isMenu === false,
         icon: compatibleIcon,
-        keepAlive: !cached || cached,
+        keepAlive: cached === true,
         key: functionId,
         parentKey: parentId,
         title: getFunctionName(menu),

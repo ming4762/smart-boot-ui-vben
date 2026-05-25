@@ -10,7 +10,7 @@ import { successMessage, warnMessage } from '@smart/common/utils';
 import { listTenantApi, setUseYnApi } from '../UserListView.api';
 
 let selectRows: Recordable<any>[] = [];
-let useYnValue = null;
+let useYnValue: boolean | null = null;
 
 const [SmartTable, tableApi] = useSmartTable({
   border: true,
@@ -64,7 +64,7 @@ const handleOk = async (modalApi: ExtendedModalApi) => {
   }
   try {
     modalApi.setState({ confirmLoading: true });
-    await setUseYnApi(selectRows, useYnValue!, {
+    await setUseYnApi(selectRows, useYnValue === true, {
       tenantIdList: selectTenants.map((item) => item.id),
     });
     successMessage(t('common.message.operationSucceeded'));

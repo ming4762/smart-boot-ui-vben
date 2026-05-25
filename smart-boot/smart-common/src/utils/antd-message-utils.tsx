@@ -49,13 +49,13 @@ const CloseOutline = createIconifyIcon('carbon:close-outline');
 function getIcon(iconType: string): () => VNode {
   switch (iconType) {
     case 'info': {
-      return () => <Info class="modal-icon-info anticon" />;
+      return () => <Info class="anticon modal-icon-info" />;
     }
     case 'success': {
-      return () => <Check class="modal-icon-success anticon" />;
+      return () => <Check class="anticon modal-icon-success" />;
     }
     case 'warning': {
-      return () => <Info class="modal-icon-warning anticon" />;
+      return () => <Info class="anticon modal-icon-warning" />;
     }
     default: {
       return () => h(CloseOutline);

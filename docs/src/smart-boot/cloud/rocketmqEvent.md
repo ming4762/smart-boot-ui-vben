@@ -11,10 +11,10 @@
 
 ## 模块结构
 
-| 模块 | 说明 |
-|------|------|
-| `smart-rocketmq` | 核心封装（生产者、消费者、事件桥接） |
-| `smart-boot-starter-rocketmq` | Spring Boot Starter，自动装配 |
+| 模块                          | 说明                                 |
+| ----------------------------- | ------------------------------------ |
+| `smart-rocketmq`              | 核心封装（生产者、消费者、事件桥接） |
+| `smart-boot-starter-rocketmq` | Spring Boot Starter，自动装配        |
 
 ---
 
@@ -51,7 +51,7 @@ spring:
 smart:
   mq:
     # Topic 前缀，用于区分不同环境（如 dev:、test:），默认为空
-    prefix: ""
+    prefix: ''
     # Spring Event 桥接使用的 Topic，默认 smart-boot-event
     event-topic: smart-boot-event
     # Spring Event 桥接使用的 Tag，默认 event
@@ -66,13 +66,13 @@ smart:
 
 所有消息统一使用 `SmartMqMessage<T>` 进行包装：
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `messageId` | `String` | 消息唯一ID（UUID，自动生成） |
-| `timestamp` | `long` | 消息时间戳（自动生成） |
-| `source` | `String` | 消息来源标识（可选） |
-| `payload` | `T` | 业务数据，需实现 `Serializable` |
-| `userJson` | `String` | 当前用户信息 JSON（框架自动填充） |
+| 字段        | 类型     | 说明                              |
+| ----------- | -------- | --------------------------------- |
+| `messageId` | `String` | 消息唯一ID（UUID，自动生成）      |
+| `timestamp` | `long`   | 消息时间戳（自动生成）            |
+| `source`    | `String` | 消息来源标识（可选）              |
+| `payload`   | `T`      | 业务数据，需实现 `Serializable`   |
+| `userJson`  | `String` | 当前用户信息 JSON（框架自动填充） |
 
 > 框架会自动将当前登录用户（`RestUserDetails`）序列化到 `userJson`，消费端也会自动还原用户上下文。
 
@@ -225,6 +225,7 @@ SmartSpringEventProducer ────────→                        Smar
 ```
 
 **关键机制**：
+
 - `SmartSpringEventProducer` 监听所有继承 `AbstractSmartCommonEvent` 的事件，将 `LOCAL` 类型事件序列化发送到 RocketMQ
 - `SmartSpringEventConsumer` 消费 MQ 消息，反序列化后调用 `applicationContext.publishEvent()` 重新发布为 Spring Event
 - 过滤自身服务的消息，避免回环重复消费（通过 `eventSourceService` == `spring.application.name` 判断）
@@ -262,7 +263,7 @@ public class UserService {
 
     public void register(UserDTO dto) {
         // 业务逻辑...
-        
+
         // 发布事件（单体模式下本地消费，微服务模式下同时广播到其他服务）
         eventPublisher.publishEvent(new UserRegisteredEvent(user.getId(), user.getUsername()));
     }
@@ -327,7 +328,7 @@ rocketmq:
 smart:
   mq:
     # 环境前缀，多环境共用同一 MQ 集群时使用
-    prefix: "dev:"
+    prefix: 'dev:'
     # Spring Event 桥接 Topic
     event-topic: smart-boot-event
     # Spring Event 桥接 Tag
@@ -350,7 +351,7 @@ smart:
 ## 核心类说明
 
 | 类/接口 | 说明 |
-|---------|------|
+| --- | --- |
 | `SmartMqProducer` | 消息生产者接口，提供同步/异步/延迟/顺序发送 |
 | `SmartMqProducerRocketImpl` | `SmartMqProducer` 的 RocketMQ 实现，自动注入用户上下文 |
 | `SmartBaseConsumer<T>` | 消费者基础接口，封装日志、异常、幂等、用户上下文还原 |

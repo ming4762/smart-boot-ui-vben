@@ -152,7 +152,10 @@ const validateSelectRows = (tableApi: ExtendSmartTableApi) => {
 const saveAndCreateAccountLoadingRef = ref(false);
 const handleSaveAndCreateAccount = async () => {
   const addEditModalApi = tableApi.getAddEditModal();
-  const addEditFormApi = tableApi.getAddEditForm()!;
+  const addEditFormApi = tableApi.getAddEditForm();
+  if (!addEditFormApi) {
+    return false;
+  }
   const { valid } = await addEditFormApi.validate();
   if (!valid) {
     return false;

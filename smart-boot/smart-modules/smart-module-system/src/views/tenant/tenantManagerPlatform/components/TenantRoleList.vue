@@ -60,7 +60,7 @@ const { handleShowSetUser, SelectUserModal } = useRoleSetUser(
   (roleIds: number[]) =>
     listUserByRoleTenantApi({ roleIdList: roleIds, tenantId: props.tenantId }),
   (roleId: number, userIdList: number[]) =>
-    setRoleUserWithTenantApi(props.tenantId!, roleId, userIdList),
+    setRoleUserWithTenantApi(props.tenantId || '', roleId, userIdList),
 );
 
 const [SmartTable, tableApi] = useSmartTable({

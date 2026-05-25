@@ -137,7 +137,7 @@ const computedSelectRowValue = computed(() => {
   if (props.showFunction) {
     return props.showFunction(selectRow);
   }
-  return selectRow[showFieldValue!];
+  return selectRow[showFieldValue as never];
 });
 
 /**

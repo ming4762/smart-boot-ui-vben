@@ -56,7 +56,7 @@ function traverseTreeValues<T, V>(
  * @param options 作为子节点数组的可选属性名称。
  * @returns 包含所有匹配节点的数组。
  */
-function filterTree<T extends Record<string, unknown>>(
+function filterTree<T extends Record<string, any>>(
   tree: T[],
   filter: (node: T) => boolean,
   options?: TreeConfigOptions,
@@ -97,7 +97,7 @@ function filterTree<T extends Record<string, unknown>>(
  * @param options 作为子节点数组的可选属性名称。
  * @returns 映射后的新树形结构
  */
-function mapTree<T, V extends Record<string, unknown>>(
+function mapTree<T, V extends Record<string, any>>(
   tree: T[],
   mapper: (node: T) => V,
   options?: TreeConfigOptions,

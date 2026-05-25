@@ -51,8 +51,7 @@ const handlerToolbar = (action: string, arg?: number) => {
   if (action === 'scaleY') {
     scaleY = arg = scaleY === -1 ? 1 : -1;
   }
-  // @ts-ignore
-  unref(cropperRef)?.[action]?.(arg);
+  unref(cropperRef)?.[action as keyof Cropper]?.(arg as never);
 };
 
 const handleAfterCrop = ({ imgBase64 }: CropendResult) => {

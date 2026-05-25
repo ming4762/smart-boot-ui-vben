@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { $ct as t } from '@vben/locales';
-import { VbenTooltip } from '@vben-core/shadcn-ui';
 import { computed, ref, unref } from 'vue';
 
+import { $ct as t } from '@vben/locales';
+
+import { VbenTooltip } from '@vben-core/shadcn-ui';
+
 interface Props {
-  height: string;
+  height?: string;
   api: () => Promise<any>;
 }
 

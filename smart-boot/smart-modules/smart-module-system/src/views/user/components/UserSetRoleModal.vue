@@ -97,7 +97,7 @@ const [SmartTable, tableApi] = useSmartTable({
 });
 
 const setSelectRole = async () => {
-  const userId = unref(currentUserId)!;
+  const userId = unref(currentUserId);
   const roleList: any[] = await requestClient.post(
     'sys/user/listUserRole',
     { id: userId },

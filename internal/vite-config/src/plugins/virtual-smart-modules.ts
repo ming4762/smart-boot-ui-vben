@@ -39,16 +39,14 @@ function SmartModulesVirtualPlugin(
         );
 
         // 路径修正（和你原来的逻辑一致）
-        const targetStart = normalizedPath.indexOf(
-          '/smart-boot/smart-modules',
-        );
+        const targetStart = normalizedPath.indexOf('/smart-boot/smart-modules');
 
         let key =
           targetStart === -1
             ? normalizedPath
             : normalizedPath.slice(Math.max(0, targetStart));
 
-        key = '/' + key.replace(/^\/+/, '');
+        key = `/${key.replace(/^\/+/, '')}`;
 
         mapEntries.push(`'${key}': ${varName}`);
       });

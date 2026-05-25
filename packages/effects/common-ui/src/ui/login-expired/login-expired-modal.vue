@@ -2,6 +2,7 @@
 import { watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
+
 import { globalShareState } from '@vben-core/shared/global-state';
 
 interface Props {

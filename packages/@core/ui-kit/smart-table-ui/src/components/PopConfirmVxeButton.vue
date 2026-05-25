@@ -6,7 +6,7 @@ import { VxeButton } from 'vxe-pc-ui';
 import { getComponent } from '../utils';
 
 interface Props {
-  enable: boolean;
+  enable?: boolean;
   t: (code: string, ...args: any[]) => string | undefined;
 }
 

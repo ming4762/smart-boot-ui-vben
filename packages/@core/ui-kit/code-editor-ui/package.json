@@ -44,9 +44,9 @@
     "@codemirror/lang-json": "catalog:",
     "@codemirror/lang-sql": "catalog:",
     "@codemirror/lang-xml": "catalog:",
+    "@codemirror/lint": "catalog:",
     "@codemirror/state": "catalog:",
     "@codemirror/view": "catalog:",
-    "@codemirror/lint": "catalog:",
     "@vben-core/typings": "workspace:*",
     "codemirror": "catalog:",
     "vue": "catalog:"

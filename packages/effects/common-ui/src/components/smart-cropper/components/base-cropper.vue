@@ -47,9 +47,16 @@ const imgElRef = useTemplateRef<HTMLImageElement>('imgElRef');
 const cropperRef = ref<Nullable<Cropper>>();
 
 const getRoundedCanvas = () => {
-  const sourceCanvas = unref(cropperRef)!.getCroppedCanvas();
+  const cropper = unref(cropperRef);
+  if (!cropper) {
+    return null;
+  }
+  const sourceCanvas = cropper.getCroppedCanvas();
   const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d')!;
+  const context = canvas.getContext('2d');
+  if (!context) {
+    throw new Error('no canvas context');
+  }
   const width = sourceCanvas.width;
   const height = sourceCanvas.height;
   canvas.width = width;
@@ -79,7 +86,7 @@ const croppered = () => {
   const canvas = props.circled
     ? getRoundedCanvas()
     : cropper.getCroppedCanvas();
-  canvas.toBlob((blob) => {
+  canvas?.toBlob((blob) => {
     if (!blob) {
       return;
     }

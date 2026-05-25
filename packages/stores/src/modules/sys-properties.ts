@@ -28,7 +28,7 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
   actions: {
     setProperties(properties: Partial<SysPropertiesState>) {
       Object.entries(properties).forEach(([key, value]) => {
-        // @ts-ignore 忽略错误
+        // @ts-expect-error 忽略错误
         this[key as keyof SysPropertiesState] = value;
       });
     },

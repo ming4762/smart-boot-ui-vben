@@ -123,7 +123,10 @@ const [SmartTable, tableApi] = useSmartTable({
         });
       },
       getById(params: any): Promise<any> {
-        return getUserByTenantIdWithDeptApi(props.tenantId!, params.userId);
+        if (!props.tenantId) {
+          return Promise.resolve({});
+        }
+        return getUserByTenantIdWithDeptApi(props.tenantId, params.userId);
       },
     },
   },
@@ -261,7 +264,10 @@ const handleRemoveBind = () => {
 const userSaveLoadingRef = ref(false);
 const handleSaveCreateAccount = async () => {
   const addEditModalApi = tableApi.getAddEditModal();
-  const addEditFormApi = tableApi.getAddEditForm()!;
+  const addEditFormApi = tableApi.getAddEditForm();
+  if (!addEditFormApi || !addEditModalApi) {
+    return false;
+  }
   const { valid } = await addEditFormApi.validate();
   if (!valid) {
     return false;

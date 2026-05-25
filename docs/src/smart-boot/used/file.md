@@ -34,7 +34,7 @@ smart-file
 每个存储后端均实现此接口，提供原子级文件操作能力：
 
 | 方法 | 说明 |
-|------|------|
+| --- | --- |
 | `save(InputStream, FileStorageSaveParameter)` | 保存文件，返回存储标识 |
 | `delete(FileStorageDeleteParameter)` | 删除文件 |
 | `download(FileStorageGetParameter)` | 下载文件，返回输入流 |
@@ -49,7 +49,7 @@ smart-file
 面向业务层，提供更高层次的文件管理能力（通常结合数据库元数据使用）：
 
 | 方法 | 说明 |
-|------|------|
+| --- | --- |
 | `save(MultipartFile, FileSaveParameter)` | 保存 Web 上传文件 |
 | `save(InputStream, FileSaveParameter)` | 保存输入流文件 |
 | `save(File, FileSaveParameter)` | 保存本地文件 |
@@ -67,7 +67,7 @@ smart-file
 ### `FileStorageSaveParameter` — 文件保存参数
 
 | 字段 | 类型 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `fileStorageId` | `Long` | 存储器 ID（继承自 `FileStorageCommonParameter`） |
 | `filename` | `String` | 文件名，为空则使用原始文件名 |
 | `folder` | `String` | 存储目录，为空则使用当天日期（`yyyy/MM/dd`） |
@@ -75,43 +75,43 @@ smart-file
 
 ### `FileStorageDeleteParameter` — 文件删除参数
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `fileStorageId` | `Long` | 存储器 ID |
+| 字段            | 类型                          | 说明           |
+| --------------- | ----------------------------- | -------------- |
+| `fileStorageId` | `Long`                        | 存储器 ID      |
 | `fileStoreList` | `List<FileStorageDeleteItem>` | 待删除文件列表 |
 
 `FileStorageDeleteItem` 字段：
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `fileStoreKey` | `String` | 文件存储 Key |
-| `encryptedYn` | `boolean` | 是否加密存储 |
+| 字段           | 类型      | 说明         |
+| -------------- | --------- | ------------ |
+| `fileStoreKey` | `String`  | 文件存储 Key |
+| `encryptedYn`  | `boolean` | 是否加密存储 |
 
 ### `FileStorageGetParameter` — 文件查询/下载参数
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `fileStorageId` | `Long` | 存储器 ID |
-| `storageStoreKey` | `String` | 文件存储 Key |
-| `encryptedYn` | `boolean` | 是否加密 |
+| 字段              | 类型      | 说明         |
+| ----------------- | --------- | ------------ |
+| `fileStorageId`   | `Long`    | 存储器 ID    |
+| `storageStoreKey` | `String`  | 文件存储 Key |
+| `encryptedYn`     | `boolean` | 是否加密     |
 
 ### `FileStorageInitProperties` — 存储器初始化参数
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `fileStorageId` | `Long` | 存储器 ID |
-| `properties` | `String` | 存储器配置（JSON 字符串） |
-| `encryptedYn` | `boolean` | 是否加密 |
-| `privateKey` | `String` | 私钥（加密模式使用） |
-| `publicKey` | `String` | 公钥（加密模式使用） |
+| 字段            | 类型      | 说明                      |
+| --------------- | --------- | ------------------------- |
+| `fileStorageId` | `Long`    | 存储器 ID                 |
+| `properties`    | `String`  | 存储器配置（JSON 字符串） |
+| `encryptedYn`   | `boolean` | 是否加密                  |
+| `privateKey`    | `String`  | 私钥（加密模式使用）      |
+| `publicKey`     | `String`  | 公钥（加密模式使用）      |
 
 ### `FileStorageSaveResult` — 文件保存结果
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `fileStoreKey` | `String` | 文件存储 Key（用于后续下载/删除） |
-| `fileStorageId` | `Long` | 存储器 ID |
-| `encryptedYn` | `boolean` | 是否加密存储 |
+| 字段            | 类型      | 说明                              |
+| --------------- | --------- | --------------------------------- |
+| `fileStoreKey`  | `String`  | 文件存储 Key（用于后续下载/删除） |
+| `fileStorageId` | `Long`    | 存储器 ID                         |
+| `encryptedYn`   | `boolean` | 是否加密存储                      |
 
 ---
 
@@ -123,11 +123,12 @@ smart-file
 
 **配置属性（`SmartFileStorageDiskProperties`）：**
 
-| 属性 | 说明 |
-|------|------|
+| 属性       | 说明               |
+| ---------- | ------------------ |
 | `basePath` | 本地磁盘存储根路径 |
 
 **特性说明：**
+
 - 文件按 `yyyy/MM/dd` 日期目录自动分级存储
 - 文件名自动追加时间戳以避免重名，可通过 `useOriginalFilename=true` 关闭
 - 使用 Base64 编码的 `fileId` 作为存储 Key，内含目录、时间戳、文件名信息
@@ -141,16 +142,17 @@ smart-file
 
 **配置属性（`SmartFileStorageFtpProperties`）：**
 
-| 属性 | 默认值 | 说明 |
-|------|--------|------|
-| `host` | — | FTP 服务器地址 |
-| `port` | `21` | FTP 端口 |
-| `basePath` | — | 存储根路径 |
-| `username` | — | 用户名 |
-| `password` | — | 密码 |
-| `encoding` | — | 编码格式 |
+| 属性       | 默认值 | 说明           |
+| ---------- | ------ | -------------- |
+| `host`     | —      | FTP 服务器地址 |
+| `port`     | `21`   | FTP 端口       |
+| `basePath` | —      | 存储根路径     |
+| `username` | —      | 用户名         |
+| `password` | —      | 密码           |
+| `encoding` | —      | 编码格式       |
 
 **特性说明：**
+
 - 使用 Apache Commons Pool 管理 FTP 连接池，提升性能
 
 ---
@@ -161,16 +163,17 @@ smart-file
 
 **配置属性（`SmartFileStorageSftpProperties`）：**
 
-| 属性 | 默认值 | 说明 |
-|------|--------|------|
-| `host` | — | SFTP 服务器地址 |
-| `port` | `22` | SFTP 端口 |
-| `basePath` | — | 存储根路径 |
-| `username` | — | 用户名 |
-| `password` | — | 密码（与 privateKey 二选一）|
-| `privateKey` | — | 私钥路径（与 password 二选一）|
+| 属性         | 默认值 | 说明                           |
+| ------------ | ------ | ------------------------------ |
+| `host`       | —      | SFTP 服务器地址                |
+| `port`       | `22`   | SFTP 端口                      |
+| `basePath`   | —      | 存储根路径                     |
+| `username`   | —      | 用户名                         |
+| `password`   | —      | 密码（与 privateKey 二选一）   |
+| `privateKey` | —      | 私钥路径（与 password 二选一） |
 
 **特性说明：**
+
 - 基于 JSch 库实现 SSH/SFTP 通道
 - 支持密码和私钥两种认证方式
 - 使用连接池管理 Session 和 Channel
@@ -183,24 +186,24 @@ smart-file
 
 **配置属性（`SmartFileStorageMinioProperties`）：**
 
-| 属性 | 说明 |
-|------|------|
-| `endpoint` | MinIO 服务地址 |
-| `accessKey` | Access Key |
-| `secretKey` | Secret Key |
+| 属性         | 说明           |
+| ------------ | -------------- |
+| `endpoint`   | MinIO 服务地址 |
+| `accessKey`  | Access Key     |
+| `secretKey`  | Secret Key     |
 | `bucketName` | 默认存储桶名称 |
 
 **扩展能力（`MinioService` 接口）：**
 
-| 方法 | 说明 |
-|------|------|
-| `bucketExists(parameter, bucketName)` | 判断存储桶是否存在 |
-| `makeBucket(parameter, bucketName)` | 创建存储桶 |
-| `removeBucket(parameter, bucketName)` | 删除存储桶 |
-| `listBuckets(parameter)` | 查询存储桶列表 |
-| `save(parameter, bucketName, file/inputStream)` | 上传文件到指定存储桶 |
-| `getObjectUrl(parameter, bucketName, expiry)` | 获取带过期时间的文件外链 |
-| `download(parameter, bucketName)` | 从指定存储桶下载文件 |
+| 方法                                            | 说明                     |
+| ----------------------------------------------- | ------------------------ |
+| `bucketExists(parameter, bucketName)`           | 判断存储桶是否存在       |
+| `makeBucket(parameter, bucketName)`             | 创建存储桶               |
+| `removeBucket(parameter, bucketName)`           | 删除存储桶               |
+| `listBuckets(parameter)`                        | 查询存储桶列表           |
+| `save(parameter, bucketName, file/inputStream)` | 上传文件到指定存储桶     |
+| `getObjectUrl(parameter, bucketName, expiry)`   | 获取带过期时间的文件外链 |
+| `download(parameter, bucketName)`               | 从指定存储桶下载文件     |
 
 ---
 
@@ -210,21 +213,21 @@ smart-file
 
 **配置属性（`SmartFileStorageAliyunOssProperties`）：**
 
-| 属性 | 说明 |
-|------|------|
-| `endpoint` | OSS Endpoint 地址 |
-| `accessKey` | Access Key ID |
-| `secretKey` | Access Key Secret |
-| `bucketName` | 默认 Bucket 名称 |
+| 属性         | 说明              |
+| ------------ | ----------------- |
+| `endpoint`   | OSS Endpoint 地址 |
+| `accessKey`  | Access Key ID     |
+| `secretKey`  | Access Key Secret |
+| `bucketName` | 默认 Bucket 名称  |
 
 **扩展能力（`AliyunOssService` 接口）：**
 
-| 方法 | 说明 |
-|------|------|
-| `getOssClient(id)` | 获取 OSS 客户端实例 |
-| `save(parameter, bucketName, file/inputStream)` | 上传文件到指定 Bucket |
-| `delete(parameter, bucketName)` | 从指定 Bucket 删除文件 |
-| `download(parameter, bucketName)` | 从指定 Bucket 下载文件 |
+| 方法                                            | 说明                   |
+| ----------------------------------------------- | ---------------------- |
+| `getOssClient(id)`                              | 获取 OSS 客户端实例    |
+| `save(parameter, bucketName, file/inputStream)` | 上传文件到指定 Bucket  |
+| `delete(parameter, bucketName)`                 | 从指定 Bucket 删除文件 |
+| `download(parameter, bucketName)`               | 从指定 Bucket 下载文件 |
 
 ---
 
@@ -234,11 +237,11 @@ smart-file
 
 **配置属性（`SmartFileStorageAmazonS3Properties`）：**
 
-| 属性 | 说明 |
-|------|------|
-| `endpoint` | S3 兼容服务地址 |
-| `accessKey` | Access Key |
-| `secretKey` | Secret Key |
+| 属性         | 说明             |
+| ------------ | ---------------- |
+| `endpoint`   | S3 兼容服务地址  |
+| `accessKey`  | Access Key       |
+| `secretKey`  | Secret Key       |
 | `bucketName` | 默认 Bucket 名称 |
 
 > 支持 Amazon S3 协议兼容的对象存储服务（如 AWS S3、华为 OBS 等）
@@ -251,14 +254,14 @@ smart-file
 
 **配置属性（`SmartFileStorageQiniuProperties`）：**
 
-| 属性 | 说明 |
-|------|------|
-| `accessKey` | Access Key |
-| `secretKey` | Secret Key |
-| `bucketName` | 存储桶名称 |
-| `region` | 区域（如 `z0`、`z1`、`na0` 等）|
-| `url` | 文件访问域名 |
-| `useHttps` | 是否使用 HTTPS |
+| 属性         | 说明                            |
+| ------------ | ------------------------------- |
+| `accessKey`  | Access Key                      |
+| `secretKey`  | Secret Key                      |
+| `bucketName` | 存储桶名称                      |
+| `region`     | 区域（如 `z0`、`z1`、`na0` 等） |
+| `url`        | 文件访问域名                    |
+| `useHttps`   | 是否使用 HTTPS                  |
 
 ---
 
@@ -266,15 +269,15 @@ smart-file
 
 系统通过 `FileStorageTypeEnum` 区分存储类型：
 
-| 枚举值 | 存储类型 |
-|--------|----------|
-| `DISK` | 本地磁盘 |
-| `FTP` | FTP |
-| `SFTP` | SFTP/NFS |
-| `MINIO` | MinIO |
+| 枚举值       | 存储类型   |
+| ------------ | ---------- |
+| `DISK`       | 本地磁盘   |
+| `FTP`        | FTP        |
+| `SFTP`       | SFTP/NFS   |
+| `MINIO`      | MinIO      |
 | `ALIYUN_OSS` | 阿里云 OSS |
-| `AMAZON_S3` | Amazon S3 |
-| `QINIU` | 七牛云 |
+| `AMAZON_S3`  | Amazon S3  |
+| `QINIU`      | 七牛云     |
 
 ---
 
@@ -287,7 +290,7 @@ smart-file
 **Starter 与扩展模块对应关系：**
 
 | Starter artifactId | 对应扩展模块 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `smart-boot-starter-file-disk` | `smart-file-extensions-disk` | 本地磁盘存储 |
 | `smart-boot-starter-file-ftp` | `smart-file-extensions-ftp` | FTP 存储 |
 | `smart-boot-starter-file-sftp` | `smart-file-extensions-sftp` | SFTP 存储 |
@@ -413,7 +416,7 @@ FileHandlerResult result = fileService.save(multipartFile, FileSaveParameter.bui
         .build());
 
 // 上传本地文件
-FileHandlerResult result2 = fileService.save(new File("/tmp/test.pdf"), 
+FileHandlerResult result2 = fileService.save(new File("/tmp/test.pdf"),
         FileSaveParameter.builder().fileStorageCode("your-storage-code").build());
 ```
 

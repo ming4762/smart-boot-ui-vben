@@ -5,6 +5,7 @@
 `smart-exception` 是 smart-boot 框架的统一异常处理模块，负责拦截全局 HTTP 请求中产生的异常，将其转化为标准响应格式返回，同时支持异步多渠道异常通知（控制台、数据库、远程等）。
 
 **Maven 坐标：**
+
 ```xml
 <dependency>
     <groupId>com.smart</groupId>
@@ -14,6 +15,7 @@
 ```
 
 **Starter 引入（推荐）：**
+
 ```xml
 <dependency>
     <groupId>com.smart</groupId>
@@ -70,6 +72,7 @@ GlobalExceptionHandler（@ControllerAdvice 全局拦截）
 全局异常入口，使用 Spring 的 `@ControllerAdvice` + `@ExceptionHandler(Exception.class)` 拦截所有请求异常。
 
 **处理流程：**
+
 1. 对 `UndeclaredThrowableException` 进行解包，提取真实原因异常；
 2. 通过 `SmartIdGenerator.nextId()` 为本次异常生成唯一编号 `exceptionNo`（雪花 ID）；
 3. 调用 `AsyncNoticeHandler.noticeException()` 进行异步通知；
@@ -85,6 +88,7 @@ GlobalExceptionHandler（@ControllerAdvice 全局拦截）
 负责将异常对象转换为 HTTP 响应体（`Result` 对象）。
 
 **核心机制：**
+
 - 在 `afterPropertiesSet()` 阶段，从 Spring 容器中收集所有 `ExceptionMessageProcessor<T>` 实现，按泛型类型归类；
 - 若同一类型存在多个处理器，取 `order()` 最小的优先执行（并打印 warn 日志）；
 - 查找处理器时支持**继承链向上查找**，即子类异常可被父类处理器匹配；
@@ -100,7 +104,7 @@ GlobalExceptionHandler（@ControllerAdvice 全局拦截）
 异常消息处理器核心接口，泛型 `T` 指定处理的异常类型。
 
 | 方法 | 说明 |
-|------|------|
+| --- | --- |
 | `processorType()` | 返回处理的异常类型 |
 | `order()` | 处理器优先级，值越小优先级越高（接口默认值为 `0`） |
 | `message(T e, long exceptionNo, HttpServletRequest request)` | 返回响应体 |
@@ -120,7 +124,7 @@ ExceptionMessageProcessor<T>
 所有内置处理器的 `order()` 均返回 `Integer.MAX_VALUE`，便于业务自定义处理器以更小的 order 值优先覆盖。
 
 | 处理器类 | 处理的异常类型 | 说明 |
-|----------|--------------|------|
+| --- | --- | --- |
 | `DefaultExceptionHandler` | `Exception`（通用兜底） | 记录 error 日志，返回"系统发生未知异常" |
 | `DefaultBaseExceptionProcessor` | `BaseException` | 使用异常自身的 code 和 message 构造失败响应 |
 | `DefaultBusinessExceptionProcessor` | `BusinessException` | 使用 `BUSINESS_ERROR` 状态码构造失败响应 |
@@ -135,7 +139,7 @@ ExceptionMessageProcessor<T>
 | `DefaultHttpMediaTypeNotSupportedExceptionProcessor` | `HttpMediaTypeNotSupportedException` | 返回 415 Content-Type 不支持 |
 | `DefaultHttpMessageNotReadableExceptionMessageProcessor` | `HttpMessageNotReadableException` | 返回请求体读取失败提示 |
 | `DefaultMethodArgumentTypeMismatchExceptionMessageProcessor` | `MethodArgumentTypeMismatchException` | 返回参数类型不匹配提示 |
-AsyncRequestTimeoutException` | 返回异步请求超时提示 |
+| AsyncRequestTimeoutException` | 返回异步请求超时提示 |
 
 ---
 
@@ -146,6 +150,7 @@ AsyncRequestTimeoutException` | 返回异步请求超时提示 |
 异常发生后，通过 `CompletableFuture.runAsync()` 异步执行所有注册的 `ExceptionNotice` 实现。
 
 **上下文传播：**
+
 - 使用 `TtlRunnable`（transmittable-thread-local）传播 ThreadLocal 上下文；
 - 使用 `DelegatingSecurityContextRunnable` 传播 Spring Security 上下文；
 - 使用 Micrometer Tracing 传播当前 Span（支持链路追踪）；
@@ -158,7 +163,7 @@ AsyncRequestTimeoutException` | 返回异步请求超时提示 |
 .notice.ExceptionNotice`
 
 | 方法 | 说明 |
-|------|------|
+| --- | --- |
 | `notice(ExceptionNoticeDTO)` | 执行通知逻辑（入口） |
 | `include()` | 白名单：指定需要通知的异常类型，返回 `null` 则通知所有 |
 | `exclude()` | 黑名单：指定不通知的异常类型，默认返回空列表 |
@@ -176,14 +181,14 @@ ExceptionNotice
 
 **`AbstractCommonExcludeExceptionNotice` 默认排除的异常类型：**
 
-| 排除的异常类 | 原因 |
-|-------------|------|
-| `BindException` | 参数校验类异常，无需通知 |
-| `MethodArgumentNotValidException` | 参数校验类异常，无需通知 |
-| `ConstraintViolationException` | 参数校验类异常，无需通知 |
-| `BusinessException` | 业务异常，无需通知 |
-| `I18nException` | 国际化业务异常，无需通知 |
-| `AccessDeniedException` | 权限拒绝异常，无需通知 |
+| 排除的异常类                       | 原因                       |
+| ---------------------------------- | -------------------------- |
+| `BindException`                    | 参数校验类异常，无需通知   |
+| `MethodArgumentNotValidException`  | 参数校验类异常，无需通知   |
+| `ConstraintViolationException`     | 参数校验类异常，无需通知   |
+| `BusinessException`                | 业务异常，无需通知         |
+| `I18nException`                    | 国际化业务异常，无需通知   |
+| `AccessDeniedException`            | 权限拒绝异常，无需通知     |
 | `HandlerMethodValidationException` | 接口参数校验异常，无需通知 |
 
 ---
@@ -194,12 +199,12 @@ ExceptionNotice
 
 通知时携带的异常上下文信息：
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `exception` | `Exception` | 异常对象 |
-| `exceptionNo` | `Long` | 异常唯一编号（雪花 ID） |
-| `requestIp` | `String` | 请求客户端 IP |
-| `requestPath` | `String` | 请求路径（`request.getServletPath()`） |
+| 字段          | 类型        | 说明                                   |
+| ------------- | ----------- | -------------------------------------- |
+| `exception`   | `Exception` | 异常对象                               |
+| `exceptionNo` | `Long`      | 异常唯一编号（雪花 ID）                |
+| `requestIp`   | `String`    | 请求客户端 IP                          |
+| `requestPath` | `String`    | 请求路径（`request.getServletPath()`） |
 
 ---
 
@@ -242,7 +247,7 @@ I18nException.of(MyI18nMessage.SOME_ERROR, cause);
 `SmartExceptionAutoConfiguration` 在 `@ConditionalOnClass(GlobalExceptionHandler.class)` 条件下生效，负责自动注册以下 Bean：
 
 | Bean | 条件 | 说明 |
-|------|------|------|
+| --- | --- | --- |
 | `AsyncNoticeHandler` | 无条件 | 异步通知调度器 |
 | `DefaultExceptionMessageHandler` | `@ConditionalOnMissingBean(ExceptionMessageHandler.class)` | 可自定义替换 |
 | `GlobalExceptionHandler` | `@ConditionalOnMissingBean(GlobalExceptionHandler.class)` | 可自定义替换 |
@@ -261,11 +266,11 @@ I18nException.of(MyI18nMessage.SOME_ERROR, cause);
 **sys_exception 表字段：**
 
 | 字段 | 说明 |
-|------|------|
+| --- | --- |
 | id | 异常编号（雪花 ID，即 exceptionNo） |
 | exceptionMessage | 异常信息（`exception.toString()`） |
 | stackTrace | 完整堆栈信息 |
-| reque| 请求客户端 IP |
+| reque | 请求客户端 IP |
 | serverIp | 服务端 IP（`InetAddress.getLocalHost().getHostAddress()`） |
 | requestPath | 请求路径 |
 | operateUserId | 操作人员 ID |
@@ -280,6 +285,7 @@ I18nException.of(MyI18nMessage.SOME_ERROR, cause);
 > 若容器"dbExceptionNotice")`）。
 
 **微服务场景引入：**
+
 ```xml
 <dependency>
     <groupId>com.smart</groupId>
@@ -366,10 +372,6 @@ public ExceptionMessageHandler myExceptionMessageHandler() {
 
 每次异常均由 `SmartIdGenerator.nextId()`（雪花算法）生成唯一 `exceptionNo`，该编号会：
 
-1. 携带在响应体的 `ExceptionResult`     @Override
-   public List<Class<? extends Exception>> include() {
-   return List.of(SystemException.class); // 只通知系统异常
-   }
+1. 携带在响应体的 `ExceptionResult` @Override public List<Class<? extends Exception>> include() { return List.of(SystemException.class); // 只通知系统异常 }
 
    @Override
- 

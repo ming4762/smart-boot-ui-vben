@@ -13,21 +13,21 @@
   "sideEffects": [
     "**/*.css"
   ],
+  "imports": {
+    "#/*": "./src/*"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     }
   },
-  "imports": {
-    "#/*": "./src/*"
-  },
   "dependencies": {
     "@smart/common": "workspace:*",
     "@vben/stores": "workspace:*",
     "@vben/types": "workspace:*",
+    "vue": "catalog:",
     "vue-router": "catalog:",
-    "wujie-vue3": "catalog:",
-    "vue": "catalog:"
+    "wujie-vue3": "catalog:"
   }
 }

@@ -109,8 +109,8 @@ export const getDeptTreeListApi = async () => {
   return (
     listToTree(
       data,
-      (item) => item.deptId,
-      (item) => item.parentId,
+      (item) => item.deptId as number | string,
+      (item) => item.parentId as number | string,
       0,
     ) || []
   );

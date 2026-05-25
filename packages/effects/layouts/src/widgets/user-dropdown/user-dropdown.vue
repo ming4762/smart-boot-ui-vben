@@ -103,7 +103,10 @@ const props = withDefaults(defineProps<Props>(), {
   changePasswordHandler: undefined,
 });
 
-const emit = defineEmits<{ clearPreferencesAndLogout: []; logout: [() => void] }>();
+const emit = defineEmits<{
+  clearPreferencesAndLogout: [];
+  logout: [() => void];
+}>();
 const router = useRouter();
 const {
   globalLockScreenShortcutKey,
@@ -246,7 +249,7 @@ const handleGoToPersonalCenter = () => {
   <!-- 修改密码弹窗 -->
   <RenderChangePasswordModal
     :change-password-handler="props.changePasswordHandler"
-/>
+  />
   <Preferences
     v-if="preferencesButtonPosition.userDropdown"
     ref="refPreferences"

@@ -223,7 +223,6 @@ const useSmartTableSelect = (
       });
     }
   };
-  ``;
 
   const handleCheckboxAll = ({ checked }: any) => {
     const currentDataList = tableApi.getGrid().getData();

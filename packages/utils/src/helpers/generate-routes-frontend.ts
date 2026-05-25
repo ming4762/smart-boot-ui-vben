@@ -39,7 +39,7 @@ async function generateRoutesByFrontend(
  * @param access
  */
 function hasAuthority(route: RouteRecordRaw, access: string[]) {
-  const authority = route.meta?.authority;
+  const authority = route.meta?.authority as string | undefined;
   if (!authority) {
     return true;
   }

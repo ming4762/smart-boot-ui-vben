@@ -27,12 +27,12 @@ public Result<String> rateLimitDemo() {
 
 ### 2、 注解参数说明
 
-| 序号 | 属性    | 类型       | <div style="width: 200px">说明</div> | 可选值 | 默认值                                                       |
-| ---- | ------- | ---------- | ------------------------------------ | ------ | ------------------------------------------------------------ |
-| 1    | value   | String     | 限流的key                            |        | 函数限定名，例如com.smart.service.system.TestController#rateLimitDemo() |
-| 2    | limit   | Long       | 单位时间内访问次数限制               |        |                                                              |
-| 3    | unit    | ChronoUnit | 时间单位                             |        | ChronoUnit.SECONDS                                           |
-| 4    | message | String     | 触发限流的提示信息                   |        | The maximum access times limit is exceeded. Please try again later |
+| 序号 | 属性 | 类型 | <div style="width: 200px">说明</div> | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | value | String | 限流的key |  | 函数限定名，例如com.smart.service.system.TestController#rateLimitDemo() |
+| 2 | limit | Long | 单位时间内访问次数限制 |  |  |
+| 3 | unit | ChronoUnit | 时间单位 |  | ChronoUnit.SECONDS |
+| 4 | message | String | 触发限流的提示信息 |  | The maximum access times limit is exceeded. Please try again later |
 
 ### 3、使用Redis限流
 
@@ -85,4 +85,3 @@ smart:
     redis:
       workspace: default
 ```
-

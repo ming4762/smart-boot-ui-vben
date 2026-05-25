@@ -21,19 +21,19 @@
   },
   "dependencies": {
     "@vben-core/composables": "workspace:*",
-    "@vben-core/icons": "workspace:*",
-    "@vben-core/shared": "workspace:*",
     "@vben-core/form-ui": "workspace:*",
-    "@vben-core/shadcn-ui": "workspace:*",
-    "@vben-core/preferences": "workspace:*",
+    "@vben-core/icons": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
+    "@vben-core/preferences": "workspace:*",
+    "@vben-core/shadcn-ui": "workspace:*",
+    "@vben-core/shared": "workspace:*",
     "@vben-core/typings": "workspace:*",
+    "sortablejs": "catalog:",
     "vue": "catalog:",
-    "vxe-table": "catalog:",
     "vxe-pc-ui": "catalog:",
+    "vxe-table": "catalog:",
     "zod": "catalog:",
-    "zod-defaults": "catalog:",
-    "sortablejs": "catalog:"
+    "zod-defaults": "catalog:"
   },
   "devDependencies": {
     "@types/sortablejs": "catalog:"

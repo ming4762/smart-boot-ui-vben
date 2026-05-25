@@ -13,6 +13,9 @@
   "sideEffects": [
     "**/*.css"
   ],
+  "imports": {
+    "#/*": "./src/*"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -34,9 +37,6 @@
       "types": "./src/utils/index.ts",
       "default": "./src/utils/index.ts"
     }
-  },
-  "imports": {
-    "#/*": "./src/*"
   },
   "dependencies": {
     "@vben/constants": "workspace:*",
