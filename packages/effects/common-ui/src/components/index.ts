@@ -24,6 +24,7 @@ export {
   VbenButtonGroup,
   VbenCheckbox,
   VbenCheckButtonGroup,
+  VbenCollapsibleParams,
   VbenContextMenu,
   VbenCountToAnimator,
   VbenFullScreen,
@@ -36,6 +37,10 @@ export {
   VbenSpinner,
 } from '@vben-core/shadcn-ui';
 
-export type { FlattenedItem } from '@vben-core/shadcn-ui';
+export type {
+  CollapsibleParamSchema,
+  CollapsibleParamsProps,
+  FlattenedItem,
+} from '@vben-core/shadcn-ui';
 export { globalShareState } from '@vben-core/shared/global-state';
 export * from '@vben-core/smart-table-ui';

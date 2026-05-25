@@ -7,7 +7,7 @@ import { computed, useTemplateRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useHoverToggle } from '@vben/hooks';
-import { IconifyIcon, LockKeyhole, LogOut } from '@vben/icons';
+import { IconifyIcon, LockKeyhole, LogOut, Settings } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
@@ -32,6 +32,7 @@ import { useMagicKeys, whenever } from '@vueuse/core';
 import { ChangePasswordModal } from '../change-password';
 import { ChangeTenantModal } from '../change-tenant';
 import { LockScreenModal } from '../lock-screen';
+import { Preferences } from '../preferences';
 
 interface Props {
   /**
@@ -102,11 +103,13 @@ const props = withDefaults(defineProps<Props>(), {
   changePasswordHandler: undefined,
 });
 
-const emit = defineEmits<{ logout: [() => void] }>();
+const emit = defineEmits<{ clearPreferencesAndLogout: []; logout: [() => void] }>();
 const router = useRouter();
-
-const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
-  usePreferences();
+const {
+  globalLockScreenShortcutKey,
+  globalLogoutShortcutKey,
+  preferencesButtonPosition,
+} = usePreferences();
 const accessStore = useAccessStore();
 const [LockModal, lockModalApi] = useVbenModal({
   connectedComponent: LockScreenModal,
@@ -125,6 +128,7 @@ const [RenderChangePasswordModal, changePasswordModalApi] = useVbenModal({
 
 const refTrigger = useTemplateRef('refTrigger');
 const refContent = useTemplateRef('refContent');
+const refPreferences = useTemplateRef('refPreferences');
 const [openPopover, hoverWatcher] = useHoverToggle(
   [refTrigger, refContent],
   () => props.hoverDelay,
@@ -179,6 +183,11 @@ function handleSubmitLogout() {
     logoutModalApi.setState({ confirmLoading: false });
     logoutModalApi.close();
   });
+}
+
+// 设置 - 打开偏好设置抽屉
+function handleOpenSettings() {
+  refPreferences.value?.open();
 }
 
 if (enableShortcutKey.value) {
@@ -237,13 +246,19 @@ const handleGoToPersonalCenter = () => {
   <!-- 修改密码弹窗 -->
   <RenderChangePasswordModal
     :change-password-handler="props.changePasswordHandler"
+/>
+  <Preferences
+    v-if="preferencesButtonPosition.userDropdown"
+    ref="refPreferences"
+    :show-button="false"
+    @clear-preferences-and-logout="emit('clearPreferencesAndLogout')"
   />
 
   <DropdownMenu v-model:open="openPopover">
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
         <div class="flex-center hover:text-accent-foreground">
-          <VbenAvatar :alt="text" :src="avatar" class="size-8" dot />
+          <VbenAvatar :alt="text" :src="avatar as never" class="size-8" dot />
         </div>
       </div>
     </DropdownMenuTrigger>
@@ -252,7 +267,7 @@ const handleGoToPersonalCenter = () => {
         <DropdownMenuLabel class="flex items-center p-3">
           <VbenAvatar
             :alt="text"
-            :src="avatar"
+            :src="avatar as never"
             class="size-12"
             dot
             dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
@@ -315,6 +330,14 @@ const handleGoToPersonalCenter = () => {
           {{ $t('ui.widgets.changePassword.title') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem
+          v-if="preferencesButtonPosition.userDropdown"
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="handleOpenSettings"
+        >
+          <Settings class="mr-2 size-4" />
+          {{ $t('preferences.title') }}
+        </DropdownMenuItem>
         <DropdownMenuItem
           v-if="preferences.widget.lockScreen"
           class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"

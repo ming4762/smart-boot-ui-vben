@@ -3,11 +3,15 @@
  * 可用于 vben-form、vben-modal、vben-drawer 等组件使用,
  */
 
-import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
+
+import type { BaseFormComponentType } from '@vben/common-ui';
+
+import { h } from 'vue';
 
 import { globalShareState } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+
 import {
   AutoComplete,
   Button,
@@ -22,17 +26,15 @@ import {
   notification,
   Radio,
   RadioGroup,
-  RangePicker,
   Rate,
   Select,
   Space,
   Switch,
-  Textarea,
+  TextArea,
   TimePicker,
   TreeSelect,
   Upload,
-} from 'ant-design-vue';
-import { h } from 'vue';
+} from 'antdv-next';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -95,12 +97,12 @@ async function initComponentAdapter() {
     },
     Radio,
     RadioGroup,
-    RangePicker,
+    RangePicker: withDefaultPlaceholder(DatePicker.RangePicker, 'select'),
     Rate,
     Select: withDefaultPlaceholder(Select, 'select'),
     Space,
     Switch,
-    Textarea: withDefaultPlaceholder(Textarea, 'input'),
+    Textarea: withDefaultPlaceholder(TextArea, 'input'),
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
@@ -115,7 +117,7 @@ async function initComponentAdapter() {
     copyPreferencesSuccess: (title, content) => {
       notification.success({
         description: content,
-        message: title,
+        title,
         placement: 'bottomRight',
       });
     },

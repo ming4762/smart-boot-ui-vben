@@ -3,9 +3,10 @@ import type { Ref } from 'vue';
 
 import type { IProducts } from './typing';
 
-import { keepPreviousData, useQuery } from '@tanstack/vue-query';
-import { Button } from 'ant-design-vue';
 import { ref } from 'vue';
+
+import { keepPreviousData, useQuery } from '@tanstack/vue-query';
+import { Button } from 'antdv-next';
 
 const LIMIT = 10;
 const fetcher = async (page: Ref<number>): Promise<IProducts> => {
