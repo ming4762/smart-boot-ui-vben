@@ -11,7 +11,6 @@ import {
   z,
 } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import { createPassword } from '@vben/utils';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
@@ -141,7 +140,7 @@ const handleLogin = (loginData: Recordable<any>) => {
   authStore
     .authLogin({
       code,
-      password: createPassword(username, loginData.password),
+      password: loginData.password,
       username,
     })
     .catch((_) => {
