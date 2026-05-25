@@ -1,6 +1,6 @@
 {
   "name": "@smart/web-auth-sso",
-  "version": "5.5.9",
+  "version": "5.7.0",
   "private": true,
   "type": "module",
   "scripts": {
