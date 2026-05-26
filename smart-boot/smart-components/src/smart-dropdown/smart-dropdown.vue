@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { MenuItemType } from 'antdv-next';
+
 import type { AnyNormalFunction } from '@vben/types';
 
 import { computed } from 'vue';
@@ -6,7 +8,7 @@ import { computed } from 'vue';
 import { IconifyIcon } from '@vben/icons';
 import { isFunction, omit } from '@vben/utils';
 
-import { Dropdown, Menu, MenuItem, Popconfirm } from 'antdv-next';
+import { Dropdown, Popconfirm } from 'antdv-next';
 
 type TriggerType = 'click' | 'contextmenu' | 'hover';
 
@@ -34,13 +36,18 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const emit = defineEmits(['menuEvent']);
 
-function handleClickMenu(item: DropMenu) {
-  const { event } = item;
-  const menu = props.dropMenuList.find(
-    (item) => `${item.event}` === `${event}`,
+function handleClickMenu(key: string) {
+  const item = props.dropMenuList.find(
+    (i) => `${i.event}` === key,
   );
-  emit('menuEvent', menu);
-  item.onClick?.();
+  if (item) {
+    emit('menuEvent', item);
+    item.onClick?.();
+  }
+}
+
+function handleMenuClick(info: { key: string }) {
+  handleClickMenu(info.key);
 }
 
 const getPopConfirmAttrs = computed(() => {
@@ -54,53 +61,92 @@ const getPopConfirmAttrs = computed(() => {
   };
 });
 
-const getAttr = (key: number | string) => ({ key });
+const popConfirmMap = computed(() => {
+  const map = new Map<string, any>();
+  for (const item of props.dropMenuList) {
+    if (item.popConfirm) {
+      map.set(`${item.event}`, item.popConfirm);
+    }
+  }
+  return map;
+});
+
+const preIconMap = computed(() => {
+  const map = new Map<string, string>();
+  for (const item of props.dropMenuList) {
+    if (item.preIcon) {
+      map.set(`${item.event}`, item.preIcon);
+    }
+  }
+  return map;
+});
+
+const menuProps = computed(() => {
+  const items: MenuItemType[] = [];
+  for (const item of props.dropMenuList) {
+    items.push({
+      key: `${item.event}`,
+      label: item.text,
+      disabled: item.disabled,
+    });
+    if (item.divider) {
+      items.push({ type: 'divider', key: `d-${item.event}` });
+    }
+  }
+  return {
+    items,
+    selectedKeys: props.selectedKeys,
+  };
+});
 </script>
 
 <template>
-  <Dropdown v-bind="$attrs" :trigger="trigger">
+  <Dropdown
+    v-bind="$attrs"
+    :trigger="trigger"
+    :menu="menuProps"
+    @menu-click="handleMenuClick"
+  >
     <span>
       <slot></slot>
     </span>
-    <template #overlay>
-      <Menu :selected-keys="selectedKeys">
-        <template v-for="item in dropMenuList" :key="`${item.event}`">
-          <MenuItem
-            v-bind="getAttr(item.event)"
-            :disabled="item.disabled"
-            @click="handleClickMenu(item)"
-          >
-            <Popconfirm
-              v-if="popconfirm && item.popConfirm"
-              v-bind="getPopConfirmAttrs(item.popConfirm)"
-              :disabled="item.disabled"
-            >
-              <template v-if="item.popConfirm.icon" #icon>
-                <IconifyIcon :icon="item.popConfirm.icon" />
-              </template>
-              <div>
-                <IconifyIcon
-                  v-if="item.preIcon"
-                  :icon="item.preIcon"
-                  class="anticon"
-                />
-                <span class="ml-1">{{ item.text }}</span>
-              </div>
-            </Popconfirm>
-            <template v-else>
-              <IconifyIcon
-                v-if="item.preIcon"
-                :icon="item.preIcon"
-                class="anticon"
-              />
-              <span class="ml-1">{{ item.text }}</span>
-            </template>
-          </MenuItem>
-          <Menu.Divider v-if="item.divider" :key="`d-${item.event}`" />
+    <template #labelRender="menuItem">
+      <Popconfirm
+        v-if="
+          popconfirm &&
+            menuItem &&
+            popConfirmMap.get(String(menuItem.key))
+        "
+        v-bind="
+          getPopConfirmAttrs(popConfirmMap.get(String(menuItem.key)))
+        "
+        :disabled="menuItem.disabled"
+      >
+        <template
+          v-if="popConfirmMap.get(String(menuItem.key))?.icon"
+          #icon
+        >
+          <IconifyIcon
+            :icon="popConfirmMap.get(String(menuItem.key)).icon"
+          />
         </template>
-      </Menu>
+        <span>
+          <IconifyIcon
+            v-if="preIconMap.get(String(menuItem.key))"
+            :icon="preIconMap.get(String(menuItem.key))!"
+            class="anticon"
+          />
+          <span class="ml-1">{{ menuItem.label }}</span>
+        </span>
+      </Popconfirm>
+      <template v-else>
+        <IconifyIcon
+          v-if="preIconMap.get(String(menuItem.key))"
+          :icon="preIconMap.get(String(menuItem.key))!"
+          class="anticon"
+        />
+        <span class="ml-1">{{ menuItem.label }}</span>
+      </template>
     </template>
   </Dropdown>
 </template>
-
-<style scoped></style>
