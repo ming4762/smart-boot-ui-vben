@@ -30,7 +30,7 @@ const isDisabled = computed(() => {
   <Primitive
     :as="as"
     :as-child="asChild"
-    :class="cn(buttonVariants({ variant, size }), props.class)"
+    :class="cn(buttonVariants({ variant, size: size as never }), props.class)"
     :disabled="isDisabled"
   >
     <LoaderCircle

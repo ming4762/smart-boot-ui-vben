@@ -144,6 +144,13 @@ class RequestClient {
   }
 
   /**
+   * 获取基础URL
+   */
+  public getBaseUrl() {
+    return this.instance.defaults.baseURL;
+  }
+
+  /**
    * POST请求方法
    */
   public post<T = any>(

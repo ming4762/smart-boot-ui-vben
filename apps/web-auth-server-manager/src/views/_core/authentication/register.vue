@@ -74,16 +74,15 @@ const formSchema = computed((): VbenFormSchema[] => {
             ),
           ]),
       }),
-      rules: z.boolean().refine((value) => !!value, {
+      rules: z.boolean().refine((value) => value, {
         message: $t('authentication.agreeTip'),
       }),
     },
   ];
 });
 
-function handleSubmit(value: Recordable<any>) {
-   
-  console.log('register submit:', value);
+function handleSubmit(_: Recordable<any>) {
+  // TODO: submit
 }
 </script>
 

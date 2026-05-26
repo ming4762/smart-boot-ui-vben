@@ -1,4 +1,4 @@
-import { ApiServiceEnum, requestClient } from '#/api/request';
+import { ApiServiceEnum, requestClient } from '../request';
 
 interface FeedBackData {
   exceptionNoList: number[];

@@ -50,7 +50,7 @@ const [Form, formApi] = useVbenForm({
       },
       rules: z.string().refine(
         (value) => {
-          const reg = new RegExp(unref(computedPasswordValidate));
+          const reg = new RegExp(unref(computedPasswordValidate) || '');
           return reg.test(value);
         },
         {

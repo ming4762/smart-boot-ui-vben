@@ -7,7 +7,7 @@ import {
   ApiServiceEnum,
   baseRequestClient,
   requestClient,
-} from '#/api/request';
+} from '../request';
 
 enum Api {
   changeTenant = '/auth/tenant/change',

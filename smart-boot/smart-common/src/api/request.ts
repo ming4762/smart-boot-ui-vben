@@ -14,9 +14,8 @@ import {
 import { useAccessStore } from '@vben/stores';
 import { getCurrentTimezone } from '@vben/utils';
 
-import { useAuthStore } from '#/store';
-import { createErrorModal, errorMessage } from '#/utils';
-
+import { useAuthStore } from '../store';
+import { createErrorModal, errorMessage } from '../utils';
 import { refreshTokenApi } from './core';
 
 const { apiURL, apiMode } = useAppConfig(import.meta.env, import.meta.env.PROD);

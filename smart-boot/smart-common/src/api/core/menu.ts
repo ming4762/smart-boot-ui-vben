@@ -3,8 +3,8 @@ import type { RouteRecordStringComponent } from '@vben/types';
 import { ApiServiceEnum } from '@vben/constants';
 import { camelToLine, listToTree } from '@vben/utils';
 
-import { requestClient } from '#/api/request';
-import { MODULE_PATH_MAPPING } from '#/constants';
+import { requestClient } from '../request';
+import { MODULE_PATH_MAPPING } from '../../constants';
 
 enum Api {
   GetMenuList = '/sys/user/listUserMenu',

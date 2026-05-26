@@ -33,14 +33,12 @@ class SmartTableApi {
         ...defaultState,
         ...storeState,
       },
-      {
-        onUpdate: () => {
-          // this.prevState = this.state;
-          this.state = this.store.state;
-          this.updateState();
-        },
-      },
     );
+
+    this.store.subscribe((state) => {
+      this.state = state;
+      this.updateState();
+    });
 
     this.state = this.store.state;
     this.stateHandler = new StateHandler();

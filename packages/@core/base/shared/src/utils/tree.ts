@@ -187,7 +187,7 @@ function listToTree<T extends TreeNode>(
  * @param options - 配置选项，包括子节点属性名
  * @returns 排序后的树形数据
  */
-function sortTree<T extends Record<string, unknown>>(
+function sortTree<T extends Record<string, any>>(
   treeData: T[],
   sortFunction: (a: T, b: T) => number,
   options?: TreeConfigOptions,

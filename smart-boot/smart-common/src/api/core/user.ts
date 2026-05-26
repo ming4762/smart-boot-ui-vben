@@ -2,7 +2,7 @@ import type { ChangePasswordParams, UserInfo, UserTenant } from '@vben/types';
 
 import { useUserStore } from '@vben/stores';
 
-import { ApiServiceEnum, requestClient } from '#/api/request';
+import { ApiServiceEnum, requestClient } from '../request';
 
 enum Api {
   changePassword = 'sys/auth/changePassword',

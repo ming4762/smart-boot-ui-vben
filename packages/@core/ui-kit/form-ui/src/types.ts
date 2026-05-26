@@ -273,6 +273,8 @@ interface FormSchemaBody extends Omit<FormCommonConfig, 'componentProps'> {
   renderComponentContent?: RenderComponentContentType;
   /** 字段规则 */
   rules?: FormSchemaRuleType;
+  /** 插槽 */
+  slot?: string;
   /** 后缀 */
   suffix?: CustomRenderType;
   /**
