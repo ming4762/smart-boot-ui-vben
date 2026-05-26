@@ -1,9 +1,8 @@
-import { remove as doRemove } from 'vue';
-
 export const remove = <T>(array: T[], predicate: (item: T) => boolean) => {
-  array.forEach((item) => {
-    if (predicate(item)) {
-      doRemove(array, item);
+  for (let i = array.length - 1; i >= 0; i--) {
+    const item = array[i];
+    if (item !== undefined && predicate(item)) {
+      array.splice(i, 1);
     }
-  });
+  }
 };

@@ -1,6 +1,6 @@
 import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 
-import type { AuthApi } from '#/api';
+import type { AuthApi } from '../api';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -13,9 +13,8 @@ import { createPassword } from '@vben/utils';
 import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
-import { changePasswordApi, changeTenantApi, loginApi, logoutApi } from '#/api';
-import { requestClient } from '#/api/request';
-import { $t } from '#/locales';
+import { changePasswordApi, changeTenantApi, loginApi, logoutApi, requestClient } from '../api';
+import { $t } from '../locales';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -95,19 +94,13 @@ export const useAuthStore = defineStore('auth', () => {
     params: Recordable<any>,
     onSuccess?: () => Promise<void> | void,
   ) {
-    // 异步处理用户登录操作并获取 accessToken
-    let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
       const loginData = await loginApi(params as never);
-      userInfo = await afterLogin(loginData, false, onSuccess);
+      return { userInfo: await afterLogin(loginData, false, onSuccess) };
     } finally {
       loginLoading.value = false;
     }
-
-    return {
-      userInfo,
-    };
   }
 
   /**

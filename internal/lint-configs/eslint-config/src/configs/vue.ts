@@ -86,8 +86,8 @@ export async function vue(): Promise<Linter.Config[]> {
         'vue/dot-notation': ['error', { allowKeywords: true }],
         'vue/eqeqeq': ['error', 'smart'],
         'vue/html-closing-bracket-newline': 'error',
-        'vue/html-indent': 'off',
-        // 'vue/html-indent': ['error', 2],
+        // 'vue/html-indent': 'off',
+        'vue/html-indent': ['error', 2],
         'vue/html-quotes': ['error', 'double'],
         'vue/html-self-closing': [
           'error',

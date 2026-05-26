@@ -53,10 +53,10 @@ const computedButtonBinds = computed(() => {
 
 <template>
   <SmartIconButton v-if="computedHasAuth" v-bind="computedButtonBinds">
-{{
-    slots
-  }}
-</SmartIconButton>
+    {{
+      slots
+    }}
+  </SmartIconButton>
   <Tooltip v-else v-bind="props.tooltipProps">
     <SmartIconButton v-bind="computedButtonBinds">{{ slots }}</SmartIconButton>
   </Tooltip>

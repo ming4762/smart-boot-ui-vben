@@ -1,4 +1,4 @@
-import { ApiServiceEnum, requestClient } from '#/api/request';
+import { ApiServiceEnum, requestClient } from '../request';
 
 enum Api {
   readFrontI18n = 'public/i18n/readFrontI18n',

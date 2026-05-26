@@ -1,4 +1,4 @@
-import { $t as t } from '#/locales';
+import { $t as t } from '../locales';
 
 /**
  * 获取启用停用下拉列
