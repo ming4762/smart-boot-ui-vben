@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { TransferEmits } from 'antdv-next'
+
 import type { ExtendedModalApi } from '@vben/common-ui';
 import type { HttpResponse } from '@vben/request';
 
@@ -23,7 +25,7 @@ const { applyTempToken } = useAuthStore();
 
 const currentRow = ref<any>(null);
 const transDataSource = ref([]);
-const targetKeysModel = ref<Array<string>>([]);
+const targetKeysModel = ref<Array<number | string>>([]);
 const dataLoading = ref(false);
 
 const loadData = async () => {
@@ -79,8 +81,8 @@ const [Modal, modalApi] = useVbenModal({
   onConfirm: () => handleCreate(modalApi),
 });
 
-const handleTransChange = (targetKeys: Array<string>) => {
-  targetKeysModel.value = targetKeys;
+const handleTransChange: TransferEmits['change'] = (nextTargetKeys) => {
+  targetKeysModel.value = nextTargetKeys;
 };
 </script>
 
@@ -98,11 +100,9 @@ const handleTransChange = (targetKeys: Array<string>) => {
 </template>
 
 <style scoped>
-.db-template-selected {
-  :deep(.ant-transfer-list) {
-    flex: none;
-    width: 46%;
-    height: 450px;
-  }
+.db-template-selected :deep(.ant-transfer-section) {
+  flex: none;
+  width: 46%;
+  height: 450px;
 }
 </style>

@@ -54,6 +54,7 @@ const [SmartTable, tableApi] = useSmartTable({
   addEditConfig: {
     modalConfig: {
       class: 'w-[600px]',
+      draggable: true,
     },
     formConfig: {
       schema: addEditForm(),
@@ -183,7 +184,7 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
         </SmartTable>
       </template>
     </SmartLayoutSeparate>
-    <RenderTemplateSelectedModal template-type="template_db_dict" />
+    <RenderTemplateSelectedModal template-type="TEMPLATE_DB_DICT" />
   </div>
 </template>
 

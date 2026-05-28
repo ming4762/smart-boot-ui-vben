@@ -10,7 +10,7 @@ import type {
 import { computed, h, toRaw, unref, useSlots } from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
-import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
+import { buildUUID, isBoolean, isFunction, isString } from '@vben-core/shared/utils';
 
 import { VxeButton } from 'vxe-pc-ui';
 
@@ -139,6 +139,7 @@ const getDropdownList = computed((): any[] => {
       onCancel: popConfirm?.cancel,
       onConfirm: popConfirm?.confirm,
       text: label,
+      event: action.code || buildUUID(),
     };
   });
 });

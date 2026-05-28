@@ -7,7 +7,7 @@ import type {
 import { z } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-const dbTypeList = ['MYSQL', 'SQL_SERVER', 'ORACLE'];
+const dbTypeList = ['MYSQL', 'SQL_SERVER', 'ORACLE', 'POSTGRES_SQL'];
 
 export const tableColumns: SmartTableColumn[] = [
   {
