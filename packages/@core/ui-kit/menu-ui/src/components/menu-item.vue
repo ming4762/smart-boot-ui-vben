@@ -37,7 +37,7 @@ const menuIcon = computed(() =>
 const isHttp = computed(() => isHttpUrl(item.parentPaths.at(-1)));
 
 const isTopLevelMenuItem = computed(
-  () => parentMenu.value?.type.name === 'Menu',
+  () => parentMenu.value?.type.name === 'MenuUI',
 );
 
 const collapseShowTitle = computed(
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
     custom
     :to="
       (item.parentPaths.at(-1) ?? '') +
-      (item?.query ? `?${qs.stringify(item?.query)}` : '')
+        (item?.query ? `?${qs.stringify(item?.query)}` : '')
     "
   >
     <a

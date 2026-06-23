@@ -3,6 +3,7 @@ import type { ComputedRef, Ref, Slots } from 'vue';
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
 
+import type { VbenButtonProps } from '../../../shadcn-ui';
 import type {
   SmartSearchFormParameter,
   SmartSearchFormProps,
@@ -137,14 +138,14 @@ const useSmartTableSearchForm = (
       },
       resetButtonOptions: {
         icon: AntRedoOutlinedComponent,
-        size: formSize,
+        size: formSize as VbenButtonProps['size'],
         ...resetButtonOptions,
       },
       submitButtonOptions: {
         content: t('smartTable.button.search'),
         icon: AntSearchOutlinedComponent,
         loading: unref(tableLoading),
-        size: formSize,
+        size: formSize as VbenButtonProps['size'],
         ...submitButtonOptions,
       },
     };

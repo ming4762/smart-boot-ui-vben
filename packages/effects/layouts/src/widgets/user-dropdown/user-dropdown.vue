@@ -257,7 +257,7 @@ const handleGoToPersonalCenter = () => {
     @clear-preferences-and-logout="emit('clearPreferencesAndLogout')"
   />
 
-  <DropdownMenu v-model:open="openPopover">
+  <DropdownMenu v-model:open="openPopover" :modal="false">
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
         <div class="flex-center hover:text-accent-foreground">
@@ -282,7 +282,11 @@ const handleGoToPersonalCenter = () => {
             >
               {{ text }}
               <slot name="tagText">
-                <Badge v-if="tagText" class="ml-2 text-green-400">
+                <Badge
+                  v-if="tagText"
+                  variant="secondary"
+                  class="ml-2 text-green-400"
+                >
                   {{ tagText }}
                 </Badge>
               </slot>
