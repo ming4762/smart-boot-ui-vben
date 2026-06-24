@@ -32,6 +32,7 @@
     "@smart-module/message": "workspace:*",
     "@smart-module/system": "workspace:*",
     "@smart/common": "workspace:*",
+    "@smart/common-page": "workspace:*",
     "@smart/components": "workspace:*",
     "@smart/wujie": "workspace:*",
     "@vben-core/code-editor-ui": "workspace:*",

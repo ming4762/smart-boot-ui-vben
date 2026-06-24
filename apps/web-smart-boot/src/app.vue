@@ -20,11 +20,10 @@ import {
   getAuthPropertiesApi,
   getSystemPropertiesApi,
 } from '@smart/common/api';
+import { antdLocale } from '@smart/common/locales';
 import { useAuthStore } from '@smart/common/store';
 import { useOnMicroRouteChange } from '@smart/wujie';
 import { App, ConfigProvider, theme } from 'antdv-next';
-
-import { antdLocale } from '#/locales';
 
 defineOptions({ name: 'App' });
 

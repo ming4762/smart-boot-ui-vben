@@ -1,0 +1,49 @@
+{
+  "name": "@smart/common-page",
+  "version": "5.7.0",
+  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "smart-boot/smart-common-page"
+  },
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "imports": {
+    "@/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    },
+    "./router": {
+      "types": "./src/router/index.ts",
+      "default": "./src/router/index.ts"
+    }
+  },
+  "dependencies": {
+    "@vben/common-ui": "workspace:*",
+    "@vben/locales": "workspace:*",
+    "@vben/plugins": "workspace:*",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "@vben/types": "workspace:*",
+    "@smart/common": "workspace:*",
+    "@smart/wujie": "workspace:*",
+    "antdv-next": "catalog:",
+    "@vben/constants": "workspace:*",
+    "@vben/preferences": "workspace:*",
+    "@vben/stores": "workspace:*",
+    "@vben/utils": "workspace:*",
+    "@vben/icons": "workspace:*",
+    "@vben/layouts": "workspace:*",
+    "@vben/hooks": "workspace:*",
+    "@vben/access": "workspace:*"
+  }
+}

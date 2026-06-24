@@ -8,10 +8,9 @@ import '@vben/styles';
 import '@vben/styles/antd';
 import { registerDirective } from '@vben/utils';
 
+import { $t, setupI18n } from '@smart/common/locales';
 import { setupWujieMain } from '@smart/wujie';
 import { useTitle } from '@vueuse/core';
-
-import { $t, setupI18n } from '#/locales';
 
 import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';

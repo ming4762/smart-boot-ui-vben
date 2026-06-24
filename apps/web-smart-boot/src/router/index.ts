@@ -6,8 +6,7 @@ import {
 
 import { resetStaticRoutes } from '@vben/utils';
 
-import { createRouterGuard } from './guard';
-import { routes } from './routes';
+import { createRouterGuard, routes } from '@smart/common-page/router';
 
 /**
  *  @zh_CN 创建vue-router实例

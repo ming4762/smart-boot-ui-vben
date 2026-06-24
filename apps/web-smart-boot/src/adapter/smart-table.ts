@@ -12,11 +12,10 @@ import {
 import { usePreferences } from '@vben/preferences';
 import { isFunction } from '@vben/utils';
 
+import { $ct as t } from '@smart/common/locales';
 import VxeUIPluginExportXLSX from '@vxe-ui/plugin-export-xlsx';
 import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
 import ExcelJS from 'exceljs';
-
-import { $ct as t } from '#/locales';
 
 import { SmartTableCustomStorageDBPlugin } from './plugins/smart-table-custom-storage-plugin';
 
