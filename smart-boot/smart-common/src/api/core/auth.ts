@@ -32,6 +32,8 @@ export namespace AuthApi {
   /** 登录接口返回值 */
   export interface LoginResult {
     permissions: string[];
+    // 跳转地址，如果存在则跳转到指定地址
+    redirectUrl?: string;
     refreshToken: string;
     roles: LoginRole[];
     token: string;

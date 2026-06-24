@@ -45,7 +45,12 @@ export const useAuthStore = defineStore('auth', () => {
     changeTenant = false,
     onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
   ) => {
-    const { permissions, roles, token, user, refreshToken } = loginData;
+    const { permissions, roles, token, user, refreshToken, redirectUrl } = loginData;
+
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+      return;
+    }
 
     let userInfo: null | UserInfo = null;
     // 如果成功获取到 accessToken
