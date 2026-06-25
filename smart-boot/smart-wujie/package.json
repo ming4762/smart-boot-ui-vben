@@ -20,6 +20,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./wujie-wrapper": {
+      "types": "./src/main/components/WujieWrapper.vue",
+      "default": "./src/main/components/WujieWrapper.vue"
     }
   },
   "dependencies": {

@@ -14,8 +14,7 @@ import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '../layouts';
 
-const WujieWrapper = () =>
-  import('@smart/wujie').then((mod) => mod.WujieWrapper);
+const WujieWrapper = () => import('@smart/wujie/wujie-wrapper');
 const forbiddenComponent = () =>
   import('../views/_core/fallback/forbidden.vue');
 
