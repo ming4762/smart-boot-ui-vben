@@ -11,6 +11,7 @@ import {
 
 enum Api {
   changeTenant = '/auth/tenant/change',
+  getUserPermission = '/auth/getUserPermission'
 }
 
 const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
@@ -31,18 +32,24 @@ export namespace AuthApi {
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    permissions: string[];
     // 跳转地址，如果存在则跳转到指定地址
     redirectUrl?: string;
     refreshToken: string;
-    roles: LoginRole[];
     token: string;
-    user: UserInfo;
   }
 
   export interface RefreshTokenResult {
     code: number;
     data: string;
+  }
+
+  /**
+   * 用户角色权限信息
+   */
+  export interface UserRolePermission {
+    permissions: string[];
+    roles: LoginRole[];
+    user: UserInfo;
   }
 }
 
@@ -128,3 +135,13 @@ export const changeTenantApi = (tenantId: number) => {
     },
   );
 };
+
+export const getUserPermissionApi = () => {
+  return requestClient.post<AuthApi.UserRolePermission>(
+    Api.getUserPermission,
+    {},
+    {
+      service: ApiServiceEnum.SMART_AUTH,
+    }
+  )
+}

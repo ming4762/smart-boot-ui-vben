@@ -13,7 +13,7 @@ import { createPassword } from '@vben/utils';
 import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
-import { changePasswordApi, changeTenantApi, loginApi, logoutApi, requestClient } from '../api';
+import { changePasswordApi, changeTenantApi, getUserPermissionApi, loginApi, logoutApi, requestClient } from '../api';
 import { $t } from '../locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
     changeTenant = false,
     onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
   ) => {
-    const { permissions, roles, token, user, refreshToken, redirectUrl } = loginData;
+    const { token, refreshToken, redirectUrl } = loginData;
 
     if (redirectUrl) {
       window.location.href = redirectUrl;
@@ -59,6 +59,8 @@ export const useAuthStore = defineStore('auth', () => {
       if (refreshToken) {
         accessStore.setRefreshToken(refreshToken);
       }
+      // 加载用户信息
+      const { user, roles, permissions } = await getUserPermissionApi();
       userInfo = {
         ...user,
         realName: user.fullName,
