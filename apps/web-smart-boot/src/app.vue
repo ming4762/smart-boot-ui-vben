@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SmartAppProviderProps } from '@vben/preferences';
 
-import { computed, onMounted, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 
 import {
   ExceptionModal as ApiExceptionModal,
@@ -13,13 +13,9 @@ import {
   SmartAppProvider,
   usePreferences,
 } from '@vben/preferences';
-import { useApiExceptionStore, useSysPropertiesStore } from '@vben/stores';
+import { useApiExceptionStore } from '@vben/stores';
 
-import {
-  feedbackExceptionApi,
-  getAuthPropertiesApi,
-  getSystemPropertiesApi,
-} from '@smart/common/api';
+import { feedbackExceptionApi } from '@smart/common/api';
 import { antdLocale } from '@smart/common/locales';
 import { useAuthStore } from '@smart/common/store';
 import { useOnMicroRouteChange } from '@smart/wujie';
@@ -62,18 +58,6 @@ const { handleHide, exceptionNoList, modalShow } = toRefs(
 );
 
 const { showLoginExpired, loginExpired } = toRefs(useAuthStore());
-onMounted(async () => {
-  // 加载系统参数
-  const sysPropertiesStore = useSysPropertiesStore();
-  const [authProperties, systemProperties] = await Promise.all([
-    getAuthPropertiesApi(),
-    getSystemPropertiesApi(),
-  ]);
-  sysPropertiesStore.setProperties({
-    ...authProperties,
-    sysParameter: systemProperties,
-  });
-});
 
 useOnMicroRouteChange();
 </script>

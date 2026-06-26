@@ -4,9 +4,17 @@ import type { RouteRecordStringComponent } from '@vben/types';
 
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
-import { useAccessStore, useUserStore } from '@vben/stores';
+import {
+  useAccessStore,
+  useSysPropertiesStore,
+  useUserStore,
+} from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
+import {
+  getAuthPropertiesApi,
+  getSystemPropertiesApi,
+} from '@smart/common/api';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { generateAccess } from './access';
@@ -39,6 +47,32 @@ function setupCommonGuard(router: Router) {
     if (preferences.transition.progress) {
       stopProgress();
     }
+  });
+}
+
+/**
+ * 系统参数守卫配置
+ * @param router
+ */
+function setupSysPropertiesGuard(router: Router) {
+  router.beforeEach(async () => {
+    const sysPropertiesStore = useSysPropertiesStore();
+
+    if (sysPropertiesStore.captcha && sysPropertiesStore.sysParameter) {
+      return true;
+    }
+
+    const [authProperties, systemProperties] = await Promise.all([
+      getAuthPropertiesApi(),
+      getSystemPropertiesApi(),
+    ]);
+
+    sysPropertiesStore.setProperties({
+      ...authProperties,
+      sysParameter: systemProperties,
+    });
+
+    return true;
   });
 }
 
@@ -157,6 +191,8 @@ function setupMicroAppGuard(router: Router) {
 function createRouterGuard(router: Router) {
   /** 通用 */
   setupCommonGuard(router);
+  /** 系统参数 */
+  setupSysPropertiesGuard(router);
   /** 权限访问 */
   if (isMicroApp()) {
     setupMicroAppGuard(router);
