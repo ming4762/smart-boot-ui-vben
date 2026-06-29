@@ -1,7 +1,7 @@
-import type { RequestResponse } from '@vben/request';
+import type { RequestClientConfig, RequestResponse } from '@vben/request';
 import type { UserInfo } from '@vben/types';
 
-import { useAccessStore } from '@vben/stores';
+import { useAccessStore, useSysPropertiesStore } from '@vben/stores';
 
 import {
   ApiServiceEnum,
@@ -11,10 +11,22 @@ import {
 
 enum Api {
   changeTenant = '/auth/tenant/change',
-  getUserPermission = '/auth/getUserPermission'
+  getUserPermission = '/auth/getUserPermission',
 }
 
 const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
+
+const createAuthRequestConfig = (
+  config: RequestClientConfig = {},
+): RequestClientConfig => {
+  const sysPropertiesStore = useSysPropertiesStore();
+  return sysPropertiesStore.isSessionAuthMode
+    ? {
+        ...config,
+        withCredentials: true,
+      }
+    : config;
+};
 
 export namespace AuthApi {
   /** 登录接口参数 */
@@ -34,8 +46,8 @@ export namespace AuthApi {
   export interface LoginResult {
     // 跳转地址，如果存在则跳转到指定地址
     redirectUrl?: string;
-    refreshToken: string;
-    token: string;
+    refreshToken?: string;
+    token?: string;
   }
 
   export interface RefreshTokenResult {
@@ -57,11 +69,15 @@ export namespace AuthApi {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.postForm<AuthApi.LoginResult>('/auth/login', data, {
-    errorMessageMode: 'modal',
-    authErrorProcessed: false,
-    service: ApiServiceEnum.SMART_AUTH,
-  });
+  return requestClient.postForm<AuthApi.LoginResult>(
+    '/auth/login',
+    data,
+    createAuthRequestConfig({
+      errorMessageMode: 'modal',
+      authErrorProcessed: false,
+      service: ApiServiceEnum.SMART_AUTH,
+    }),
+  );
 }
 
 /**
@@ -74,10 +90,10 @@ export async function refreshTokenApi(): Promise<string> {
   >(
     '/auth/refresh',
     {},
-    {
+    createAuthRequestConfig({
       headers,
       service: ApiServiceEnum.SMART_AUTH,
-    },
+    }),
   );
   if (response.data.code !== 200) {
     throw response;
@@ -92,13 +108,11 @@ export async function logoutApi() {
   const headers = createRefreshTokenHeader();
   return requestClient.post(
     '/auth/logout',
-    {
-      withCredentials: true,
-    },
-    {
+    {},
+    createAuthRequestConfig({
       service: ApiServiceEnum.SMART_AUTH,
       headers,
-    },
+    }),
   );
 }
 
@@ -107,7 +121,8 @@ export async function logoutApi() {
  */
 const createRefreshTokenHeader = () => {
   const accessStore = useAccessStore();
-  return accessStore.hasRefreshToken
+  const sysPropertiesStore = useSysPropertiesStore();
+  return sysPropertiesStore.isJwtAuthMode && accessStore.hasRefreshToken
     ? {
         [REFRESH_TOKEN_HEADER]: accessStore.refreshToken,
       }
@@ -129,10 +144,10 @@ export const changeTenantApi = (tenantId: number) => {
   return requestClient.postForm<AuthApi.LoginResult>(
     Api.changeTenant,
     { tenantId },
-    {
+    createAuthRequestConfig({
       service: ApiServiceEnum.SMART_AUTH,
       authErrorProcessed: false,
-    },
+    }),
   );
 };
 

@@ -7,17 +7,30 @@ import { useRouter } from 'vue-router';
 
 import { ApiServiceEnum, LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
-import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
+import {
+  resetAllStores,
+  useAccessStore,
+  useSysPropertiesStore,
+  useUserStore,
+} from '@vben/stores';
 import { createPassword } from '@vben/utils';
 
 import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
-import { changePasswordApi, changeTenantApi, getUserPermissionApi, loginApi, logoutApi, requestClient } from '../api';
+import {
+  changePasswordApi,
+  changeTenantApi,
+  getUserPermissionApi,
+  loginApi,
+  logoutApi,
+  requestClient,
+} from '../api';
 import { $t } from '../locales';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
+  const sysPropertiesStore = useSysPropertiesStore();
   const userStore = useUserStore();
   const router = useRouter();
 
@@ -40,6 +53,17 @@ export const useAuthStore = defineStore('auth', () => {
     });
   };
 
+  const loadUserPermission = async () => {
+    const { user, roles, permissions } = await getUserPermissionApi();
+    const userInfo = {
+      ...user,
+      realName: user.fullName,
+      roles,
+    };
+    await loginSetStore(userInfo, permissions);
+    return userInfo;
+  };
+
   const afterLogin = async (
     loginData: AuthApi.LoginResult,
     changeTenant = false,
@@ -49,45 +73,42 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (redirectUrl) {
       window.location.href = redirectUrl;
-      return;
+      return null;
     }
 
-    let userInfo: null | UserInfo = null;
-    // 如果成功获取到 accessToken
-    if (token) {
+    if (sysPropertiesStore.isJwtAuthMode) {
+      if (!token) {
+        return null;
+      }
       accessStore.setAccessToken(token);
       if (refreshToken) {
         accessStore.setRefreshToken(refreshToken);
       }
-      // 加载用户信息
-      const { user, roles, permissions } = await getUserPermissionApi();
-      userInfo = {
-        ...user,
-        realName: user.fullName,
-        roles,
-      };
-      await loginSetStore(userInfo, permissions);
-
-      if (accessStore.loginExpired) {
-        accessStore.setLoginExpired(false);
-      } else {
-        onSuccess
-          ? await onSuccess?.(userInfo)
-          : await router.push(
-              userInfo.homePath || preferences.app.defaultHomePath,
-            );
-      }
-
-      if (userInfo?.realName) {
-        notification.success({
-          title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-          duration: 3,
-          description: changeTenant
-            ? $t('authentication.changeTenantSuccess')
-            : $t('authentication.loginSuccess'),
-        });
-      }
+    } else {
+      accessStore.setAccessToken(null);
+      accessStore.setRefreshToken(null);
     }
+
+    const userInfo = await loadUserPermission();
+
+    if (accessStore.loginExpired) {
+      accessStore.setLoginExpired(false);
+    } else {
+      onSuccess
+        ? await onSuccess?.(userInfo)
+        : await router.push(userInfo.homePath || preferences.app.defaultHomePath);
+    }
+
+    if (userInfo?.realName) {
+      notification.success({
+        title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+        duration: 3,
+        description: changeTenant
+          ? $t('authentication.changeTenantSuccess')
+          : $t('authentication.loginSuccess'),
+      });
+    }
+
     return userInfo;
   };
 
@@ -216,6 +237,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     applyTempToken,
     loginExpired,
+    loadUserPermission,
     showLoginExpired,
     changeTenant,
     changePassword,

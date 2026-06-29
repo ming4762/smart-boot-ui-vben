@@ -2,7 +2,6 @@
 import type { VxePulldownInstance } from 'vxe-pc-ui';
 import type {
   VxeColumnPropTypes,
-  VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTableDefines,
@@ -45,7 +44,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const pullDownRef = useTemplateRef<VxePulldownInstance>('pullDownRef');
-const configGridRef = useTemplateRef<VxeGridInstance>('configGridRef');
 
 const { getGrid } = injectSmartTableContext();
 
@@ -255,7 +253,7 @@ const computedToolButtonProps = computed(() => {
     />
     <template #dropdown>
       <div>
-        <VxeGrid ref="configGridRef" v-bind="computedGridProps" />
+        <VxeGrid v-bind="computedGridProps" />
         <div class="bottom-button">
           <VxeButton mode="text" @click="handleRestShowHide">
             {{ vxeI18n('vxe.toolbar.customRestore') }}

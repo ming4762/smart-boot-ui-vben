@@ -77,6 +77,22 @@ function setupSysPropertiesGuard(router: Router) {
 }
 
 /**
+ * 判断当前是否已认证
+ */
+async function isAuthenticated() {
+  const accessStore = useAccessStore();
+  const sysPropertiesStore = useSysPropertiesStore();
+  const userStore = useUserStore();
+
+  if (sysPropertiesStore.isJwtAuthMode) {
+    return !!accessStore.accessToken;
+  }
+
+  return !!userStore.userInfo;
+
+}
+
+/**
  * 权限访问守卫配置
  * @param router
  */
@@ -84,11 +100,11 @@ function setupAccessGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     const accessStore = useAccessStore();
     const userStore = useUserStore();
-    // const authStore = useAuthStore();
+    const authenticated = await isAuthenticated();
 
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
-      if (to.path === LOGIN_PATH && accessStore.accessToken) {
+      if (to.path === LOGIN_PATH && authenticated) {
         return decodeURIComponent(
           (to.query?.redirect as string) ||
             userStore.userInfo?.homePath ||
@@ -99,7 +115,7 @@ function setupAccessGuard(router: Router) {
     }
 
     // accessToken 检查
-    if (!accessStore.accessToken) {
+    if (!authenticated) {
       // 明确声明忽略权限访问权限，则可以访问
       if (to.meta.ignoreAccess) {
         return true;
