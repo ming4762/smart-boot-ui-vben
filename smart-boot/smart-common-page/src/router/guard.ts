@@ -2,7 +2,7 @@ import type { Router } from 'vue-router';
 
 import type { RouteRecordStringComponent } from '@vben/types';
 
-import { LOGIN_PATH } from '@vben/constants';
+import {ApiServiceEnum, LOGIN_PATH} from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import {
   useAccessStore,
@@ -14,6 +14,8 @@ import { startProgress, stopProgress } from '@vben/utils';
 import {
   getAuthPropertiesApi,
   getSystemPropertiesApi,
+  getUserPermissionApi,
+  requestClient,
 } from '@smart/common/api';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
@@ -87,9 +89,19 @@ async function isAuthenticated() {
   if (sysPropertiesStore.isJwtAuthMode) {
     return !!accessStore.accessToken;
   }
-
   return !!userStore.userInfo;
+}
 
+/**
+ * 跳转到IAM登录页面
+ */
+function goIamLogin() {
+  const sysPropertiesStore = useSysPropertiesStore();
+  if (!sysPropertiesStore.iamLoginUrl) {
+    throw new Error('IAM_LOGIN_URL is required');
+  }
+  const redirectUrl = encodeURIComponent(window.location.href);
+  window.location.href = `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
 }
 
 /**
@@ -100,8 +112,41 @@ function setupAccessGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     const accessStore = useAccessStore();
     const userStore = useUserStore();
+    const sysPropertiesStore = useSysPropertiesStore();
+
+    // SESSION模式下（含IAM客户端SSO），尝试通过已设置的Session Cookie获取用户信息
+    // SSO/OAuth2登录成功后，后端已设置Session Cookie，但前端store中用户信息尚未加载
+    // 如果不在此处加载，isAuthenticated()会一直返回false，导致无限跳转到IAM登录
+    if (sysPropertiesStore.isIamClient && !userStore.userInfo) {
+      try {
+        const { permissions, roles, user } = await getUserPermissionApi();
+        userStore.setUserInfo({
+          ...user,
+          realName: user.fullName,
+          roles,
+        });
+        accessStore.setAccessCodes(permissions);
+      } catch {
+        // 获取失败说明Session无效，继续后续认证流程（跳转登录）
+      }
+    }
+
     const authenticated = await isAuthenticated();
 
+    // IAM 客户端：只在访问登录页时接管
+    if (sysPropertiesStore.isIamClient && to.path === LOGIN_PATH) {
+      if (authenticated) {
+        // 已认证又回到登录页 → 跳到 redirect 目标或首页
+        return decodeURIComponent(
+          (to.query?.redirect as string) ||
+            userStore.userInfo?.homePath ||
+            preferences.app.defaultHomePath,
+        );
+      }
+      // 未认证访问登录页 → 去 IAM 登录
+      goIamLogin();
+      return false;
+    }
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && authenticated) {
@@ -119,6 +164,12 @@ function setupAccessGuard(router: Router) {
       // 明确声明忽略权限访问权限，则可以访问
       if (to.meta.ignoreAccess) {
         return true;
+      }
+      // 如果是单点登录
+      if (sysPropertiesStore.isIamClient) {
+        // 直接跳转，取消本次路由导航，让浏览器整页跳转生效
+        goIamLogin();
+        return false;
       }
 
       // 没有访问权限，跳转登录页面

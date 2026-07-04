@@ -65,6 +65,14 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     return token ? `${token}` : null;
   }
 
+  /**
+   * 是否启用刷新token
+   */
+  async function isEnableRefreshToken() {
+    const sysPropertiesStore = useSysPropertiesStore();
+    return preferences.app.enableRefreshToken && sysPropertiesStore.isJwtAuthMode;
+  }
+
   // 请求头处理
   client.addRequestInterceptor({
     fulfilled: async (config) => {
@@ -116,7 +124,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       client,
       doReAuthenticate,
       doRefreshToken,
-      enableRefreshToken: preferences.app.enableRefreshToken,
+      isEnableRefreshToken,
       formatToken,
     }),
   );

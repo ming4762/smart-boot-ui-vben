@@ -157,6 +157,7 @@ export const getUserPermissionApi = () => {
     {},
     {
       service: ApiServiceEnum.SMART_AUTH,
+      authErrorProcessed: false,
     }
   )
 }

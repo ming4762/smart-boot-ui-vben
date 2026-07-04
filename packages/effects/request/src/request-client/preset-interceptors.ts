@@ -48,14 +48,14 @@ export const authenticateResponseInterceptor = ({
   client,
   doReAuthenticate,
   doRefreshToken,
-  enableRefreshToken,
+  isEnableRefreshToken,
   formatToken,
 }: {
   client: RequestClient;
   doReAuthenticate: () => Promise<void>;
   doRefreshToken: () => Promise<string>;
-  enableRefreshToken: boolean;
   formatToken: (token: string) => null | string;
+  isEnableRefreshToken: () => Promise<boolean>;
 }): ResponseInterceptorConfig => {
   return {
     rejected: async (error) => {
@@ -68,6 +68,7 @@ export const authenticateResponseInterceptor = ({
       if (response?.status !== 401 && response?.data?.code !== 401) {
         throw error;
       }
+      const enableRefreshToken = await isEnableRefreshToken();
       // 判断是否启用了 refreshToken 功能
       // 如果没有启用或者已经是重试请求了，直接跳转到重新登录
       if (!enableRefreshToken || config.__isRetryRequest) {

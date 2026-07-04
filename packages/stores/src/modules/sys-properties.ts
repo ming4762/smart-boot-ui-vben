@@ -21,6 +21,12 @@ export interface AuthProperties {
   [key: string]: any;
   authMode?: AuthMode;
   captcha?: CaptchaProperties;
+  // 是否IAM客户端
+  iamClient?: boolean;
+  /**
+   * IAM登录地址
+   */
+  iamLoginUrl?: string;
 }
 
 type SysParameterKey =
@@ -28,7 +34,6 @@ type SysParameterKey =
   | 'sys.auth.account.passwordValidateErrorMessage';
 
 interface SysPropertiesState extends AuthProperties {
-  authMode: AuthMode;
   sysParameter?: Record<SysParameterKey, string>;
 }
 
@@ -46,6 +51,9 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
     },
     isSessionAuthMode(state): boolean {
       return state.authMode === 'SESSION';
+    },
+    isIamClient(state): boolean {
+      return state.iamClient || false;
     },
   },
   state: (): SysPropertiesState => ({
