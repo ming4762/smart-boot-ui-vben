@@ -160,6 +160,13 @@ export const useAuthStore = defineStore('auth', () => {
     resetAllStores();
     accessStore.setLoginExpired(false);
 
+    const sysPropertiesStore = useSysPropertiesStore();
+
+    if (sysPropertiesStore.isIamClient) {
+      goIamLogin();
+      return;
+    }
+
     // 回登录页带上当前路由地址
     await router.replace({
       path: LOGIN_PATH,
@@ -229,6 +236,18 @@ export const useAuthStore = defineStore('auth', () => {
     });
   };
 
+  /**
+   * 跳转到IAM登录
+   */
+  function goIamLogin() {
+    const sysPropertiesStore = useSysPropertiesStore();
+    if (!sysPropertiesStore.iamLoginUrl) {
+      throw new Error('IAM_LOGIN_URL is required');
+    }
+    const redirectUrl = encodeURIComponent(window.location.href);
+    window.location.href = `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
+  }
+
   return {
     $reset,
     authLogin,
@@ -241,5 +260,6 @@ export const useAuthStore = defineStore('auth', () => {
     showLoginExpired,
     changeTenant,
     changePassword,
+    goIamLogin,
   };
 });

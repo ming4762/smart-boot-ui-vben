@@ -2,7 +2,7 @@ import type { Router } from 'vue-router';
 
 import type { RouteRecordStringComponent } from '@vben/types';
 
-import {ApiServiceEnum, LOGIN_PATH} from '@vben/constants';
+import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import {
   useAccessStore,
@@ -15,7 +15,6 @@ import {
   getAuthPropertiesApi,
   getSystemPropertiesApi,
   getUserPermissionApi,
-  requestClient,
 } from '@smart/common/api';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
@@ -93,18 +92,6 @@ async function isAuthenticated() {
 }
 
 /**
- * 跳转到IAM登录页面
- */
-function goIamLogin() {
-  const sysPropertiesStore = useSysPropertiesStore();
-  if (!sysPropertiesStore.iamLoginUrl) {
-    throw new Error('IAM_LOGIN_URL is required');
-  }
-  const redirectUrl = encodeURIComponent(window.location.href);
-  window.location.href = `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
-}
-
-/**
  * 权限访问守卫配置
  * @param router
  */
@@ -134,19 +121,19 @@ function setupAccessGuard(router: Router) {
     const authenticated = await isAuthenticated();
 
     // IAM 客户端：只在访问登录页时接管
-    if (sysPropertiesStore.isIamClient && to.path === LOGIN_PATH) {
-      if (authenticated) {
-        // 已认证又回到登录页 → 跳到 redirect 目标或首页
-        return decodeURIComponent(
-          (to.query?.redirect as string) ||
-            userStore.userInfo?.homePath ||
-            preferences.app.defaultHomePath,
-        );
-      }
-      // 未认证访问登录页 → 去 IAM 登录
-      goIamLogin();
-      return false;
-    }
+    // if (sysPropertiesStore.isIamClient && to.path === LOGIN_PATH) {
+    //   if (authenticated) {
+    //     // 已认证又回到登录页 → 跳到 redirect 目标或首页
+    //     return decodeURIComponent(
+    //       (to.query?.redirect as string) ||
+    //         userStore.userInfo?.homePath ||
+    //         preferences.app.defaultHomePath,
+    //     );
+    //   }
+    //   // 未认证访问登录页 → 去 IAM 登录
+    //   goIamLogin();
+    //   return false;
+    // }
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && authenticated) {
@@ -166,11 +153,11 @@ function setupAccessGuard(router: Router) {
         return true;
       }
       // 如果是单点登录
-      if (sysPropertiesStore.isIamClient) {
-        // 直接跳转，取消本次路由导航，让浏览器整页跳转生效
-        goIamLogin();
-        return false;
-      }
+      // if (sysPropertiesStore.isIamClient) {
+      //   // 直接跳转，取消本次路由导航，让浏览器整页跳转生效
+      //   goIamLogin();
+      //   return false;
+      // }
 
       // 没有访问权限，跳转登录页面
       if (to.fullPath !== LOGIN_PATH) {

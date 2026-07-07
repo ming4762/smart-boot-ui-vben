@@ -110,6 +110,7 @@ export async function logoutApi() {
     '/auth/logout',
     {},
     createAuthRequestConfig({
+      authErrorProcessed: false,
       service: ApiServiceEnum.SMART_AUTH,
       headers,
     }),
@@ -157,7 +158,6 @@ export const getUserPermissionApi = () => {
     {},
     {
       service: ApiServiceEnum.SMART_AUTH,
-      authErrorProcessed: false,
     }
   )
 }
