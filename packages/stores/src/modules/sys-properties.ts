@@ -60,5 +60,7 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
     authMode: 'JWT',
     captcha: undefined,
     sysParameter: undefined,
+    iamClient: false,
+    iamLoginUrl: undefined,
   }),
 });
