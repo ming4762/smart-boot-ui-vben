@@ -44,6 +44,9 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
         this[key as keyof SysPropertiesState] = value;
       });
     },
+    $reset() {
+      // 重写函数，系统参数不reset
+    }
   },
   getters: {
     isJwtAuthMode(state): boolean {
