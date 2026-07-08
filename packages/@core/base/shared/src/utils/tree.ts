@@ -99,23 +99,23 @@ function filterTree<T extends Record<string, any>>(
  */
 function mapTree<T, V extends Record<string, any>>(
   tree: T[],
-  mapper: (node: T) => V,
+  mapper: (node: T, parent: null | V) => V,
   options?: TreeConfigOptions,
+  parent: null | V = null,
 ): V[] {
   const childProps = resolveChildProps(options);
 
   return tree.map((node) => {
-    const mappedNode = mapper(node);
-    const children = mappedNode[childProps] as T[] | undefined;
-
-    if (Array.isArray(children) && children.length > 0) {
-      return {
-        ...mappedNode,
-        [childProps]: mapTree(children, mapper, options),
-      } as V;
+    const mapperNode: Record<string, any> = mapper(node, parent as null | V);
+    if (mapperNode[childProps]) {
+      mapperNode[childProps] = mapTree(
+        mapperNode[childProps],
+        mapper,
+        options,
+        mapperNode as V,
+      );
     }
-
-    return mappedNode;
+    return mapperNode as V;
   });
 }
 

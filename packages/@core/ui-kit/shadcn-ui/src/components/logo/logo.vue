@@ -5,7 +5,7 @@ import { VbenAvatar } from '../avatar';
 
 interface Props {
   /**
-   * @zh_CN 是否收起文本
+   * @zh_CN 是否收起文本；布局状态，侧边栏收起时隐藏文字。
    */
   collapsed?: boolean;
   /**
@@ -32,10 +32,12 @@ interface Props {
    * @zh_CN 暗色主题 Logo 图标 (可选，若不设置则使用 src)
    */
   srcDark?: string;
+
   /**
    * @zh_CN Logo 文本
    */
   text: string;
+
   /**
    * @zh_CN Logo 主题
    */
@@ -54,6 +56,7 @@ const props = withDefaults(defineProps<Props>(), {
   srcDark: '',
   theme: 'light',
   fit: 'cover',
+  showText: true,
 });
 
 const computedLogoWithTitleSrc = computed(() => {
