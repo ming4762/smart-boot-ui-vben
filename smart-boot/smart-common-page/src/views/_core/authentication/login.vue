@@ -11,6 +11,7 @@ import {
   z,
 } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import {useSysPropertiesStore} from '@vben/stores';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
@@ -19,6 +20,8 @@ import { Col, Row } from 'antdv-next';
 defineOptions({ name: 'Login' });
 
 const authStore = useAuthStore();
+const sysPropertiesStore = useSysPropertiesStore();
+
 
 // const MOCK_USER_OPTIONS: BasicOption[] = [
 //   {
@@ -153,6 +156,7 @@ const handleLogin = (loginData: Recordable<any>) => {
   <AuthenticationLogin
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
+    :sso-login-url="sysPropertiesStore.ssoLoginUrl"
     @submit="handleLogin"
   />
 </template>

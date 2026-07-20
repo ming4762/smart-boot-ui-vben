@@ -127,7 +127,7 @@ defineExpose({
       <span
         v-if="showForgetPassword"
         class="vben-link text-sm font-normal"
-        @click="handleGo(forgetPasswordPath)"
+        @click="handleGo(forgetPasswordPath || '')"
       >
         {{ $t('authentication.forgetPassword') }}
       </span>
@@ -152,7 +152,7 @@ defineExpose({
         v-if="showCodeLogin"
         class="w-1/2"
         variant="outline"
-        @click="handleGo(codeLoginPath)"
+        @click="handleGo(codeLoginPath || '')"
       >
         {{ $t('authentication.mobileLogin') }}
       </VbenButton>
@@ -160,7 +160,7 @@ defineExpose({
         v-if="showQrcodeLogin"
         class="ml-4 w-1/2"
         variant="outline"
-        @click="handleGo(qrCodeLoginPath)"
+        @click="handleGo(qrCodeLoginPath || '')"
       >
         {{ $t('authentication.qrcodeLogin') }}
       </VbenButton>
@@ -168,7 +168,7 @@ defineExpose({
 
     <!-- 第三方登录 -->
     <slot name="third-party-login">
-      <ThirdPartyLogin v-if="showThirdPartyLogin" />
+      <ThirdPartyLogin sso-button-type="icon" v-if="showThirdPartyLogin" />
     </slot>
 
     <slot name="to-register">
@@ -176,7 +176,7 @@ defineExpose({
         {{ $t('authentication.accountTip') }}
         <span
           class="vben-link text-sm font-normal"
-          @click="handleGo(registerPath)"
+          @click="handleGo(registerPath || '')"
         >
           {{ $t('authentication.createAccount') }}
         </span>

@@ -1,4 +1,15 @@
-interface AuthenticationProps {
+interface AuthenticationSsoProps {
+  /**
+   * @zh_CN SSO登录地址
+   */
+  ssoLoginUrl?: string;
+  /**
+   * @zh_CN SSO登录按钮类型
+   */
+  ssoButtonType?: 'icon' | 'primary';
+}
+
+interface AuthenticationProps extends AuthenticationSsoProps {
   /**
    * @zh_CN 验证码登录路径
    */
@@ -67,4 +78,4 @@ interface AuthenticationProps {
   submitButtonText?: string;
 }
 
-export type { AuthenticationProps };
+export type { AuthenticationProps, AuthenticationSsoProps };

@@ -62,5 +62,6 @@
     "center": "Align Center",
     "alignLeft": "Align Left",
     "alignRight": "Align Right"
-  }
+  },
+  "ssoLogin": "SSO"
 }

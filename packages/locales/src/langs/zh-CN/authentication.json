@@ -64,5 +64,6 @@
     "alignLeft": "居左",
     "alignRight": "居右"
   },
-  "changeTenantSuccess": "切换租户成功"
+  "changeTenantSuccess": "切换租户成功",
+  "ssoLogin": "SSO登录"
 }
