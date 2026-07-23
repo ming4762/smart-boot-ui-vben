@@ -1,5 +1,9 @@
 interface AuthenticationSsoProps {
   /**
+   * @zh_CN 是否仅使用SSO单点登录模式
+   */
+  isSsoLogin?: boolean;
+  /**
    * @zh_CN SSO登录地址
    */
   ssoLoginUrl?: string;

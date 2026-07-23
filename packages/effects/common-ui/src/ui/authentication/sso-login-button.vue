@@ -21,11 +21,8 @@ const handleSsoLogin = () => {
     return;
   }
 
-  // 记录当前前端地址（可选，用于 SSO 回调后跳转）
-  const redirectUrl = encodeURIComponent(window.location.href);
-
   // 跳转到 SSO 地址
-  window.location.href = `${props.ssoLoginUrl}?frontend_redirect_uri=${redirectUrl}`;
+  window.location.href = props.ssoLoginUrl;
 };
 
 </script>

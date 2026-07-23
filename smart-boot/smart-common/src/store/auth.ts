@@ -152,18 +152,18 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   async function logout(redirect: boolean = true) {
+    let redirectUrl = null;
     try {
-      await logoutApi();
+      const result = await logoutApi();
+      redirectUrl = result.redirectUrl;
     } catch {
       // 不做任何处理
     }
     resetAllStores();
     accessStore.setLoginExpired(false);
 
-    const sysPropertiesStore = useSysPropertiesStore();
-
-    if (sysPropertiesStore.isIamClient) {
-      goIamLogin();
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
       return;
     }
 
@@ -237,15 +237,15 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   /**
-   * 跳转到IAM登录
+   * 获取IAM登录地址
    */
-  function goIamLogin() {
+  function getIamLoginUrl() {
     const sysPropertiesStore = useSysPropertiesStore();
     if (!sysPropertiesStore.iamLoginUrl) {
       throw new Error('IAM_LOGIN_URL is required');
     }
     const redirectUrl = encodeURIComponent(window.location.href);
-    window.location.href = `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
+    return `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
   }
 
   return {
@@ -260,6 +260,6 @@ export const useAuthStore = defineStore('auth', () => {
     showLoginExpired,
     changeTenant,
     changePassword,
-    goIamLogin,
+    getIamLoginUrl,
   };
 });

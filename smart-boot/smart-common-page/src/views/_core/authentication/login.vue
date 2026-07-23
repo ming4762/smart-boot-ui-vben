@@ -11,7 +11,7 @@ import {
   z,
 } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import {useSysPropertiesStore} from '@vben/stores';
+import { useSysPropertiesStore } from '@vben/stores';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
@@ -150,13 +150,21 @@ const handleLogin = (loginData: Recordable<any>) => {
       unref(captchaRef).refresh();
     });
 };
+
+/**
+ * 单点登录跳转地址
+ */
+const computedIamLoginUrl = computed(() => {
+  return authStore.getIamLoginUrl();
+})
 </script>
 
 <template>
   <AuthenticationLogin
     :form-schema="formSchema"
+    :is-sso-login="sysPropertiesStore.isIamClient"
     :loading="authStore.loginLoading"
-    :sso-login-url="sysPropertiesStore.ssoLoginUrl"
+    :sso-login-url="computedIamLoginUrl"
     @submit="handleLogin"
   />
 </template>

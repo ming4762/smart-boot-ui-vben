@@ -63,6 +63,14 @@ export namespace AuthApi {
     roles: LoginRole[];
     user: UserInfo;
   }
+
+  /**
+   * 登出接口返回参数
+   */
+  export interface LogoutResult {
+    // 跳转URL
+    redirectUrl?: string;
+  }
 }
 
 /**
@@ -106,7 +114,7 @@ export async function refreshTokenApi(): Promise<string> {
  */
 export async function logoutApi() {
   const headers = createRefreshTokenHeader();
-  return requestClient.post(
+  return requestClient.post<AuthApi.LogoutResult>(
     '/auth/logout',
     {},
     createAuthRequestConfig({
@@ -158,6 +166,7 @@ export const getUserPermissionApi = () => {
     {},
     {
       service: ApiServiceEnum.SMART_AUTH,
+      authErrorProcessed: false,
     }
   )
 }

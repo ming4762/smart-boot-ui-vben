@@ -4,6 +4,7 @@
 // import { useVbenModal } from '@vben/common-ui';
 // import { ChangeTenantModal } from '@vben/layouts';
 import { $ct as t } from '@vben/locales';
+
 // import { useUserStore } from '@vben/stores';
 //
 // import { listCurrentUserTenantApi } from '@smart/common/api';
@@ -12,7 +13,7 @@ import { $ct as t } from '@vben/locales';
 // import { List } from 'ant-design-vue';
 // import { storeToRefs } from 'pinia';
 //
-// import Container from './container.vue';
+import Container from './container.vue';
 //
 // const ListItem = List.Item;
 // const ListItemMeta = List.Item.Meta;

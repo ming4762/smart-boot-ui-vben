@@ -410,7 +410,6 @@ const handleGoToPersonalCenter = () => {
           <IconifyIcon class="mr-2 size-4" icon="ant-design:key-outlined" />
           {{ $t('ui.widgets.changePassword.title') }}
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <template v-if="showLockInDropdown || showLogoutInDropdown">
           <DropdownMenuSeparator v-if="showLockInDropdown" />
           <DropdownMenuItem
@@ -440,12 +439,12 @@ const handleGoToPersonalCenter = () => {
         <template
           v-if="
             showGlobalSearchInDropdown ||
-            showThemeToggleInDropdown ||
-            showLanguageToggleInDropdown ||
-            showTimezoneInDropdown ||
-            showFullscreenInDropdown ||
-            showNotificationInDropdown ||
-            showRefreshInDropdown
+              showThemeToggleInDropdown ||
+              showLanguageToggleInDropdown ||
+              showTimezoneInDropdown ||
+              showFullscreenInDropdown ||
+              showNotificationInDropdown ||
+              showRefreshInDropdown
           "
         >
           <DropdownMenuSeparator />
