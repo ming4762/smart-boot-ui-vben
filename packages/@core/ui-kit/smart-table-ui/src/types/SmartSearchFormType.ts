@@ -24,7 +24,7 @@ type SearchSymbol =
 /**
  * 搜索表单项配置
  */
-interface SmartSearchFormSchema extends VbenFormSchema {
+type SmartSearchFormSchema = {
   customSymbol?: ({
     model,
     schema,
@@ -36,7 +36,7 @@ interface SmartSearchFormSchema extends VbenFormSchema {
   }) => Record<string, any>;
   // 向后台发送的符号
   searchSymbol?: SearchSymbol;
-}
+} & VbenFormSchema
 
 interface SmartSearchFormParameter {
   noSymbolForm?: Record<string, any>;
