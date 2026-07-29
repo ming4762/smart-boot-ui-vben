@@ -241,6 +241,9 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function getIamLoginUrl() {
     const sysPropertiesStore = useSysPropertiesStore();
+    if (!sysPropertiesStore.isIamClient) {
+      return undefined;
+    }
     if (!sysPropertiesStore.iamLoginUrl) {
       throw new Error('IAM_LOGIN_URL is required');
     }
