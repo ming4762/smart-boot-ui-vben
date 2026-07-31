@@ -96,7 +96,9 @@ export const useAuthStore = defineStore('auth', () => {
     } else {
       onSuccess
         ? await onSuccess?.(userInfo)
-        : await router.push(userInfo.homePath || preferences.app.defaultHomePath);
+        : await router.push(
+            userInfo.homePath || preferences.app.defaultHomePath,
+          );
     }
 
     if (userInfo?.realName) {
@@ -239,7 +241,7 @@ export const useAuthStore = defineStore('auth', () => {
   /**
    * 获取IAM登录地址
    */
-  function getIamLoginUrl() {
+  function getIamLoginUrl(frontendRedirectUri = window.location.href) {
     const sysPropertiesStore = useSysPropertiesStore();
     if (!sysPropertiesStore.isIamClient) {
       return undefined;
@@ -247,8 +249,8 @@ export const useAuthStore = defineStore('auth', () => {
     if (!sysPropertiesStore.iamLoginUrl) {
       throw new Error('IAM_LOGIN_URL is required');
     }
-    const redirectUrl = encodeURIComponent(window.location.href);
-    return `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl  }?frontend_redirect_uri=${  redirectUrl}`;
+    const redirectUrl = encodeURIComponent(frontendRedirectUri);
+    return `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl}?frontend_redirect_uri=${redirectUrl}`;
   }
 
   return {

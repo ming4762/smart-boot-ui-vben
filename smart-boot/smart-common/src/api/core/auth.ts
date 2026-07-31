@@ -3,15 +3,12 @@ import type { UserInfo } from '@vben/types';
 
 import { useAccessStore, useSysPropertiesStore } from '@vben/stores';
 
-import {
-  ApiServiceEnum,
-  baseRequestClient,
-  requestClient,
-} from '../request';
+import { ApiServiceEnum, baseRequestClient, requestClient } from '../request';
 
 enum Api {
   changeTenant = '/auth/tenant/change',
   getUserPermission = '/auth/getUserPermission',
+  iamLoginFailure = '/public/auth/oauth2/login-failure',
 }
 
 const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
@@ -29,6 +26,26 @@ const createAuthRequestConfig = (
 };
 
 export namespace AuthApi {
+  export interface Result<T> {
+    code: number;
+    data: T;
+    message: string;
+    subCode?: number;
+    success: boolean;
+  }
+
+  export interface IamLoginFailureDiagnostic {
+    errorCode: string;
+    exceptionMessage?: string;
+    exceptionType: string;
+    oauth2ErrorId: string;
+    occurredAt: string;
+    registrationId: string;
+    requestUri: string;
+    rootCauseMessage?: string;
+    rootCauseType: string;
+  }
+
   /** 登录接口参数 */
   export interface LoginParams {
     code?: string;
@@ -168,6 +185,22 @@ export const getUserPermissionApi = () => {
       errorMessageMode: 'none',
       service: ApiServiceEnum.SMART_AUTH,
       authErrorProcessed: false,
-    }
-  )
-}
+    },
+  );
+};
+
+/**
+ * 查询IAM登录失败诊断信息
+ */
+export const getIamLoginFailureApi = (oauth2ErrorId: string) => {
+  return requestClient.post<AuthApi.Result<AuthApi.IamLoginFailureDiagnostic>>(
+    Api.iamLoginFailure,
+    { oauth2ErrorId },
+    {
+      authErrorProcessed: false,
+      errorMessageMode: 'none',
+      responseReturn: 'body',
+      service: ApiServiceEnum.SMART_AUTH,
+    },
+  );
+};

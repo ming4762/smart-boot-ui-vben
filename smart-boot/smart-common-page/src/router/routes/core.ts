@@ -56,6 +56,15 @@ const coreRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'IamLoginFailure',
+        path: 'iam-login-failure',
+        component: () =>
+          import('../../views/_core/authentication/iam-login-failure.vue'),
+        meta: {
+          title: '单点登录失败',
+        },
+      },
+      {
         name: 'CodeLogin',
         path: 'code-login',
         component: () =>
