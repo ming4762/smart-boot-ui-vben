@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { TreeNode } from '@vben/utils';
+
 import { computed, onMounted, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
@@ -27,16 +29,21 @@ const props = withDefaults(defineProps<Props>(), {
   roleId: undefined,
 });
 
-const treeRef = ref();
-
 const dataLoading = ref(false);
 const saveLoading = ref(false);
 const checkedKeysModel = ref<number[]>([]);
 const permissions = Permission;
 const functionListRef = ref<any[]>([]);
 
+interface FunctionTreeNode extends TreeNode {
+  children?: FunctionTreeNode[];
+  key: number;
+  parentId: number;
+  title: string;
+}
+
 // 树形控件数据
-const computedFunctionTreeData = computed(() => {
+const computedFunctionTreeData = computed<FunctionTreeNode[]>(() => {
   return (
     listToTree(
       unref(functionListRef).map(
@@ -54,6 +61,46 @@ const computedFunctionTreeData = computed(() => {
     ) || []
   );
 });
+
+const resolveCheckedKeys = () => {
+  const selectedKeys = new Set(unref(checkedKeysModel));
+  const checkedKeys: number[] = [];
+  const halfCheckedKeys: number[] = [];
+
+  const markChecked = (node: FunctionTreeNode) => {
+    checkedKeys.push(node.key);
+    node.children?.forEach(markChecked);
+  };
+
+  const resolveNode = (node: FunctionTreeNode): 0 | 1 | 2 => {
+    if (selectedKeys.has(node.key)) {
+      markChecked(node);
+      return 2;
+    }
+    if (!node.children?.length) {
+      return 0;
+    }
+
+    const childStates = node.children.map(resolveNode);
+    if (childStates.every((state) => state === 2)) {
+      checkedKeys.push(node.key);
+      return 2;
+    }
+    if (childStates.some((state) => state !== 0)) {
+      halfCheckedKeys.push(node.key);
+      return 1;
+    }
+    return 0;
+  };
+
+  unref(computedFunctionTreeData).forEach((item) => resolveNode(item));
+
+  return {
+    checkedKeys: [...new Set(checkedKeys)],
+    halfCheckedKeys,
+  };
+};
+
 // 所有功能ID
 const computedAllFunctionIdList = computed<number[]>(() => {
   return unref(functionListRef).map((item) => item.functionId);
@@ -116,19 +163,19 @@ watch(
  * 执行保存操作
  */
 const handleSave = async () => {
-  const tree = unref(treeRef);
   if (props.roleId === null) {
     errorMessage('请先选定角色');
     return false;
   }
   saveLoading.value = true;
   try {
+    const { checkedKeys, halfCheckedKeys } = resolveCheckedKeys();
     await requestClient.post(
       'sys/role/saveRoleMenu',
       {
         roleId: props.roleId,
-        functionIdList: tree.checkedKeys,
-        halfFunctionIdList: tree.halfCheckedKeys,
+        functionIdList: checkedKeys,
+        halfFunctionIdList: halfCheckedKeys,
       },
       {
         service: ApiServiceEnum.SMART_SYSTEM,
@@ -153,7 +200,6 @@ onMounted(() => loadFunctionTreeData());
     <LayoutContent style="overflow: auto" class="bg-background">
       <Spin :spinning="dataLoading">
         <Tree
-          ref="treeRef"
           v-model:checked-keys="checkedKeysModel"
           :disabled="isSuperAdmin"
           :tree-data="computedFunctionTreeData"

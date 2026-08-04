@@ -172,16 +172,16 @@ const handleReload = () => {
           :tree-data="dataPermissionListRef"
           checkable
         >
-          <template #title="{ data, text }">
-            <div v-if="data.data.isDataPermission !== true">
+          <template #titleRender="{ data, text }">
+            <div v-if="data.isDataPermission !== true">
               <span>{{ text }}</span>
             </div>
             <div class="flex items-center" v-else>
               <Button
-                @click="() => handleShowDataPermissionDetail(data.id)"
+                @click="() => handleShowDataPermissionDetail(data.dataId)"
                 type="link"
               >
-                {{ text }}[{{ data.data.dataPermissionScope }}]
+                {{ text }}[{{ data.dataPermissionScope }}]
               </Button>
             </div>
           </template>
