@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref, unref, useTemplateRef, watch } from 'vue';
+import type { TreeNode } from '@vben/utils';
+
+import { onMounted, ref, unref, watch } from 'vue';
 
 import { $t as t } from '@vben/locales';
 import { listToTree } from '@vben/utils';
@@ -28,13 +30,57 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const treeRef = useTemplateRef<typeof Tree>('treeRef');
-
 const dataLoading = ref(false);
 const saveLoading = ref(false);
 
-const functionTreeData = ref<Array<any>>([]);
-const checkedKeysModel = ref([]);
+interface FunctionTreeNode extends TreeNode {
+  children?: FunctionTreeNode[];
+  key: number;
+  parentId: number;
+  title: string;
+}
+
+const functionTreeData = ref<FunctionTreeNode[]>([]);
+const checkedKeysModel = ref<number[]>([]);
+
+const resolveCheckedKeys = () => {
+  const selectedKeys = new Set(unref(checkedKeysModel));
+  const checkedKeys: number[] = [];
+  const halfCheckedKeys: number[] = [];
+
+  const markChecked = (node: FunctionTreeNode) => {
+    checkedKeys.push(node.key);
+    node.children?.forEach(markChecked);
+  };
+
+  const resolveNode = (node: FunctionTreeNode): 0 | 1 | 2 => {
+    if (selectedKeys.has(node.key)) {
+      markChecked(node);
+      return 2;
+    }
+    if (!node.children?.length) {
+      return 0;
+    }
+
+    const childStates = node.children.map(resolveNode);
+    if (childStates.every((state) => state === 2)) {
+      checkedKeys.push(node.key);
+      return 2;
+    }
+    if (childStates.some((state) => state !== 0)) {
+      halfCheckedKeys.push(node.key);
+      return 1;
+    }
+    return 0;
+  };
+
+  unref(functionTreeData).forEach((item) => resolveNode(item));
+
+  return {
+    checkedKeys: [...new Set(checkedKeys)],
+    halfCheckedKeys,
+  };
+};
 
 const loadFunctionTreeData = async () => {
   dataLoading.value = true;
@@ -83,16 +129,13 @@ const handleSave = async () => {
     errorMessage(t('system.views.tenant.package.message.chosePackage'));
     return false;
   }
-  const tree = unref(treeRef);
-  if (!tree) {
-    throw new Error('treeRef is not defined');
-  }
   saveLoading.value = true;
   try {
+    const { checkedKeys, halfCheckedKeys } = resolveCheckedKeys();
     await savePackageFunctionApi({
       tenantPackageId,
-      functionIdList: tree.checkedKeys,
-      halfFunctionIdList: tree.halfCheckedKeys,
+      functionIdList: checkedKeys,
+      halfFunctionIdList: halfCheckedKeys,
     });
     successMessage(
       t('system.views.tenant.package.message.saveFunctionSuccess'),
@@ -118,7 +161,6 @@ watch(
     <LayoutContent class="content bg-background">
       <Spin :spinning="dataLoading">
         <Tree
-          ref="treeRef"
           v-model:checked-keys="checkedKeysModel"
           :tree-data="functionTreeData"
           checkable
