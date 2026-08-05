@@ -25,7 +25,6 @@ const loadFailureDetail = async () => {
     loading.value = false;
     return;
   }
-  console.log('=======')
   try {
     const result = await getIamLoginFailureApi(oauth2ErrorId);
     message.value = result.message || UNKNOWN_ERROR_MESSAGE;

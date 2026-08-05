@@ -1,10 +1,11 @@
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 
 enum Api {
-  batchSaveUpdate = '/sys/changeLog/saveUpdateBatch',
-  delete = '/sys/changeLog/batchDeleteById',
-  getById = '/sys/changeLog/getById',
-  list = '/sys/changeLog/list',
+  create = '/sys/releaseNote/manage/create',
+  delete = '/sys/releaseNote/manage/delete',
+  getById = '/sys/releaseNote/manage/getById',
+  list = '/sys/releaseNote/manage/list',
+  update = '/sys/releaseNote/manage/update',
 }
 
 export const listApi = (params: any) => {
@@ -13,8 +14,14 @@ export const listApi = (params: any) => {
   });
 };
 
-export const batchSaveUpdateApi = (modelList: any[]) => {
-  return requestClient.post(Api.batchSaveUpdate, modelList, {
+export const createApi = (model: any) => {
+  return requestClient.post(Api.create, model, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+export const updateApi = (model: any) => {
+  return requestClient.post(Api.update, model, {
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };

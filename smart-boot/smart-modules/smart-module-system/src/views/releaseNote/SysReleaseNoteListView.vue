@@ -4,17 +4,18 @@ import { useSizeSetting } from '@vben/hooks';
 import { convertToTimezone, zonedDayjs } from '@vben/utils';
 
 import {
-  batchSaveUpdateApi,
+  createApi,
   deleteApi,
   getByIdApi,
   listApi,
-} from './SysChangeLogListView.api';
+  updateApi,
+} from './SysReleaseNoteListView.api';
 import {
   getFormSchemas,
   getSearchFormSchemas,
   getTableColumns,
   Permissions,
-} from './SysChangeLogListView.config';
+} from './SysReleaseNoteListView.config';
 
 const { getTableSize } = useSizeSetting();
 
@@ -68,8 +69,15 @@ const [SmartTable, tableApi] = useSmartTable({
   proxyConfig: {
     ajax: {
       query: (params) => listApi(params.ajaxParameter),
-      save: ({ body: { insertRecords, updateRecords } }) =>
-        batchSaveUpdateApi([...insertRecords, ...updateRecords]),
+      save: ({ body: { insertRecords, updateRecords } }) => {
+        if (insertRecords.length > 0) {
+          return createApi(insertRecords[0]);
+        }
+        if (updateRecords.length > 0) {
+          return updateApi(updateRecords[0]);
+        }
+        return Promise.resolve();
+      },
       delete: ({ body: { removeRecords } }) => deleteApi(removeRecords),
       getById: async (params) => {
         const data = await getByIdApi(params.id);
@@ -88,7 +96,7 @@ const [SmartTable, tableApi] = useSmartTable({
     buttons: [
       {
         code: 'ModalAdd',
-        auth: Permissions.save,
+        auth: Permissions.create,
       },
       {
         code: 'ModalEdit',

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NotificationItem } from '@vben/layouts';
 
-import { computed, provide, ref, watch } from 'vue';
+import { computed, provide, ref, useTemplateRef, watch } from 'vue';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
@@ -26,6 +26,8 @@ import { useAuthStore } from '@smart/common/store';
 import { createConfirm } from '@smart/common/utils';
 
 import LoginForm from '../views/_core/authentication/login.vue';
+import ReleaseNoteDrawer from '../components/ReleaseNoteDrawer.vue';
+import { hasUnreadReleaseNotesApi } from '@smart/common/api';
 
 const notifications = ref<NotificationItem[]>([
   {
@@ -69,8 +71,15 @@ const { destroyWatermark, updateWatermark } = useWatermark();
 const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
 );
+const releaseNoteDrawerRef = useTemplateRef<InstanceType<typeof ReleaseNoteDrawer>>('releaseNoteDrawerRef');
+const hasUnreadReleaseNotes = ref(false);
 
 const menus = computed(() => [
+  {
+    handler: () => releaseNoteDrawerRef.value?.open(),
+    icon: BookOpenText,
+    text: hasUnreadReleaseNotes.value ? '更新日志 · NEW' : '更新日志',
+  },
   {
     handler: () => {
       openWindow(VBEN_DOC_URL, {
@@ -165,6 +174,10 @@ watch(
 );
 
 provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
+
+hasUnreadReleaseNotesApi().then((value) => {
+  hasUnreadReleaseNotes.value = value;
+}).catch(() => undefined);
 </script>
 
 <template>
@@ -203,6 +216,7 @@ provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
         <LoginForm />
       </AuthenticationLoginExpiredModal>
     </template>
+    <ReleaseNoteDrawer ref="releaseNoteDrawerRef" />
     <template #lock-screen>
       <LockScreen :avatar @to-login="handleLogout" />
     </template>
