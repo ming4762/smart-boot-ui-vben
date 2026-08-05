@@ -41,6 +41,18 @@ If you want to adjust the content of the login form, you can configure the `Auth
 />
 ```
 
+Every slot prefixed with `form-` is forwarded to the internal `Form` component with the same name. Use these slots to replace the rendering of schema fields. They receive the `Form` context, including `formApi` and `values`:
+
+```vue
+<AuthenticationLogin @submit="authStore.authLogin">
+  <template #form-captcha="{ formApi, values }">
+    <CustomCaptcha :form-api="formApi" :values="values" />
+  </template>
+</AuthenticationLogin>
+```
+
+Set the matching schema `slot`, for example `slot: 'form-captcha'`.
+
 ::: details AuthenticationLogin Component Props
 
 ```ts

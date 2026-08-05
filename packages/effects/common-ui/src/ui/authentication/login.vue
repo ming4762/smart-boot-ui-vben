@@ -5,7 +5,7 @@ import type { VbenFormSchema } from '@vben-core/form-ui';
 
 import type { AuthenticationProps } from './types';
 
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, useSlots } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { $t } from '@vben/locales';
@@ -58,6 +58,13 @@ const [Form, formApi] = useVbenForm(
     showDefaultActions: false,
   }),
 );
+
+const slots = useSlots();
+
+const formSlotNames = computed(() => {
+  return Object.keys(slots).filter((slotName) => slotName.startsWith('form-'));
+});
+
 const router = useRouter();
 
 const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
@@ -144,7 +151,15 @@ defineExpose({
 
     <!-- 常规登录模式 -->
     <template v-else>
-      <Form />
+      <Form>
+        <template
+          v-for="slotName in formSlotNames"
+          :key="slotName"
+          #[slotName]="slotProps"
+        >
+          <slot :name="slotName" v-bind="slotProps"></slot>
+        </template>
+      </Form>
 
       <div
         v-if="showRememberMe || showForgetPassword"

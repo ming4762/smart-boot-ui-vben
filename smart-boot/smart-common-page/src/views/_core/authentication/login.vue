@@ -109,24 +109,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       // }),
       component: <div style="width:100%" />,
       fieldName: 'captcha',
-      renderComponentContent: (ctx) => {
-        return {
-          default: () => (
-            <Row>
-              <Col span={16}>
-                <VbenInput v-model:modelValue={ctx.rootValues?.captcha} />
-              </Col>
-              <Col span={8}>
-                <TextCaptcha
-                  api={getCaptchaApi}
-                  height="40px"
-                  ref={captchaRef}
-                />
-              </Col>
-            </Row>
-          ),
-        };
-      },
+      slot: 'form-captcha',
       rules: z.string().min(1, { message: $t('authentication.codeTip') }),
     },
   ];
@@ -166,5 +149,18 @@ const computedIamLoginUrl = computed(() => {
     :loading="authStore.loginLoading"
     :sso-login-url="computedIamLoginUrl"
     @submit="handleLogin"
-  />
+  >
+    <template #form-captcha="slotProps">
+      <div style="width: 100%">
+        <Row>
+          <Col span="16">
+            <VbenInput v-bind="slotProps.componentProps" />
+          </Col>
+          <Col span="8">
+            <TextCaptcha :api="getCaptchaApi" height="40px" ref="captchaRef" />
+          </Col>
+        </Row>
+      </div>
+    </template>
+  </AuthenticationLogin>
 </template>

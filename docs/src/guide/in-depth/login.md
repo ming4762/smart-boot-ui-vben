@@ -38,6 +38,18 @@ outline: deep
 />
 ```
 
+所有以 `form-` 开头的插槽都会按原名透传给内部 `Form` 组件，可用于替换 schema 字段的渲染内容。插槽会提供 `Form` 的上下文（包括 `formApi` 和 `values`）：
+
+```vue
+<AuthenticationLogin @submit="authStore.authLogin">
+  <template #form-captcha="{ formApi, values }">
+    <CustomCaptcha :form-api="formApi" :values="values" />
+  </template>
+</AuthenticationLogin>
+```
+
+对应的表单 schema 需要设置相同的 `slot` 名称，例如 `slot: 'form-captcha'`。
+
 ::: details AuthenticationLogin 组件参数
 
 ```ts
