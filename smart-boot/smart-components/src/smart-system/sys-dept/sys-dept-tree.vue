@@ -155,7 +155,7 @@ defineExpose({
         :tree-data="computedTreeData"
         @expand="onExpand"
       >
-        <template #title="{ deptName }">
+        <template #titleRender="{ deptName }">
           <span v-if="!showSearch">
             {{ deptName }}
           </span>

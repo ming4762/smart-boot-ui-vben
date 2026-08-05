@@ -163,6 +163,18 @@ const defaultPreferences: Preferences = {
     themeToggleButtonPosition: 'header',
     timezone: true,
     timezoneButtonPosition: 'header',
+    order: [
+      'globalSearch',
+      'preferences',
+      'themeToggle',
+      'languageToggle',
+      'timezone',
+      'fullscreen',
+      'refresh',
+      'notification',
+      'lockScreenBtn',
+      'logoutBtn',
+    ],
   },
 };
 

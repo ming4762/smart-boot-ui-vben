@@ -77,7 +77,7 @@ const useSmartTableSearchForm = (
   const [SearchForm, searchFormApi] = useVbenForm({
     handleReset: () => {
       const { query } = getSmartTableContext();
-      searchFormApi.resetForm();
+      searchFormApi.reset();
       query();
       emit('formQuery');
     },
@@ -112,7 +112,7 @@ const useSmartTableSearchForm = (
       ...searchFormConfig,
       commonConfig: {
         ...searchFormConfig?.commonConfig,
-        componentProps: (value, actions) => {
+        componentProps: (ctx) => {
           const commonComponentProps =
             searchFormConfig?.commonConfig?.componentProps;
           if (!commonComponentProps) {
@@ -122,7 +122,7 @@ const useSmartTableSearchForm = (
             };
           }
           if (isFunction(commonComponentProps)) {
-            const componentProps = commonComponentProps(value, actions);
+            const componentProps = commonComponentProps(ctx);
             return {
               ...defaultComponentProps,
               ...componentProps,

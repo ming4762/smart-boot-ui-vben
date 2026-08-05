@@ -21,7 +21,6 @@ import {
   watch,
 } from 'vue';
 
-import { useRuleFormItem } from '@vben-core/composables';
 import { createIconifyIcon } from '@vben-core/icons';
 
 import { VxePulldown } from 'vxe-pc-ui';
@@ -29,7 +28,7 @@ import { VxePulldown } from 'vxe-pc-ui';
 import { useSmartTable } from '../../use-smart-table';
 import { getComponent } from '../../utils';
 
-interface Props extends SmartPulldownTableProps {}
+interface Props extends Omit<SmartPulldownTableProps, 'value'> {}
 
 defineOptions({
   name: 'SmartPulldownTable',
@@ -44,7 +43,8 @@ const props = withDefaults(defineProps<Props>(), {
   searchIgnoreCase: true,
   showSearch: true,
 });
-const emit = defineEmits<SmartPulldownTableEvent>();
+const emit = defineEmits<Omit<SmartPulldownTableEvent, 'update:value'>>();
+const modelValue = defineModel<SmartPulldownTableProps['value']>('value');
 
 watch(
   () => props.alwaysLoad,
@@ -154,15 +154,6 @@ const loadTableData = async () => {
   }
 };
 
-const emitData = ref<Recordable<any>[]>([]);
-const [state] = useRuleFormItem(props, 'value', 'change', emitData);
-watch(
-  () => state.value,
-  (v) => {
-    emit('update:value', v);
-  },
-);
-
 /**
  * 下拉容器样式
  */
@@ -195,7 +186,7 @@ const setCurrentRow = () => {
   });
 };
 
-watch([() => props.value], ([value]) => {
+watch([() => modelValue.value], ([value]) => {
   let row: null | Recordable<any> | undefined = null;
   if (value) {
     const selectRows = unref(tableDataRef).filter(
@@ -234,7 +225,12 @@ const handleHide = () => {
 
 const changeValue = (row?: Recordable<any>) => {
   emit('select', row);
-  state.value = row?.[props.valueField];
+  const value = row?.[props.valueField];
+  if (Object.is(value, modelValue.value)) {
+    return;
+  }
+  modelValue.value = value;
+  emit('change', value);
 };
 
 const dropdownTableProps: SmartTableRenderProps = {

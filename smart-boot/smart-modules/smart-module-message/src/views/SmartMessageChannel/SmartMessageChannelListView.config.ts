@@ -400,11 +400,14 @@ export const getFormSchemas = (
       label: t('smart.message.channel.title.channelType1'),
       component: 'Select',
       controlClass: 'w-full',
-      componentProps: (_, formActionType) => {
-        return {
-          onChange: () => formActionType.setFieldValue('channelType2', null),
-          options: unref(messageType1List).filter((item) => !item.data),
-        };
+      dependencies: {
+        triggerFields: ['channelType1'],
+        resolve: ({ actions }) => ({
+          componentProps: {
+            onChange: () => actions.setFieldValue('channelType2', null),
+            options: unref(messageType1List).filter((item) => !item.data),
+          },
+        }),
       },
     },
     {
@@ -412,22 +415,22 @@ export const getFormSchemas = (
       label: t('smart.message.channel.title.channelType2'),
       component: 'Select',
       controlClass: 'w-full',
-      componentProps: (formModel) => {
-        const channelType1 = formModel.channelType1;
-        let options: Recordable<any>[] = [];
-        if (channelType1) {
-          options = unref(messageType2List).filter(
-            (item) => item.data === channelType1,
-          );
-        }
-        return {
-          options,
-        };
-      },
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return ['DINGTALK', 'SMS'].includes(value.channelType1);
+        resolve: ({ values }) => {
+          const channelType1 = values.channelType1;
+          let options: Recordable<any>[] = [];
+          if (channelType1) {
+            options = unref(messageType2List).filter(
+              (item) => item.data === channelType1,
+            );
+          }
+          return {
+            componentProps: {
+              options,
+            },
+            show: ['DINGTALK', 'SMS'].includes(channelType1),
+          };
         },
       },
     },

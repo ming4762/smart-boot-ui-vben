@@ -3,11 +3,41 @@
  * 可用于 vben-form、vben-modal、vben-drawer 等组件使用,
  */
 
-import type { UploadChangeParam, UploadFile, UploadProps } from 'antdv-next';
+import type {
+  AutoCompleteProps,
+  ButtonProps,
+  CascaderProps,
+  CheckboxGroupProps,
+  CheckboxProps,
+  DatePickerProps,
+  DividerProps,
+  InputNumberProps,
+  InputProps,
+  MentionsProps,
+  RadioGroupProps,
+  RadioProps,
+  RangePickerProps,
+  RateProps,
+  SelectProps,
+  SpaceProps,
+  SwitchProps,
+  TextAreaProps,
+  TimePickerProps,
+  TreeSelectProps,
+  UploadChangeParam,
+  UploadFile,
+  UploadProps,
+} from 'antdv-next';
 
 import type { Component, Ref } from 'vue';
 
-import type { BaseFormComponentType } from '@vben/common-ui';
+import type {
+  ApiComponentSharedProps,
+  BaseFormComponentType,
+  CollapsibleParamsProps,
+  IconPickerProps,
+} from '@vben/common-ui';
+import type { TipTapProps } from '@vben/plugins/tiptap';
 import type { Recordable } from '@vben/types';
 
 import {
@@ -28,12 +58,15 @@ import {
   SmartCodeEditor,
   SmartCopyText,
   SmartPulldownTable,
+  VbenCollapsibleParams,
   VCropper,
 } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { $t, $ct as t } from '@vben/locales';
+import { VbenTiptap } from '@vben/plugins/tiptap';
 import { isEmpty } from '@vben/utils';
 
+import { upload_file } from '@smart/common/api';
 import {
   createConfirm,
   errorMessage,
@@ -53,6 +86,16 @@ import { message, Modal, notification } from 'antdv-next';
 
 import { initSetupVbenForm } from '../form';
 import { doSetupSmartTable } from '../smart-table';
+
+type AdapterUploadProps = UploadProps & {
+  aspectRatio?: string;
+  crop?: boolean;
+  draggable?: boolean;
+  handleChange?: (event: UploadChangeParam) => void;
+  maxSize?: number;
+  onDragSort?: (oldIndex: number, newIndex: number) => void;
+  onHandleChange?: (event: UploadChangeParam) => void;
+};
 
 const AutoComplete = defineAsyncComponent(
   () => import('antdv-next/dist/auto-complete/index'),
@@ -94,7 +137,7 @@ const Space = defineAsyncComponent(() => import('antdv-next/dist/space/index'));
 const Switch = defineAsyncComponent(
   () => import('antdv-next/dist/switch/index'),
 );
-const Tag = defineAsyncComponent(() => import('antdv-next/dist/tag/index'));
+// const Tag = defineAsyncComponent(() => import('antdv-next/dist/tag/index'));
 const Textarea = defineAsyncComponent(
   () => import('antdv-next/dist/input/TextArea'),
 );
@@ -544,57 +587,72 @@ export type ComponentType =
   | 'Upload'
   | BaseFormComponentType;
 
+/**
+ * 与 {@link ComponentType} 中注册的组件名一一对应，便于 Schema 上 `component` + `componentProps` 联动提示
+ */
+export interface ComponentPropsMap {
+  ApiCascader: ApiComponentSharedProps & CascaderProps;
+  ApiSelect: ApiComponentSharedProps & SelectProps;
+  ApiTreeSelect: ApiComponentSharedProps & TreeSelectProps;
+  AutoComplete: AutoCompleteProps;
+  Cascader: CascaderProps;
+  Checkbox: CheckboxProps;
+  CheckboxGroup: CheckboxGroupProps;
+  CollapsibleParams: CollapsibleParamsProps;
+  DatePicker: DatePickerProps;
+  DefaultButton: ButtonProps;
+  Divider: DividerProps;
+  IconPicker: IconPickerProps;
+  Input: InputProps;
+  InputNumber: InputNumberProps;
+  InputPassword: InputProps;
+  Mentions: MentionsProps;
+  PrimaryButton: ButtonProps;
+  Radio: RadioProps;
+  RadioGroup: RadioGroupProps;
+  RangePicker: RangePickerProps;
+  Rate: RateProps;
+  RichEditor: TipTapProps;
+  Select: SelectProps;
+  Space: SpaceProps;
+  Switch: SwitchProps;
+  Textarea: TextAreaProps;
+  TimePicker: TimePickerProps;
+  TreeSelect: TreeSelectProps;
+  Upload: AdapterUploadProps;
+}
+
 async function initComponentAdapter() {
   const components: Partial<Record<ComponentType, Component>> = {
     // 如果你的组件体积比较大，可以使用异步加载
     // Button: () =>
     // import('xxx').then((res) => res.Button),
+
     ApiCascader: withDefaultPlaceholder(ApiComponent, 'select', {
       component: Cascader,
       fieldNames: { label: 'label', value: 'value', children: 'children' },
       loadingSlot: 'suffixIcon',
       modelPropName: 'value',
-      visibleEvent: 'onVisibleChange',
+      visibleEvent: 'onOpenChange',
     }),
-    ApiSelect: withDefaultPlaceholder(
-      {
-        ...ApiComponent,
-        name: 'ApiSelect',
-      },
-      'select',
-      {
-        component: Select,
-        loadingSlot: 'suffixIcon',
-        visibleEvent: 'onVisibleChange',
-        modelPropName: 'value',
-      },
-    ),
-    Tooltip,
-    SmartMultiInput,
-    ApiTreeSelect: withDefaultPlaceholder(
-      {
-        ...ApiComponent,
-        name: 'ApiTreeSelect',
-      },
-      'select',
-      {
-        component: TreeSelect,
-        fieldNames: { label: 'label', value: 'value', children: 'children' },
-        loadingSlot: 'suffixIcon',
-        modelPropName: 'value',
-        optionsPropName: 'treeData',
-        visibleEvent: 'onVisibleChange',
-      },
-    ),
-    AInput: Input,
-    ASelect: Select,
-    ASwitch: Switch,
-    Dropdown: SmartDropdown,
+    ApiSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      component: Select,
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      visibleEvent: 'onOpenChange',
+    }),
+    ApiTreeSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      component: TreeSelect,
+      fieldNames: { label: 'label', value: 'value', children: 'children' },
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      optionsPropName: 'treeData',
+      visibleEvent: 'onOpenChange',
+    }),
     AutoComplete,
+    Cascader,
     Checkbox,
     CheckboxGroup,
-    DatePicker: ZonedDatePicker,
-    SmartCopyText,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
@@ -605,7 +663,6 @@ async function initComponentAdapter() {
       inputComponent: Input,
       modelValueProp: 'value',
     }),
-    IconButton: SmartIconButton,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
@@ -616,17 +673,44 @@ async function initComponentAdapter() {
     },
     Radio,
     RadioGroup,
-    RangePicker: ZonedRangePicker,
     Rate,
+    RichEditor: withDefaultPlaceholder(VbenTiptap, 'input', {
+      imageUpload: {
+        upload: (file: any, onProgress: any) => {
+          return new Promise((resolve, reject) => {
+            upload_file({
+              file,
+              onProgress({ percent }) {
+                onProgress?.(percent);
+              },
+              onSuccess(response) {
+                // 从响应中提取图片URL
+                resolve(response?.data?.url ?? response?.url ?? '');
+              },
+              onError() {
+                reject(new Error($t('ui.tiptap.upload.uploadFailed')));
+              },
+            });
+          });
+        },
+      },
+    }),
     Select: withDefaultPlaceholder(Select, 'select'),
     Space,
     Switch,
-    Tag,
     Textarea: withDefaultPlaceholder(Textarea, 'input'),
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
-    ApiDictSelect: withDefaultPlaceholder(ApiDictSelect, 'select'),
-    Cascader,
+    Upload: withPreviewUpload(),
+    CollapsibleParams: VbenCollapsibleParams,
+
+    Tooltip,
+    SmartMultiInput,
+    Dropdown: SmartDropdown,
+    DatePicker: ZonedDatePicker,
+    SmartCopyText,
+    IconButton: SmartIconButton,
+    RangePicker: ZonedRangePicker,
     SmartMarkdown: defineAsyncComponent(async () => {
       const { SmartMarkdown } = await import('@vben/plugins/smart-markdown');
       return SmartMarkdown;
@@ -640,7 +724,7 @@ async function initComponentAdapter() {
     // SmartTinymceEditor,
     SmartCodeEditor,
     SmartTableSelectUser,
-    Upload: withPreviewUpload(),
+    ApiDictSelect,
   };
 
   // 将组件注册到全局共享状态中
@@ -661,6 +745,7 @@ async function initComponentAdapter() {
     error: errorMessage,
     warning: warnMessage,
   });
+
   initSetupVbenForm();
   doSetupSmartTable();
 }

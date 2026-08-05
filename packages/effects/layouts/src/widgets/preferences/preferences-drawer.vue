@@ -195,6 +195,7 @@ const widgetLockScreenButtonPosition = defineModel<string>(
 const widgetLogoutButtonPosition = defineModel<string>(
   'widgetLogoutButtonPosition',
 );
+const widgetOrder = defineModel<string[]>('widgetOrder', { required: true });
 const widgetRefreshButtonPosition = defineModel<string>(
   'widgetRefreshButtonPosition',
 );
@@ -477,7 +478,7 @@ function handleCustomPreferencesUpdate(updates: CustomPreferencesRecord) {
                 v-model:breadcrumb-style-type="breadcrumbStyleType"
                 :disabled="
                   !showBreadcrumbConfig ||
-                  !(isSideNav || isSideMixedNav || isHeaderSidebarNav)
+                    !(isSideNav || isSideMixedNav || isHeaderSidebarNav)
                 "
               />
             </Block>
@@ -516,6 +517,7 @@ function handleCustomPreferencesUpdate(updates: CustomPreferencesRecord) {
                 v-model:widget-logout-button-position="
                   widgetLogoutButtonPosition
                 "
+                v-model:widget-order="widgetOrder"
                 v-model:widget-notification-button-position="
                   widgetNotificationButtonPosition
                 "

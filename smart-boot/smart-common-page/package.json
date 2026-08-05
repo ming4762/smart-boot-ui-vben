@@ -25,6 +25,10 @@
     "./router": {
       "types": "./src/router/index.ts",
       "default": "./src/router/index.ts"
+    },
+    "./adapter": {
+      "types": "./src/adapter/index.ts",
+      "default": "./src/adapter/index.ts"
     }
   },
   "dependencies": {
@@ -35,6 +39,7 @@
     "vue-router": "catalog:",
     "@vben/types": "workspace:*",
     "@smart/common": "workspace:*",
+    "@smart/components": "workspace:*",
     "@smart/wujie": "workspace:*",
     "antdv-next": "catalog:",
     "@vben/constants": "workspace:*",
@@ -44,6 +49,10 @@
     "@vben/icons": "workspace:*",
     "@vben/layouts": "workspace:*",
     "@vben/hooks": "workspace:*",
-    "@vben/access": "workspace:*"
+    "@vben/access": "workspace:*",
+    "@vxe-ui/plugin-export-xlsx": "catalog:",
+    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
+    "exceljs": "catalog:",
+    "pinia": "catalog:"
   }
 }

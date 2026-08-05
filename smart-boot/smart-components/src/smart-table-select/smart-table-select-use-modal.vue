@@ -100,7 +100,7 @@ const tableProps = reactive<SmartTableProps>({
       },
     },
   },
-}) as SmartTableProps;
+});
 </script>
 
 <template>

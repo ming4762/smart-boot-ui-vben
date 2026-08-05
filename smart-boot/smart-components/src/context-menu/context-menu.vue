@@ -7,17 +7,7 @@ import type {
   ItemContentProps,
 } from './type';
 
-import {
-  computed,
-  Fragment,
-  h,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  unref,
-  useTemplateRef,
-} from 'vue';
+import { computed, Fragment, h, nextTick, onMounted, ref, unref } from 'vue';
 
 import { createIconifyIcon } from '@vben/icons';
 
@@ -40,7 +30,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const prefixCls = 'context-menu';
 
-const wrapRef = useTemplateRef<typeof Menu>('wrapRef');
 const showRef = ref(false);
 
 const getStyle = computed((): CSSProperties => {
@@ -64,11 +53,6 @@ const getStyle = computed((): CSSProperties => {
 
 onMounted(() => {
   nextTick(() => (showRef.value = true));
-});
-
-onUnmounted(() => {
-  const el = unref(wrapRef);
-  el && el.remove();
 });
 
 function handleAction(item: ContextMenuItem, e: MouseEvent) {
@@ -144,7 +128,6 @@ const RenderMenuItem = () => {
 <template>
   <Menu
     v-if="showRef"
-    ref="wrapRef"
     :class="prefixCls"
     :inline-indent="12"
     :style="getStyle"

@@ -109,12 +109,12 @@ const formSchema = computed((): VbenFormSchema[] => {
       // }),
       component: <div style="width:100%" />,
       fieldName: 'captcha',
-      renderComponentContent: (value) => {
+      renderComponentContent: (ctx) => {
         return {
           default: () => (
             <Row>
               <Col span={16}>
-                <VbenInput v-model:modelValue={value.captcha} />
+                <VbenInput v-model:modelValue={ctx.rootValues?.captcha} />
               </Col>
               <Col span={8}>
                 <TextCaptcha
