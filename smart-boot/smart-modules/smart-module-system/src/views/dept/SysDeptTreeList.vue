@@ -266,7 +266,7 @@ const tabItems = [
   :deep(.ant-tabs-content) {
     height: 100%;
   }
-  :deep(.ant-tabs-tabpane) {
+  :deep(.ant-tabs-body) {
     height: 100%;
   }
   .save-button-container {

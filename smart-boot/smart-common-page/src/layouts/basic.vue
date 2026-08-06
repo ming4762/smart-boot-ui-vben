@@ -19,15 +19,15 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
 import {
+  hasUnreadReleaseNotesApi,
   listCurrentUserTenantApi,
   listDictItemByCodeApi,
 } from '@smart/common/api';
 import { useAuthStore } from '@smart/common/store';
 import { createConfirm } from '@smart/common/utils';
 
-import LoginForm from '../views/_core/authentication/login.vue';
 import ReleaseNoteDrawer from '../components/ReleaseNoteDrawer.vue';
-import { hasUnreadReleaseNotesApi } from '@smart/common/api';
+import LoginForm from '../views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([
   {
@@ -71,7 +71,9 @@ const { destroyWatermark, updateWatermark } = useWatermark();
 const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
 );
-const releaseNoteDrawerRef = useTemplateRef<InstanceType<typeof ReleaseNoteDrawer>>('releaseNoteDrawerRef');
+const releaseNoteDrawerRef = useTemplateRef<
+  InstanceType<typeof ReleaseNoteDrawer>
+>('releaseNoteDrawerRef');
 const hasUnreadReleaseNotes = ref(false);
 
 const menus = computed(() => [
@@ -175,9 +177,11 @@ watch(
 
 provide('dict-api', (codeList: string[]) => listDictItemByCodeApi(codeList));
 
-hasUnreadReleaseNotesApi().then((value) => {
-  hasUnreadReleaseNotes.value = value;
-}).catch(() => undefined);
+hasUnreadReleaseNotesApi()
+  .then((value) => {
+    hasUnreadReleaseNotes.value = value;
+  })
+  .catch(() => undefined);
 </script>
 
 <template>
