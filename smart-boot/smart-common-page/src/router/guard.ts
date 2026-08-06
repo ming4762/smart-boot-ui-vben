@@ -197,16 +197,43 @@ function setupAccessGuard(router: Router) {
     accessStore.setAccessMenus(accessibleMenus);
     accessStore.setAccessRoutes(accessibleRoutes);
     accessStore.setIsAccessChecked(true);
-    const redirectPath = (from.query.redirect ??
-      (to.path === preferences.app.defaultHomePath
-        ? userInfo?.homePath || preferences.app.defaultHomePath
-        : to.fullPath)) as string;
+
+    const configuredHomePath =
+      userInfo?.homePath || preferences.app.defaultHomePath;
+
+    const requestedPath = from.query.redirect
+      ? decodeURIComponent(from.query.redirect as string)
+      : to.fullPath;
+
+    const isHomeNavigation =
+      requestedPath === userInfo?.homePath ||
+      requestedPath === preferences.app.defaultHomePath;
+    const redirectPath =
+      isHomeNavigation && !isAccessiblePath(router, requestedPath)
+        ? configuredHomePath
+        : requestedPath;
 
     return {
       ...router.resolve(decodeURIComponent(redirectPath)),
       replace: true,
     };
   });
+}
+
+/**
+ * 判断是否可以访问某个菜单
+ * @param router
+ * @param path
+ */
+function isAccessiblePath(router: Router, path?: string) {
+  if (!path) return false;
+
+  const resolved = router.resolve(path);
+  const lastMatched = resolved.matched.at(-1);
+
+  return (
+    resolved.matched.length > 0 && lastMatched?.name !== 'FallbackNotFound'
+  );
 }
 
 /**

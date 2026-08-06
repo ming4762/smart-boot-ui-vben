@@ -44,7 +44,22 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
           content: `${$t('common.loadingMenu')}...`,
           duration: 1.5,
         });
-        return await getUserMenusApi();
+        const userMenuList = await getUserMenusApi();
+        if (userMenuList.length > 0) {
+          return userMenuList;
+        }
+        return [
+          {
+            name: 'Analytics',
+            path: preferences.app.defaultHomePath,
+            component: '/views/dashboard/analytics/index',
+            meta: {
+              affixTab: true,
+              icon: 'lucide:area-chart',
+              title: $t('page.dashboard.analytics'),
+            },
+          },
+        ];
       }
     },
     // 可以指定没有权限跳转403页面
