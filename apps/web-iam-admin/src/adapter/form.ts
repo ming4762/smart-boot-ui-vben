@@ -22,7 +22,7 @@ async function initSetupVbenForm() {
         Upload: 'fileList',
       },
     },
-    defineRules: {
+    rules: {
       // 输入项目必填国际化适配
       required: (value, _params, ctx) => {
         if (value === undefined || value === null || value.length === 0) {

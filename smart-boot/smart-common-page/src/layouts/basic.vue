@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { NotificationItem } from '@vben/layouts';
 
-import { computed, provide, ref, useTemplateRef, watch } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 
-import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
+import {AuthenticationLoginExpiredModal, useVbenDrawer} from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
 import { useWatermark } from '@vben/hooks';
 import { BookOpenText, CircleHelp, SvgGithubIcon } from '@vben/icons';
@@ -71,14 +71,19 @@ const { destroyWatermark, updateWatermark } = useWatermark();
 const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
 );
-const releaseNoteDrawerRef = useTemplateRef<
-  InstanceType<typeof ReleaseNoteDrawer>
->('releaseNoteDrawerRef');
+
 const hasUnreadReleaseNotes = ref(false);
+
+const [ReleaseNoteDrawerRender, releaseNoteDrawerApi] = useVbenDrawer({
+  // 连接抽离的组件
+  connectedComponent: ReleaseNoteDrawer,
+});
 
 const menus = computed(() => [
   {
-    handler: () => releaseNoteDrawerRef.value?.open(),
+    handler: () => {
+      releaseNoteDrawerApi.open()
+    },
     icon: BookOpenText,
     text: hasUnreadReleaseNotes.value ? '更新日志 · NEW' : '更新日志',
   },
@@ -205,6 +210,7 @@ hasUnreadReleaseNotesApi()
       />
     </template>
     <template #notification>
+      <ReleaseNoteDrawerRender />
       <Notification
         :dot="showDot"
         :notifications="notifications"
@@ -220,7 +226,6 @@ hasUnreadReleaseNotesApi()
         <LoginForm />
       </AuthenticationLoginExpiredModal>
     </template>
-    <ReleaseNoteDrawer ref="releaseNoteDrawerRef" />
     <template #lock-screen>
       <LockScreen :avatar @to-login="handleLogout" />
     </template>

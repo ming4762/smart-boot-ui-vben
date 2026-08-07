@@ -54,31 +54,9 @@ const formSchema = computed((): VbenFormSchema[] => {
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
     {
-      // component: markRaw(SliderCaptcha),
-      // fieldName: 'captcha',
-      // rules: z.boolean().refine((value) => value, {
-      //   message: $t('authentication.verifyRequiredTip'),
-      // }),
-      component: <div style="width:100%" />,
+      component: 'VbenInput',
       fieldName: 'captcha',
-      renderComponentContent: (ctx) => {
-        return {
-          default: () => (
-            <Row>
-              <Col span={16}>
-                <VbenInput v-model:modelValue={ctx.rootValues?.captcha} />
-              </Col>
-              <Col span={8}>
-                <TextCaptcha
-                  api={getCaptchaApi}
-                  height="40px"
-                  ref={captchaRef}
-                />
-              </Col>
-            </Row>
-          ),
-        };
-      },
+      slot: 'form-captcha',
       rules: z.string().min(1, { message: $t('authentication.codeTip') }),
     },
   ];
@@ -109,5 +87,18 @@ const handleLogin = (loginData: Recordable<any>) => {
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
     @submit="handleLogin"
-  />
+  >
+    <template #form-captcha="slotProps">
+      <div style="width: 100%">
+        <Row>
+          <Col span="16">
+            <VbenInput v-bind="slotProps.componentProps" />
+          </Col>
+          <Col span="8">
+            <TextCaptcha :api="getCaptchaApi" height="40px" ref="captchaRef" />
+          </Col>
+        </Row>
+      </div>
+    </template>
+  </AuthenticationLogin>
 </template>

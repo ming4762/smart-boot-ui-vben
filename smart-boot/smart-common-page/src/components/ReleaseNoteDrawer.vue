@@ -1,14 +1,12 @@
 <script lang="ts" setup>
+import type { ReleaseNote } from '@smart/common/api';
+
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { formatDateTime } from '@vben/utils';
 
-import {
-  type ReleaseNote,
-  listReleaseNotesApi,
-  markReleaseNotesReadApi,
-} from '@smart/common/api';
+import { listReleaseNotesApi, markReleaseNotesReadApi } from '@smart/common/api';
 
 const notes = ref<ReleaseNote[]>([]);
 const currentId = ref<number>();
@@ -17,7 +15,7 @@ const currentNote = computed(() =>
   notes.value.find((item) => item.id === currentId.value) ?? notes.value[0],
 );
 
-const [Drawer, drawerApi] = useVbenDrawer({
+const [Drawer] = useVbenDrawer({
   async onOpenChange(open) {
     if (!open) {
       return;
@@ -31,10 +29,6 @@ const [Drawer, drawerApi] = useVbenDrawer({
   },
   class: 'w-[680px] max-w-full',
   footer: false,
-});
-
-defineExpose({
-  open: () => drawerApi.open(),
 });
 </script>
 
