@@ -6,13 +6,17 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer } from '@vben/common-ui';
 import { formatDateTime } from '@vben/utils';
 
-import { listReleaseNotesApi, markReleaseNotesReadApi } from '@smart/common/api';
+import {
+  listReleaseNotesApi,
+  markReleaseNotesReadApi,
+} from '@smart/common/api';
 
 const notes = ref<ReleaseNote[]>([]);
 const currentId = ref<number>();
 
-const currentNote = computed(() =>
-  notes.value.find((item) => item.id === currentId.value) ?? notes.value[0],
+const currentNote = computed(
+  () =>
+    notes.value.find((item) => item.id === currentId.value) ?? notes.value[0],
 );
 
 const [Drawer] = useVbenDrawer({
@@ -45,17 +49,24 @@ const [Drawer] = useVbenDrawer({
           @click="currentId = note.id"
         >
           <div class="font-medium">v{{ note.version }}</div>
-          <div class="truncate text-xs text-muted-foreground">{{ note.title }}</div>
+          <div class="truncate text-xs text-muted-foreground">
+            {{ note.title }}
+          </div>
         </button>
       </aside>
       <main v-if="currentNote" class="min-w-0 flex-1 overflow-y-auto pl-6">
-        <h2 class="text-xl font-semibold">v{{ currentNote.version }} · {{ currentNote.title }}</h2>
+        <h2 class="text-xl font-semibold">
+          v{{ currentNote.version }} · {{ currentNote.title }}
+        </h2>
         <p class="mb-4 mt-1 text-sm text-muted-foreground">
           {{ formatDateTime(currentNote.publishedTime) }}
         </p>
         <SmartMarkdown :value="currentNote.content" mode="preview" />
       </main>
-      <main v-else class="flex flex-1 items-center justify-center text-muted-foreground">
+      <main
+        v-else
+        class="flex flex-1 items-center justify-center text-muted-foreground"
+      >
         暂无已发布更新
       </main>
     </div>

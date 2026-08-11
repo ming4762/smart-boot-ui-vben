@@ -22,7 +22,6 @@ defineOptions({ name: 'Login' });
 const authStore = useAuthStore();
 const sysPropertiesStore = useSysPropertiesStore();
 
-
 // const MOCK_USER_OPTIONS: BasicOption[] = [
 //   {
 //     label: 'Super',
@@ -134,7 +133,7 @@ const handleLogin = (loginData: Recordable<any>) => {
  */
 const computedIamLoginUrl = computed(() => {
   return authStore.getIamLoginUrl();
-})
+});
 </script>
 
 <template>

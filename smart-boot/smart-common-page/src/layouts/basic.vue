@@ -3,7 +3,10 @@ import type { NotificationItem } from '@vben/layouts';
 
 import { computed, provide, ref, watch } from 'vue';
 
-import {AuthenticationLoginExpiredModal, useVbenDrawer} from '@vben/common-ui';
+import {
+  AuthenticationLoginExpiredModal,
+  useVbenDrawer,
+} from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
 import { useWatermark } from '@vben/hooks';
 import { BookOpenText, CircleHelp, SvgGithubIcon } from '@vben/icons';
@@ -82,7 +85,7 @@ const [ReleaseNoteDrawerRender, releaseNoteDrawerApi] = useVbenDrawer({
 const menus = computed(() => [
   {
     handler: () => {
-      releaseNoteDrawerApi.open()
+      releaseNoteDrawerApi.open();
     },
     icon: BookOpenText,
     text: hasUnreadReleaseNotes.value ? '更新日志 · NEW' : '更新日志',
