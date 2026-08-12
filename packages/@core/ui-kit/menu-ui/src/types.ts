@@ -95,6 +95,8 @@ interface MenuItemProps extends MenuRecordBadgeRaw {
    * @zh_CN menuitem 名称
    */
   path: string;
+  /** 实际跳转地址 */
+  targetPath?: string;
   /**
    * @zh_CN 菜单所携带的参数
    */
@@ -106,11 +108,14 @@ interface MenuItemRegistered {
   parentPaths: string[];
   path: string;
   query?: Recordable<any>;
+  targetPath?: string;
 }
 
 interface MenuItemClicked {
   parentPaths: string[];
   path: string;
+  query?: Recordable<any>;
+  targetPath?: string;
 }
 
 interface MenuProvider {

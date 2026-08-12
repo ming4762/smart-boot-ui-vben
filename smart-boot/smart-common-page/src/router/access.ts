@@ -7,7 +7,8 @@ import { generateAccessible } from '@vben/access';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 
-import { getUserMenusApi } from '@smart/common/api';
+import { getUserMenusApi, listFavoriteFunctionIdsApi } from '@smart/common/api';
+import { useMenuFavoriteStore } from '@smart/common/store';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 import { message } from 'antdv-next';
 import modulePageMap from 'virtual:smart-modules';
@@ -19,6 +20,7 @@ const forbiddenComponent = () =>
   import('../views/_core/fallback/forbidden.vue');
 
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
+  const menuFavoriteStore = useMenuFavoriteStore();
   // const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
   const pageMap: ComponentRecordType = {
     ...import.meta.glob('../views/**/*.vue'),
@@ -38,13 +40,25 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
     ...options,
     fetchMenuListAsync: async () => {
       if (microApp) {
+        menuFavoriteStore.setLoaded(false);
         return getRouterHandler?.() || [];
       } else {
         message.loading({
           content: `${$t('common.loadingMenu')}...`,
           duration: 1.5,
         });
-        const userMenuList = await getUserMenusApi();
+        menuFavoriteStore.setLoaded(false);
+        const [menuResult, favoriteResult] = await Promise.allSettled([
+          getUserMenusApi(),
+          listFavoriteFunctionIdsApi(),
+        ]);
+        if (menuResult.status === 'rejected') {
+          throw menuResult.reason;
+        }
+        if (favoriteResult.status === 'fulfilled') {
+          menuFavoriteStore.setFavoriteFunctionIds(favoriteResult.value);
+        }
+        const userMenuList = menuResult.value;
         if (userMenuList.length > 0) {
           return userMenuList;
         }

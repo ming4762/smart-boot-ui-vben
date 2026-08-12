@@ -19,6 +19,10 @@ defineOptions({
 
 const props = withDefaults(defineProps<Props>(), {});
 
+defineSlots<{
+  'item-extra'(props: { menu: MenuRecordRaw }): any;
+}>();
+
 /**
  * 判断是否有子节点，动态渲染 menu-item/sub-menu-item
  */
@@ -33,25 +37,30 @@ const hasChildren = computed(() => {
 <template>
   <MenuItem
     v-if="!hasChildren"
-    :key="menu.path"
+    :key="menu.key ?? menu.path"
     :active-icon="menu.activeIcon"
     :badge="menu.badge"
     :badge-type="menu.badgeType"
     :badge-variants="menu.badgeVariants"
     :icon="menu.icon"
-    :path="menu.path"
+    :disabled="menu.disabled"
+    :path="menu.key ?? menu.path"
     :query="menu.query"
+    :target-path="menu.targetPath ?? menu.path"
   >
     <template #title>
       <span>{{ menu.name }}</span>
     </template>
+    <template #extra>
+      <slot name="item-extra" :menu="menu"></slot>
+    </template>
   </MenuItem>
   <SubMenuComp
     v-else
-    :key="`${menu.path}_sub`"
+    :key="`${menu.key ?? menu.path}_sub`"
     :active-icon="menu.activeIcon"
     :icon="menu.icon"
-    :path="menu.path"
+    :path="menu.key ?? menu.path"
   >
     <template #content>
       <MenuBadge
@@ -64,8 +73,15 @@ const hasChildren = computed(() => {
     <template #title>
       <span>{{ menu.name }}</span>
     </template>
-    <template v-for="childItem in menu.children || []" :key="childItem.path">
-      <SubMenu :menu="childItem" />
+    <template
+      v-for="childItem in menu.children || []"
+      :key="childItem.key ?? childItem.path"
+    >
+      <SubMenu :menu="childItem">
+        <template #item-extra="{ menu: slotMenu }">
+          <slot name="item-extra" :menu="slotMenu"></slot>
+        </template>
+      </SubMenu>
     </template>
   </SubMenuComp>
 </template>

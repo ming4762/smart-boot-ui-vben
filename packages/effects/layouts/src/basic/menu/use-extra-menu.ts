@@ -96,6 +96,17 @@ function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
   };
 
   function calcExtraMenus(path: string) {
+    const favoriteFunctionId = route.query._favoriteMenuId;
+    if (favoriteFunctionId) {
+      const favoriteRoot = menus.value.find(
+        (item) => (item.key ?? item.path) === 'favorite:root',
+      );
+      extraRootMenus.value = favoriteRoot?.children ?? [];
+      extraActiveMenu.value = 'favorite:root';
+      extraMenus.value = favoriteRoot?.children ?? [];
+      sidebarExtraVisible.value = extraMenus.value.length > 0;
+      return;
+    }
     const currentPath = route.meta?.activePath || path;
     const { findMenu, rootMenu, rootMenuPath } = findRootMenuByPath(
       menus.value,
@@ -112,9 +123,9 @@ function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
   }
 
   watch(
-    () => [route.path, preferences.app.layout],
-    ([path]) => {
-      calcExtraMenus(path || '');
+    () => [route.fullPath, preferences.app.layout],
+    () => {
+      calcExtraMenus(route.path);
     },
     { immediate: true },
   );

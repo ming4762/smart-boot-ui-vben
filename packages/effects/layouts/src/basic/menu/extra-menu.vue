@@ -22,8 +22,12 @@ withDefaults(defineProps<Props>(), {
 const route = useRoute();
 const { navigation } = useNavigation();
 
-async function handleSelect(key: string) {
-  await navigation(key);
+async function handleSelect(
+  key: string,
+  _mode?: string,
+  query?: Record<string, any>,
+) {
+  await navigation(key, query);
 }
 </script>
 
@@ -37,5 +41,9 @@ async function handleSelect(key: string) {
     :theme="theme"
     mode="vertical"
     @select="handleSelect"
-  />
+  >
+    <template #item-extra="{ menu }">
+      <slot name="item-extra" :menu="menu"></slot>
+    </template>
+  </Menu>
 </template>

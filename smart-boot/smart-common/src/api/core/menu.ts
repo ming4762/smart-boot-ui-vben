@@ -53,6 +53,7 @@ namespace MenuApi {
     functionId: number;
     functionMicroFrontend?: FunctionMicroFrontendItem;
     functionName: string;
+    functionType: 'CATALOG' | 'FUNCTION' | 'MENU';
     i18nCode?: string;
     icon?: string;
     isMenu?: boolean;
@@ -97,6 +98,7 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
       componentName,
       functionId,
       functionName,
+      functionType,
       icon,
       isMenu,
       parentId,
@@ -188,6 +190,8 @@ export async function getUserMenusApi(): Promise<RouteRecordStringComponent[]> {
         icon: compatibleIcon,
         keepAlive: cached === true,
         key: functionId,
+        functionId,
+        favoritable: functionType === 'MENU' && isMenu === true,
         parentKey: parentId,
         title: getFunctionName(menu),
         // TODO: 由后台传送?

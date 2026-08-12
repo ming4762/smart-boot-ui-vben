@@ -16,6 +16,7 @@ import {
   getSystemPropertiesApi,
   getUserPermissionApi,
 } from '@smart/common/api';
+import { useMenuFavoriteStore } from '@smart/common/store';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { generateAccess } from './access';
@@ -194,7 +195,10 @@ function setupAccessGuard(router: Router) {
     });
 
     // 保存菜单信息和路由信息
-    accessStore.setAccessMenus(accessibleMenus);
+    const menuFavoriteStore = useMenuFavoriteStore();
+    accessStore.setAccessMenus(
+      menuFavoriteStore.decorateMenus(accessibleMenus),
+    );
     accessStore.setAccessRoutes(accessibleRoutes);
     accessStore.setIsAccessChecked(true);
 

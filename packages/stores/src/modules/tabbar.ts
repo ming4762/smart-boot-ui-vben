@@ -731,6 +731,11 @@ function getTabKey(tab: RouteLocationNormalized | RouteRecordNormalized) {
     rawKey = pageKey;
   } else {
     rawKey = fullPathKey === false ? path : (fullPath ?? path);
+    if (fullPath && query._favoriteMenuId) {
+      const url = new URL(fullPath, 'http://localhost');
+      url.searchParams.delete('_favoriteMenuId');
+      rawKey = `${url.pathname}${url.search}${url.hash}`;
+    }
   }
   try {
     return decodeURIComponent(rawKey);

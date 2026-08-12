@@ -31,7 +31,8 @@ export interface AuthProperties {
 
 type SysParameterKey =
   | 'sys.auth.account.passwordValidate'
-  | 'sys.auth.account.passwordValidateErrorMessage';
+  | 'sys.auth.account.passwordValidateErrorMessage'
+  | 'sys.function.favorite.maxCount';
 
 interface SysPropertiesState extends AuthProperties {
   sysParameter?: Record<SysParameterKey, string>;
@@ -46,7 +47,7 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
     },
     $reset() {
       // 重写函数，系统参数不reset
-    }
+    },
   },
   getters: {
     isJwtAuthMode(state): boolean {

@@ -94,9 +94,11 @@ function convertRoutes(
         const originalProps = isFunction(originalPropsHandler)
           ? originalPropsHandler(route)
           : originalPropsHandler;
+        const { _favoriteMenuId: _ignoredFavoriteMenuId, ...businessQuery } =
+          route.query;
         return {
           ...originalProps,
-          ...route.query,
+          ...businessQuery,
         };
       };
     }

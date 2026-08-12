@@ -82,6 +82,7 @@ export {
   SquareCheckBig,
   SquareCode,
   SquareMinus,
+  Star,
   Strikethrough,
   Sun,
   SunMoon,

@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   close: [string, string[]];
   open: [string, string[]];
-  select: [string, string[]];
+  select: [string, string[], Record<string, any>?, string?];
 }>();
 
 const { b, is } = useNamespace('menu');
@@ -249,12 +249,12 @@ function handleMenuItemClick(data: MenuItemClicked) {
   if (mode === 'horizontal' || collapse) {
     openedMenus.value = [];
   }
-  const { parentPaths, path } = data;
+  const { parentPaths, path, query, targetPath } = data;
   if (!path || !parentPaths) {
     return;
   }
 
-  emit('select', path, parentPaths);
+  emit('select', targetPath ?? path, parentPaths, query, path);
 }
 
 function handleSubMenuClick({ parentPaths, path }: MenuItemRegistered) {

@@ -362,7 +362,11 @@ const computedLogoTheme = computed(() => {
             class="w-full"
             mode="horizontal"
             @select="handleMenuSelect"
-          />
+          >
+            <template #item-extra="{ menu }">
+              <slot name="menu-item-extra" :menu="menu"></slot>
+            </template>
+          </LayoutMenu>
         </template>
         <template #user-dropdown>
           <slot name="user-dropdown"></slot>
@@ -388,7 +392,11 @@ const computedLogoTheme = computed(() => {
         mode="vertical"
         @open="handleMenuOpen"
         @select="handleMenuSelect"
-      />
+      >
+        <template #item-extra="{ menu }">
+          <slot name="menu-item-extra" :menu="menu"></slot>
+        </template>
+      </LayoutMenu>
     </template>
     <template #mixed-menu>
       <LayoutMixedMenu
@@ -409,7 +417,11 @@ const computedLogoTheme = computed(() => {
         :menus="wrapperMenus(extraMenus)"
         :rounded="isMenuRounded"
         :theme="sidebarThemeSub"
-      />
+      >
+        <template #item-extra="{ menu }">
+          <slot name="menu-item-extra" :menu="menu"></slot>
+        </template>
+      </LayoutExtraMenu>
     </template>
     <template #side-extra-title>
       <VbenLogo

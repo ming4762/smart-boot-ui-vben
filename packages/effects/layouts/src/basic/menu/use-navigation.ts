@@ -37,7 +37,10 @@ function useNavigation() {
     return router.resolve(path).href;
   };
 
-  const navigation = async (path: string) => {
+  const navigation = async (
+    path: string,
+    menuQuery: Record<string, any> = {},
+  ) => {
     try {
       const route = routeMetaMap.get(path);
       const { openInNewWindow = false, query = {}, link } = route?.meta ?? {};
@@ -53,9 +56,16 @@ function useNavigation() {
       } else if (openInNewWindow) {
         openRouteInNewWindow(resolveHref(path));
       } else {
+        const nextQuery = {
+          ...query,
+          ...menuQuery,
+        };
+        if (!('_favoriteMenuId' in menuQuery)) {
+          delete nextQuery._favoriteMenuId;
+        }
         await router.push({
           path,
-          query,
+          query: nextQuery,
         });
       }
     } catch (error) {

@@ -2,6 +2,7 @@ export * from './auth';
 export * from './dict';
 export * from './i18n';
 export * from './menu';
+export * from './menu-favorite';
 export * from './system';
 export * from './timezone';
 export * from './upload';

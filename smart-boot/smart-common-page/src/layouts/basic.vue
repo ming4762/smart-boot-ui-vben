@@ -30,6 +30,7 @@ import { useAuthStore } from '@smart/common/store';
 import { createConfirm } from '@smart/common/utils';
 
 import ReleaseNoteDrawer from '../components/ReleaseNoteDrawer.vue';
+import FavoriteButton from '../components/menu-favorite/FavoriteButton.vue';
 import LoginForm from '../views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([
@@ -199,6 +200,9 @@ hasUnreadReleaseNotesApi()
     @clear-preferences-and-logout="handleLogout"
     @logout="handleLogout"
   >
+    <template #menu-item-extra="{ menu }">
+      <FavoriteButton :menu="menu" />
+    </template>
     <template #user-dropdown>
       <UserDropdown
         :avatar
