@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 
 import WujieVue from 'wujie-vue3';
 
-import { getMicroBus } from '#/micro-app';
+import { getMicroBus } from '../micro-app';
 
 const MICRO_ROUTER_BUS_EVENT = 'micro-bus-router-change';
 

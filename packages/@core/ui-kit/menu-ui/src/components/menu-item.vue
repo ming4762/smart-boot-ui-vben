@@ -95,7 +95,7 @@ onBeforeUnmount(() => {
     custom
     :to="
       (item.targetPath ?? item.parentPaths.at(-1) ?? '') +
-      (item?.query ? `?${qs.stringify(item?.query)}` : '')
+        (item?.query ? `?${qs.stringify(item?.query)}` : '')
     "
   >
     <a
@@ -134,7 +134,9 @@ onBeforeUnmount(() => {
         />
         <VbenIcon :class="nsMenu.e('icon')" :icon="menuIcon" />
         <slot></slot>
-        <slot name="title"></slot>
+        <span v-if="$slots.title" :class="nsMenu.e('name')">
+          <slot name="title"></slot>
+        </span>
         <slot name="extra"></slot>
       </div>
     </a>

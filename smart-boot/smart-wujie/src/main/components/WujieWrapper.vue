@@ -12,8 +12,8 @@ import { useRoute } from 'vue-router';
 
 import WujieVue from 'wujie-vue3';
 
-import { useEmitMainRouteChange } from '#/bus';
-import { concatUrlPaths } from '#/helper';
+import { useEmitMainRouteChange } from '../../bus';
+import { concatUrlPaths } from '../../helper';
 
 interface Props {
   baseUrl: string;

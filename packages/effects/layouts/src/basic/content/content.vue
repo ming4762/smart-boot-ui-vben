@@ -94,6 +94,7 @@ const showComponent = (route: RouteLocationNormalizedLoadedGeneric) => {
 </template>
 
 <style>
+/* 优化router动画切换切换重叠问题 */
 .page-route-leave-active {
   position: absolute;
   top: 0;
@@ -101,7 +102,7 @@ const showComponent = (route: RouteLocationNormalizedLoadedGeneric) => {
   width: 100%;
 }
 
-/* 移除动画切换的横向滚动条 */
+/* 移除动画切换的横向滚动条 translateX(-30px) */
 .page-route-container:has(> .fade-slide-enter-active),
 .page-route-container:has(> .fade-slide-leave-active) {
   overflow-x: hidden;
