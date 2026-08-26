@@ -51,8 +51,6 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
-    "@vxe-ui/plugin-export-xlsx": "catalog:",
-    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
     "antdv-next": "catalog:",
     "dayjs": "catalog:",
     "exceljs": "catalog:",

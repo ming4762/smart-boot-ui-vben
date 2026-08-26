@@ -8,12 +8,11 @@ import '@vben/styles';
 import '@vben/styles/antd';
 import { registerDirective } from '@vben/utils';
 
+import { initComponentAdapter } from '@smart/common-page/adapter';
 import { $t, setupI18n } from '@smart/common/locales';
 import { setupWujieMain } from '@smart/wujie';
 import { useTitle } from '@vueuse/core';
 
-import { initComponentAdapter } from './adapter/component';
-import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
 import { router } from './router';
 import { initTimezone } from './timezone-init';
@@ -23,7 +22,7 @@ async function bootstrap(namespace: string) {
   await initComponentAdapter();
 
   // 初始化表单组件
-  await initSetupVbenForm();
+  await initComponentAdapter();
 
   // // 设置弹窗的默认配置
   // setDefaultModalProps({

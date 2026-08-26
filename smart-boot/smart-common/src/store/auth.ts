@@ -13,7 +13,6 @@ import {
   useSysPropertiesStore,
   useUserStore,
 } from '@vben/stores';
-import { createPassword } from '@vben/utils';
 
 import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
@@ -230,11 +229,10 @@ export const useAuthStore = defineStore('auth', () => {
     if (!userInfo) {
       throw new Error('用户信息不存在');
     }
-    const { username } = userInfo;
     return changePasswordApi({
-      oldPassword: createPassword(username, data.oldPassword),
-      newPassword: createPassword(username, data.newPassword),
-      newPasswordConfirm: createPassword(username, data.newPasswordConfirm),
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+      newPasswordConfirm: data.newPasswordConfirm,
     });
   };
 

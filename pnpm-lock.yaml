@@ -159,9 +159,6 @@ catalogs:
     '@types/archiver':
       specifier: ^8.0.0
       version: 8.0.0
-    '@types/crypto-js':
-      specifier: ^4.2.2
-      version: 4.2.2
     '@types/html-minifier-terser':
       specifier: ^7.0.2
       version: 7.0.2
@@ -217,8 +214,11 @@ catalogs:
       specifier: ^3.0.3
       version: 3.0.3
     '@vxe-ui/plugin-export-xlsx':
-      specifier: ^4.2.1
+      specifier: ^4.5.4
       version: 4.5.4
+    '@vxe-ui/plugin-render-antd':
+      specifier: ^4.4.1
+      version: 4.4.1
     '@vxe-ui/plugin-render-antd-smart-boot':
       specifier: ^4.0.7-v2
       version: 4.0.7-v2
@@ -267,9 +267,6 @@ catalogs:
     cross-env:
       specifier: ^10.1.0
       version: 10.1.0
-    crypto-js:
-      specifier: ^4.2.0
-      version: 4.2.0
     cspell:
       specifier: ^10.1.0
       version: 10.1.0
@@ -987,12 +984,6 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.4.0(vue@3.5.41(typescript@6.0.3))
-      '@vxe-ui/plugin-export-xlsx':
-        specifier: 'catalog:'
-        version: 4.5.4(vxe-table@4.20.13)
-      '@vxe-ui/plugin-render-antd-smart-boot':
-        specifier: 'catalog:'
-        version: 4.0.7-v2
       antdv-next:
         specifier: 'catalog:'
         version: 1.5.2(date-fns@4.4.0)(vue@3.5.41(typescript@6.0.3))
@@ -2462,16 +2453,9 @@ importers:
       '@vben-core/typings':
         specifier: workspace:*
         version: link:../@core/base/typings
-      crypto-js:
-        specifier: 'catalog:'
-        version: 4.2.0
       vue-router:
         specifier: 'catalog:'
         version: 5.2.0(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(sass-embedded@1.103.1)(sass@1.103.1)(terser@5.50.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-    devDependencies:
-      '@types/crypto-js':
-        specifier: 'catalog:'
-        version: 4.2.2
 
   playground:
     dependencies:
@@ -2680,9 +2664,9 @@ importers:
       '@vxe-ui/plugin-export-xlsx':
         specifier: 'catalog:'
         version: 4.5.4(vxe-table@4.20.13)
-      '@vxe-ui/plugin-render-antd-smart-boot':
+      '@vxe-ui/plugin-render-antd':
         specifier: 'catalog:'
-        version: 4.0.7-v2
+        version: 4.4.1
       antdv-next:
         specifier: 'catalog:'
         version: 1.5.2(date-fns@4.4.0)(vue@3.5.41(typescript@6.0.3))
@@ -6428,9 +6412,6 @@ packages:
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
-  '@types/crypto-js@4.2.2':
-    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==, tarball: https://packages.aliyun.com/6497f4a8d2963c5649be7c62/npm/SMC/@types/crypto-js/-/crypto-js-4.2.2.tgz}
-
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
@@ -7053,6 +7034,9 @@ packages:
 
   '@vxe-ui/plugin-render-antd-smart-boot@4.0.7-v2':
     resolution: {integrity: sha512-lmFKqvzOgjCijt1EXSdWPDwdDEo6VDyNlnje4dqpbDREoSUGEyQo5A/CN5rpV/GPq7eD4NCyIAw6pI6n9oRM1Q==, tarball: https://packages.aliyun.com/6497f4a8d2963c5649be7c62/npm/SMC/@vxe-ui/plugin-render-antd-smart-boot/-/@vxe-ui/plugin-render-antd-smart-boot-4.0.7-v2.tgz}
+
+  '@vxe-ui/plugin-render-antd@4.4.1':
+    resolution: {integrity: sha512-r7Pdiqm759g9huEJx3GuYM9pM5Lg0c4bae1oqby8KBdZYJk/a5/I3U2hrzUIPs39VMBnkXfrD6f716avmTo8ig==, tarball: https://packages.aliyun.com/6497f4a8d2963c5649be7c62/npm/SMC/@vxe-ui/plugin-render-antd/-/plugin-render-antd-4.4.1.tgz}
 
   '@yuku-codegen/binding-android-arm64@0.8.7':
     resolution: {integrity: sha512-C/0zV5IhgVdYhGJTwrY0v8dknxlhiKwtVJkMUaexu9/QvRmzlV4vfU3hZlUSgqc2BxQHntL1mCVbDq8j0FRFDw==, tarball: https://packages.aliyun.com/6497f4a8d2963c5649be7c62/npm/SMC/@yuku-codegen/binding-android-arm64/-/binding-android-arm64-0.8.7.tgz}
@@ -15813,8 +15797,6 @@ snapshots:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
 
-  '@types/crypto-js@4.2.2': {}
-
   '@types/deep-eql@4.0.2': {}
 
   '@types/esrecurse@4.3.1': {}
@@ -16565,6 +16547,8 @@ snapshots:
       vxe-table: 4.20.13
 
   '@vxe-ui/plugin-render-antd-smart-boot@4.0.7-v2': {}
+
+  '@vxe-ui/plugin-render-antd@4.4.1': {}
 
   '@yuku-codegen/binding-android-arm64@0.8.7':
     optional: true

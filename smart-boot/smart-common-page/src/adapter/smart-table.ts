@@ -14,26 +14,34 @@ import { isFunction } from '@vben/utils';
 
 import { $ct as t } from '@smart/common/locales';
 import VxeUIPluginExportXLSX from '@vxe-ui/plugin-export-xlsx';
-import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd-smart-boot';
+import VxeUIPluginRenderAntd from '@vxe-ui/plugin-render-antd';
 import ExcelJS from 'exceljs';
 
 import { SmartTableCustomStorageDBPlugin } from './plugins/smart-table-custom-storage-plugin';
 
 const preference = usePreferences();
 
+function initPluginRenderAntdComponent() {
+  const components = globalShareState.getComponents();
+  for (const componentsKey in components) {
+    const component = components[componentsKey];
+    if (componentsKey.startsWith('A')) {
+      VxeUIPluginRenderAntd.component({
+        name: componentsKey,
+        ...component,
+      });
+    }
+  }
+}
+
 const doSetupSmartTable = () => {
+  // 初始化插件渲染组件
+  initPluginRenderAntdComponent();
   setupSmartTable({
     configSmartTable: (vxeUI) => {
       // 引入 antd 渲染器
       vxeUI
-        .use(VxeUIPluginRenderAntd, {
-          componentProvider: (name: string) => {
-            if (name.startsWith('A')) {
-              return globalShareState.getComponents()[name.slice(1)];
-            }
-            return globalShareState.getComponents()[name];
-          },
-        })
+        .use(VxeUIPluginRenderAntd)
         // 用户配置信息存储到数据库中
         .use(SmartTableCustomStorageDBPlugin)
         .use(VxeUIPluginExportXLSX, { ExcelJS })

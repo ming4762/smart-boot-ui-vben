@@ -51,7 +51,7 @@
     "@vben/hooks": "workspace:*",
     "@vben/access": "workspace:*",
     "@vxe-ui/plugin-export-xlsx": "catalog:",
-    "@vxe-ui/plugin-render-antd-smart-boot": "catalog:",
+    "@vxe-ui/plugin-render-antd": "catalog:",
     "exceljs": "catalog:",
     "pinia": "catalog:"
   }

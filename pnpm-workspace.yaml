@@ -94,7 +94,6 @@ catalog:
   '@tiptap/vue-3': ^3.28.0
   '@tsdown/css': ^0.22.14
   '@types/archiver': ^8.0.0
-  '@types/crypto-js': ^4.2.2
   '@types/html-minifier-terser': ^7.0.2
   '@types/json-bigint': ^1.0.4
   '@types/jsonwebtoken': ^9.0.10
@@ -113,7 +112,8 @@ catalog:
   '@vueuse/core': ^14.3.0
   '@vueuse/integrations': ^14.3.0
   '@vueuse/motion': ^3.0.3
-  '@vxe-ui/plugin-export-xlsx': ^4.2.1
+  '@vxe-ui/plugin-export-xlsx': ^4.5.4
+  '@vxe-ui/plugin-render-antd': ^4.4.1
   '@vxe-ui/plugin-render-antd-smart-boot': ^4.0.7-v2
   ant-design-vue: ^4.2.6
   antdv-next: ^1.4.5
@@ -131,7 +131,6 @@ catalog:
   consola: ^3.4.2
   cropperjs: ^1.6.2
   cross-env: ^10.1.0
-  crypto-js: ^4.2.0
   cspell: ^10.1.0
   cz-git: ^1.13.1
   czg: ^1.13.1
