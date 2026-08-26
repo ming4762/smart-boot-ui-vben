@@ -1,2 +1,2 @@
 export { createRouterGuard } from './guard';
-export { routes } from './routes';
+export { coreRouteNames, routes } from './routes';

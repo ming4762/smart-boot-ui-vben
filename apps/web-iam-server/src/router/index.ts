@@ -6,8 +6,9 @@ import {
 
 import { resetStaticRoutes } from '@vben/utils';
 
+import { routes } from '@smart/common-page/router';
+
 import { createRouterGuard } from './guard';
-import { routes } from './routes';
 
 const router = createRouter({
   history:

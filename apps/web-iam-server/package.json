@@ -16,6 +16,7 @@
   "dependencies": {
     "@smart/common": "workspace:*",
     "@smart/components": "workspace:*",
+    "@smart/common-page": "workspace:*",
     "@smart/wujie": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",

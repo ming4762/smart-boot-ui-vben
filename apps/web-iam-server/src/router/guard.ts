@@ -2,8 +2,14 @@ import type { Router } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
-import { useAccessStore } from '@vben/stores';
+import {
+  useAccessStore,
+  useSysPropertiesStore,
+  useUserStore,
+} from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
+
+import { coreRouteNames } from '@smart/common-page/router';
 
 /**
  * 通用守卫配置
@@ -28,19 +34,42 @@ function setupCommonGuard(router: Router) {
 }
 
 /**
+ * 判断当前是否已认证
+ */
+async function isAuthenticated() {
+  const accessStore = useAccessStore();
+  const sysPropertiesStore = useSysPropertiesStore();
+  const userStore = useUserStore();
+
+  if (sysPropertiesStore.isJwtAuthMode) {
+    return !!accessStore.accessToken;
+  }
+  return !!userStore.userInfo;
+}
+
+/**
  * 权限访问守卫
  */
 function setupAccessGuard(router: Router) {
   router.beforeEach(async (to) => {
-    const accessStore = useAccessStore();
+    const userStore = useUserStore();
 
-    // 已登录用户访问登录页，跳转到首页
-    if (to.path === LOGIN_PATH && accessStore.accessToken) {
-      return (to.query?.redirect as string) || preferences.app.defaultHomePath;
+    const authenticated = await isAuthenticated();
+
+    // 基本路由，这些路由不需要进入权限拦截
+    if (coreRouteNames.includes(to.name as string)) {
+      if (to.path === LOGIN_PATH && authenticated) {
+        return decodeURIComponent(
+          (to.query?.redirect as string) ||
+            userStore.userInfo?.homePath ||
+            preferences.app.defaultHomePath,
+        );
+      }
+      return true;
     }
 
     // 未登录
-    if (!accessStore.accessToken) {
+    if (!authenticated) {
       if (to.meta.ignoreAccess) {
         return true;
       }

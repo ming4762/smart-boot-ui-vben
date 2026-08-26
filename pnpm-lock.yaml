@@ -1008,6 +1008,9 @@ importers:
       '@smart/common':
         specifier: workspace:*
         version: link:../../smart-boot/smart-common
+      '@smart/common-page':
+        specifier: workspace:*
+        version: link:../../smart-boot/smart-common-page
       '@smart/components':
         specifier: workspace:*
         version: link:../../smart-boot/smart-components
