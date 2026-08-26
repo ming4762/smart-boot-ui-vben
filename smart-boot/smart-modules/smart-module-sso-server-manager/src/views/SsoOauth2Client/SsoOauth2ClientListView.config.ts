@@ -90,6 +90,12 @@ export const getTableColumns = (): SmartTableColumn[] => {
       width: 120,
     },
     {
+      field: 'initiateLoginUri',
+      align: 'left',
+      title: '登录发起地址',
+      width: 180,
+    },
+    {
       field: 'postLogoutRedirectUri',
       align: 'left',
       title: '{sso.oauth2.client.title.postLogoutRedirectUri}',
@@ -257,6 +263,16 @@ export const getFormSchemas = (): VbenFormSchema[] => {
         placeholder: '支持多个，每个一行',
       },
       rules: 'required',
+      formItemClass: 'col-span-2',
+    },
+    {
+      fieldName: 'initiateLoginUri',
+      label: '登录发起地址',
+      component: 'Input',
+      componentProps: {
+        placeholder:
+          '例如：http://127.0.0.1:7075/api/oauth2/authorization/smart-boot-iam-admin',
+      },
       formItemClass: 'col-span-2',
     },
     {
