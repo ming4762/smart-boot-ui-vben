@@ -2,7 +2,7 @@ import type { App } from 'vue';
 
 import WujieVue from 'wujie-vue3';
 
-import { isMicroApp } from '#/micro-app';
+import { isMicroApp } from '../micro-app';
 
 /**
  * 初始化wujie主应用

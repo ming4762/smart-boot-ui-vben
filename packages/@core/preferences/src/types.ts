@@ -17,7 +17,7 @@ import type {
   ThemeModeType,
 } from '@vben-core/typings';
 
-type SupportedLanguagesType = 'en-US' | 'zh-CN';
+type SupportedLanguagesType = string;
 type CustomPreferencesValue = boolean | number | string;
 
 interface CustomPreferencesOption<TValue extends string = string> {
