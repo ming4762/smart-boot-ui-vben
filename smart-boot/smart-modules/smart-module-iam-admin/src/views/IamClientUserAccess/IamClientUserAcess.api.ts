@@ -3,12 +3,12 @@ import { ApiServiceEnum } from '@vben/constants';
 import { requestClient } from '@smart/common/api';
 
 enum Api {
-  bindUser = 'sso/oauth2/client/bindUser',
-  listClient = 'sso/oauth2/client/list',
-  listClientUser = 'sso/oauth2/client/listClientUser',
-  listUnBindUser = 'sso/oauth2/client/listUnBindUser',
-  setBindUserUseYn = 'sso/oauth2/client/setBindUserUseYn',
-  unBindUser = 'sso/oauth2/client/unBindUser',
+  bindUser = 'iam/oauth2/client/bindUser',
+  listClient = 'iam/oauth2/client/list',
+  listClientUser = 'iam/oauth2/client/listClientUser',
+  listUnBindUser = 'iam/oauth2/client/listUnBindUser',
+  setBindUserUseYn = 'iam/oauth2/client/setBindUserUseYn',
+  unBindUser = 'iam/oauth2/client/unBindUser',
 }
 
 export const listClientApi = (params: any) => {

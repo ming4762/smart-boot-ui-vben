@@ -4,15 +4,19 @@ import type {
   VbenFormSchema,
 } from '@vben/common-ui';
 
-import { getTableUseYnColumnClass, z } from '@vben/common-ui';
+import {
+  getTableBooleanColumnClass,
+  getTableUseYnColumnClass,
+  z,
+} from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { isJsonString } from '@vben/utils';
 
 export enum Permissions {
-  delete = 'sso:oauth2:client:delete',
-  save = 'sso:oauth2:client:save',
-  setUseYn = 'sso:oauth2:client:setUseYn',
-  update = 'sso:oauth2:client:update',
+  delete = 'iam:oauth2:client:delete',
+  save = 'iam:oauth2:client:save',
+  setUseYn = 'iam:oauth2:client:setUseYn',
+  update = 'iam:oauth2:client:update',
 }
 
 /**
@@ -52,6 +56,13 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'left',
       title: '{sso.oauth2.client.title.clientName}',
       width: 120,
+    },
+    {
+      field: 'seq',
+      align: 'center',
+      title: '{common.table.seq}',
+      sortable: true,
+      width: 100,
     },
     {
       field: 'clientType',
@@ -100,6 +111,13 @@ export const getTableColumns = (): SmartTableColumn[] => {
       align: 'left',
       title: '{sso.oauth2.client.title.postLogoutRedirectUri}',
       width: 120,
+    },
+    {
+      field: 'serverLogoutAllowed',
+      align: 'center',
+      title: '允许登出认证服务端',
+      ...getTableBooleanColumnClass('serverLogoutAllowed'),
+      width: 160,
     },
     {
       field: 'scopes',
@@ -199,6 +217,14 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       rules: 'required',
     },
     {
+      fieldName: 'seq',
+      label: t('common.table.seq'),
+      component: 'InputNumber',
+      controlClass: 'w-full',
+      defaultValue: 1,
+      rules: 'required',
+    },
+    {
       fieldName: 'clientType',
       label: '客户端类型',
       component: 'RadioGroup',
@@ -273,6 +299,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
         placeholder:
           '例如：http://127.0.0.1:7075/api/oauth2/authorization/smart-boot-iam-admin',
       },
+      rules: 'required',
       formItemClass: 'col-span-2',
     },
     {
@@ -283,6 +310,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
         placeholder: '支持多个，每个一行',
       },
       formItemClass: 'col-span-2',
+    },
+    {
+      fieldName: 'serverLogoutAllowed',
+      label: '允许登出认证服务端',
+      component: 'Switch',
+      defaultValue: false,
     },
     {
       fieldName: 'scopes',

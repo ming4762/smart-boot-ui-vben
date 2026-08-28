@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { SmartLayoutSeparate } from '@vben/common-ui';
 
-import SsoClientList from './components/SsoClientList.vue';
-import SsoClientUserList from './components/SsoClientUserList.vue';
+import SsoClientList from './components/IamClientList.vue';
+import SsoClientUserList from './components/IamClientUserList.vue';
 
 interface Props {
   clientId?: number | string;

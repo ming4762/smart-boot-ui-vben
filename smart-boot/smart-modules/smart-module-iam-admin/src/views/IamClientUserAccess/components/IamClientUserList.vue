@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { IamClientBindUserData } from '../IamClientUserAcess.config';
+
 import { useSmartTable, useVbenModal } from '@vben/common-ui';
 import { $ct as t } from '@vben/locales';
 
@@ -12,12 +14,9 @@ import {
   listClientUserApi,
   setBindUserUseYnApi,
   unBindUserApi,
-} from '../SsoClientUserAcess.api';
-import {
-  getClientUserSearchFormSchema,
-  getUserTableColumns,
-} from '../SsoClientUserAcess.config';
-import SsoClientBindUserModal from './SsoClientBindUserModal.vue';
+} from '../IamClientUserAcess.api';
+import { getClientUserSearchFormSchema, getUserTableColumns } from '../IamClientUserAcess.config';
+import SsoClientBindUserModal from './IamClientBindUserModal.vue';
 
 interface Props {
   clientId?: number | string;
@@ -25,7 +24,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const [RenderSsoClientBindUserModal, bindUserModalApi] = useVbenModal({
+const [RenderSsoClientBindUserModal, bindUserModalApi] = useVbenModal<IamClientBindUserData>({
   connectedComponent: SsoClientBindUserModal,
 });
 

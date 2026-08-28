@@ -4,8 +4,8 @@ import { useRouter } from 'vue-router';
 
 import { useSmartTable } from '@vben/common-ui';
 
-import { listClientApi } from '../SsoClientUserAcess.api';
-import { getClientTableColumns } from '../SsoClientUserAcess.config';
+import { listClientApi } from '../IamClientUserAcess.api';
+import { getClientTableColumns } from '../IamClientUserAcess.config';
 
 interface Props {
   clientId?: number | string;

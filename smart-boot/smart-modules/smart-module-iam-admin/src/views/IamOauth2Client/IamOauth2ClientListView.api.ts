@@ -1,11 +1,11 @@
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
 
 enum Api {
-  batchSaveUpdate = 'sso/oauth2/client/saveUpdateBatch',
-  delete = 'sso/oauth2/client/batchDeleteById',
-  getById = 'sso/oauth2/client/getById',
-  list = 'sso/oauth2/client/list',
-  setUseYn = 'sso/oauth2/client/setUseYn',
+  batchSaveUpdate = 'iam/oauth2/client/saveUpdateBatch',
+  delete = 'iam/oauth2/client/batchDeleteById',
+  getById = 'iam/oauth2/client/getById',
+  list = 'iam/oauth2/client/list',
+  setUseYn = 'iam/oauth2/client/setUseYn',
 }
 
 export const listApi = (params: any) => {

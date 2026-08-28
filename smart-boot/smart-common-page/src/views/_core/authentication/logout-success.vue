@@ -1,13 +1,18 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useAuthStore } from '@smart/common/store';
 import { Button } from 'antdv-next';
 
 defineOptions({ name: 'LogoutSuccess' });
 
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
+const serverLogoutSkipped = computed(
+  () => route.query.server_logout === 'skipped',
+);
 
 const loginAgain = () => {
   const homeUrl = new URL(router.resolve('/').href, window.location.origin);
@@ -32,8 +37,13 @@ const loginAgain = () => {
           />
         </svg>
       </div>
-      <h1 id="logout-success-title">已安全退出</h1>
-      <p>当前系统和统一认证会话均已退出。</p>
+      <h1 id="logout-success-title">
+        {{ serverLogoutSkipped ? '已退出当前系统' : '已安全退出' }}
+      </h1>
+      <p v-if="serverLogoutSkipped">
+        统一认证会话仍然有效，再次登录时可能无需输入账号密码。
+      </p>
+      <p v-else>当前系统和统一认证会话均已退出。</p>
       <Button type="primary" size="large" @click="loginAgain">
         重新登录
       </Button>

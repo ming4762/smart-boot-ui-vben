@@ -9,6 +9,11 @@ import { $ct as t } from '@vben/locales';
 
 import { getUseYnSelectOptions } from '@smart/common/utils';
 
+export interface IamClientBindUserData {
+  clientId?: number | string;
+  clientType?: string;
+}
+
 export const getClientTableColumns = (): SmartTableColumn[] => {
   return [
     {

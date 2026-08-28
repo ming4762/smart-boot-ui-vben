@@ -13,7 +13,7 @@ import {
   getByIdApi,
   listApi,
   setUseYnApi,
-} from './SsoOauth2ClientListView.api';
+} from './IamOauth2ClientListView.api';
 import {
   authorizationGrantTypes,
   clientAuthenticationMethods,
@@ -21,7 +21,7 @@ import {
   getSearchFormSchemas,
   getTableColumns,
   Permissions,
-} from './SsoOauth2ClientListView.config';
+} from './IamOauth2ClientListView.config';
 
 const { getTableSize } = useSizeSetting();
 
@@ -31,6 +31,7 @@ const [SmartTable, tableApi] = useSmartTable({
   border: true,
   sortConfig: {
     remote: true,
+    defaultSort: { field: 'seq', order: 'asc' },
   },
   showOverflow: 'tooltip',
   checkboxConfig: true,

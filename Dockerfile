@@ -1,4 +1,4 @@
-FROM smc-acr-registry.cn-qingdao.cr.aliyuncs.com/smc-common/node:20-slim AS builder
+FROM smc-acr-registry.cn-qingdao.cr.aliyuncs.com/smc-common/node:24.19-slim AS builder
 
 ARG APP_NAME
 
@@ -18,6 +18,8 @@ WORKDIR /app
 
 # copy package.json and pnpm-lock.yaml to workspace
 COPY . /app
+
+ENV CI=true
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     --mount=type=cache,id=corepack,target=/usr/local/share/corepack \

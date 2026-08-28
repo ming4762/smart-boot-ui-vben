@@ -340,8 +340,8 @@ const getTreeData = (model: Recordable<any>) => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />
       </template>
-      <template #addEditForm-functionType="{ model, size }">
-        <RadioGroup v-model:value="model.functionType" :size="size">
+      <template #addEditForm-functionType="{ values, size }">
+        <RadioGroup v-model:value="values.functionType" :size="size">
           <Radio
             v-for="(type, key) in functionTypes"
             :key="key"
@@ -352,16 +352,16 @@ const getTreeData = (model: Recordable<any>) => {
           </Radio>
         </RadioGroup>
       </template>
-      <template #addEdit-parentId="{ model, size }">
+      <template #addEdit-parentId="{ values, size }">
         <TreeSelect
-          v-model:value="model.parentId"
+          v-model:value="values.parentId"
           :field-names="{
             label: 'functionName',
             value: 'functionId',
             children: 'children',
           }"
           :size="size"
-          :tree-data="getTreeData(model)"
+          :tree-data="getTreeData(values)"
         >
           <template #treeTitleRender="{ functionType, functionName }">
             <Tag :color="getTagData(functionType).color" variant="solid">

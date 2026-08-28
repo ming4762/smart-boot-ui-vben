@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { IamClientBindUserData } from '../IamClientUserAcess.config';
+
 import { ref, unref } from 'vue';
 
 import { useSmartTable, useVbenForm, useVbenModal } from '@vben/common-ui';
@@ -6,30 +8,27 @@ import { $ct as t } from '@vben/locales';
 
 import { successMessage, warnMessage } from '@smart/common/utils';
 
-import { bindUserApi, listUnBindUserApi } from '../SsoClientUserAcess.api';
-import {
-  getBindModelFormSchema,
-  getBindModelUserTableColumns,
-} from '../SsoClientUserAcess.config';
+import { bindUserApi, listUnBindUserApi } from '../IamClientUserAcess.api';
+import { getBindModelFormSchema, getBindModelUserTableColumns } from '../IamClientUserAcess.config';
 
 const emit = defineEmits(['bindSuccess']);
 
-const clientIdRef = ref<null | number>(null);
+const clientIdRef = ref<number | string | undefined>();
 
 const clientTypeAccessStrategyMap: any = {
   PUBLIC: 'DENY',
   PRIVATE: 'ALLOW',
 };
 
-const [Modal, modalApi] = useVbenModal({
+const [Modal, modalApi] = useVbenModal<IamClientBindUserData>({
   title: '绑定用户',
   draggable: true,
   onOpened() {
-    const { clientId, clientType } = modalApi.getData();
-    clientIdRef.value = clientId;
+    const data = modalApi.getData();
+    clientIdRef.value = data?.clientId;
     formApi.setFieldValue(
       'accessStrategy',
-      clientTypeAccessStrategyMap[clientType],
+      clientTypeAccessStrategyMap[data?.clientType || 'PUBLIC'],
     );
     tableApi.query();
   },

@@ -1,12 +1,12 @@
 {
-  "name": "@smart-module/sso-server-manager",
+  "name": "@smart-module/iam-admin",
   "version": "5.7.0",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
-    "directory": "smart-boot/smart-modules/smart-module-sso-server-manager"
+    "directory": "smart-boot/smart-modules/smart-module-iam-admin"
   },
   "license": "MIT",
   "type": "module",
