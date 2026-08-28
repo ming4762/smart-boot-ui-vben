@@ -27,6 +27,8 @@ export interface AuthProperties {
    * IAM登录地址
    */
   iamLoginUrl?: string;
+  // 单点登录是否自动跳转
+  ssoAutoRedirect?: boolean;
 }
 
 type SysParameterKey =
@@ -66,5 +68,6 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
     sysParameter: undefined,
     iamClient: false,
     iamLoginUrl: undefined,
+    ssoAutoRedirect: false,
   }),
 });

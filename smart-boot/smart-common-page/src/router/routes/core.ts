@@ -65,6 +65,15 @@ const coreRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'LogoutSuccess',
+        path: 'logout-success',
+        component: () =>
+          import('../../views/_core/authentication/logout-success.vue'),
+        meta: {
+          title: '退出成功',
+        },
+      },
+      {
         name: 'CodeLogin',
         path: 'code-login',
         component: () =>

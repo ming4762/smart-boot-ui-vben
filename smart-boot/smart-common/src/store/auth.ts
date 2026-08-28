@@ -164,7 +164,7 @@ export const useAuthStore = defineStore('auth', () => {
     accessStore.setLoginExpired(false);
 
     if (redirectUrl) {
-      window.location.href = redirectUrl;
+      window.location.replace(redirectUrl);
       return;
     }
 

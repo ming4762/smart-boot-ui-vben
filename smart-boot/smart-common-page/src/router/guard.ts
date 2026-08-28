@@ -16,7 +16,7 @@ import {
   getSystemPropertiesApi,
   getUserPermissionApi,
 } from '@smart/common/api';
-import { useMenuFavoriteStore } from '@smart/common/store';
+import { useAuthStore, useMenuFavoriteStore } from '@smart/common/store';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { generateAccess } from './access';
@@ -99,6 +99,7 @@ async function isAuthenticated() {
 function setupAccessGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     const accessStore = useAccessStore();
+    const authStore = useAuthStore();
     const userStore = useUserStore();
     const sysPropertiesStore = useSysPropertiesStore();
 
@@ -121,20 +122,21 @@ function setupAccessGuard(router: Router) {
 
     const authenticated = await isAuthenticated();
 
-    // IAM 客户端：只在访问登录页时接管
-    // if (sysPropertiesStore.isIamClient && to.path === LOGIN_PATH) {
-    //   if (authenticated) {
-    //     // 已认证又回到登录页 → 跳到 redirect 目标或首页
-    //     return decodeURIComponent(
-    //       (to.query?.redirect as string) ||
-    //         userStore.userInfo?.homePath ||
-    //         preferences.app.defaultHomePath,
-    //     );
-    //   }
-    //   // 未认证访问登录页 → 去 IAM 登录
-    //   goIamLogin();
-    //   return false;
-    // }
+    // 强制单点登录时，登录入口直接跳转到 IAM。
+    // 仅接管登录入口，避免登录失败页和登出成功页产生重定向循环。
+    if (
+      to.path === LOGIN_PATH &&
+      !authenticated &&
+      sysPropertiesStore.isIamClient &&
+      sysPropertiesStore.ssoAutoRedirect
+    ) {
+      const iamLoginUrl = authStore.getIamLoginUrl();
+      if (iamLoginUrl) {
+        window.location.replace(iamLoginUrl);
+      }
+      return false;
+    }
+
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && authenticated) {

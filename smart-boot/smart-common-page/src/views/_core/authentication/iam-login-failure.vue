@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
@@ -11,9 +11,36 @@ import { Button, Spin } from 'antdv-next';
 defineOptions({ name: 'IamLoginFailure' });
 
 const UNKNOWN_ERROR_MESSAGE = '系统发生未知异常';
-const REASON_MESSAGES: Record<string, string> = {
-  client_not_found: '单点登录客户端不存在或已停用，请联系系统管理员。',
-  invalid_authorization_request: '单点登录请求无效，请从业务系统重新发起登录。',
+const DEFAULT_FAILURE_TITLE = '统一认证异常';
+const DEFAULT_FAILURE_TIP =
+  '你可以重新发起单点登录，或返回登录页选择其他登录方式。';
+
+interface FailureReasonConfig {
+  message: string;
+  showRetry: boolean;
+  tip: string;
+  title: string;
+}
+
+const REASON_CONFIGS: Record<string, FailureReasonConfig> = {
+  client_not_found: {
+    message: '单点登录客户端不存在或已停用，请联系系统管理员。',
+    showRetry: false,
+    tip: '请联系系统管理员检查单点登录客户端配置。',
+    title: '单点登录失败',
+  },
+  invalid_authorization_request: {
+    message: '单点登录请求无效，请从业务系统重新发起登录。',
+    showRetry: false,
+    tip: '请返回业务系统后重新发起单点登录。',
+    title: '单点登录失败',
+  },
+  post_logout_redirect_uri: {
+    message: '统一认证客户端的退出回调地址配置错误，请联系系统管理员。',
+    showRetry: false,
+    tip: '请联系系统管理员检查统一认证客户端的退出回调地址配置。',
+    title: '单点登出失败',
+  },
 };
 
 const route = useRoute();
@@ -23,12 +50,22 @@ const authStore = useAuthStore();
 const loading = ref(true);
 const message = ref(UNKNOWN_ERROR_MESSAGE);
 const showRetry = ref(true);
+const failureTitle = ref(DEFAULT_FAILURE_TITLE);
+const failureTip = ref(DEFAULT_FAILURE_TIP);
+
+const reasonConfig = computed(() => {
+  const reason = route.query.reason;
+  return typeof reason === 'string' ? REASON_CONFIGS[reason] : undefined;
+});
 
 const loadFailureDetail = async () => {
-  const reason = route.query.reason;
-  if (typeof reason === 'string' && REASON_MESSAGES[reason]) {
-    message.value = REASON_MESSAGES[reason];
-    showRetry.value = false;
+  const config = reasonConfig.value;
+  if (config) {
+    const { message: reasonMessage, showRetry: retry, tip, title } = config;
+    message.value = reasonMessage;
+    showRetry.value = retry;
+    failureTip.value = tip;
+    failureTitle.value = title;
     loading.value = false;
     return;
   }
@@ -67,14 +104,14 @@ onMounted(loadFailureDetail);
   <main class="iam-login-failure">
     <section class="failure-card" aria-labelledby="iam-login-failure-title">
       <div class="error-icon" aria-hidden="true">!</div>
-      <h1 id="iam-login-failure-title">单点登录失败</h1>
+      <h1 id="iam-login-failure-title">{{ failureTitle }}</h1>
       <Spin :spinning="loading">
         <p class="failure-message">
           {{ loading ? '正在获取登录失败信息…' : message }}
         </p>
       </Spin>
       <p class="failure-tip">
-        你可以重新发起单点登录，或返回登录页选择其他登录方式。
+        {{ failureTip }}
       </p>
       <div class="failure-actions">
         <Button
