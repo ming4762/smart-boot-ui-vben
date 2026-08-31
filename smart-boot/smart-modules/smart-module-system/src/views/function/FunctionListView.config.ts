@@ -198,9 +198,13 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           if (!(value.functionType === 'MENU')) {
             return null;
           }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.componentName'),
-          });
+          return z
+            .string({
+              error: t('system.views.function.validate.componentName'),
+            })
+            .min(1, {
+              message: t('system.views.function.validate.componentName'),
+            });
         },
       },
     },
@@ -227,9 +231,13 @@ export const getAddEditForm = (): VbenFormSchema[] => {
           if (!(value.functionType === 'MENU')) {
             return null;
           }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.component'),
-          });
+          return z
+            .string({
+              error: t('system.views.function.validate.component'),
+            })
+            .min(1, {
+              message: t('system.views.function.validate.component'),
+            });
         },
         disabled: (value) => {
           return value.isMicroFrontend;

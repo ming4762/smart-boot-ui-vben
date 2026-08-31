@@ -341,9 +341,9 @@ const getTreeData = (model: Recordable<any>) => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />
       </template>
-      <template #addEditForm-functionType="{ componentField, size, values }">
+      <template #addEditForm-functionType="{ formApi, size, values }">
         <RadioGroup
-          v-bind="componentField"
+          @update:value="formApi.setValues({ functionType: $event })"
           :value="values.functionType"
           :size="size"
         >
