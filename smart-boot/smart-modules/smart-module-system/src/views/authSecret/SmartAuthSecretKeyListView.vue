@@ -156,9 +156,10 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
           <template #table-operation="{ row }">
             <SmartVxeTableAction :actions="getActions(row)" />
           </template>
-          <template #form-publicKeyFile="{ model }">
+          <template #form-publicKeyFile="{ componentField, values }">
             <Upload
-              v-model:file-list="model.publicKeyFileList"
+              v-bind="componentField"
+              :file-list="values.publicKeyFileList"
               :before-upload="() => false"
               :max-count="1"
               accept=".keystore"
@@ -166,9 +167,10 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
               <SmartIconButton>Upload</SmartIconButton>
             </Upload>
           </template>
-          <template #form-privateKeyFile="{ model }">
+          <template #form-privateKeyFile="{ componentField, values }">
             <Upload
-              v-model:file-list="model.privateKeyFileList"
+              v-bind="componentField"
+              :file-list="values.privateKeyFileList"
               :before-upload="() => false"
               :max-count="1"
               accept=".keystore"

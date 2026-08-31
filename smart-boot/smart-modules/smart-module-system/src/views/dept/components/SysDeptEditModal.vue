@@ -42,9 +42,11 @@ const [Modal, modalApi] = useVbenModal({
     unref(formRef)?.setValues(data);
   },
   onClosed: () => {
-    unref(formRef)?.resetForm();
+    unref(formRef)?.reset();
   },
-  onConfirm: () => handleOk(modalApi),
+  onConfirm: () => {
+    handleOk(modalApi);
+  },
 });
 </script>
 

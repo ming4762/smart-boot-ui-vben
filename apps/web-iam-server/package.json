@@ -1,5 +1,5 @@
 {
-  "name": "@smart/web-auth-sso",
+  "name": "@smart/web-iam-server",
   "version": "5.7.0",
   "private": true,
   "type": "module",

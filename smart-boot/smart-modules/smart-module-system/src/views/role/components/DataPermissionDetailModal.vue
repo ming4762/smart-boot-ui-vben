@@ -27,7 +27,7 @@ const [Modal, modalApi] = useVbenModal({
         formApi.setValues(detail);
       });
     } else {
-      formApi.resetForm();
+      formApi.reset();
     }
   },
 });

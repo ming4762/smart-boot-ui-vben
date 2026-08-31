@@ -14,9 +14,9 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: () => [],
+  value: () => [],
 });
-const emit = defineEmits(['update:value', 'update:modelValue', 'change']);
+const emit = defineEmits(['update:value', 'change']);
 
 const attrs = useAttrs();
 
@@ -29,7 +29,7 @@ const computedSpaceProps = computed(() => {
 
 const inner = ref<string[]>(['']);
 watch(
-  () => props.modelValue,
+  () => props.value,
   (val) => {
     if (Array.isArray(val)) {
       inner.value = val.length > 0 ? val : [''];
@@ -50,7 +50,6 @@ const values = computed<string[]>({
       emitValue = null;
     }
     emit('update:value', emitValue);
-    emit('update:modelValue', emitValue);
     // emit('change', emitValue);
   },
 });

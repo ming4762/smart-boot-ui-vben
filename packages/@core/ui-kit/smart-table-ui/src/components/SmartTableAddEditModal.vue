@@ -154,7 +154,7 @@ const [Modal, modalApi] = useVbenModal<SmartAddEditModalCallbackData>({
         throw new Error('系统发生未知错误，弹窗数据不存在');
       }
       const { formData, isAdd } = data;
-      formApi.resetForm();
+      formApi.reset();
       isAddRef.value = isAdd;
       if (isAdd) {
         formApi.setValues({

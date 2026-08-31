@@ -918,6 +918,9 @@ importers:
       '@smart-module/file':
         specifier: workspace:*
         version: link:../../smart-boot/smart-modules/smart-module-file
+      '@smart-module/iam-admin':
+        specifier: workspace:*
+        version: link:../../smart-boot/smart-modules/smart-module-iam-admin
       '@smart-module/message':
         specifier: workspace:*
         version: link:../../smart-boot/smart-modules/smart-module-message

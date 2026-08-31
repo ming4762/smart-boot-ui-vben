@@ -335,6 +335,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       formItemClass: 'col-span-2',
       rules: z
         .string()
+        .nullable()
         .optional()
         .refine(
           (value) => {
@@ -356,6 +357,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       formItemClass: 'col-span-2',
       rules: z
         .string()
+        .nullable()
         .optional()
         .refine(
           (value) => {

@@ -67,7 +67,7 @@ const [SmartTable, tableApi] = useSmartTable({
       schema: getFormSchemas(),
       wrapperClass: 'grid-cols-2 grid',
       commonConfig: {
-        labelWidth: 110,
+        labelWidth: 140,
       },
     },
   },
@@ -130,17 +130,19 @@ const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
       </template>
-      <template #form-clientAuthenticationMethods="{ model }">
+      <template #form-clientAuthenticationMethods="{ componentField, values }">
         <CheckableTagGroup
           multiple
-          v-model:value="model.clientAuthenticationMethods"
+          v-bind="componentField"
+          :value="values.clientAuthenticationMethods"
           :options="clientAuthenticationMethods"
         />
       </template>
-      <template #form-authorizationGrantTypes="{ model }">
+      <template #form-authorizationGrantTypes="{ componentField, values }">
         <CheckableTagGroup
           multiple
-          v-model:value="model.authorizationGrantTypes"
+          v-bind="componentField"
+          :value="values.authorizationGrantTypes"
           :options="authorizationGrantTypes"
         />
       </template>

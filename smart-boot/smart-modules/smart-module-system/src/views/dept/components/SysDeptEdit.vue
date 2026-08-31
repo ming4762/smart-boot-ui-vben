@@ -182,7 +182,7 @@ watch(
           getLoading.value = false;
         }
       } else {
-        formApi.resetForm();
+        formApi.reset();
       }
     });
   },
@@ -190,7 +190,7 @@ watch(
 
 defineExpose({
   setValues: formApi.setValues,
-  resetForm: formApi.resetForm,
+  reset: formApi.reset,
   validateAndGet: async () => {
     const { valid } = await formApi.validate();
     if (!valid) {

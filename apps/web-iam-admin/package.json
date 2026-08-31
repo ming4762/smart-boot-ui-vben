@@ -31,6 +31,7 @@
     "@smart-module/file": "workspace:*",
     "@smart-module/message": "workspace:*",
     "@smart-module/system": "workspace:*",
+    "@smart-module/iam-admin": "workspace:*",
     "@smart/common": "workspace:*",
     "@smart/common-page": "workspace:*",
     "@smart/components": "workspace:*",

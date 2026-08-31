@@ -131,6 +131,7 @@ const [SmartTable, tableApi] = useSmartTable({
       wrapperClass: 'grid grid-cols-2',
       commonConfig: {
         // formItemClass: 'pb-2',
+
       },
       schema: getAddEditForm(),
     },
@@ -340,8 +341,12 @@ const getTreeData = (model: Recordable<any>) => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row)" />
       </template>
-      <template #addEditForm-functionType="{ values, size }">
-        <RadioGroup v-model:value="values.functionType" :size="size">
+      <template #addEditForm-functionType="{ componentField, size, values }">
+        <RadioGroup
+          v-bind="componentField"
+          :value="values.functionType"
+          :size="size"
+        >
           <Radio
             v-for="(type, key) in functionTypes"
             :key="key"
@@ -352,9 +357,10 @@ const getTreeData = (model: Recordable<any>) => {
           </Radio>
         </RadioGroup>
       </template>
-      <template #addEdit-parentId="{ values, size }">
+      <template #addEdit-parentId="{ componentField, size, values }">
         <TreeSelect
-          v-model:value="values.parentId"
+          v-bind="componentField"
+          :value="values.parentId"
           :field-names="{
             label: 'functionName',
             value: 'functionId',

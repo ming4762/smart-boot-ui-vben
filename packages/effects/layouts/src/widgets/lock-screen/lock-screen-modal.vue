@@ -27,7 +27,7 @@ const emit = defineEmits<{
   submit: [Recordable<any>];
 }>();
 
-const [Form, { resetForm, validate, getValues, getFieldComponentRef }] =
+const [Form, { reset, validate, getValues, getFieldComponentRef }] =
   useVbenForm(
     reactive({
       commonConfig: {
@@ -58,7 +58,7 @@ const [Modal] = useVbenModal({
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      resetForm();
+      reset();
     }
   },
   onOpened() {

@@ -401,6 +401,7 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       rules: z
         .string()
         .optional()
+        .nullable()
         .refine(
           (value) => {
             if (!value) {
