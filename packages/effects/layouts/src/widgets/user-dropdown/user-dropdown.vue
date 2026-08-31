@@ -2,7 +2,10 @@
 import type { Component } from 'vue';
 
 import type { LanguageOption } from '@vben/constants';
+import type { SupportedLanguagesType } from '@vben/locales';
 import type { AnyFunction, UserTenant } from '@vben/types';
+
+import type { ClassType } from '@vben-core/typings';
 
 import { computed, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -61,6 +64,15 @@ interface Props {
    */
   avatar?: string;
   /**
+   * 头像是否显示在线圆点
+   * @default true
+   */
+  avatarDot?: boolean;
+  /**
+   * 头像在线圆点样式
+   */
+  avatarDotClass?: ClassType;
+  /**
    * @zh_CN 描述
    */
   description?: string;
@@ -107,6 +119,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<Props>(), {
   avatar: '',
+  avatarDot: true,
+  avatarDotClass: 'bottom-0 right-1 border-2 size-4 bg-green-500',
   description: '',
   menus: () => [],
   tagText: '',
@@ -324,8 +338,10 @@ function handleLanguageToggleSelect(event?: Event) {
 async function handleLocaleChange(event: Event, value: string) {
   // 阻止默认关闭，让用户能继续看到选择结果；选完手动收起
   event.preventDefault();
-  updatePreferences({ app: { locale: value } });
-  await loadLocaleMessages(value);
+  // 菜单项来自运行时语言列表（可为自定义语言），此处为运行时边界断言
+  const locale = value as SupportedLanguagesType;
+  updatePreferences({ app: { locale } });
+  await loadLocaleMessages(locale);
   showLanguageList.value = false;
   openPopover.value = false;
 }
@@ -413,7 +429,13 @@ const handleGoToPersonalCenter = () => {
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
         <div class="flex-center hover:text-accent-foreground">
-          <VbenAvatar :alt="text" :src="avatar as never" class="size-8" dot />
+          <VbenAvatar
+            :alt="text"
+            :src="avatar"
+            class="size-8"
+            :dot="avatarDot"
+            :dot-class="avatarDotClass"
+          />
         </div>
       </div>
     </DropdownMenuTrigger>
@@ -424,8 +446,8 @@ const handleGoToPersonalCenter = () => {
             :alt="text"
             :src="avatar as never"
             class="size-12"
-            dot
-            dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
+            :dot="avatarDot"
+            :dot-class="avatarDotClass"
           />
           <div class="ml-2 w-full">
             <div

@@ -38,7 +38,10 @@ import { useLayoutScroll } from './use-layout-scroll';
 
 defineOptions({ name: 'BasicLayout' });
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
+  logoSrc: '',
+  logoSrcDark: '',
+  logoText: '',
   avatar: '',
   text: '',
 });
@@ -50,9 +53,20 @@ const emit = defineEmits<{
 }>();
 
 interface Props {
+  /** 自定义 Logo 图片地址，不传则使用偏好设置默认值 */
+  logoSrc?: string;
+  /** 自定义暗色主题 Logo 图片地址 */
+  logoSrcDark?: string;
+  /** 自定义 Logo 文本，不传则使用偏好设置默认值 */
+  logoText?: string;
+  /** 用户头像图片地址 */
   avatar?: string;
+  /** 用户文本（如用户名） */
   text?: string;
 }
+
+/** 最终使用的 Logo 文本（自定义优先，否则使用默认应用名称） */
+const finalLogoText = computed(() => props.logoText || preferences.app.name);
 
 const {
   isDark,
@@ -324,7 +338,9 @@ const computedLogoTheme = computed(() => {
         :source-with-title-dark="preferences.logo.sourceWithTitleDark"
         :source-with-title-light="preferences.logo.sourceWithTitleLight"
         :logo-height="preferences.logo.size"
-        :text="preferences.app.name"
+        :text="finalLogoText"
+        :show-text="preferences.logo.showText"
+        :logo-mode="preferences.logo.logoMode"
         :theme="computedLogoTheme"
         @click="clickLogo"
       >
@@ -427,8 +443,8 @@ const computedLogoTheme = computed(() => {
       <VbenLogo
         v-if="preferences.logo.enable"
         :fit="preferences.logo.fit"
+        :text="finalLogoText"
         :show-text="preferences.logo.showText"
-        :text="preferences.app.name"
         :theme="sidebarThemeSub"
       >
         <template v-if="$slots['logo-text']" #text>
