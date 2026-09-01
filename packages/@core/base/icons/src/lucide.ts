@@ -41,6 +41,7 @@ export {
   Heading1,
   Heading2,
   Highlighter,
+  House,
   Menu as IconDefault,
   ImagePlus,
   Inbox,

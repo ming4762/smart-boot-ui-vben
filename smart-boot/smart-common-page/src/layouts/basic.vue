@@ -26,11 +26,14 @@ import {
   listCurrentUserTenantApi,
   listDictItemByCodeApi,
 } from '@smart/common/api';
-import { useAuthStore } from '@smart/common/store';
+import {
+  resetCurrentUserVbenPreferences,
+  useAuthStore,
+} from '@smart/common/store';
 import { createConfirm } from '@smart/common/utils';
 
-import ReleaseNoteDrawer from '../components/ReleaseNoteDrawer.vue';
 import FavoriteButton from '../components/menu-favorite/FavoriteButton.vue';
+import ReleaseNoteDrawer from '../components/ReleaseNoteDrawer.vue';
 import LoginForm from '../views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([
@@ -136,6 +139,11 @@ async function handleLogout(logoutSuccessHandler?: () => void) {
   }
 }
 
+async function handleResetPreferences() {
+  await resetCurrentUserVbenPreferences();
+  await handleLogout();
+}
+
 function handleNoticeClear() {
   notifications.value = [];
 }
@@ -197,7 +205,7 @@ hasUnreadReleaseNotesApi()
   <BasicLayout
     :avatar
     :text="userStore.userInfo?.realName"
-    @clear-preferences-and-logout="handleLogout"
+    @clear-preferences-and-logout="handleResetPreferences"
     @logout="handleLogout"
   >
     <template #menu-item-extra="{ menu }">

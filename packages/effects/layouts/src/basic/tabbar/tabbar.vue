@@ -37,13 +37,15 @@ const {
 const menus = computed(() => {
   const tab = tabbarStore.getTabByKey(currentActive.value);
   const menus = createContextMenus(tab);
-  return menus.map((item) => {
-    return {
-      ...item,
-      label: item.text,
-      value: item.key,
-    };
-  });
+  return menus
+    .filter((item) => !item.hidden)
+    .map((item) => {
+      return {
+        ...item,
+        label: item.text,
+        value: item.key,
+      };
+    });
 });
 
 // 刷新后如果不保持tab状态，关闭其他tab

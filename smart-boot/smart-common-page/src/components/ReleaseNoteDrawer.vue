@@ -4,6 +4,7 @@ import type { ReleaseNote } from '@smart/common/api';
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
+import { SmartMarkdown } from '@vben/plugins/smart-markdown';
 import { formatDateTime } from '@vben/utils';
 
 import {

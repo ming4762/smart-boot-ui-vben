@@ -651,6 +651,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
       'affix',
       'maximize',
       'reload',
+      'set-home',
       'open-in-new-window',
       'close-left',
       'close-right',

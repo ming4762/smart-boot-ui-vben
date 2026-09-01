@@ -16,7 +16,11 @@ import {
   getSystemPropertiesApi,
   getUserPermissionApi,
 } from '@smart/common/api';
-import { useAuthStore, useMenuFavoriteStore } from '@smart/common/store';
+import {
+  initializeUserPreferences,
+  useAuthStore,
+  useMenuFavoriteStore,
+} from '@smart/common/store';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { generateAccess } from './access';
@@ -109,8 +113,10 @@ function setupAccessGuard(router: Router) {
     if (sysPropertiesStore.isIamClient && !userStore.userInfo) {
       try {
         const { permissions, roles, user } = await getUserPermissionApi();
+        const userPreference = await initializeUserPreferences(user.userId);
         userStore.setUserInfo({
           ...user,
+          homePath: userPreference.homePath || preferences.app.defaultHomePath,
           realName: user.fullName,
           roles,
         });

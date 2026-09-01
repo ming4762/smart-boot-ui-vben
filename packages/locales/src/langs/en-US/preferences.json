@@ -34,7 +34,7 @@
   "enableCopyPreferences": "Show copy preferences button",
   "copyPreferencesSuccessTitle": "Copy successful",
   "copyPreferencesSuccess": "Copy successful, please override in `src/preferences.ts` under app",
-  "clearAndLogout": "Clear Cache & Logout",
+  "clearAndLogout": "Reset Preferences & Logout",
   "mode": "Mode",
   "general": "General",
   "language": "Language",
@@ -89,6 +89,7 @@
     },
     "contextMenu": {
       "reload": "Reload",
+      "setHome": "Set as Home",
       "close": "Close",
       "pin": "Pin",
       "unpin": "Unpin",

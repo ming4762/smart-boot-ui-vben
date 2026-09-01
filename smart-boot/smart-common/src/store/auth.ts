@@ -26,6 +26,10 @@ import {
   requestClient,
 } from '../api';
 import { $t } from '../locales';
+import {
+  initializeUserPreferences,
+  stopUserPreferenceSync,
+} from './user-preference';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -54,8 +58,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loadUserPermission = async () => {
     const { user, roles, permissions } = await getUserPermissionApi();
+    const userPreference = await initializeUserPreferences(user.userId);
     const userInfo = {
       ...user,
+      homePath: userPreference.homePath || preferences.app.defaultHomePath,
       realName: user.fullName,
       roles,
     };
@@ -160,6 +166,7 @@ export const useAuthStore = defineStore('auth', () => {
     } catch {
       // 不做任何处理
     }
+    stopUserPreferenceSync();
     resetAllStores();
     accessStore.setLoginExpired(false);
 

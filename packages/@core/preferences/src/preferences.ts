@@ -185,6 +185,25 @@ class PreferenceManager {
   };
 
   /**
+   * 切换偏好设置的缓存命名空间。
+   * 登录后使用用户级命名空间，避免同一浏览器中的不同账号共享偏好。
+   */
+  switchCacheNamespace = async (namespace: string) => {
+    this.cache = new StorageManager({ prefix: namespace });
+    const cachedPreferences = (await this.loadFromCache()) || {};
+    this.sanitizeCachedArray(cachedPreferences, 'widget', 'order');
+    const mergedPreference = mergeWithArrayOverride(
+      {},
+      cachedPreferences,
+      this.initialPreferences,
+    );
+
+    Object.assign(this.state, mergedPreference);
+    this.handleUpdates(this.state);
+    await this.saveToCache();
+  };
+
+  /**
    * 更新扩展偏好设置
    * @param updates - 要更新的扩展偏好设置
    */

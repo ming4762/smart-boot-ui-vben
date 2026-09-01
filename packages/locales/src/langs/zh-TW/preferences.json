@@ -34,7 +34,7 @@
   "enableCopyPreferences": "顯示複製偏好設定按鈕",
   "copyPreferencesSuccessTitle": "複製成功",
   "copyPreferencesSuccess": "複製成功，請在 app 下的 `src/preferences.ts`內進行覆蓋",
-  "clearAndLogout": "清空快取 & 退出登入",
+  "clearAndLogout": "重置偏好設定 & 退出登入",
   "mode": "模式",
   "general": "通用",
   "language": "語言",
@@ -89,6 +89,7 @@
     },
     "contextMenu": {
       "reload": "重新載入",
+      "setHome": "設定為首頁",
       "close": "關閉",
       "pin": "固定",
       "unpin": "取消固定",

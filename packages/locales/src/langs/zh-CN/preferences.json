@@ -34,7 +34,7 @@
   "enableCopyPreferences": "显示复制偏好设置按钮",
   "copyPreferencesSuccessTitle": "复制成功",
   "copyPreferencesSuccess": "复制成功，请在 app 下的 `src/preferences.ts`内进行覆盖",
-  "clearAndLogout": "清空缓存 & 退出登录",
+  "clearAndLogout": "重置偏好设置 & 退出登录",
   "mode": "模式",
   "general": "通用",
   "language": "语言",
@@ -89,6 +89,7 @@
     },
     "contextMenu": {
       "reload": "重新加载",
+      "setHome": "设置为首页",
       "close": "关闭",
       "pin": "固定",
       "unpin": "取消固定",

@@ -7,12 +7,14 @@ export const {
   getPreferences,
   getCustomPreferences,
   getInitialCustomPreferences,
+  getInitialPreferences,
   getPreferencesExtension,
   updatePreferences,
   updateCustomPreferences,
   resetPreferences,
   clearCache,
   initPreferences,
+  switchCacheNamespace,
 } = preferencesManager;
 
 export const preferences: Preferences = getPreferences();

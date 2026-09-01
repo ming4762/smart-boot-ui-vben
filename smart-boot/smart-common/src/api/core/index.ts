@@ -7,4 +7,5 @@ export * from './system';
 export * from './timezone';
 export * from './upload';
 export * from './user';
+export * from './user-preference';
 export * from './vxe-table-config';

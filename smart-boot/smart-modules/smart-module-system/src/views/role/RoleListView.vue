@@ -186,7 +186,7 @@ const tabItems = [
     height: 100%;
   }
 
-  :deep(ant-tabs-body) {
+  :deep(.ant-tabs-body) {
     height: 100%;
   }
 

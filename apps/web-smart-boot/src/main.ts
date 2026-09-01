@@ -30,7 +30,8 @@ async function initApplication() {
 async function doInitApplication(namespace: string) {
   // app偏好设置初始化
   await initPreferences({
-    namespace,
+    // 登录后会切换为用户级缓存；匿名命名空间不读取历史共享缓存。
+    namespace: `${namespace}-anonymous`,
     overrides: overridesPreferences,
   });
   const { bootstrap } = await import('./bootstrap');

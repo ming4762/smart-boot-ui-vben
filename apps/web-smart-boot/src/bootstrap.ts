@@ -2,16 +2,19 @@ import { createApp, watchEffect } from 'vue';
 
 import { registerAccessDirective } from '@vben/access';
 import { registerLoadingDirective } from '@vben/common-ui/es/loading';
+import { registerSetHomePageHandler } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
-import { initStores } from '@vben/stores';
+import { initStores, useUserStore } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/antd';
 import { registerDirective } from '@vben/utils';
 
 import { initComponentAdapter } from '@smart/common-page/adapter';
+import { setCurrentUserHomeApi } from '@smart/common/api';
 import { $t, setupI18n } from '@smart/common/locales';
 import { setupWujieMain } from '@smart/wujie';
 import { useTitle } from '@vueuse/core';
+import { notification } from 'antdv-next';
 
 import App from './app.vue';
 import { router } from './router';
@@ -40,6 +43,15 @@ async function bootstrap(namespace: string) {
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
+
+  registerSetHomePageHandler(async (functionId, homePath) => {
+    await setCurrentUserHomeApi(functionId);
+    const userStore = useUserStore();
+    if (userStore.userInfo) {
+      userStore.setUserInfo({ ...userStore.userInfo, homePath });
+    }
+    notification.success({ title: '首页设置成功' });
+  });
 
   // 初始化时区
   initTimezone();
