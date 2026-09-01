@@ -35,7 +35,7 @@ const fieldNames = reactive({
 });
 
 /**
- * 加载数据函数
+ * 请求部门数据
  */
 const loadData = async (parentId?: null | number) => {
   const parameter: Recordable<any> = {
@@ -58,15 +58,7 @@ const loadData = async (parentId?: null | number) => {
         item.isLeaf = true;
       }
     });
-    if (props.async) {
-      if (parentId === 0) {
-        dataList.value = result;
-      } else {
-        return result;
-      }
-    } else {
-      dataList.value = result;
-    }
+    return result;
   } catch (error: any) {
     errorMessage(error);
   } finally {
@@ -74,10 +66,37 @@ const loadData = async (parentId?: null | number) => {
   }
 };
 
+const loadRootData = async () => {
+  const data = await loadData(props.async ? 0 : undefined);
+  if (data) {
+    dataList.value = data;
+  }
+};
+
+const updateTreeData = (
+  list: Array<any>,
+  deptId: number,
+  children: Array<any>,
+): Array<any> => {
+  return list.map((item) => {
+    if (item.deptId === deptId) {
+      return { ...item, children };
+    }
+    if (item.children) {
+      return {
+        ...item,
+        children: updateTreeData(item.children, deptId, children),
+      };
+    }
+    return item;
+  });
+};
+
 const handleAsyncLoadData = async (treeNode: any) => {
-  const dataRef = treeNode.dataRef;
-  dataRef.children = await loadData(dataRef.deptId);
-  dataList.value = [...unref(dataList)];
+  const children = await loadData(treeNode.deptId);
+  if (children) {
+    dataList.value = updateTreeData(dataList.value, treeNode.deptId, children);
+  }
 };
 
 const getAttrs = computed(() => {
@@ -125,16 +144,10 @@ const onExpand = (keys: Array<number | string>) => {
 /**
  * 加载数据
  */
-onMounted(() => {
-  let parentId: number | undefined;
-  if (props.async) {
-    parentId = 0;
-  }
-  loadData(parentId);
-});
+onMounted(loadRootData);
 
 defineExpose({
-  reload: () => loadData(),
+  reload: loadRootData,
 });
 </script>
 
