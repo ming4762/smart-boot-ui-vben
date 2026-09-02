@@ -29,6 +29,11 @@ const SecureLSConstructor =
   secureLSModule.SecureLS ??
   (SecureLS as unknown as SecureLSCtor);
 
+/**
+ * 依赖当前布局生命周期，需要在路由离开后重置的 Store。
+ */
+const AFTER_ROUTE_LEAVE_RESET_STORE_IDS = new Set(['core-tabbar']);
+
 export interface InitStoreOptions {
   /**
    * @zh_CN 应用名,由于 @vben/stores 是公用的，后续可能有多个app，为了防止多个app缓存冲突，可在这里配置应用名,应用名将被用于持久化的前缀
@@ -69,17 +74,38 @@ export async function initStores(app: App, options: InitStoreOptions) {
   return pinia;
 }
 
-/**
- * @zh_CN 重置所有store
- * TODO: 部分store重置时，core-tabbar还未重置，组件被keepalive还未销毁，导致组件重新渲染，可以控制RouterView先销毁，然后在reset
- */
-export function resetAllStores() {
+function resetStores(shouldReset: (storeId: string) => boolean) {
   if (!pinia) {
     console.error('Pinia is not installed');
     return;
   }
   const allStores = (pinia as any)._s;
   for (const [_key, store] of allStores) {
-    store.$reset();
+    if (shouldReset(store.$id)) {
+      store.$reset();
+    }
   }
+}
+
+/**
+ * @zh_CN 重置所有 Store
+ */
+export function resetAllStores() {
+  resetStores(() => true);
+}
+
+/**
+ * @zh_CN 重置不依赖当前布局生命周期的 Store
+ */
+export function resetStoresBeforeRouteLeave() {
+  resetStores(
+    (storeId) => !AFTER_ROUTE_LEAVE_RESET_STORE_IDS.has(storeId),
+  );
+}
+
+/**
+ * @zh_CN 路由离开后，重置依赖当前布局生命周期的 Store
+ */
+export function resetStoresAfterRouteLeave() {
+  resetStores((storeId) => AFTER_ROUTE_LEAVE_RESET_STORE_IDS.has(storeId));
 }

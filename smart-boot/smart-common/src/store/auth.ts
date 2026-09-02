@@ -2,13 +2,15 @@ import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 
 import type { AuthApi } from '../api';
 
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { ApiServiceEnum, LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import {
   resetAllStores,
+  resetStoresAfterRouteLeave,
+  resetStoresBeforeRouteLeave,
   useAccessStore,
   useSysPropertiesStore,
   useUserStore,
@@ -167,13 +169,8 @@ export const useAuthStore = defineStore('auth', () => {
       // 不做任何处理
     }
     stopUserPreferenceSync();
-    resetAllStores();
+    resetStoresBeforeRouteLeave();
     accessStore.setLoginExpired(false);
-
-    if (redirectUrl) {
-      window.location.replace(redirectUrl);
-      return;
-    }
 
     // 回登录页带上当前路由地址
     await router.replace({
@@ -184,6 +181,12 @@ export const useAuthStore = defineStore('auth', () => {
           }
         : {},
     });
+    await nextTick();
+    resetStoresAfterRouteLeave();
+
+    if (redirectUrl) {
+      window.location.replace(redirectUrl);
+    }
   }
 
   /**
