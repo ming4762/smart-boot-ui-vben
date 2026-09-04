@@ -22,6 +22,7 @@ import { defineStore } from 'pinia';
 import {
   changePasswordApi,
   changeTenantApi,
+  getSystemPropertiesApi,
   getUserPermissionApi,
   loginApi,
   logoutApi,
@@ -96,6 +97,9 @@ export const useAuthStore = defineStore('auth', () => {
       accessStore.setRefreshToken(null);
     }
 
+    const systemProperties = await getSystemPropertiesApi();
+    sysPropertiesStore.setProperties({ sysParameter: systemProperties });
+
     const userInfo = await loadUserPermission();
 
     if (accessStore.loginExpired) {
@@ -134,6 +138,15 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loginLoading.value = true;
       const loginData = await loginApi(params as never);
+      if (loginData.passwordChangeRequired) {
+        return {
+          passwordChangeRequired: true,
+          passwordChangeToken: loginData.passwordChangeToken,
+          passwordValidate: loginData.passwordValidate,
+          passwordValidateErrorMessage:
+            loginData.passwordValidateErrorMessage,
+        };
+      }
       return { userInfo: await afterLogin(loginData, false, onSuccess) };
     } finally {
       loginLoading.value = false;

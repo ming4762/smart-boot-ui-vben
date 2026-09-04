@@ -37,7 +37,7 @@ type SysParameterKey =
   | 'sys.function.favorite.maxCount';
 
 interface SysPropertiesState extends AuthProperties {
-  sysParameter?: Record<SysParameterKey, string>;
+  sysParameter?: Partial<Record<SysParameterKey, string>>;
 }
 
 export const useSysPropertiesStore = defineStore('core-sys-properties', {

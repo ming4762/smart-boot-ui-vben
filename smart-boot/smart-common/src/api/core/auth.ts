@@ -65,6 +65,10 @@ export namespace AuthApi {
     redirectUrl?: string;
     refreshToken?: string;
     token?: string;
+    passwordChangeRequired?: boolean;
+    passwordChangeToken?: string;
+    passwordValidate?: string;
+    passwordValidateErrorMessage?: string;
   }
 
   export interface RefreshTokenResult {
