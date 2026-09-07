@@ -17,6 +17,7 @@ export * from './logo';
 export * from './pin-input';
 export * from './popover';
 export * from './render-content';
+export * from './resizable-layout';
 export * from './scrollbar';
 export * from './segmented';
 export * from './select';

@@ -8,10 +8,10 @@ import { ref, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
-  useVbenModal,
+  useVbenModal
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
@@ -478,7 +478,7 @@ const getAccountData = (status: null | string | undefined) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" draggable first-size="280px">
+    <ResizableLayout class="h-full" divider-size="5px" resize-mode="preview" resizable :first-size="280" size-unit="px">
       <template #first>
         <div class="dept-container h-full bg-background">
           <SysDeptTree async show-search @select="handleDeptSelected" />
@@ -514,7 +514,7 @@ const getAccountData = (status: null | string | undefined) => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <UserSetRoleModal />
     <UserUseYnModal />
     <UserAccountUpdateModal />
