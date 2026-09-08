@@ -47,6 +47,11 @@ export const getTableColumns = (): SmartTableColumn[] => {
       fixed: 'left',
     },
     {
+      title: 'SN Code',
+      field: 'snCode',
+      width: 120,
+    },
+    {
       title: '{system.views.user.table.fullName}',
       field: 'fullName',
       width: 120,
@@ -149,6 +154,14 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       rules: 'required',
     },
     {
+      label: 'SN Code',
+      fieldName: 'snCode',
+      component: 'Input',
+      componentProps: {
+        maxlength: 50,
+      },
+    },
+    {
       label: t('system.views.user.table.fullName'),
       fieldName: 'fullName',
       component: 'Input',
@@ -219,6 +232,16 @@ export const getSearchSchemas = (): SmartSearchFormSchema[] => {
       searchSymbol: 'like',
       componentProps: {
         placeholder: t('system.views.user.table.username'),
+      },
+    },
+    {
+      label: 'SN Code',
+      fieldName: 'snCode',
+      component: 'Input',
+      searchSymbol: 'like',
+      componentProps: {
+        maxlength: 50,
+        placeholder: 'SN Code',
       },
     },
     {

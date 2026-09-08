@@ -5,12 +5,13 @@ import { SmartVxeTableAction, useSmartTable } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { CheckableTagGroup } from 'antdv-next';
+import { CheckableTagGroup, message, Modal } from 'antdv-next';
 
 import {
   batchSaveUpdateApi,
   deleteApi,
   getByIdApi,
+  initializeFunctionsApi,
   listApi,
   setUseYnApi,
 } from './IamOauth2ClientListView.api';
@@ -109,6 +110,20 @@ const [SmartTable, tableApi] = useSmartTable({
 
 const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
   return [
+    {
+      label: '初始化菜单',
+      auth: Permissions.update,
+      onClick: () => {
+        Modal.confirm({
+          title: '初始化客户端菜单',
+          content: '将复制默认菜单模板，客户端已有功能时不能初始化。',
+          async onOk() {
+            await initializeFunctionsApi(row.id);
+            message.success('菜单初始化成功');
+          },
+        });
+      },
+    },
     {
       label: t('common.button.edit'),
       onClick: () => tableApi.editByRowModal(row),
