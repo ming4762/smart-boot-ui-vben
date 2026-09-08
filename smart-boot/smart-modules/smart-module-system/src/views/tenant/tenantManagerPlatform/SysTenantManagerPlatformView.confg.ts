@@ -14,7 +14,7 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { listNoBindPackageByTenantIdApi } from '#/views/tenant/tenantManager/SysTenantListView.api';
+import { listNoBindPackageByTenantIdApi } from '../tenantManager/SysTenantListView.api';
 
 import { listDeptTreeByTenantApi } from './SysTenantManagerPlatformView.api';
 
@@ -150,6 +150,7 @@ export const getBindUserModalListColumns = (): SmartTableColumn[] => {
  */
 export const getSubscribeFormSchemas = (
   tenantIdRef: ComputedRef<number | string | undefined>,
+  listPackages?: () => Promise<any[]>,
 ): VbenFormSchema[] => {
   return [
     {
@@ -192,6 +193,8 @@ export const getSubscribeFormSchemas = (
             destroyOnClose: false,
           },
           async api() {
+            // IAM 模式必须使用当前客户端套餐候选列表。
+            if (listPackages) return listPackages();
             const tenantId = unref(tenantIdRef);
             if (!tenantId) {
               return [];

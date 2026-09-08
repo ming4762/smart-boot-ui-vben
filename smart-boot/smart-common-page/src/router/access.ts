@@ -14,6 +14,10 @@ import { message } from 'antdv-next';
 import modulePageMap from 'virtual:smart-modules';
 
 import { BasicLayout, IFrameView } from '../layouts';
+import {
+  allowPermissionManagementComponent,
+  filterPermissionManagementMenus,
+} from './permission-management-policy';
 
 const WujieWrapper = () => import('@smart/wujie/wujie-wrapper');
 const forbiddenComponent = () =>
@@ -22,11 +26,16 @@ const forbiddenComponent = () =>
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
   const menuFavoriteStore = useMenuFavoriteStore();
   // const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
-  const pageMap: ComponentRecordType = {
+  const allPageMap: ComponentRecordType = {
     ...import.meta.glob('../views/**/*.vue'),
     ...import.meta.glob('../modules/**/*.{vue,tsx}'),
     ...modulePageMap,
   };
+  const pageMap: ComponentRecordType = Object.fromEntries(
+    Object.entries(allPageMap).filter(([component]) =>
+      allowPermissionManagementComponent(component),
+    ),
+  );
 
   const layoutMap: ComponentRecordType = {
     BasicLayout,
@@ -41,7 +50,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
     fetchMenuListAsync: async () => {
       if (microApp) {
         menuFavoriteStore.setLoaded(false);
-        return getRouterHandler?.() || [];
+        return filterPermissionManagementMenus(getRouterHandler?.() || []);
       } else {
         message.loading({
           content: `${$t('common.loadingMenu')}...`,
@@ -58,7 +67,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         if (favoriteResult.status === 'fulfilled') {
           menuFavoriteStore.setFavoriteFunctionIds(favoriteResult.value);
         }
-        const userMenuList = menuResult.value;
+        const userMenuList = filterPermissionManagementMenus(menuResult.value);
         if (userMenuList.length > 0) {
           return userMenuList;
         }

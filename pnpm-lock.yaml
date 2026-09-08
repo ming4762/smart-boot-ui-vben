@@ -2886,6 +2886,9 @@ importers:
 
   smart-boot/smart-modules/smart-module-iam-admin:
     dependencies:
+      '@smart-module/system':
+        specifier: workspace:*
+        version: link:../smart-module-system
       '@smart/common':
         specifier: workspace:*
         version: link:../../smart-common

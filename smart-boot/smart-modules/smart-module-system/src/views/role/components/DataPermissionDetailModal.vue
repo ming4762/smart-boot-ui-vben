@@ -5,7 +5,7 @@ import { useVbenForm, useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { DATA_PERMISSION_SCOPE } from '#/constants/system-constants';
+import { DATA_PERMISSION_SCOPE } from '../../../constants/system-constants';
 
 import { getDataPermissionDetailByIdApi } from '../RoleListView.api';
 
@@ -17,12 +17,12 @@ const { getFormSize } = useSizeSetting();
 const [Modal, modalApi] = useVbenModal({
   title: '数据权限详情',
   showCancelButton: false,
-  onConfirm: () => modalApi.close(),
+  onConfirm: (): void => { modalApi.close(); },
   draggable: true,
   onOpenChange: (open) => {
     if (open) {
       nextTick(async () => {
-        const { dataPermissionId } = modalApi.getData();
+        const { dataPermissionId } = modalApi.getData() as { dataPermissionId: number };
         const detail = await getDataPermissionDetailByIdApi(dataPermissionId);
         formApi.setValues(detail);
       });

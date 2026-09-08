@@ -3,6 +3,7 @@
   "extends": "@vben/tsconfig/web.json",
   "compilerOptions": {
     "paths": {
+      "@smart-module/system": ["../smart-module-system/src/index.ts"],
       "#/*": ["./src/*"]
     }
   },

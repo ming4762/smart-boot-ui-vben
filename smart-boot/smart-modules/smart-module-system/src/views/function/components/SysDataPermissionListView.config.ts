@@ -7,7 +7,7 @@ import type {
 import { getTableUseYnColumnClass } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { DATA_PERMISSION_SCOPE } from '#/constants/system-constants';
+import { DATA_PERMISSION_SCOPE } from '../../../constants/system-constants';
 
 /**
  * 表格列表

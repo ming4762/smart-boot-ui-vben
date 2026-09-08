@@ -102,6 +102,9 @@ const tabItems = [
   :deep(.ant-tabs-tabpane) {
     height: 100%;
   }
+  :deep(.ant-tabs-body) {
+    height: 100%;
+  }
   :deep(.ant-tabs-nav) {
     background: hsl(var(--background));
     margin-bottom: 0;
