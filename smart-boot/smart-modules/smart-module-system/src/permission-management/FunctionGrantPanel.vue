@@ -9,6 +9,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { $t } from '@vben/locales';
+import { listToTree } from '@vben/utils';
 
 import { successMessage } from '@smart/common/utils';
 import { Alert, Button, Divider, Empty, Spin, Tree } from 'antdv-next';
@@ -22,8 +23,10 @@ const props = defineProps<{
 
 /** 树控件统一使用字符串键，避免 Long ID 的精度和类型不一致。 */
 interface FunctionNode {
+  [key: string]: unknown;
   children: FunctionNode[];
   key: string;
+  parentKey: string;
   title: string;
 }
 const { hasAccessByAuth } = useAccess();
@@ -39,24 +42,19 @@ onBeforeUnmount(() => {
   version++;
 });
 
-const tree = computed(() => {
-  const nodes = new Map<string, FunctionNode>(
-    rows.value.map((row) => [
-      String(row.functionId),
-      { key: String(row.functionId), title: row.functionName, children: [] },
-    ]),
-  );
-  const roots: FunctionNode[] = [];
-  rows.value.forEach((row) => {
-    const node = nodes.get(String(row.functionId));
-    if (!node) return;
-    const parent = nodes.get(String(row.parentId));
-    if (parent && parent !== node) parent.children.push(node);
-    else roots.push(node);
-  });
-  console.log(roots)
-  return roots;
-});
+const tree = computed<FunctionNode[]>(() =>
+  listToTree(
+    rows.value.map((row): FunctionNode => ({
+      children: [],
+      key: String(row.functionId),
+      parentKey: String(row.parentId),
+      title: row.functionName,
+    })),
+    (node) => node.key,
+    (node) => node.parentKey,
+    '0',
+  ),
+);
 const canSave = computed(
   () =>
     ready.value &&
@@ -98,7 +96,6 @@ async function load(reloadFunctions: boolean) {
       rows.value = functions;
       treeReady.value = true;
     }
-    console.log(isSuperAdmin)
     checked.value = (
       isSuperAdmin
         ? functions.map((row) => row.functionId)

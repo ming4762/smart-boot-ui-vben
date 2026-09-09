@@ -69,17 +69,16 @@ function filterTree<T extends Record<string, any>>(
     for (const node of nodes) {
       if (filter(node)) {
         const children = node[childProps] as T[] | undefined;
-        const filteredChildren =
-          Array.isArray(children) && children.length > 0
-            ? _filterTree(children)
-            : undefined;
+        const filteredChildren = Array.isArray(children)
+          ? _filterTree(children)
+          : undefined;
 
         // 创建新对象，避免修改原始节点
         filteredNodes.push({
           ...node,
-          ...(filteredChildren && filteredChildren.length > 0
-            ? { [childProps]: filteredChildren }
-            : {}),
+          ...(filteredChildren === undefined
+            ? {}
+            : { [childProps]: filteredChildren }),
         } as T);
       }
     }
@@ -107,7 +106,7 @@ function mapTree<T, V extends Record<string, any>>(
 
   return tree.map((node) => {
     const mapperNode: Record<string, any> = mapper(node, parent as null | V);
-    if (mapperNode[childProps]) {
+    if (Array.isArray(mapperNode[childProps])) {
       mapperNode[childProps] = mapTree(
         mapperNode[childProps],
         mapper,
@@ -131,12 +130,12 @@ interface TreeNode extends Record<string, unknown> {
  * @param keyGetter 获取节点唯一标识的函数
  * @param parentKeyGetter 获取父节点标识的函数
  * @param topParentCode 顶级父节点标识，默认为 '0'
- * @returns 转换后的树形结构数组
+ * @returns 转换后的新树形结构数组，不修改输入节点。孤儿和循环节点作为根节点。
  */
 function listToTree<T extends TreeNode>(
   list: null | T[],
   keyGetter: (arg: T) => number | string,
-  parentKeyGetter: (arg: T) => number | string,
+  parentKeyGetter: (arg: T) => null | number | string | undefined,
   topParentCode?: null | number | string,
 ): T[] {
   if (!Array.isArray(list) || list.length === 0) {
@@ -146,35 +145,93 @@ function listToTree<T extends TreeNode>(
   const rootCode = topParentCode ?? '0';
 
   // 使用 Map 优化查找性能，O(n) 时间复杂度
+  const sourceMap = new Map<number | string, T>();
   const nodeMap = new Map<number | string, T>();
+  const parentMap = new Map<
+    number | string,
+    null | number | string | undefined
+  >();
   const treeList: T[] = [];
 
-  // 第一次遍历：建立 id -> node 的映射
+  // 重复 id 时使用最后一个节点，避免同一对象被重复挂载。
   for (const node of list) {
-    const id = keyGetter(node);
-    nodeMap.set(id, node);
+    sourceMap.set(keyGetter(node), node);
   }
 
-  // 第二次遍历：建立父子关系
-  for (const node of list) {
-    const parentId = parentKeyGetter(node);
+  // 建立节点和父级映射。使用副本避免修改输入数据。
+  for (const [id, node] of sourceMap) {
+    const clonedNode = { ...node };
+    delete clonedNode.children;
+    delete clonedNode.hasChild;
+    delete clonedNode.hasParent;
+    nodeMap.set(id, clonedNode);
+    parentMap.set(id, parentKeyGetter(node));
+  }
 
-    // 如果是顶级节点
-    if (parentId === null || parentId === rootCode) {
-      treeList.push(node);
+  // 检测循环父子关系，循环中的节点将作为根节点。
+  const cycleKeys = new Set<number | string>();
+  const resolvedKeys = new Set<number | string>();
+  for (const startId of nodeMap.keys()) {
+    if (resolvedKeys.has(startId)) continue;
+
+    const path: (number | string)[] = [];
+    const pathIndexes = new Map<number | string, number>();
+    let currentId: number | string | undefined = startId;
+
+    while (currentId !== undefined && nodeMap.has(currentId)) {
+      if (resolvedKeys.has(currentId)) break;
+
+      const cycleIndex = pathIndexes.get(currentId);
+      if (cycleIndex !== undefined) {
+        for (let index = cycleIndex; index < path.length; index++) {
+          const cycleId = path[index];
+          if (cycleId !== undefined) cycleKeys.add(cycleId);
+        }
+        break;
+      }
+
+      pathIndexes.set(currentId, path.length);
+      path.push(currentId);
+      const parentId = parentMap.get(currentId);
+      if (
+        parentId === null ||
+        parentId === undefined ||
+        parentId === rootCode
+      ) {
+        break;
+      }
+      currentId = parentId;
+    }
+
+    for (const id of path) resolvedKeys.add(id);
+  }
+
+  // 建立父子关系。
+  for (const [id, treeNode] of nodeMap) {
+    const parentId = parentMap.get(id);
+    const parent =
+      parentId === null || parentId === undefined
+        ? undefined
+        : nodeMap.get(parentId);
+
+    // 顶级、父节点缺失或自引用的节点均作为根节点，避免数据静默丢失。
+    if (
+      parentId === null ||
+      parentId === undefined ||
+      parentId === rootCode ||
+      !parent ||
+      cycleKeys.has(id)
+    ) {
+      treeList.push(treeNode);
       continue;
     }
 
-    // 查找父节点
-    const parent = nodeMap.get(parentId);
-    if (parent) {
-      if (!parent.children) {
-        parent.children = [];
-      }
-      parent.children.push(node);
-      parent.hasChild = true;
-      node.hasParent = true;
+    if (!parent.children) {
+      parent.children = [];
     }
+    parent.children.push(treeNode);
+    parent.hasChild = true;
+    treeNode.hasParent = true;
   }
 
   return treeList;
