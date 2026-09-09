@@ -54,6 +54,7 @@ const tree = computed(() => {
     if (parent && parent !== node) parent.children.push(node);
     else roots.push(node);
   });
+  console.log(roots)
   return roots;
 });
 const canSave = computed(
@@ -97,6 +98,7 @@ async function load(reloadFunctions: boolean) {
       rows.value = functions;
       treeReady.value = true;
     }
+    console.log(isSuperAdmin)
     checked.value = (
       isSuperAdmin
         ? functions.map((row) => row.functionId)
@@ -168,8 +170,6 @@ watch(
 
 <template>
   <section class="tree-container bg-background flex h-full min-h-0 flex-col">
-    <div class="font-medium p-3">功能授权</div>
-    <Divider />
     <Alert
       v-if="failed"
       type="error"
