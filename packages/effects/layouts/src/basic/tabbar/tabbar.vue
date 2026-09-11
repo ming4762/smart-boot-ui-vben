@@ -36,6 +36,9 @@ const {
 
 const menus = computed(() => {
   const tab = tabbarStore.getTabByKey(currentActive.value);
+  if (!tab) {
+    return [];
+  }
   const menus = createContextMenus(tab);
   return menus
     .filter((item) => !item.hidden)

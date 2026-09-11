@@ -368,10 +368,8 @@ export const useTabbarStore = defineStore('core-tabbar', {
      * 根据tab的key获取tab
      * @param key
      */
-    getTabByKey(key: string) {
-      return this.getTabs.find(
-        (item) => getTabKeyFromTab(item) === key,
-      ) as TabDefinition;
+    getTabByKey(key: string): TabDefinition | undefined {
+      return this.getTabs.find((item) => getTabKeyFromTab(item) === key);
     },
 
     /**

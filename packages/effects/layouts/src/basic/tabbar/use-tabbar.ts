@@ -95,7 +95,11 @@ export function useTabbar() {
 
   // 点击tab,跳转路由
   const handleClick = (key: string) => {
-    const { fullPath, path } = tabbarStore.getTabByKey(key);
+    const tab = tabbarStore.getTabByKey(key);
+    if (!tab) {
+      return;
+    }
+    const { fullPath, path } = tab;
     router.push(fullPath || path);
   };
 
