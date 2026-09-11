@@ -3,7 +3,7 @@ import type { AnyNormalFunction } from '@vben/types';
 
 import { onMounted, watch } from 'vue';
 
-import { SmartLayoutSeparate, useSmartTable } from '@vben/common-ui';
+import { ResizableLayout, useSmartTable } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
 import { ApiServiceEnum, requestClient } from '@smart/common/api';
@@ -169,7 +169,13 @@ watch(
 </script>
 
 <template>
-  <SmartLayoutSeparate :show-line="false" class="h-full" first-size="200px">
+  <ResizableLayout
+    class="h-full"
+    :first-size="200"
+    :resizable="false"
+    :show-handle="false"
+    size-unit="px"
+  >
     <template #first>
       <TemplateGroup
         :editable="false"
@@ -184,7 +190,7 @@ watch(
         @proxy-query="resetCheckbox"
       />
     </template>
-  </SmartLayoutSeparate>
+  </ResizableLayout>
 </template>
 
 <style scoped></style>

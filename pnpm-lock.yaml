@@ -1152,6 +1152,9 @@ importers:
       '@smart-module/system':
         specifier: workspace:*
         version: link:../../smart-boot/smart-modules/smart-module-system
+      '@smart-module/webhook':
+        specifier: workspace:*
+        version: link:../../smart-boot/smart-modules/smart-module-webhook
       '@smart/common':
         specifier: workspace:*
         version: link:../../smart-boot/smart-common
@@ -3071,6 +3074,34 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 5.2.0(@vue/compiler-sfc@3.5.41)(esbuild@0.28.2)(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(sass-embedded@1.103.1)(sass@1.103.1)(terser@5.50.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
+    devDependencies:
+      unplugin-vue:
+        specifier: 'catalog:'
+        version: 7.2.0(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(rolldown@1.2.5)(rollup@4.62.5)(sass-embedded@1.103.1)(sass@1.103.1)(terser@5.50.0)(vue@3.5.41(typescript@6.0.3))(yaml@2.9.0)
+
+  smart-boot/smart-modules/smart-module-webhook:
+    dependencies:
+      '@smart/common':
+        specifier: workspace:*
+        version: link:../../smart-common
+      '@vben/common-ui':
+        specifier: workspace:*
+        version: link:../../../packages/effects/common-ui
+      '@vben/hooks':
+        specifier: workspace:*
+        version: link:../../../packages/effects/hooks
+      '@vben/types':
+        specifier: workspace:*
+        version: link:../../../packages/types
+      '@vben/utils':
+        specifier: workspace:*
+        version: link:../../../packages/utils
+      antdv-next:
+        specifier: 'catalog:'
+        version: 1.5.2(date-fns@4.4.0)(vue@3.5.41(typescript@6.0.3))
+      vue:
+        specifier: ^3.5.40
+        version: 3.5.41(typescript@6.0.3)
     devDependencies:
       unplugin-vue:
         specifier: 'catalog:'

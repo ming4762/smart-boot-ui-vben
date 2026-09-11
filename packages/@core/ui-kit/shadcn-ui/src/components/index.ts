@@ -21,7 +21,6 @@ export * from './resizable-layout';
 export * from './scrollbar';
 export * from './segmented';
 export * from './select';
-export * from './smart-layout-separate';
 export * from './spine-text';
 export * from './spinner';
 export * from './table-action';

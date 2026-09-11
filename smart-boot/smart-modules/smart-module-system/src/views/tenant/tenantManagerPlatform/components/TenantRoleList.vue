@@ -7,7 +7,7 @@ import type { SysTenantProps } from '../SysTenantManagerPlatformView.confg';
 import { ref, toRefs } from 'vue';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
 } from '@vben/common-ui';
@@ -147,11 +147,13 @@ const tabItems = [
 
 <template>
   <div class="h-full">
-    <SmartLayoutSeparate
-      layout="leftRight"
-      draggable
-      second-size="300px"
+    <ResizableLayout
       class="h-full"
+      divider-size="5px"
+      resize-mode="preview"
+      resizable
+      :second-size="300"
+      size-unit="px"
     >
       <template #first>
         <SmartTable
@@ -184,7 +186,7 @@ const tabItems = [
           </Tabs>
         </div>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <SelectUserModal />
   </div>
 </template>

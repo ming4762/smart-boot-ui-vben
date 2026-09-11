@@ -19,7 +19,6 @@ export * from '@vben-core/popup-ui';
 // 给文档用
 export {
   ResizableLayout,
-  SmartLayoutSeparate,
   VbenAvatar,
   VbenButton,
   VbenButtonGroup,

@@ -120,7 +120,7 @@ function resolveSelection() {
   const half = new Set<string>();
   const visit = (node: FunctionNode, inherited = false): number => {
     const selectedHere = inherited || selected.has(node.key);
-    const states = node.children.map((child) => visit(child, selectedHere));
+    const states = node.children?.map((child) => visit(child, selectedHere)) ?? [];
     if (
       selectedHere ||
       (states.length > 0 && states.every((state) => state === 2))
@@ -149,8 +149,6 @@ async function save() {
     if (requestVersion === version) {
       successMessage($t('common.message.saveSuccess'));
     }
-  } catch {
-    // 请求层展示服务端错误；保留用户勾选，允许重新保存。
   } finally {
     if (requestVersion === version) saving.value = false;
   }

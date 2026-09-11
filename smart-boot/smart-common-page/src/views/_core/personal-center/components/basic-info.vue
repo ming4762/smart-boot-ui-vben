@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 
 import {
+  ResizableLayout,
   SmartCropperImage,
-  SmartLayoutSeparate,
   useVbenForm,
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
@@ -55,7 +55,12 @@ const handleCropEnd = ({ imgBase64 }: any) => {
     class="h-full"
     :title="t('ui.widgets.personalCenter.basicInfo.title')"
   >
-    <SmartLayoutSeparate first-size="50%" :show-line="false" class="h-full">
+    <ResizableLayout
+      class="h-full"
+      :first-size="50"
+      :resizable="false"
+      :show-handle="false"
+    >
       <template #first>
         <Form />
       </template>
@@ -67,7 +72,7 @@ const handleCropEnd = ({ imgBase64 }: any) => {
           img-src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp"
         />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </Container>
 </template>
 

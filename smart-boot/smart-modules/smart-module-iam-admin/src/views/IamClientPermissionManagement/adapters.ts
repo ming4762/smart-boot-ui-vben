@@ -18,7 +18,11 @@ import {
   subscriptionPermissions,
 } from './config';
 
-/** IAM 列表无服务端分页，按既有表格搜索条件在当前客户端结果内过滤及排序。 */
+/**
+ * IAM 列表无服务端分页，按既有表格搜索条件在当前客户端结果内过滤及排序。
+ * @param rows 当前客户端范围内的完整资源列表
+ * @param query 表格传入的筛选和排序条件
+ */
 function filterRows(rows: PermissionRow[], query: PermissionRow) {
   let result = [...rows];
   for (const [expression, value] of Object.entries(query?.parameter ?? {})) {
@@ -74,24 +78,37 @@ export function createIamPermissionAdapters(
     tenantId,
     signal,
   );
+
+  /** 返回当前租户主键，并阻止依赖租户范围的操作在未选择租户时发出请求。 */
   const requireTenant = () => {
     if (tenantId === undefined || tenantId === null)
       throw new Error('请先选择目标租户');
     return tenantId;
   };
+
+  /**
+   * 创建指定资源域的通用增删改查适配器。
+   * @param domain IAM Admin 接口中的资源域
+   * @param key 该资源用于查询和删除的主键字段
+   */
   const createResource = (
     domain: string,
     key: string,
   ): ResourceManagementAdapter => {
     const scopedToTenant =
       domain === 'role' || domain === 'tenant-subscription';
+
+    /** 获取固定客户端范围内的完整列表；角色和订阅还必须绑定目标租户。 */
     const listAll = async () => {
       if (scopedToTenant) requireTenant();
       return post<PermissionRow[]>(`${domain}/list`);
     };
+
+    /** 获取单条资源的可编辑数据。 */
     const get = async (row: PermissionRow) => {
       if (scopedToTenant) requireTenant();
       if (domain === 'tenant-subscription') {
+        // 订阅接口没有单条查询端点，从同一租户的列表中定位并复制目标记录。
         const rows = await listAll();
         const item = rows.find(
           (candidate) => String(candidate.id) === String(row.id),
@@ -101,6 +118,8 @@ export function createIamPermissionAdapters(
       }
       return post<PermissionRow>(`${domain}/getById`, { id: row[key] });
     };
+
+    /** 按资源字段白名单逐条保存，避免透传表格辅助字段和只读字段。 */
     const save = async (rows: PermissionRow[]) => {
       // 编辑器每次保存一条；若工具传入多条，失败即停止，不并发扩大部分成功范围。
       for (const row of rows) {
@@ -140,10 +159,14 @@ export function createIamPermissionAdapters(
       },
     };
   };
+
+  /** 功能菜单资源适配器，同时为角色和套餐的功能授权树提供数据源。 */
   const functions: FunctionManagementAdapter = createResource(
     'function',
     'functionId',
   );
+
+  /** 创建角色或租户套餐的功能授权适配器。 */
   const grant = (domain: string): FunctionGrantAdapter => ({
     permission: `iam:client:${domain}:grant-function`,
     listFunctions: () => functions.list({ sortName: 'seq' }),
@@ -152,10 +175,14 @@ export function createIamPermissionAdapters(
       return post<FunctionSelection>(`${domain}/function/list`, { id });
     },
     save: (id, selection) => {
-      if (domain === 'role') requireTenant();
+      if (domain === 'role') {
+        requireTenant()
+      };
       return post(`${domain}/function/save`, { id, ...selection });
     },
   });
+
+  /** 角色资源适配器，扩展租户用户查询及角色成员授权能力。 */
   const roles: RoleManagementAdapter = {
     ...createResource('role', 'roleId'),
     grant: grant('role'),
@@ -172,11 +199,17 @@ export function createIamPermissionAdapters(
       return post('role/user/save', { id, userIdList });
     },
   };
+
+  /** 租户套餐资源适配器，扩展套餐功能授权能力。 */
   const packages: PackageManagementAdapter = {
     ...createResource('tenant-package', 'id'),
     grant: grant('tenant-package'),
   };
+
+  /** 订阅的基础资源操作，供扩展后的订阅适配器复用。 */
   const baseSubscription = createResource('tenant-subscription', 'id');
+
+  /** 租户订阅适配器，补充同一客户端下的套餐候选项及套餐展示信息。 */
   const subscriptions: SubscriptionManagementAdapter = {
     ...baseSubscription,
     permissions: subscriptionPermissions,
@@ -186,6 +219,8 @@ export function createIamPermissionAdapters(
         baseSubscription.list(query),
         packages.list({}),
       ]);
+
+      // 订阅仅返回套餐主键，表格展示所需的名称、编码由套餐列表在客户端回填。
       const map = new Map<string, PermissionRow>(
         packageRows.map((row: PermissionRow) => [String(row.id), row]),
       );

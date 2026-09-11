@@ -5,7 +5,7 @@ import type { PackageManagementAdapter } from '../../../permission-management/ty
 
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate, useSmartTable } from '@vben/common-ui';
+import { ResizableLayout, useSmartTable } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { zonedDayjs } from '@vben/utils';
 
@@ -138,7 +138,14 @@ const [SmartTable] = useSmartTable({
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" draggable second-size="240px">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      resize-mode="preview"
+      resizable
+      :second-size="240"
+      size-unit="px"
+    >
       <template #first>
         <SmartTable
           class="smart-table-padding"
@@ -152,7 +159,7 @@ const [SmartTable] = useSmartTable({
           :resource-id="currentPackage?.id"
         />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

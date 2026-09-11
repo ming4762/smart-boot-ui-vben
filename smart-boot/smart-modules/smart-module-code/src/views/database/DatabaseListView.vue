@@ -3,7 +3,7 @@ import type { SmartTableActionItem } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
   useVbenModal,
@@ -163,7 +163,14 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="smart-table-padding page-container h-full">
-    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      :first-size="240"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
+    >
       <template #first>
         <div class="bg-background h-full">
           <SysSystemSimpleList
@@ -183,7 +190,7 @@ const getDropDownAction = (row: any): SmartTableActionItem[] => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <RenderTemplateSelectedModal template-type="TEMPLATE_DB_DICT" />
   </div>
 </template>

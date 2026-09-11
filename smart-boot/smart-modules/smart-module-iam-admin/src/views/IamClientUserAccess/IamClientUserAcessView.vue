@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import SsoClientList from './components/IamClientList.vue';
 import SsoClientUserList from './components/IamClientUserList.vue';
@@ -12,11 +12,14 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <SmartLayoutSeparate
+  <ResizableLayout
     class="page-container h-full"
-    first-size="340px"
-    layout="leftRight"
+    divider-size="5px"
+    :first-size="340"
+    :resizable="false"
     show-divider
+    :show-handle="false"
+    size-unit="px"
   >
     <template #first>
       <SsoClientList :client-id="props.clientId" />
@@ -27,7 +30,7 @@ const props = defineProps<Props>();
         :client-type="props.clientType"
       />
     </template>
-  </SmartLayoutSeparate>
+  </ResizableLayout>
 </template>
 
 <style scoped></style>

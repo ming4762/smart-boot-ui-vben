@@ -5,7 +5,7 @@ import type { Recordable } from '@vben/types';
 import { ref, unref } from 'vue';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
 } from '@vben/common-ui';
@@ -141,7 +141,13 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate :show-line="false" class="h-full" first-size="240px">
+    <ResizableLayout
+      class="h-full"
+      :first-size="240"
+      :resizable="false"
+      :show-handle="false"
+      size-unit="px"
+    >
       <template #first>
         <div class="full-height system-container bg-background">
           <SysSystemSimpleList
@@ -180,7 +186,7 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

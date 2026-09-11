@@ -7,7 +7,7 @@ import type { RoleManagementAdapter } from '../../permission-management/types';
 import { ref } from 'vue';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
 } from '@vben/common-ui';
@@ -134,11 +134,13 @@ const tabItems = [
 
 <template>
   <div class="smart-table-padding h-full">
-    <SmartLayoutSeparate
-      layout="leftRight"
-      draggable
-      second-size="300px"
+    <ResizableLayout
       class="h-full"
+      divider-size="5px"
+      resize-mode="preview"
+      resizable
+      :second-size="300"
+      size-unit="px"
     >
       <template #first>
         <SmartTable class="h-full" @current-change="handleCurrentChange">
@@ -166,7 +168,7 @@ const tabItems = [
           </Tabs>
         </div>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <SelectUserModal />
   </div>
 </template>
