@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { Component, VNode } from 'vue';
 
 import type { SmartTableAction } from '../types';
@@ -277,12 +277,14 @@ const RenderTooltip = (action: any) => {
 };
 
 const RenderFunction = () => {
-  return (
-    <div
-      class={[unref(getAlign), 'smart-table-row-action']}
-      onClick={(event) => onCellClick(event)}
-    >
-      {unref(getActions).map((action, index) => {
+  return h(
+    'div',
+    {
+      class: [unref(getAlign), 'smart-table-row-action'],
+      onClick: onCellClick,
+    },
+    [
+      ...unref(getActions).flatMap((action, index) => {
         const result = [];
         if ((action as any).slot) {
           result.push(slots.customButton && slots.customButton(action));
@@ -291,9 +293,9 @@ const RenderFunction = () => {
         }
         result.push(RenderDivider(index));
         return result;
-      })}
-      {RenderDropdown()}
-    </div>
+      }),
+      RenderDropdown(),
+    ],
   );
 };
 </script>

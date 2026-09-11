@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { TooltipProps } from 'antdv-next';
 
 import type { SmartAuthType } from '@vben/types';
