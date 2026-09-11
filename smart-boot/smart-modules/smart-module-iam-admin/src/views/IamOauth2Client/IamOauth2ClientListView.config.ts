@@ -196,7 +196,11 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       fieldName: 'id',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
       label: '',
       component: 'Input',

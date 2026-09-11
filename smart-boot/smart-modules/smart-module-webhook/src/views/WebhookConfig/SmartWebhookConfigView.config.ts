@@ -101,7 +101,11 @@ export const getClientFormSchemas = (): VbenFormSchema[] => [
     component: 'Input',
     dependencies: {
       triggerFields: ['id'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {
@@ -210,7 +214,11 @@ export const getSubscriptionFormSchemas = (): VbenFormSchema[] => [
     component: 'Input',
     dependencies: {
       triggerFields: ['id'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {

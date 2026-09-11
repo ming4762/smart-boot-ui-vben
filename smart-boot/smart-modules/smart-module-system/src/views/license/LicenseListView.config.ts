@@ -166,7 +166,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -229,7 +233,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['status'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -350,7 +358,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['systemId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

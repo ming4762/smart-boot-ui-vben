@@ -28,7 +28,11 @@ const formSchemas: Array<VbenFormSchema & { filter?: boolean }> = [
     component: 'Input',
     dependencies: {
       triggerFields: ['deptId'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {
@@ -37,7 +41,11 @@ const formSchemas: Array<VbenFormSchema & { filter?: boolean }> = [
     component: 'Input',
     dependencies: {
       triggerFields: ['parentId'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {

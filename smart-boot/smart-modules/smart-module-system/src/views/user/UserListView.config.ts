@@ -144,7 +144,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -204,8 +208,10 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'ApiTreeSelect',
       dependencies: {
         triggerFields: ['userType'],
-        disabled: (value) => {
-          return value.userType === SYS_USER_TYPE;
+        resolve({ values }) {
+          return {
+            disabled: values.userType === SYS_USER_TYPE,
+          };
         },
       },
       controlClass: 'w-full',
@@ -300,7 +306,11 @@ export const getAccountFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

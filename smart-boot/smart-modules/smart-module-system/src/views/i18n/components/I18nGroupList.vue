@@ -58,8 +58,12 @@ const [SmartTable, tableApi] = useSmartTable({
           component: 'Input',
           fieldName: 'parentId',
           dependencies: {
-            show: false,
             triggerFields: ['parentId'],
+            resolve() {
+              return {
+                show: false,
+              };
+            },
           },
         },
         {
@@ -67,8 +71,12 @@ const [SmartTable, tableApi] = useSmartTable({
           component: 'Input',
           fieldName: 'parentName',
           dependencies: {
-            disabled: true,
             triggerFields: ['parentName'],
+            resolve() {
+              return {
+                disabled: true,
+              };
+            },
           },
         },
         {
@@ -76,8 +84,12 @@ const [SmartTable, tableApi] = useSmartTable({
           component: 'Input',
           fieldName: 'groupId',
           dependencies: {
-            show: false,
             triggerFields: ['groupId'],
+            resolve() {
+              return {
+                show: false,
+              };
+            },
           },
         },
         {

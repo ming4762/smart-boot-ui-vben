@@ -43,16 +43,20 @@ const formSchema = computed((): VbenFormSchema[] => {
         placeholder: $t('authentication.confirmPassword'),
       },
       dependencies: {
-        rules(values) {
-          const { password } = values;
-          return z
-            .string({ error: $t('authentication.passwordTip') })
-            .min(1, { message: $t('authentication.passwordTip') })
-            .refine((value) => value === password, {
-              message: $t('authentication.confirmPasswordTip'),
-            });
-        },
         triggerFields: ['password'],
+        resolve({ values }) {
+          return {
+            rules: (() => {
+              const { password } = values;
+              return z
+                .string({ error: $t('authentication.passwordTip') })
+                .min(1, { message: $t('authentication.passwordTip') })
+                .refine((value) => value === password, {
+                  message: $t('authentication.confirmPasswordTip'),
+                });
+            })(),
+          };
+        },
       },
       fieldName: 'confirmPassword',
       label: $t('authentication.confirmPassword'),

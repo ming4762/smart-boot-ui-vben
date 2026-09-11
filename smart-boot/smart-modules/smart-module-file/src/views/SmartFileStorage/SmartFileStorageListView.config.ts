@@ -123,8 +123,12 @@ const getAliyunOssFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.endpoint'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'ALIYUN_OSS',
-        required: (value) => value.storageType === 'ALIYUN_OSS',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'ALIYUN_OSS',
+            required: values.storageType === 'ALIYUN_OSS',
+          };
+        },
       },
     },
     {
@@ -133,8 +137,12 @@ const getAliyunOssFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.accessKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'ALIYUN_OSS',
-        required: (value) => value.storageType === 'ALIYUN_OSS',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'ALIYUN_OSS',
+            required: values.storageType === 'ALIYUN_OSS',
+          };
+        },
       },
     },
     {
@@ -143,8 +151,12 @@ const getAliyunOssFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.secretKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'ALIYUN_OSS',
-        required: (value) => value.storageType === 'ALIYUN_OSS',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'ALIYUN_OSS',
+            required: values.storageType === 'ALIYUN_OSS',
+          };
+        },
       },
     },
     {
@@ -153,8 +165,12 @@ const getAliyunOssFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.bucketName'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'ALIYUN_OSS',
-        required: (value) => value.storageType === 'ALIYUN_OSS',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'ALIYUN_OSS',
+            required: values.storageType === 'ALIYUN_OSS',
+          };
+        },
       },
     },
   ];
@@ -168,8 +184,12 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.accessKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
-        required: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+            required: values.storageType === 'QINIU',
+          };
+        },
       },
     },
     {
@@ -178,8 +198,12 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.secretKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
-        required: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+            required: values.storageType === 'QINIU',
+          };
+        },
       },
     },
     {
@@ -188,8 +212,12 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.bucketName'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
-        required: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+            required: values.storageType === 'QINIU',
+          };
+        },
       },
     },
     {
@@ -198,7 +226,11 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.region'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+          };
+        },
       },
     },
     {
@@ -207,8 +239,12 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.url'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
-        required: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+            required: values.storageType === 'QINIU',
+          };
+        },
       },
     },
     {
@@ -217,7 +253,11 @@ const getQiniuFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.useHttps'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'QINIU',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'QINIU',
+          };
+        },
       },
     },
   ];
@@ -231,8 +271,12 @@ const getFtpFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.host'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'FTP',
-        required: (value) => value.storageType === 'FTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'FTP',
+            required: values.storageType === 'FTP',
+          };
+        },
       },
     },
     {
@@ -242,8 +286,12 @@ const getFtpFormSchemas = (): VbenFormSchema[] => {
       controlClass: 'w-full',
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'FTP',
-        required: (value) => value.storageType === 'FTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'FTP',
+            required: values.storageType === 'FTP',
+          };
+        },
       },
     },
     {
@@ -252,8 +300,12 @@ const getFtpFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.basePath'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'FTP',
-        required: (value) => value.storageType === 'FTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'FTP',
+            required: values.storageType === 'FTP',
+          };
+        },
       },
     },
     {
@@ -262,8 +314,12 @@ const getFtpFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.username'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'FTP',
-        required: (value) => value.storageType === 'FTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'FTP',
+            required: values.storageType === 'FTP',
+          };
+        },
       },
     },
     {
@@ -272,8 +328,12 @@ const getFtpFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.password'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'FTP',
-        required: (value) => value.storageType === 'FTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'FTP',
+            required: values.storageType === 'FTP',
+          };
+        },
       },
     },
   ];
@@ -291,7 +351,11 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -357,8 +421,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.basePath'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'DISK',
-        required: (value) => value.storageType === 'DISK',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'DISK',
+            required: values.storageType === 'DISK',
+          };
+        },
       },
     },
     // ---------- minio配置
@@ -368,8 +436,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.endpoint'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'MINIO',
-        required: (value) => value.storageType === 'MINIO',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'MINIO',
+            required: values.storageType === 'MINIO',
+          };
+        },
       },
     },
     {
@@ -378,8 +450,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.accessKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'MINIO',
-        required: (value) => value.storageType === 'MINIO',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'MINIO',
+            required: values.storageType === 'MINIO',
+          };
+        },
       },
     },
     {
@@ -388,8 +464,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.secretKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'MINIO',
-        required: (value) => value.storageType === 'MINIO',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'MINIO',
+            required: values.storageType === 'MINIO',
+          };
+        },
       },
     },
     {
@@ -398,8 +478,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.bucketName'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'MINIO',
-        required: (value) => value.storageType === 'MINIO',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'MINIO',
+            required: values.storageType === 'MINIO',
+          };
+        },
       },
     },
     // ------------- sftp
@@ -409,8 +493,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.host'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
-        required: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+            required: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     {
@@ -420,8 +508,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       controlClass: 'w-full',
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
-        required: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+            required: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     {
@@ -430,8 +522,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.basePath'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
-        required: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+            required: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     {
@@ -440,8 +536,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.username'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
-        required: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+            required: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     {
@@ -450,8 +550,12 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.password'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
-        required: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+            required: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     {
@@ -460,7 +564,11 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       label: t('smart.file.storage.title.privateKey'),
       dependencies: {
         triggerFields: ['storageType'],
-        show: (value) => value.storageType === 'SFTP',
+        resolve({ values }) {
+          return {
+            show: values.storageType === 'SFTP',
+          };
+        },
       },
     },
     // --------------- 阿里云OSS

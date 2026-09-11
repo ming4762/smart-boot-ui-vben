@@ -197,7 +197,11 @@ export const formSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['systemId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

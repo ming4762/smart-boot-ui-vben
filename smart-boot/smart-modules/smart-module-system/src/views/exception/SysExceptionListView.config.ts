@@ -174,7 +174,11 @@ export const getSearchFormSchemas = (
       searchSymbol: '=',
       dependencies: {
         triggerFields: ['tenantId'],
-        show: unref(getIsPlatformTenant),
+        resolve() {
+          return {
+            show: unref(getIsPlatformTenant),
+          };
+        },
       },
     },
   ];

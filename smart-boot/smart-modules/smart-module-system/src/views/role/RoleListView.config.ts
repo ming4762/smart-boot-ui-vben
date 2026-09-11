@@ -157,7 +157,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['roleId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

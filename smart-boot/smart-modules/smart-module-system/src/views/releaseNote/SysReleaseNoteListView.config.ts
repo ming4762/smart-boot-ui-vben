@@ -18,10 +18,20 @@ export const getTableColumns = (): SmartTableColumn[] => [
   { field: 'title', title: '标题', minWidth: 200 },
   { field: 'status', title: '状态', width: 120 },
   { field: 'reminderLevel', title: '提醒级别', width: 120 },
-  { field: 'publishedTime', title: '发布时间', width: 170, formatter: 'datetime' },
+  {
+    field: 'publishedTime',
+    title: '发布时间',
+    width: 170,
+    formatter: 'datetime',
+  },
   { field: 'publishedBy', title: '发布人', width: 120 },
   { field: 'messageDeliveryStatus', title: '消息投递状态', width: 140 },
-  { field: 'createTime', title: '{common.table.createTime}', width: 170, formatter: 'datetime' },
+  {
+    field: 'createTime',
+    title: '{common.table.createTime}',
+    width: 170,
+    formatter: 'datetime',
+  },
 ];
 
 export const getFormSchemas = (): VbenFormSchema[] => [
@@ -29,13 +39,27 @@ export const getFormSchemas = (): VbenFormSchema[] => [
     fieldName: 'id',
     label: '',
     component: 'Input',
-    dependencies: { triggerFields: ['id'], show: false },
+    dependencies: {
+      triggerFields: ['id'],
+      resolve() {
+        return {
+          show: false,
+        };
+      },
+    },
   },
   {
     fieldName: 'lockVersion',
     label: '',
     component: 'InputNumber',
-    dependencies: { triggerFields: ['lockVersion'], show: false },
+    dependencies: {
+      triggerFields: ['lockVersion'],
+      resolve() {
+        return {
+          show: false,
+        };
+      },
+    },
   },
   {
     fieldName: 'version',
@@ -73,7 +97,17 @@ export const getFormSchemas = (): VbenFormSchema[] => [
 ];
 
 export const getSearchFormSchemas = (): SmartSearchFormSchema[] => [
-  { fieldName: 'version', label: '版本号', component: 'Input', searchSymbol: '=' },
+  {
+    fieldName: 'version',
+    label: '版本号',
+    component: 'Input',
+    searchSymbol: '=',
+  },
   { fieldName: 'status', label: '状态', component: 'Input', searchSymbol: '=' },
-  { fieldName: 'title', label: t('common.table.name'), component: 'Input', searchSymbol: 'like' },
+  {
+    fieldName: 'title',
+    label: t('common.table.name'),
+    component: 'Input',
+    searchSymbol: 'like',
+  },
 ];

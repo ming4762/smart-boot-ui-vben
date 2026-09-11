@@ -60,7 +60,11 @@ const [SmartTable, tableApi] = useSmartTable({
           component: 'Input',
           dependencies: {
             triggerFields: ['groupId'],
-            show: false,
+            resolve() {
+              return {
+                show: false,
+              };
+            },
           },
         },
         {

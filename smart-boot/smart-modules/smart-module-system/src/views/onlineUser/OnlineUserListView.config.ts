@@ -147,7 +147,11 @@ export const getSearchFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['tenantId'],
-        show: unref(getIsPlatformTenant),
+        resolve() {
+          return {
+            show: unref(getIsPlatformTenant),
+          };
+        },
       },
     },
   ];
