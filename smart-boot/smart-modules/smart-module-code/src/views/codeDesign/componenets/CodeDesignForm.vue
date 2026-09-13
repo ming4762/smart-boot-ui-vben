@@ -15,8 +15,8 @@ import { injectCodeDesignHandler } from '../useContext';
 import PageAddendumTableChoseModal from './PageAddendumTableChoseModal.vue';
 
 interface Props {
-  configId?: number | string;
-  systemId?: number | string;
+  configId?: number;
+  systemId?: number;
 }
 const props = defineProps<Props>();
 const { systemId, configId } = toRefs(props);
@@ -83,7 +83,8 @@ const handleSetAddendumTable = (tableData: any[]) => {
           closable
           style="display: inline-block"
           @close="
-            () => handleRemoveRelateTable(values.addendumTableList, index as number)
+            () =>
+              handleRemoveRelateTable(values.addendumTableList, index as number)
           "
         >
           {{ table.configName }}
