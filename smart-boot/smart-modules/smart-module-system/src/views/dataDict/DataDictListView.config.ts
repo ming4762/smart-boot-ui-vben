@@ -130,8 +130,12 @@ export const getDataDictGroupAddEditSchemas = (
       fieldName: 'id',
       component: 'Input',
       dependencies: {
-        show: false,
         triggerFields: ['id'],
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -172,7 +176,11 @@ export const getDataDictGroupAddEditSchemas = (
       defaultValue: false,
       dependencies: {
         triggerFields: ['tenantCommonYn'],
-        show: unref(getIsPlatformTenant),
+        resolve() {
+          return {
+            show: unref(getIsPlatformTenant),
+          };
+        },
       },
     },
   ];
@@ -246,8 +254,12 @@ export const getDataDictItemAddEditSchemas = (): VbenFormSchema[] => {
       fieldName: 'id',
       component: 'Input',
       dependencies: {
-        show: false,
         triggerFields: ['id'],
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

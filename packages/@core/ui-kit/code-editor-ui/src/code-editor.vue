@@ -50,6 +50,7 @@ const emit = defineEmits<{ change: [string]; 'update:value': [string] }>();
 const el = useTemplateRef<HTMLElement>('el');
 
 let editor: EditorView | null = null;
+let isUnmounted = false;
 
 const handleUpdateValue = (value: string) => {
   emit('update:value', value);
@@ -176,12 +177,22 @@ watch([() => props.theme, () => props.language], () => {
 });
 
 /**
- * 初始化函数
+ * 加载扩展后初始化编辑器。
+ *
+ * 异步加载期间表单值可能发生变化，因此必须在 await 完成后读取 props.value，
+ * 避免 watcher 因编辑器尚未创建而丢失本次内容更新。
  */
 const init = async () => {
+  const extensions = await getExtensions();
+
+  // 组件可能在语言包加载完成前卸载，此时不能再向 document.body 创建编辑器。
+  if (isUnmounted) {
+    return;
+  }
+
   editor = new EditorView({
     doc: props.value,
-    extensions: await getExtensions(),
+    extensions,
     parent: unref(el) ?? document.body,
     ...props.config,
   });
@@ -192,6 +203,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  isUnmounted = true;
   editor?.destroy();
 });
 </script>

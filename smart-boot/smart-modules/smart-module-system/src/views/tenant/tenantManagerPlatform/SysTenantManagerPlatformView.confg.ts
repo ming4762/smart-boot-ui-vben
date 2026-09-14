@@ -14,7 +14,7 @@ import {
 } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-import { listNoBindPackageByTenantIdApi } from '#/views/tenant/tenantManager/SysTenantListView.api';
+import { listNoBindPackageByTenantIdApi } from '../tenantManager/SysTenantListView.api';
 
 import { listDeptTreeByTenantApi } from './SysTenantManagerPlatformView.api';
 
@@ -150,6 +150,7 @@ export const getBindUserModalListColumns = (): SmartTableColumn[] => {
  */
 export const getSubscribeFormSchemas = (
   tenantIdRef: ComputedRef<number | string | undefined>,
+  listPackages?: () => Promise<any[]>,
 ): VbenFormSchema[] => {
   return [
     {
@@ -159,7 +160,11 @@ export const getSubscribeFormSchemas = (
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -168,7 +173,11 @@ export const getSubscribeFormSchemas = (
       component: 'Switch',
       dependencies: {
         triggerFields: ['isAdd'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -177,9 +186,13 @@ export const getSubscribeFormSchemas = (
       component: 'SmartPulldownTable',
       dependencies: {
         triggerFields: ['isAdd'],
-        disabled: (value) => {
-          const isAdd = value.isAdd;
-          return isAdd === false;
+        resolve({ values }) {
+          return {
+            disabled: (() => {
+              const isAdd = values.isAdd;
+              return isAdd === false;
+            })(),
+          };
         },
       },
       componentProps: () => {
@@ -192,6 +205,8 @@ export const getSubscribeFormSchemas = (
             destroyOnClose: false,
           },
           async api() {
+            // IAM 模式必须使用当前客户端套餐候选列表。
+            if (listPackages) return listPackages();
             const tenantId = unref(tenantIdRef);
             if (!tenantId) {
               return [];
@@ -455,7 +470,11 @@ export const getRoleAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['roleId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -515,7 +534,11 @@ export const getAddEditUserFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

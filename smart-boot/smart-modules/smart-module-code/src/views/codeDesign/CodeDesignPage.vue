@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useSizeSetting } from '@vben/hooks';
@@ -52,13 +52,30 @@ const { handleSave, saveLoading } = useSaveConfig(
     });
   },
 );
+
+const computedNumberSystemId = computed(() => {
+  if (props.systemId) {
+    return Number(props.systemId);
+  }
+  return undefined;
+});
+
+const computedNumberConfigId = computed(() => {
+  if (props.configId) {
+    return Number(props.configId);
+  }
+  return undefined;
+});
 </script>
 
 <template>
   <div class="page-container smart-code-design h-full">
     <div class="spin bg-background">
       <div class="form-container">
-        <CodeDesignForm :config-id="configId" :system-id="systemId" />
+        <CodeDesignForm
+          :config-id="computedNumberConfigId"
+          :system-id="computedNumberSystemId"
+        />
         <Divider />
         <Tabs animated style="min-height: 400px">
           <TabPane

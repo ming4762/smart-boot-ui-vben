@@ -82,7 +82,7 @@ const loadEditData = async (
 };
 
 // console.log(unref(computedOnFunction))
-const [Modal, modalApi] = useVbenModal({
+const [Modal, modalApi] = useVbenModal<SmartAddEditModalCallbackData>({
   ...unref(computedOnFunction),
   onConfirm: async () => {
     try {
@@ -149,9 +149,12 @@ const [Modal, modalApi] = useVbenModal({
       return false;
     }
     await nextTick(() => {
-      const data = modalApi.getData<SmartAddEditModalCallbackData>();
+      const data = modalApi.getData();
+      if (!data) {
+        throw new Error('系统发生未知错误，弹窗数据不存在');
+      }
       const { formData, isAdd } = data;
-      formApi.resetForm();
+      formApi.reset();
       isAddRef.value = isAdd;
       if (isAdd) {
         formApi.setValues({

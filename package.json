@@ -29,6 +29,7 @@
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
     "build:analyze": "turbo build:analyze",
     "build:antd": "pnpm run build --filter=@vben/web-antd",
+    "build:antdv-next": "pnpm run build --filter=@vben/web-antdv-next",
     "build:smart-boot": "pnpm run build --filter=@vben/web-smart-boot",
     "build:docker": "./scripts/deploy/build-local-docker-image.sh",
     "build:docs": "pnpm run build --filter=@vben/docs",
@@ -62,11 +63,15 @@
     "preview": "turbo-run preview",
     "publint": "vsh publint",
     "reinstall": "pnpm run clean -- --del-lock && pnpm install",
+    "test:benchmark": "vitest bench --run",
     "test:unit": "vitest run --dom",
     "test:e2e": "turbo run test:e2e",
     "update:deps": "npx taze -r -w",
     "version": "pnpm exec changeset version && pnpm install --no-frozen-lockfile",
     "catalog": "pnpm dlx codemod pnpm/catalog"
+  },
+  "dependencies": {
+    "sortablejs": "catalog:"
   },
   "devDependencies": {
     "@changesets/changelog-github": "catalog:",
@@ -106,8 +111,8 @@
     "vue-tsc": "catalog:"
   },
   "engines": {
-    "node": "^22.18.0 || ^24.0.0",
+    "node": "^22.18.0 || ^24.12.0",
     "pnpm": ">=11.0.0"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.16.0"
 }

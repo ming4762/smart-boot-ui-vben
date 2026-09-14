@@ -37,7 +37,7 @@ import SubMenu from './sub-menu.vue';
 
 interface Props extends MenuProps {}
 
-defineOptions({ name: 'Menu' });
+defineOptions({ name: 'MenuUI' });
 
 const props = withDefaults(defineProps<Props>(), {
   accordion: true,
@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   close: [string, string[]];
   open: [string, string[]];
-  select: [string, string[]];
+  select: [string, string[], Record<string, any>?, string?];
 }>();
 
 const { b, is } = useNamespace('menu');
@@ -249,12 +249,12 @@ function handleMenuItemClick(data: MenuItemClicked) {
   if (mode === 'horizontal' || collapse) {
     openedMenus.value = [];
   }
-  const { parentPaths, path } = data;
+  const { parentPaths, path, query, targetPath } = data;
   if (!path || !parentPaths) {
     return;
   }
 
-  emit('select', path, parentPaths);
+  emit('select', targetPath ?? path, parentPaths, query, path);
 }
 
 function handleSubMenuClick({ parentPaths, path }: MenuItemRegistered) {
@@ -747,7 +747,7 @@ $namespace: vben;
     width: 100%;
     height: var(--menu-item-height);
 
-    span {
+    .#{$namespace}-menu__name {
       @include menu-title;
     }
   }
@@ -823,10 +823,6 @@ $namespace: vben;
   font-size: var(--menu-font-size) !important;
 
   @include menu-item;
-
-  * {
-    font-size: inherit !important;
-  }
 
   &__icon-arrow {
     position: absolute;

@@ -1,3 +1,5 @@
+import type { AuthProperties } from '@vben/stores';
+
 import { ApiServiceEnum, requestClient } from '../request';
 
 interface FeedBackData {
@@ -32,7 +34,7 @@ export const feedbackExceptionApi = (data: FeedBackData) => {
  * 获取认证参数
  */
 export const getAuthPropertiesApi = () => {
-  return requestClient.post<Record<string, any>>(
+  return requestClient.post<AuthProperties>(
     Api.getAuthProperties,
     {},
     {

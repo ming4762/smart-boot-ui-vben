@@ -35,4 +35,11 @@ export const MODULE_PATH_MAPPING: Map<string, ModulePathMapping> = new Map<
       moduleName: '@smart-module/system',
     },
   ],
+  [
+    '/modules/smart-webhook',
+    {
+      filePath: '/smart-boot/smart-modules/smart-module-webhook/src',
+      moduleName: '@smart-module/webhook',
+    },
+  ],
 ]);

@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { VxeGridInstance, VxeGridProps } from 'vxe-table';
 
 import type { Slots } from 'vue';

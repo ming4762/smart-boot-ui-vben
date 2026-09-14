@@ -15,6 +15,7 @@ import {
   ExternalLink,
   FoldHorizontal,
   Fullscreen,
+  House,
   Minimize2,
   Pin,
   PinOff,
@@ -22,14 +23,32 @@ import {
   X,
 } from '@vben/icons';
 import { $t, useI18n } from '@vben/locales';
-import { getTabKey, useAccessStore, useTabbarStore } from '@vben/stores';
+import { preferences } from '@vben/preferences';
+import {
+  getTabKey,
+  useAccessStore,
+  useTabbarStore,
+  useUserStore,
+} from '@vben/stores';
 import { filterTree } from '@vben/utils';
+
+type SetHomePageHandler = (
+  functionId: string,
+  homePath: string,
+) => Promise<void>;
+
+let setHomePageHandler: SetHomePageHandler | undefined;
+
+export function registerSetHomePageHandler(handler: SetHomePageHandler) {
+  setHomePageHandler = handler;
+}
 
 export function useTabbar() {
   const router = useRouter();
   const route = useRoute();
   const accessStore = useAccessStore();
   const tabbarStore = useTabbarStore();
+  const userStore = useUserStore();
   const { contentIsMaximize, toggleMaximize } = useContentMaximize();
   const {
     closeAllTabs,
@@ -76,7 +95,11 @@ export function useTabbar() {
 
   // 点击tab,跳转路由
   const handleClick = (key: string) => {
-    const { fullPath, path } = tabbarStore.getTabByKey(key);
+    const tab = tabbarStore.getTabByKey(key);
+    if (!tab) {
+      return;
+    }
+    const { fullPath, path } = tab;
     router.push(fullPath || path);
   };
 
@@ -126,6 +149,20 @@ export function useTabbar() {
     } = getTabDisableState(tab);
 
     const affixTab = tab?.meta?.affixTab ?? false;
+    // 功能 ID 可能是后端 Long/雪花 ID，必须按字符串处理以避免精度丢失。
+    const functionId = String(tab?.meta?.functionId ?? '');
+    const homePath = tab.path;
+    const currentHomePath =
+      userStore.userInfo?.homePath || preferences.app.defaultHomePath;
+    const canSetHome =
+      !!setHomePageHandler &&
+      /^\d+$/.test(functionId) &&
+      !!homePath &&
+      homePath.startsWith('/') &&
+      !homePath.includes(':') &&
+      Object.keys(tab.query || {}).length === 0 &&
+      !tab.hash &&
+      homePath !== currentHomePath;
 
     const menus: IContextMenuItem[] = [
       {
@@ -166,6 +203,15 @@ export function useTabbar() {
         icon: RotateCw,
         key: 'reload',
         text: $t('preferences.tabbar.contextMenu.reload'),
+      },
+      {
+        handler: async () => {
+          await setHomePageHandler?.(functionId, homePath as string);
+        },
+        hidden: !canSetHome,
+        icon: House,
+        key: 'set-home',
+        text: $t('preferences.tabbar.contextMenu.setHome'),
       },
       {
         handler: async () => {

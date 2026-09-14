@@ -83,7 +83,11 @@ export const getFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -92,7 +96,11 @@ export const getFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['parentId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -137,9 +145,11 @@ export const getFormSchemas = (
       defaultValue: false,
       dependencies: {
         triggerFields: ['parentId'],
-        show: unref(getIsPlatformTenant),
-        disabled: (value) => {
-          return value.parentId !== 0;
+        resolve({ values }) {
+          return {
+            show: unref(getIsPlatformTenant),
+            disabled: values.parentId !== 0,
+          };
         },
       },
     },

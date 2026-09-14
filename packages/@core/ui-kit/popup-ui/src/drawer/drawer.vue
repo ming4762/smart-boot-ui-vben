@@ -54,7 +54,8 @@ const components = globalShareState.getComponents();
 const id = useId();
 provide('DISMISSABLE_DRAWER_ID', id);
 
-// const wrapperRef = ref<HTMLElement>();
+// @ts-expect-error unused
+const wrapperRef = ref<HTMLElement>();
 const { $t } = useSimpleLocale();
 const { isMobile } = useIsMobile();
 
@@ -147,9 +148,7 @@ function handleFocusOutside(e: Event) {
 }
 
 const getAppendTo = computed(() => {
-  return appendToMain.value
-    ? `#${ELEMENT_ID_MAIN_CONTENT}>div:not(.absolute)>div`
-    : undefined;
+  return appendToMain.value ? `#${ELEMENT_ID_MAIN_CONTENT}` : undefined;
 });
 
 /**
@@ -166,6 +165,7 @@ watch(
       hasOpened.value = true;
     }
   },
+  { immediate: true },
 );
 function handleClosed() {
   isClosed.value = true;
@@ -285,8 +285,8 @@ const getForceMount = computed(() => {
           <SheetDescription />
         </VisuallyHidden>
       </template>
-      <!-- 注释掉的部分 <div ref="wrapperRef" -->
       <div
+        ref="wrapperRef"
         :class="
           cn('relative flex-1 overflow-y-auto p-3', contentClass, {
             'pointer-events-none': showLoading || submitting,

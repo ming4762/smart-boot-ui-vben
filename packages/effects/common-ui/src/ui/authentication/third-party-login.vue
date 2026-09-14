@@ -1,20 +1,26 @@
 <script setup lang="ts">
+import type { AuthenticationSsoProps } from './types';
+
 import { useAppConfig } from '@vben/hooks';
 import {
   SvgGithubIcon,
   SvgGoogleIcon,
   SvgQQChatIcon,
-  SvgWeChatIcon,
+  SvgShieldKeyIcon,
+  SvgWeChatIcon
 } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
 import DingdingLogin from './dingding-login.vue';
+import SsoLoginButton from './sso-login-button.vue'
 
 defineOptions({
   name: 'ThirdPartyLogin',
 });
+
+defineProps<AuthenticationSsoProps>();
 
 const {
   auth: { dingding: dingdingAuthConfig },
@@ -65,6 +71,12 @@ const {
         :client-id="dingdingAuthConfig?.clientId"
         class="mb-3"
       />
+
+      <SsoLoginButton v-bind="$props">
+        <template #icon>
+          <SvgShieldKeyIcon />
+        </template>
+      </SsoLoginButton>
     </div>
   </div>
 </template>

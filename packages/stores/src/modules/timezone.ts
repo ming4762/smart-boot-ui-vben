@@ -72,10 +72,19 @@ const useTimezoneStore = defineStore(
       const timezoneHandler = getTimezoneHandler();
       const timezone = await timezoneHandler.getTimezone?.();
       if (timezone) {
-        timezoneRef.value = timezone;
+        applyTimezone(timezone);
+        return;
       }
       // 设置dayjs默认时区
       setCurrentTimezone(unref(timezoneRef));
+    }
+
+    /**
+     * 应用已经持久化的时区，不触发服务端写入。
+     */
+    function applyTimezone(timezone: string) {
+      timezoneRef.value = timezone;
+      setCurrentTimezone(timezone);
     }
 
     /**
@@ -110,6 +119,7 @@ const useTimezoneStore = defineStore(
 
     return {
       timezone: timezoneRef,
+      applyTimezone,
       setTimezone,
       getTimezoneOptions,
       $reset,

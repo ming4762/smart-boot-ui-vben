@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@vben/tsconfig/web.json",
+  "compilerOptions": {
+    "paths": {
+      "@smart-module/system": ["../smart-module-system/src/index.ts"],
+      "#/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "__tests__"],
+  "exclude": ["node_modules"]
+}

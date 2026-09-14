@@ -258,7 +258,11 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -311,11 +315,11 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       },
       dependencies: {
         triggerFields: ['receiveUserType'],
-        show: (model) => {
-          return model.receiveUserType !== 'ALL_USER';
-        },
-        required: (model) => {
-          return model.receiveUserType !== 'ALL_USER';
+        resolve({ values }) {
+          return {
+            show: values.receiveUserType !== 'ALL_USER',
+            required: values.receiveUserType !== 'ALL_USER',
+          };
         },
       },
     },

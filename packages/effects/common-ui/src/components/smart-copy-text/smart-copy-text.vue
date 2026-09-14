@@ -1,7 +1,7 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { CopyTextIconEmits, CopyTextProps } from './types';
 
-import { computed, unref, useSlots } from 'vue';
+import { computed, h, unref, useSlots } from 'vue';
 
 import { createIconifyIcon } from '@vben/icons';
 
@@ -80,14 +80,14 @@ const CopyTextIcon = () => {
   if (!unref(computedIconVisible)) {
     return null;
   }
-  return (
-    <div
-      class={unref(computedIconContainerClass)}
-      onClick={handleCopy}
-      style={unref(computedIconContainerStyle)}
-    >
-      {slots.icon ? slots.icon() : <CopyIcon />}
-    </div>
+  return h(
+    'div',
+    {
+      class: unref(computedIconContainerClass),
+      onClick: handleCopy,
+      style: unref(computedIconContainerStyle),
+    },
+    slots.icon ? slots.icon() : h(CopyIcon),
   );
 };
 </script>

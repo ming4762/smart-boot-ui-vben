@@ -1,35 +1,28 @@
 <script setup lang="ts">
 import type { SelectValue } from 'antdv-next/dist/select';
 
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 
-import { useRuleFormItem } from '@vben/hooks';
 import { createIconifyIcon } from '@vben/icons';
 import { $t as t } from '@vben/locales';
 import { useInjectPageDict } from '@vben/preferences';
 
 import { Select } from 'antdv-next';
 
-type OptionsItem = {
-  [name: string]: any;
-  disabled?: boolean;
-  label?: string;
-  value?: string;
-};
-
 interface Props {
   dictCode: string;
   labelWithCode?: boolean;
   numberToString?: boolean;
-  value?: SelectValue;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   numberToString: false,
   labelWithCode: false,
-  value: undefined,
 });
-const emit = defineEmits(['change', 'update:value']);
+const emit = defineEmits<{
+  change: [value: SelectValue, ...args: any[]];
+}>();
+const modelValue = defineModel<SelectValue>('value');
 
 const { pageDictRegister, pageDictLoadingRef, pageDictData } =
   useInjectPageDict();
@@ -61,24 +54,15 @@ const computedOptions = computed(() => {
   });
 });
 
-const emitData = ref<OptionsItem[]>([]);
-const [state] = useRuleFormItem(props, 'value', 'change', emitData);
-watch(
-  () => state.value,
-  (v) => {
-    emit('update:value', v);
-  },
-);
-
-function handleChange(_: any, ...args: any[]) {
-  emitData.value = args;
+function handleChange(value: SelectValue, ...args: any[]) {
+  emit('change', value, ...args);
 }
 </script>
 
 <template>
   <Select
     v-bind="$attrs"
-    v-model:value="state"
+    v-model:value="modelValue"
     :options="computedOptions"
     @change="handleChange"
   >

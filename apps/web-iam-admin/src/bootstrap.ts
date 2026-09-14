@@ -1,0 +1,100 @@
+import { createApp, watchEffect } from 'vue';
+
+import { registerAccessDirective } from '@vben/access';
+import { registerLoadingDirective } from '@vben/common-ui/es/loading';
+import { registerSetHomePageHandler } from '@vben/layouts';
+import { preferences } from '@vben/preferences';
+import { initStores, useUserStore } from '@vben/stores';
+import '@vben/styles';
+import '@vben/styles/antd';
+import { registerDirective } from '@vben/utils';
+
+import { initComponentAdapter } from '@smart/common-page/adapter';
+import { setCurrentUserHomeApi } from '@smart/common/api';
+import { $t, setupI18n } from '@smart/common/locales';
+import { setupWujieMain } from '@smart/wujie';
+import { useTitle } from '@vueuse/core';
+import { notification } from 'antdv-next';
+
+import App from './app.vue';
+import { router } from './router';
+import { initTimezone } from './timezone-init';
+
+async function bootstrap(namespace: string) {
+  // 初始化组件适配器
+  await initComponentAdapter();
+
+  // 初始化表单组件
+  await initComponentAdapter();
+
+  // // 设置弹窗的默认配置
+  // setDefaultModalProps({
+  //   fullscreenButton: false,
+  // });
+  // // 设置抽屉的默认配置
+  // setDefaultDrawerProps({
+  //   zIndex: 1020,
+  // });
+
+  const app = createApp(App);
+
+  // 注册v-loading指令
+  registerLoadingDirective(app, {
+    loading: 'loading', // 在这里可以自定义指令名称，也可以明确提供false表示不注册这个指令
+    spinning: 'spinning',
+  });
+
+  // 配置 pinia-tore
+  await initStores(app, { namespace });
+
+  // 注册设置首页处理器
+  registerSetHomePageHandler(async (functionId, homePath) => {
+    await setCurrentUserHomeApi(functionId);
+    const userStore = useUserStore();
+    if (userStore.userInfo) {
+      userStore.setUserInfo({ ...userStore.userInfo, homePath });
+    }
+    notification.success({ title: '首页设置成功' });
+  });
+
+  // 初始化时区
+  initTimezone();
+
+  // 国际化 i18n 配置
+  await setupI18n(app);
+
+  // 安装权限指令
+  registerAccessDirective(app);
+  // 注册全局指令
+  registerDirective(app);
+
+  // wujie主应用启动
+  setupWujieMain(app);
+
+  // 初始化 tippy
+  const { initTippy } = await import('@vben/common-ui/es/tippy');
+  initTippy(app);
+
+  // 配置路由及路由守卫
+  app.use(router);
+
+  // 配置Motion插件
+  const { MotionPlugin } = await import('@vben/plugins/motion');
+  app.use(MotionPlugin);
+
+  // 动态更新标题
+  watchEffect(() => {
+    if (preferences.app.dynamicTitle) {
+      const routeTitle = router.currentRoute.value.meta?.title;
+      const pageTitle =
+        (routeTitle ? `${$t(routeTitle)} - ` : '') + preferences.app.name;
+      useTitle(pageTitle);
+    }
+  });
+
+  app.mount('#app');
+
+  return app;
+}
+
+export { bootstrap };

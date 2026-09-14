@@ -2,22 +2,41 @@ import type { ChangePasswordParams, Recordable, UserInfo } from '@vben/types';
 
 import type { AuthApi } from '../api';
 
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { ApiServiceEnum, LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
-import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
-import { createPassword } from '@vben/utils';
+import {
+  resetAllStores,
+  resetStoresAfterRouteLeave,
+  resetStoresBeforeRouteLeave,
+  useAccessStore,
+  useSysPropertiesStore,
+  useUserStore,
+} from '@vben/stores';
 
 import { notification } from 'antdv-next';
 import { defineStore } from 'pinia';
 
-import { changePasswordApi, changeTenantApi, loginApi, logoutApi, requestClient } from '../api';
+import {
+  changePasswordApi,
+  changeTenantApi,
+  getSystemPropertiesApi,
+  getUserPermissionApi,
+  loginApi,
+  logoutApi,
+  requestClient,
+} from '../api';
 import { $t } from '../locales';
+import {
+  initializeUserPreferences,
+  stopUserPreferenceSync,
+} from './user-preference';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
+  const sysPropertiesStore = useSysPropertiesStore();
   const userStore = useUserStore();
   const router = useRouter();
 
@@ -40,47 +59,69 @@ export const useAuthStore = defineStore('auth', () => {
     });
   };
 
+  const loadUserPermission = async () => {
+    const { user, roles, permissions } = await getUserPermissionApi();
+    const userPreference = await initializeUserPreferences(user.userId);
+    const userInfo = {
+      ...user,
+      homePath: userPreference.homePath || preferences.app.defaultHomePath,
+      realName: user.fullName,
+      roles,
+    };
+    await loginSetStore(userInfo, permissions);
+    return userInfo;
+  };
+
   const afterLogin = async (
     loginData: AuthApi.LoginResult,
     changeTenant = false,
     onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
   ) => {
-    const { permissions, roles, token, user, refreshToken } = loginData;
+    const { token, refreshToken, redirectUrl } = loginData;
 
-    let userInfo: null | UserInfo = null;
-    // 如果成功获取到 accessToken
-    if (token) {
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+      return null;
+    }
+
+    if (sysPropertiesStore.isJwtAuthMode) {
+      if (!token) {
+        return null;
+      }
       accessStore.setAccessToken(token);
       if (refreshToken) {
         accessStore.setRefreshToken(refreshToken);
       }
-      userInfo = {
-        ...user,
-        realName: user.fullName,
-        roles,
-      };
-      await loginSetStore(userInfo, permissions);
-
-      if (accessStore.loginExpired) {
-        accessStore.setLoginExpired(false);
-      } else {
-        onSuccess
-          ? await onSuccess?.(userInfo)
-          : await router.push(
-              userInfo.homePath || preferences.app.defaultHomePath,
-            );
-      }
-
-      if (userInfo?.realName) {
-        notification.success({
-          title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-          duration: 3,
-          description: changeTenant
-            ? $t('authentication.changeTenantSuccess')
-            : $t('authentication.loginSuccess'),
-        });
-      }
+    } else {
+      accessStore.setAccessToken(null);
+      accessStore.setRefreshToken(null);
     }
+
+    const systemProperties = await getSystemPropertiesApi();
+    sysPropertiesStore.setProperties({ sysParameter: systemProperties });
+
+    const userInfo = await loadUserPermission();
+
+    if (accessStore.loginExpired) {
+      accessStore.setLoginExpired(false);
+    } else {
+      onSuccess
+        ? await onSuccess?.(userInfo)
+        : await router.push(
+            userInfo.homePath || preferences.app.defaultHomePath,
+          );
+    }
+
+    if (userInfo?.realName) {
+      notification.success({
+        title: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+        duration: 3,
+        description: changeTenant
+          ? $t('authentication.changeTenantSuccess')
+          : $t('authentication.loginSuccess'),
+      });
+    }
+
     return userInfo;
   };
 
@@ -97,6 +138,15 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loginLoading.value = true;
       const loginData = await loginApi(params as never);
+      if (loginData.passwordChangeRequired) {
+        return {
+          passwordChangeRequired: true,
+          passwordChangeToken: loginData.passwordChangeToken,
+          passwordValidate: loginData.passwordValidate,
+          passwordValidateErrorMessage:
+            loginData.passwordValidateErrorMessage,
+        };
+      }
       return { userInfo: await afterLogin(loginData, false, onSuccess) };
     } finally {
       loginLoading.value = false;
@@ -124,12 +174,15 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   async function logout(redirect: boolean = true) {
+    let redirectUrl = null;
     try {
-      await logoutApi();
+      const result = await logoutApi();
+      redirectUrl = result.redirectUrl;
     } catch {
       // 不做任何处理
     }
-    resetAllStores();
+    stopUserPreferenceSync();
+    resetStoresBeforeRouteLeave();
     accessStore.setLoginExpired(false);
 
     // 回登录页带上当前路由地址
@@ -141,6 +194,12 @@ export const useAuthStore = defineStore('auth', () => {
           }
         : {},
     });
+    await nextTick();
+    resetStoresAfterRouteLeave();
+
+    if (redirectUrl) {
+      window.location.replace(redirectUrl);
+    }
   }
 
   /**
@@ -193,13 +252,27 @@ export const useAuthStore = defineStore('auth', () => {
     if (!userInfo) {
       throw new Error('用户信息不存在');
     }
-    const { username } = userInfo;
     return changePasswordApi({
-      oldPassword: createPassword(username, data.oldPassword),
-      newPassword: createPassword(username, data.newPassword),
-      newPasswordConfirm: createPassword(username, data.newPasswordConfirm),
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+      newPasswordConfirm: data.newPasswordConfirm,
     });
   };
+
+  /**
+   * 获取IAM登录地址
+   */
+  function getIamLoginUrl(frontendRedirectUri = window.location.href) {
+    const sysPropertiesStore = useSysPropertiesStore();
+    if (!sysPropertiesStore.isIamClient) {
+      return undefined;
+    }
+    if (!sysPropertiesStore.iamLoginUrl) {
+      throw new Error('IAM_LOGIN_URL is required');
+    }
+    const redirectUrl = encodeURIComponent(frontendRedirectUri);
+    return `${requestClient.getApiUrlByService(ApiServiceEnum.SMART_AUTH) + sysPropertiesStore.iamLoginUrl}?frontend_redirect_uri=${redirectUrl}`;
+  }
 
   return {
     $reset,
@@ -209,8 +282,10 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     applyTempToken,
     loginExpired,
+    loadUserPermission,
     showLoginExpired,
     changeTenant,
     changePassword,
+    getIamLoginUrl,
   };
 });

@@ -24,7 +24,7 @@ const currentFunctionIdRef = ref<null | number>(null);
 const [Drawer, drawerApi] = useVbenDrawer({
   onOpenChange: (open) => {
     if (open) {
-      const { functionId } = drawerApi.getData();
+      const { functionId } = drawerApi.getData() as { functionId: number };
       currentFunctionIdRef.value = functionId;
     }
   },

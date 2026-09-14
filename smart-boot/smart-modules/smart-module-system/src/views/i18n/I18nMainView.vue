@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import I18nGroupList from './components/I18nGroupList.vue';
 import I18nItemList from './components/I18nItemList.vue';
@@ -13,22 +13,34 @@ const i18nId = ref<number | undefined>();
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" first-size="300px" layout="leftRight">
+    <ResizableLayout
+      class="h-full"
+      :first-size="300"
+      :resizable="false"
+      :show-handle="false"
+      size-unit="px"
+    >
       <template #first>
         <!--    国际化分组    -->
         <I18nGroupList @change="(id) => (groupId = id)" />
       </template>
       <template #second>
-        <SmartLayoutSeparate class="h-full" first-size="60%" layout="topBottom">
+        <ResizableLayout
+          class="h-full"
+          direction="vertical"
+          :first-size="60"
+          :resizable="false"
+          :show-handle="false"
+        >
           <template #first>
             <I18nList :group-id="groupId" @change="(id) => (i18nId = id)" />
           </template>
           <template #second>
             <I18nItemList :i18n-id="i18nId" />
           </template>
-        </SmartLayoutSeparate>
+        </ResizableLayout>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

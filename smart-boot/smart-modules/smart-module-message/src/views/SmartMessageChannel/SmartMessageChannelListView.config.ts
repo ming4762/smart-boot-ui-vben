@@ -106,13 +106,16 @@ const getAliyunSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Access key',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN',
       },
     },
     {
@@ -121,13 +124,16 @@ const getAliyunSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Access secret',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN',
       },
     },
     {
@@ -136,13 +142,16 @@ const getAliyunSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Endpoint',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_ALIYUN',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_ALIYUN',
       },
     },
   ];
@@ -159,13 +168,16 @@ const getTenantSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Access key',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT',
       },
     },
     {
@@ -174,13 +186,16 @@ const getTenantSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Access secret',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT',
       },
     },
     {
@@ -189,13 +204,16 @@ const getTenantSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Appid',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT',
       },
     },
     {
@@ -204,13 +222,16 @@ const getTenantSmsFormSchemas = (): VbenFormSchema[] => {
       label: 'Region',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+            required:
+              values.channelType1 === 'SMS' &&
+              values.channelType2 === 'SMS_TENCENT',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'SMS' && value.channelType2 === 'SMS_TENCENT',
       },
     },
   ];
@@ -227,15 +248,16 @@ const getDingtalkWorkNoticeFormSchemas = (): VbenFormSchema[] => {
       label: 'App key',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'DINGTALK' &&
-            value.channelType2 === 'DINGTALK_WORK_NOTICE'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+            required:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'DINGTALK' &&
-          value.channelType2 === 'DINGTALK_WORK_NOTICE',
       },
     },
     {
@@ -244,15 +266,16 @@ const getDingtalkWorkNoticeFormSchemas = (): VbenFormSchema[] => {
       label: 'App secrett',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'DINGTALK' &&
-            value.channelType2 === 'DINGTALK_WORK_NOTICE'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+            required:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'DINGTALK' &&
-          value.channelType2 === 'DINGTALK_WORK_NOTICE',
       },
     },
     {
@@ -261,15 +284,16 @@ const getDingtalkWorkNoticeFormSchemas = (): VbenFormSchema[] => {
       label: 'Agent id',
       dependencies: {
         triggerFields: ['channelType1', 'channelType2'],
-        show: (value) => {
-          return (
-            value.channelType1 === 'DINGTALK' &&
-            value.channelType2 === 'DINGTALK_WORK_NOTICE'
-          );
+        resolve({ values }) {
+          return {
+            show:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+            required:
+              values.channelType1 === 'DINGTALK' &&
+              values.channelType2 === 'DINGTALK_WORK_NOTICE',
+          };
         },
-        required: (value) =>
-          value.channelType1 === 'DINGTALK' &&
-          value.channelType2 === 'DINGTALK_WORK_NOTICE',
       },
     },
   ];
@@ -283,10 +307,12 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Host',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+            required: values.channelType1 === 'EMAIL',
+          };
         },
-        required: (value) => value.channelType1 === 'EMAIL',
       },
     },
     {
@@ -295,10 +321,12 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Port',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+            required: values.channelType1 === 'EMAIL',
+          };
         },
-        required: (value) => value.channelType1 === 'EMAIL',
       },
     },
     {
@@ -307,8 +335,10 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Username',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+          };
         },
       },
       // required: ({ model }) => model.channelType1 === 'EMAIL',
@@ -319,8 +349,10 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Password',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+          };
         },
       },
       // required: ({ model }) => model.channelType1 === 'EMAIL',
@@ -331,10 +363,12 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Protocol',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+            required: values.channelType1 === 'EMAIL',
+          };
         },
-        required: (value) => value.channelType1 === 'EMAIL',
       },
       defaultValue: 'smtp',
     },
@@ -344,8 +378,10 @@ const getEmailFormSchemas = (): VbenFormSchema[] => {
       label: 'Properties',
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return value.channelType1 === 'EMAIL';
+        resolve({ values }) {
+          return {
+            show: values.channelType1 === 'EMAIL',
+          };
         },
       },
       rules: z.string().refine(
@@ -379,7 +415,11 @@ export const getFormSchemas = (
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -400,11 +440,14 @@ export const getFormSchemas = (
       label: t('smart.message.channel.title.channelType1'),
       component: 'Select',
       controlClass: 'w-full',
-      componentProps: (_, formActionType) => {
-        return {
-          onChange: () => formActionType.setFieldValue('channelType2', null),
-          options: unref(messageType1List).filter((item) => !item.data),
-        };
+      dependencies: {
+        triggerFields: ['channelType1'],
+        resolve: ({ actions }) => ({
+          componentProps: {
+            onChange: () => actions.setFieldValue('channelType2', null),
+            options: unref(messageType1List).filter((item) => !item.data),
+          },
+        }),
       },
     },
     {
@@ -412,22 +455,22 @@ export const getFormSchemas = (
       label: t('smart.message.channel.title.channelType2'),
       component: 'Select',
       controlClass: 'w-full',
-      componentProps: (formModel) => {
-        const channelType1 = formModel.channelType1;
-        let options: Recordable<any>[] = [];
-        if (channelType1) {
-          options = unref(messageType2List).filter(
-            (item) => item.data === channelType1,
-          );
-        }
-        return {
-          options,
-        };
-      },
       dependencies: {
         triggerFields: ['channelType1'],
-        show: (value) => {
-          return ['DINGTALK', 'SMS'].includes(value.channelType1);
+        resolve: ({ values }) => {
+          const channelType1 = values.channelType1;
+          let options: Recordable<any>[] = [];
+          if (channelType1) {
+            options = unref(messageType2List).filter(
+              (item) => item.data === channelType1,
+            );
+          }
+          return {
+            componentProps: {
+              options,
+            },
+            show: ['DINGTALK', 'SMS'].includes(channelType1),
+          };
         },
       },
     },

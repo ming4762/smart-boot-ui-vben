@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { Component, VNode } from 'vue';
 
 import type { SmartTableAction } from '../types';
@@ -10,7 +10,7 @@ import type {
 import { computed, h, toRaw, unref, useSlots } from 'vue';
 
 import { createIconifyIcon } from '@vben-core/icons';
-import { isBoolean, isFunction, isString } from '@vben-core/shared/utils';
+import { buildUUID, isBoolean, isFunction, isString } from '@vben-core/shared/utils';
 
 import { VxeButton } from 'vxe-pc-ui';
 
@@ -139,6 +139,7 @@ const getDropdownList = computed((): any[] => {
       onCancel: popConfirm?.cancel,
       onConfirm: popConfirm?.confirm,
       text: label,
+      event: action.code || buildUUID(),
     };
   });
 });
@@ -276,12 +277,14 @@ const RenderTooltip = (action: any) => {
 };
 
 const RenderFunction = () => {
-  return (
-    <div
-      class={[unref(getAlign), 'smart-table-row-action']}
-      onClick={(event) => onCellClick(event)}
-    >
-      {unref(getActions).map((action, index) => {
+  return h(
+    'div',
+    {
+      class: [unref(getAlign), 'smart-table-row-action'],
+      onClick: onCellClick,
+    },
+    [
+      ...unref(getActions).flatMap((action, index) => {
         const result = [];
         if ((action as any).slot) {
           result.push(slots.customButton && slots.customButton(action));
@@ -290,9 +293,9 @@ const RenderFunction = () => {
         }
         result.push(RenderDivider(index));
         return result;
-      })}
-      {RenderDropdown()}
-    </div>
+      }),
+      RenderDropdown(),
+    ],
   );
 };
 </script>

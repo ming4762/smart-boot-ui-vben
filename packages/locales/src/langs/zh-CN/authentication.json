@@ -64,5 +64,7 @@
     "alignLeft": "居左",
     "alignRight": "居右"
   },
-  "changeTenantSuccess": "切换租户成功"
+  "changeTenantSuccess": "切换租户成功",
+  "ssoLogin": "SSO登录",
+  "ssoLoginTip": "点击下方按钮，通过统一认证平台安全登录"
 }

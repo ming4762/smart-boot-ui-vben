@@ -13,6 +13,13 @@ import TemplateSelectTable from '#/views/codeList/components/TemplateSelectTable
 
 import CodeCreatedResultModal from './CodeCreatedResultModal.vue';
 
+interface CodeCreatedResultModalData {
+  className?: string;
+  id?: string;
+  remarks?: string;
+  tableName?: string;
+}
+
 const { getFormSize } = useSizeSetting();
 
 const listByIdApi = (ids: any[]) => {
@@ -35,7 +42,11 @@ const [Form, formApi] = useVbenForm({
       component: 'Input',
       dependencies: {
         triggerFields: ['mainId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -90,11 +101,11 @@ const [RenderCodeCreatedResultModal, codeResultModalApi] = useVbenModal({
   connectedComponent: CodeCreatedResultModal,
 });
 
-const [Modal, modalApi] = useVbenModal({
+const [Modal, modalApi] = useVbenModal<CodeCreatedResultModalData>({
   class: 'w-[800px]',
   title: t('smart.code.views.codeManager.button.createCode'),
   onOpened: () => {
-    const { remarks, tableName, className, id } = modalApi.getData();
+    const { remarks, tableName, className, id } = modalApi.getData() || {};
     formApi.setValues({
       description: remarks,
       tableName,
@@ -123,9 +134,10 @@ const [Modal, modalApi] = useVbenModal({
 <template>
   <Modal>
     <Form>
-      <template #form-templateIdList="{ model }">
+      <template #form-templateIdList="{ componentField, values }">
         <SmartTableSelect
-          v-model:value="model.templateIdList"
+          v-bind="componentField"
+          :value="values.templateIdList"
           :list-api="listByIdApi"
           :table-props="{}"
           allow-clear

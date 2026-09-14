@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import DataDictGroup from './components/DataDictGroup.vue';
 import DataDictItem from './components/DataDictItem.vue';
@@ -15,14 +15,19 @@ const handleCodeChange = (id: number) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate class="h-full" first-size="60%">
+    <ResizableLayout
+      class="h-full"
+      :first-size="60"
+      :resizable="false"
+      :show-handle="false"
+    >
       <template #first>
         <DataDictGroup @code-change="handleCodeChange" />
       </template>
       <template #second>
         <DataDictItem :dict-id="dictId" />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

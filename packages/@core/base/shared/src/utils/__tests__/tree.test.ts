@@ -141,6 +141,15 @@ describe('filterTree', () => {
       },
     ]);
   });
+
+  it('should remove children when none of them match', () => {
+    const tree = [{ id: 1, children: [{ id: 2 }] }];
+
+    const result = filterTree(tree, (node) => node.id === 1);
+
+    expect(result).toEqual([{ id: 1, children: [] }]);
+    expect(tree[0]?.children).toEqual([{ id: 2 }]);
+  });
 });
 
 describe('listToTree', () => {
@@ -300,6 +309,79 @@ describe('listToTree', () => {
     expect(result).toHaveLength(1);
     expect(result[0]?.code).toBe('A');
     expect(result[0]?.children).toHaveLength(2);
+  });
+
+  it('should not mutate input or duplicate children on repeated calls', () => {
+    const list: TestNode[] = [
+      { id: 1, parentId: null, name: 'Root' },
+      { id: 2, parentId: 1, name: 'Child' },
+    ];
+
+    const first = listToTree(
+      list,
+      (node) => node.id,
+      (node) => node.parentId,
+    );
+    const second = listToTree(
+      list,
+      (node) => node.id,
+      (node) => node.parentId,
+    );
+
+    expect(first[0]?.children).toHaveLength(1);
+    expect(second[0]?.children).toHaveLength(1);
+    expect(list).toEqual([
+      { id: 1, parentId: null, name: 'Root' },
+      { id: 2, parentId: 1, name: 'Child' },
+    ]);
+  });
+
+  it('should keep orphan and self-referencing nodes as roots', () => {
+    const list: TestNode[] = [
+      { id: 1, parentId: 99, name: 'Orphan' },
+      { id: 2, parentId: 2, name: 'Self reference' },
+    ];
+
+    const result = listToTree(
+      list,
+      (node) => node.id,
+      (node) => node.parentId,
+    );
+
+    expect(result).toEqual(list);
+  });
+
+  it('should break circular parent relationships into roots', () => {
+    const list: TestNode[] = [
+      { id: 1, parentId: 2, name: 'Node 1' },
+      { id: 2, parentId: 1, name: 'Node 2' },
+      { id: 3, parentId: 1, name: 'Child' },
+    ];
+
+    const result = listToTree(
+      list,
+      (node) => node.id,
+      (node) => node.parentId,
+    );
+
+    expect(result).toHaveLength(2);
+    expect(result[0]).toMatchObject({ id: 1, children: [{ id: 3 }] });
+    expect(result[1]).toMatchObject({ id: 2 });
+  });
+
+  it('should use the last node when ids are duplicated', () => {
+    const list: TestNode[] = [
+      { id: 1, parentId: null, name: 'Old root' },
+      { id: 1, parentId: null, name: 'New root' },
+    ];
+
+    const result = listToTree(
+      list,
+      (node) => node.id,
+      (node) => node.parentId,
+    );
+
+    expect(result).toEqual([{ id: 1, parentId: null, name: 'New root' }]);
   });
 });
 

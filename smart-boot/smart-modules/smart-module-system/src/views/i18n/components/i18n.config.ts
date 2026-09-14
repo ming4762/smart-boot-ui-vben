@@ -84,7 +84,11 @@ export const getI18nAddEditSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['groupId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -93,7 +97,11 @@ export const getI18nAddEditSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['i18nId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -191,7 +199,11 @@ export const getI18nItemListAddEditFormSchema = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['i18nItemId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

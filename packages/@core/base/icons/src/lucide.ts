@@ -35,13 +35,13 @@ export {
   EyeOff,
   FoldHorizontal,
   Fullscreen,
-  Github,
   Grid,
   Grip,
   GripVertical,
   Heading1,
   Heading2,
   Highlighter,
+  House,
   Menu as IconDefault,
   ImagePlus,
   Inbox,
@@ -83,6 +83,7 @@ export {
   SquareCheckBig,
   SquareCode,
   SquareMinus,
+  Star,
   Strikethrough,
   Sun,
   SunMoon,
@@ -93,4 +94,4 @@ export {
   Unlink2,
   UserRoundPen,
   X,
-} from 'lucide-vue-next';
+} from '@lucide/vue';

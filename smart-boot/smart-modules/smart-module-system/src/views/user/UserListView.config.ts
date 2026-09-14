@@ -47,6 +47,11 @@ export const getTableColumns = (): SmartTableColumn[] => {
       fixed: 'left',
     },
     {
+      title: 'SN Code',
+      field: 'snCode',
+      width: 120,
+    },
+    {
       title: '{system.views.user.table.fullName}',
       field: 'fullName',
       width: 120,
@@ -139,7 +144,11 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -147,6 +156,14 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       fieldName: 'username',
       component: 'Input',
       rules: 'required',
+    },
+    {
+      label: 'SN Code',
+      fieldName: 'snCode',
+      component: 'Input',
+      componentProps: {
+        maxlength: 50,
+      },
     },
     {
       label: t('system.views.user.table.fullName'),
@@ -191,8 +208,10 @@ export const getAddEditFormSchemas = (): VbenFormSchema[] => {
       component: 'ApiTreeSelect',
       dependencies: {
         triggerFields: ['userType'],
-        disabled: (value) => {
-          return value.userType === SYS_USER_TYPE;
+        resolve({ values }) {
+          return {
+            disabled: values.userType === SYS_USER_TYPE,
+          };
         },
       },
       controlClass: 'w-full',
@@ -219,6 +238,16 @@ export const getSearchSchemas = (): SmartSearchFormSchema[] => {
       searchSymbol: 'like',
       componentProps: {
         placeholder: t('system.views.user.table.username'),
+      },
+    },
+    {
+      label: 'SN Code',
+      fieldName: 'snCode',
+      component: 'Input',
+      searchSymbol: 'like',
+      componentProps: {
+        maxlength: 50,
+        placeholder: 'SN Code',
       },
     },
     {
@@ -277,7 +306,11 @@ export const getAccountFormSchemas = (
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

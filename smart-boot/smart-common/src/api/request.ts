@@ -11,7 +11,7 @@ import {
   errorMessageResponseInterceptor,
   RequestClient,
 } from '@vben/request';
-import { useAccessStore } from '@vben/stores';
+import { useAccessStore, useSysPropertiesStore } from '@vben/stores';
 import { getCurrentTimezone } from '@vben/utils';
 
 import { useAuthStore } from '../store';
@@ -49,6 +49,10 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
+    const sysPropertiesStore = useSysPropertiesStore();
+    if (!sysPropertiesStore.isJwtAuthMode) {
+      throw new Error('Refresh token is only supported in JWT auth mode');
+    }
     const newToken = await refreshTokenApi();
     if (newToken === null) {
       throw new Error('Refresh token failed');
@@ -61,12 +65,26 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     return token ? `${token}` : null;
   }
 
+  /**
+   * 是否启用刷新token
+   */
+  async function isEnableRefreshToken() {
+    const sysPropertiesStore = useSysPropertiesStore();
+    return preferences.app.enableRefreshToken && sysPropertiesStore.isJwtAuthMode;
+  }
+
   // 请求头处理
   client.addRequestInterceptor({
     fulfilled: async (config) => {
       const accessStore = useAccessStore();
+      const sysPropertiesStore = useSysPropertiesStore();
 
-      config.headers.Authorization = formatToken(accessStore.accessToken);
+      if (sysPropertiesStore.isJwtAuthMode) {
+        config.headers.Authorization = formatToken(accessStore.accessToken);
+      } else {
+        delete config.headers.Authorization;
+        config.withCredentials = true;
+      }
       config.headers['Accept-Language'] = preferences.app.locale;
       // 设置用户时区
       config.headers['X-User-Timezone'] = getCurrentTimezone();
@@ -106,7 +124,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       client,
       doReAuthenticate,
       doRefreshToken,
-      enableRefreshToken: preferences.app.enableRefreshToken,
+      isEnableRefreshToken,
       formatToken,
     }),
   );

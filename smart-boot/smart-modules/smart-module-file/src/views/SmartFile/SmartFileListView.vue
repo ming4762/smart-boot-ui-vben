@@ -133,9 +133,10 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
       </template>
-      <template #form-upload="{ model }">
+      <template #form-upload="{ componentField, values }">
         <Upload
-          v-model:file-list="model.fileList"
+          v-bind="componentField"
+          :file-list="values.fileList"
           :before-upload="() => false"
           :max-count="1"
         >

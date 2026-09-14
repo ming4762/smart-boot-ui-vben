@@ -9,7 +9,7 @@ import type {
 
 import type { TabDefinition } from '@vben-core/typings';
 
-import { markRaw, toRaw } from 'vue';
+import { markRaw, nextTick, toRaw } from 'vue';
 
 import { preferences } from '@vben-core/preferences';
 import {
@@ -368,10 +368,8 @@ export const useTabbarStore = defineStore('core-tabbar', {
      * 根据tab的key获取tab
      * @param key
      */
-    getTabByKey(key: string) {
-      return this.getTabs.find(
-        (item) => getTabKeyFromTab(item) === key,
-      ) as TabDefinition;
+    getTabByKey(key: string): TabDefinition | undefined {
+      return this.getTabs.find((item) => getTabKeyFromTab(item) === key);
     },
 
     /**
@@ -421,7 +419,8 @@ export const useTabbarStore = defineStore('core-tabbar', {
       this.renderRouteView = false;
       startProgress();
 
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await nextTick();
+      // await new Promise((resolve) => setTimeout(resolve, 200));
 
       this.excludeCachedTabs.delete(name as string);
       this.renderRouteView = true;
@@ -650,6 +649,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
       'affix',
       'maximize',
       'reload',
+      'set-home',
       'open-in-new-window',
       'close-left',
       'close-right',
@@ -730,6 +730,11 @@ function getTabKey(tab: RouteLocationNormalized | RouteRecordNormalized) {
     rawKey = pageKey;
   } else {
     rawKey = fullPathKey === false ? path : (fullPath ?? path);
+    if (fullPath && query._favoriteMenuId) {
+      const url = new URL(fullPath, 'http://localhost');
+      url.searchParams.delete('_favoriteMenuId');
+      rawKey = `${url.pathname}${url.search}${url.hash}`;
+    }
   }
   try {
     return decodeURIComponent(rawKey);

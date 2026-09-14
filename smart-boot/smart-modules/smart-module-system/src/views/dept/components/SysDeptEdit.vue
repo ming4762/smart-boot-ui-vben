@@ -28,7 +28,11 @@ const formSchemas: Array<VbenFormSchema & { filter?: boolean }> = [
     component: 'Input',
     dependencies: {
       triggerFields: ['deptId'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {
@@ -37,7 +41,11 @@ const formSchemas: Array<VbenFormSchema & { filter?: boolean }> = [
     component: 'Input',
     dependencies: {
       triggerFields: ['parentId'],
-      show: false,
+      resolve() {
+        return {
+          show: false,
+        };
+      },
     },
   },
   {
@@ -182,7 +190,7 @@ watch(
           getLoading.value = false;
         }
       } else {
-        formApi.resetForm();
+        formApi.reset();
       }
     });
   },
@@ -190,7 +198,7 @@ watch(
 
 defineExpose({
   setValues: formApi.setValues,
-  resetForm: formApi.resetForm,
+  reset: formApi.reset,
   validateAndGet: async () => {
     const { valid } = await formApi.validate();
     if (!valid) {

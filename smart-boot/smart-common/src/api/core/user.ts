@@ -6,6 +6,7 @@ import { ApiServiceEnum, requestClient } from '../request';
 
 enum Api {
   changePassword = 'sys/auth/changePassword',
+  forceChangePassword = 'public/system/auth/forceChangePassword',
   getDetailById = 'sys/user/getDetailById',
   listCurrentUserTenant = 'sys/tenant/manager/listCurrentUserTenant',
   listUser = 'sys/user/list',
@@ -66,6 +67,20 @@ export const listCurrentUserTenantApi = async () => {
  */
 export const changePasswordApi = async (params: ChangePasswordParams) => {
   return requestClient.post(Api.changePassword, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
+  });
+};
+
+/**
+ * 登录后强制修改密码
+ */
+export const forceChangePasswordApi = async (
+  params: ChangePasswordParams,
+  passwordChangeToken: string,
+) => {
+  return requestClient.post(Api.forceChangePassword, params, {
+    authErrorProcessed: false,
+    params: { 'access-token': passwordChangeToken },
     service: ApiServiceEnum.SMART_SYSTEM,
   });
 };

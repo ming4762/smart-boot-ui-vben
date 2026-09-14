@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import SysParameterList from './components/SysParameterList.vue';
 import SysParameterTenantList from './components/SysParameterTenantList.vue';
@@ -14,11 +14,13 @@ const handleChange = (row: any) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate
+    <ResizableLayout
       class="h-full"
-      layout="topBottom"
-      first-size="70%"
-      draggable
+      direction="vertical"
+      divider-size="5px"
+      :first-size="70"
+      resize-mode="preview"
+      resizable
       show-divider
     >
       <template #first>
@@ -30,7 +32,7 @@ const handleChange = (row: any) => {
           class="h-full"
         />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

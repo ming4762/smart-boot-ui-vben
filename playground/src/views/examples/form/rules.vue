@@ -74,7 +74,7 @@ const [Form, formApi] = useVbenForm({
       fieldName: 'field4',
       // 界面显示的label
       label: '邮箱',
-      rules: z.string().email('请输入正确的邮箱'),
+      rules: z.email('请输入正确的邮箱'),
     },
     {
       component: 'InputNumber',
@@ -188,8 +188,7 @@ const [Form, formApi] = useVbenForm({
       },
       fieldName: 'input-blur',
       formFieldProps: {
-        validateOnChange: false,
-        validateOnModelUpdate: false,
+        validateOn: ['blur'],
       },
       help: 'blur时才会触发校验',
       label: 'blur触发',
@@ -238,9 +237,8 @@ function onSubmit(values: Record<string, any>) {
   <Page description="表单校验示例" title="表单组件">
     <Card title="基础组件校验示例">
       <template #extra>
-        <Button @click="isCompact = !isCompact">切换Compact</Button>
-        <Button class="mx-2" @click="() => formApi.validate()">校验表单</Button>
-        <Button class="mx-2" @click="() => formApi.resetValidate()">
+        <Button @click="() => formApi.validate()">校验表单</Button>
+        <Button class="mx-2" @click="() => formApi.clearValidation()">
           清空校验信息
         </Button>
       </template>

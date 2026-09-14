@@ -113,9 +113,10 @@ const getTableActions = (
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getTableActions(row, false)" />
       </template>
-      <template #search-tenantId="{ model, size }">
+      <template #search-tenantId="{ componentField, size, values }">
         <SysTenantSelect
-          v-model:value="model.tenantId"
+          v-bind="componentField"
+          :value="values.tenantId"
           :size="size"
           allow-clear
           style="width: 100px"

@@ -27,7 +27,7 @@ const emit = defineEmits<{
   submit: [Recordable<any>];
 }>();
 
-const [Form, { resetForm, validate, getValues, getFieldComponentRef }] =
+const [Form, { reset, validate, getValues, getFieldComponentRef }] =
   useVbenForm(
     reactive({
       commonConfig: {
@@ -41,7 +41,7 @@ const [Form, { resetForm, validate, getValues, getFieldComponentRef }] =
             placeholder: $t('ui.widgets.lockScreen.placeholder'),
           },
           fieldName: 'lockScreenPassword',
-          formFieldProps: { validateOnBlur: false },
+          formFieldProps: { validateOn: ['change'] as const },
           label: $t('authentication.password'),
           rules: z
             .string()
@@ -58,7 +58,7 @@ const [Modal] = useVbenModal({
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      resetForm();
+      reset();
     }
   },
   onOpened() {

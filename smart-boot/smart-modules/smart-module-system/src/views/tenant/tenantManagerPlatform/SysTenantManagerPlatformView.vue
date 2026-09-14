@@ -2,7 +2,7 @@
 import { ref, unref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import { Tabs } from 'antdv-next';
 
@@ -49,11 +49,13 @@ const tabItems = [
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate
+    <ResizableLayout
       class="h-full"
-      layout="leftRight"
-      first-size="260px"
-      draggable
+      divider-size="5px"
+      :first-size="260"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
     >
       <template #first>
         <div class="h-full bg-background">
@@ -83,7 +85,7 @@ const tabItems = [
           </Tabs>
         </div>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 
@@ -100,6 +102,9 @@ const tabItems = [
     height: 100%;
   }
   :deep(.ant-tabs-tabpane) {
+    height: 100%;
+  }
+  :deep(.ant-tabs-body) {
     height: 100%;
   }
   :deep(.ant-tabs-nav) {

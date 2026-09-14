@@ -1,0 +1,1 @@
+export { initComponentAdapter } from './component';

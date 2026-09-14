@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import UserGroupList from './components/UserGroupList.vue';
 import UserGroupUserList from './components/UserGroupUserList.vue';
@@ -11,11 +11,14 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <SmartLayoutSeparate
+  <ResizableLayout
     class="page-container h-full"
-    first-size="60%"
-    layout="topBottom"
+    direction="vertical"
+    divider-size="5px"
+    :first-size="60"
+    :resizable="false"
     show-divider
+    :show-handle="false"
   >
     <template #first>
       <UserGroupList :group-id="props.groupId" />
@@ -23,7 +26,7 @@ const props = defineProps<Props>();
     <template #second>
       <UserGroupUserList :group-id="props.groupId" />
     </template>
-  </SmartLayoutSeparate>
+  </ResizableLayout>
 </template>
 
 <style scoped></style>

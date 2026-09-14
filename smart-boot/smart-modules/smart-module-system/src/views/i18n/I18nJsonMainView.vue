@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import SysI18nJsonItemListView from './components/SysI18nJsonItemListView.vue';
 import SysI18nJsonListView from './components/SysI18nJsonListView.vue';
@@ -15,11 +15,13 @@ const handleCurrentChange = ({ row }: any) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate
+    <ResizableLayout
       class="h-full"
-      draggable
-      layout="topBottom"
-      first-size="60%"
+      direction="vertical"
+      divider-size="5px"
+      :first-size="60"
+      resize-mode="preview"
+      resizable
     >
       <template #first>
         <SysI18nJsonListView @current-change="handleCurrentChange" />
@@ -27,7 +29,7 @@ const handleCurrentChange = ({ row }: any) => {
       <template #second>
         <SysI18nJsonItemListView :i18n-id="currentI18nIdRef" />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

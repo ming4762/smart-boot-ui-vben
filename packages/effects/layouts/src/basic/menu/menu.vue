@@ -16,11 +16,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   open: [string, string[]];
-  select: [string, string?];
+  select: [string, string?, Record<string, any>?];
 }>();
 
-function handleMenuSelect(key: string) {
-  emit('select', key, props.mode);
+function handleMenuSelect(
+  key: string,
+  _parents: string[],
+  query?: Record<string, any>,
+) {
+  emit('select', key, props.mode, query);
 }
 
 function handleMenuOpen(key: string, path: string[]) {
@@ -41,5 +45,9 @@ function handleMenuOpen(key: string, path: string[]) {
     :theme="theme"
     @open="handleMenuOpen"
     @select="handleMenuSelect"
-  />
+  >
+    <template #item-extra="{ menu }">
+      <slot name="item-extra" :menu="menu"></slot>
+    </template>
+  </Menu>
 </template>

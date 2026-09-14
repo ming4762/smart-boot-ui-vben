@@ -1,8 +1,8 @@
 import { ApiServiceEnum, requestClient } from '../request';
 
 enum Api {
-  listCurrentUserConfig = 'sys/configStorage/listCurrentUserConfig',
-  saveVxeConfig = 'sys/configStorage/saveVxeConfig',
+  listCurrentUserConfig = 'sys/userPreference/listCurrentUserConfig',
+  saveVxeConfig = 'sys/userPreference/saveVxeConfig',
 }
 
 /**

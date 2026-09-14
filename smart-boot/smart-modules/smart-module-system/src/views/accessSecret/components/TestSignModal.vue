@@ -28,7 +28,11 @@ const [Form, formApi] = useVbenForm({
       component: 'Input',
       dependencies: {
         triggerFields: ['accessId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {

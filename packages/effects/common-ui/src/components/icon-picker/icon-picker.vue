@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import type { IconPickerProps } from './types';
 
-import { computed, ref, useAttrs, watch, watchEffect } from 'vue';
+import {
+  computed,
+  onBeforeUpdate,
+  ref,
+  useAttrs,
+  watch,
+  watchEffect,
+} from 'vue';
 
 import { usePagination } from '@vben/hooks';
 import { EmptyIcon, Grip, listIcons } from '@vben/icons';
@@ -11,13 +18,13 @@ import {
   Button,
   Input,
   Pagination,
+  PaginationContent,
   PaginationEllipsis,
   PaginationFirst,
+  PaginationItem,
   PaginationLast,
-  PaginationList,
-  PaginationListItem,
   PaginationNext,
-  PaginationPrev,
+  PaginationPrevious,
   VbenIcon,
   VbenIconButton,
   VbenPopover,
@@ -100,7 +107,17 @@ const { paginationList, total, setCurrentPage, currentPage } = usePagination(
 );
 
 watchEffect(() => {
-  currentSelect.value = modelValue.value;
+  currentSelect.value =
+    props.modelValueProp === 'modelValue'
+      ? modelValue.value
+      : ((attrs[props.modelValueProp] as string) ?? '');
+});
+
+onBeforeUpdate(() => {
+  if (props.modelValueProp !== 'modelValue') {
+    currentSelect.value =
+      (attrs[props.modelValueProp] as string | undefined) ?? '';
+  }
 });
 
 watch(
@@ -111,8 +128,7 @@ watch(
 );
 
 const handleClick = (icon: string) => {
-  currentSelect.value = icon;
-  modelValue.value = icon;
+  updateCurrentSelect(icon);
   close();
 };
 
@@ -156,7 +172,10 @@ function updateCurrentSelect(v: string) {
   }
 }
 const getBindAttrs = computed(() => {
-  return objectOmit(attrs, [`onUpdate:${props.modelValueProp}`]);
+  return objectOmit(attrs, [
+    `onUpdate:${props.modelValueProp}`,
+    props.modelValueProp,
+  ]);
 });
 
 defineExpose({ toggleOpenState, open, close });
@@ -256,14 +275,14 @@ defineExpose({ toggleOpenState, open, close });
           size="small"
           @update:page="handlePageChange"
         >
-          <PaginationList
+          <PaginationContent
             v-slot="{ items }"
             class="flex w-full items-center gap-1"
           >
             <PaginationFirst class="size-5" />
-            <PaginationPrev class="size-5" />
+            <PaginationPrevious class="size-5" />
             <template v-for="(item, index) in items">
-              <PaginationListItem
+              <PaginationItem
                 v-if="item.type === 'page'"
                 :key="index"
                 :value="item.value"
@@ -275,7 +294,7 @@ defineExpose({ toggleOpenState, open, close });
                 >
                   {{ item.value }}
                 </Button>
-              </PaginationListItem>
+              </PaginationItem>
               <PaginationEllipsis
                 v-else
                 :key="item.type"
@@ -285,7 +304,7 @@ defineExpose({ toggleOpenState, open, close });
             </template>
             <PaginationNext class="size-5" />
             <PaginationLast class="size-5" />
-          </PaginationList>
+          </PaginationContent>
         </Pagination>
       </div>
     </template>

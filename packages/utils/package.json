@@ -1,6 +1,6 @@
 {
   "name": "@vben/utils",
-  "version": "5.7.0",
+  "version": "5.8.0",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -22,10 +22,6 @@
   "dependencies": {
     "@vben-core/shared": "workspace:*",
     "@vben-core/typings": "workspace:*",
-    "crypto-js": "catalog:",
     "vue-router": "catalog:"
-  },
-  "devDependencies": {
-    "@types/crypto-js": "catalog:"
   }
 }

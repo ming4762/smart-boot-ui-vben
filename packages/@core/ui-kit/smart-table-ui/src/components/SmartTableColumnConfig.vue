@@ -1,8 +1,7 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { VxePulldownInstance } from 'vxe-pc-ui';
 import type {
   VxeColumnPropTypes,
-  VxeGridInstance,
   VxeGridProps,
   VxeGridPropTypes,
   VxeTableDefines,
@@ -12,7 +11,7 @@ import type { Recordable } from '@vben-core/typings';
 
 import type { SmartTableToolbarColumnConfig } from '../types/SmartTableToolbarConfigType';
 
-import { computed, ref, unref, useTemplateRef } from 'vue';
+import { computed, h, ref, unref, useTemplateRef } from 'vue';
 
 import { VxeButton, VxePulldown } from 'vxe-pc-ui';
 import { VxeGrid, getI18n as vxeI18n } from 'vxe-table';
@@ -45,7 +44,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const pullDownRef = useTemplateRef<VxePulldownInstance>('pullDownRef');
-const configGridRef = useTemplateRef<VxeGridInstance>('configGridRef');
 
 const { getGrid } = injectSmartTableContext();
 
@@ -99,10 +97,12 @@ const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
         field: 'fixed',
         slots: {
           default: ({ row }) => {
-            return (
-              <div class="smart-table-column-config-fixed-option">
-                <span
-                  class={[
+            return h(
+              'div',
+              { class: 'smart-table-column-config-fixed-option' },
+              [
+                h('span', {
+                  class: [
                     row.fixed === 'left'
                       ? 'vxe-icon-fixed-left-fill'
                       : 'vxe-icon-fixed-left',
@@ -110,16 +110,16 @@ const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
                     {
                       'is--checked': row.fixed === 'left',
                     },
-                  ]}
-                  onClick={(event) => changeFixed(event, 'left', row)}
-                  title={vxeI18n(
+                  ],
+                  onClick: (event) => changeFixed(event, 'left', row),
+                  title: vxeI18n(
                     row.fixed === 'left'
                       ? 'vxe.toolbar.cancelfixed'
                       : 'vxe.toolbar.fixedLeft',
-                  )}
-                />
-                <span
-                  class={[
+                  ),
+                }),
+                h('span', {
+                  class: [
                     row.fixed === 'right'
                       ? 'vxe-icon-fixed-right-fill'
                       : 'vxe-icon-fixed-right',
@@ -127,15 +127,15 @@ const getGridColumns = (changeFixed: Function): VxeGridPropTypes.Columns => {
                     {
                       'is--checked': row.fixed === 'right',
                     },
-                  ]}
-                  onClick={(event) => changeFixed(event, 'right', row)}
-                  title={vxeI18n(
+                  ],
+                  onClick: (event) => changeFixed(event, 'right', row),
+                  title: vxeI18n(
                     row.fixed === 'right'
                       ? 'vxe.toolbar.cancelfixed'
                       : 'vxe.toolbar.fixedRight',
-                  )}
-                />
-              </div>
+                  ),
+                }),
+              ],
             );
           },
         },
@@ -255,7 +255,7 @@ const computedToolButtonProps = computed(() => {
     />
     <template #dropdown>
       <div>
-        <VxeGrid ref="configGridRef" v-bind="computedGridProps" />
+        <VxeGrid v-bind="computedGridProps" />
         <div class="bottom-button">
           <VxeButton mode="text" @click="handleRestShowHide">
             {{ vxeI18n('vxe.toolbar.customRestore') }}

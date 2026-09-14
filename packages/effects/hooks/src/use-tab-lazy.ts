@@ -10,11 +10,13 @@ import { ref, unref, watch } from 'vue';
  * @param triggerRef
  * @param actived
  * @param handler
+ * @param options
  */
 export const useTabLazy = (
   triggerRef: Ref<any>,
   actived: Ref<boolean>,
   handler: () => any,
+  options: { immediate?: boolean } = {},
 ) => {
   /**
    * 上次触发的trigger
@@ -28,11 +30,15 @@ export const useTabLazy = (
     }
   };
 
-  watch(actived, (value) => {
-    if (value) {
-      doHandler();
-    }
-  });
+  watch(
+    actived,
+    (value) => {
+      if (value) {
+        doHandler();
+      }
+    },
+    { immediate: options.immediate ?? false },
+  );
 
   watch(triggerRef, () => {
     if (unref(actived)) {

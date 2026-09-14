@@ -20,6 +20,10 @@ function useMixedMenu() {
   /** 记录当前顶级菜单下哪个子菜单最后激活 */
   const defaultSubMap = new Map<string, string>();
   const { isMixedNav, isHeaderMixedNav, isMobile } = usePreferences();
+  const favoriteMenuKey = computed(() => {
+    const functionId = route.query._favoriteMenuId;
+    return functionId ? `favorite:${functionId}` : undefined;
+  });
 
   const needSplit = computed(
     () =>
@@ -67,6 +71,9 @@ function useMixedMenu() {
    * 侧边菜单激活路径
    */
   const sidebarActive = computed(() => {
+    if (favoriteMenuKey.value) {
+      return favoriteMenuKey.value;
+    }
     return (route?.meta?.activePath as string) ?? route.path;
   });
 
@@ -74,6 +81,9 @@ function useMixedMenu() {
    * 头部菜单激活路径
    */
   const headerActive = computed(() => {
+    if (favoriteMenuKey.value) {
+      return needSplit.value ? 'favorite:root' : favoriteMenuKey.value;
+    }
     if (!needSplit.value) {
       return route.meta?.activePath ?? route.path;
     }
@@ -85,9 +95,13 @@ function useMixedMenu() {
    * @param key 菜单路径
    * @param mode 菜单模式
    */
-  const handleMenuSelect = (key: string, mode?: string) => {
+  const handleMenuSelect = (
+    key: string,
+    mode?: string,
+    query?: Record<string, any>,
+  ) => {
     if (!needSplit.value || mode === 'vertical') {
-      navigation(key);
+      navigation(key, query);
       return;
     }
     const rootMenu = menus.value.find((item) => item.path === key);
@@ -127,6 +141,16 @@ function useMixedMenu() {
    * @param path 路由路径
    */
   function calcSideMenus(path: string = route.path) {
+    if (favoriteMenuKey.value) {
+      const favoriteRoot = menus.value.find(
+        (item) => (item.key ?? item.path) === 'favorite:root',
+      );
+      rootMenuPath.value = 'favorite:root';
+      mixedRootMenuPath.value = favoriteMenuKey.value;
+      splitSideMenus.value = favoriteRoot?.children ?? [];
+      mixExtraMenus.value = favoriteRoot?.children ?? [];
+      return;
+    }
     let { rootMenu } = findRootMenuByPath(menus.value, path);
     if (!rootMenu) {
       rootMenu = menus.value.find((item) => item.path === path);
@@ -139,9 +163,10 @@ function useMixedMenu() {
   }
 
   watch(
-    () => route.path,
-    (path) => {
-      const currentPath = route?.meta?.activePath ?? route?.meta?.link ?? path;
+    () => route.fullPath,
+    () => {
+      const currentPath =
+        route.meta?.activePath ?? route.meta?.link ?? route.path;
       if (willOpenedByWindow(currentPath)) {
         return;
       }

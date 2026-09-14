@@ -8,7 +8,6 @@ import type { SystemUserApi } from '#/api/system/user';
 import { computed, nextTick, ref } from 'vue';
 
 import { Tree, useVbenDrawer } from '@vben/common-ui';
-import { IconifyIcon } from '@vben/icons';
 
 import { Spin } from 'antdv-next';
 
@@ -32,7 +31,7 @@ const permissions = ref<DataNode[]>([]);
 const loadingPermissions = ref(false);
 
 const id = ref();
-const [Drawer, drawerApi] = useVbenDrawer({
+const [Drawer, drawerApi] = useVbenDrawer<null | SystemUserApi.SystemUser>({
   async onConfirm() {
     const { valid } = await formApi.validate();
     if (!valid) return;
@@ -50,13 +49,14 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
   async onOpenChange(isOpen) {
     if (isOpen) {
-      const data = drawerApi.getData<SystemUserApi.SystemUser>();
-      formApi.resetForm();
+      const data = drawerApi.getData();
+      formApi.reset();
 
       if (data) {
         formData.value = data;
         id.value = data.id;
       } else {
+        formData.value = undefined;
         id.value = undefined;
       }
 
@@ -71,6 +71,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
   },
 });
+
+defineExpose({ drawerApi });
 
 async function loadPermissions() {
   loadingPermissions.value = true;
@@ -108,31 +110,12 @@ function getNodeClass(node: Recordable<any>) {
             bordered
             :default-expanded-level="2"
             :get-node-class="getNodeClass"
-            v-bind="slotProps"
+            v-bind="slotProps.componentProps"
             value-field="id"
-            label-field="meta.title"
-            icon-field="meta.icon"
-          >
-            <template #node="{ value }">
-              <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />
-              {{ $t(value.meta.title) }}
-            </template>
-          </Tree>
+            label-field="name"
+          />
         </Spin>
       </template>
     </Form>
   </Drawer>
 </template>
-<style lang="css" scoped>
-:deep(.ant-tree-title) {
-  .tree-actions {
-    @apply ml-5 hidden;
-  }
-}
-
-:deep(.ant-tree-title:hover) {
-  .tree-actions {
-    @apply ml-5 flex flex-auto justify-end;
-  }
-}
-</style>

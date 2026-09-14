@@ -81,6 +81,10 @@ interface RouteMeta {
    * iframe 地址
    */
   iframeSrc?: string;
+  /** 菜单业务功能ID */
+  functionId?: number;
+  /** 是否允许收藏 */
+  favoritable?: boolean;
   /**
    * 忽略权限，直接可以访问
    * @default false

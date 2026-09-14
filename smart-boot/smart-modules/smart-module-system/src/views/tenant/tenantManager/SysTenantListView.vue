@@ -171,11 +171,13 @@ const [SmartTable] = useSmartTable({
         <span>{{ computedTenantTypeDictMap.get(row.type) }}</span>
       </template>
     </SmartTable>
-    <!--    <SmartLayoutSeparate-->
+    <!--    <ResizableLayout-->
     <!--      class="h-full"-->
-    <!--      draggable-->
-    <!--      first-size="45%"-->
-    <!--      layout="topBottom"-->
+    <!--      direction="vertical"-->
+    <!--      divider-size="5px"-->
+    <!--      :first-size="45"-->
+    <!--      resize-mode="preview"-->
+    <!--      resizable-->
     <!--    >-->
     <!--      <template #first>-->
     <!--        <SmartTable @current-change="handleCurrentChange">-->
@@ -205,7 +207,7 @@ const [SmartTable] = useSmartTable({
     <!--          </TabPane>-->
     <!--        </Tabs>-->
     <!--      </template>-->
-    <!--    </SmartLayoutSeparate>-->
+    <!--    </ResizableLayout>-->
   </div>
 </template>
 

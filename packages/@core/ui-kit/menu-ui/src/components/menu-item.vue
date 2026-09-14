@@ -37,7 +37,7 @@ const menuIcon = computed(() =>
 const isHttp = computed(() => isHttpUrl(item.parentPaths.at(-1)));
 
 const isTopLevelMenuItem = computed(
-  () => parentMenu.value?.type.name === 'Menu',
+  () => parentMenu.value?.type.name === 'MenuUI',
 );
 
 const collapseShowTitle = computed(
@@ -60,6 +60,7 @@ const item: MenuItemRegistered = reactive({
   parentPaths: parentPaths.value,
   path: props.path || '',
   query: props.query,
+  targetPath: props.targetPath,
 });
 
 /**
@@ -72,6 +73,8 @@ function handleClick() {
   rootMenu?.handleMenuItemClick?.({
     parentPaths: parentPaths.value,
     path: props.path,
+    query: props.query,
+    targetPath: props.targetPath,
   });
   emit('click', item);
 }
@@ -91,8 +94,8 @@ onBeforeUnmount(() => {
     v-slot="{ href }"
     custom
     :to="
-      (item.parentPaths.at(-1) ?? '') +
-      (item?.query ? `?${qs.stringify(item?.query)}` : '')
+      (item.targetPath ?? item.parentPaths.at(-1) ?? '') +
+        (item?.query ? `?${qs.stringify(item?.query)}` : '')
     "
   >
     <a
@@ -123,7 +126,7 @@ onBeforeUnmount(() => {
         </template>
         <slot name="title"></slot>
       </VbenTooltip>
-      <div v-show="!showTooltip" :class="[e('content')]">
+      <div v-show="!showTooltip" :class="[e('content')]" class="group">
         <MenuBadge
           v-if="rootMenu.props.mode !== 'horizontal'"
           class="right-2"
@@ -131,7 +134,10 @@ onBeforeUnmount(() => {
         />
         <VbenIcon :class="nsMenu.e('icon')" :icon="menuIcon" />
         <slot></slot>
-        <slot name="title"></slot>
+        <span v-if="$slots.title" :class="nsMenu.e('name')">
+          <slot name="title"></slot>
+        </span>
+        <slot name="extra"></slot>
       </div>
     </a>
   </router-link>

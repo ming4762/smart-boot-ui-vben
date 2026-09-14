@@ -151,7 +151,7 @@
     },
     "lockScreen": {
       "title": "Lock Screen",
-      "screenButton": "Unlock",
+      "screenButton": "Lock",
       "password": "Password",
       "placeholder": "Please enter password",
       "unlock": "Click to unlock",
@@ -173,6 +173,8 @@
       "placeholderConfirm": "Please enter your password again",
       "errorPasswordTip": "Passwords do not match, please re-enter",
       "changePasswordSuccess": "Password changed successfully, please log in again",
+      "generatePassword": "Generate Password",
+      "generatePasswordFailed": "Unable to generate a password that meets the current rules. Please contact the administrator",
       "passwordStrength": "Password does not meet strength requirements"
     },
     "personalCenter": {

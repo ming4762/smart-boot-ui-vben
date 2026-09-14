@@ -131,7 +131,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -141,7 +145,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['functionId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -152,6 +160,9 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       slot: 'addEdit-parentId',
       dependencies: {
         triggerFields: ['functionId', 'functionType'],
+        resolve() {
+          return {};
+        },
       },
     },
     {
@@ -191,16 +202,22 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType !== 'FUNCTION';
-        },
-        rules: (value) => {
-          if (!(value.functionType === 'MENU')) {
-            return null;
-          }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.componentName'),
-          });
+        resolve({ values }) {
+          return {
+            show: values.functionType !== 'FUNCTION',
+            rules: (() => {
+              if (!(values.functionType === 'MENU')) {
+                return null;
+              }
+              return z
+                .string({
+                  error: t('system.views.function.validate.componentName'),
+                })
+                .min(1, {
+                  message: t('system.views.function.validate.componentName'),
+                });
+            })(),
+          };
         },
       },
     },
@@ -211,7 +228,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Switch',
       dependencies: {
         triggerFields: ['isAdd'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -220,34 +241,41 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionType', 'isMicroFrontend'],
-        show: (value) => {
-          return value.functionType !== 'FUNCTION';
-        },
-        rules: (value) => {
-          if (!(value.functionType === 'MENU')) {
-            return null;
-          }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.component'),
-          });
-        },
-        disabled: (value) => {
-          return value.isMicroFrontend;
-        },
-        trigger: (value, formApi) => {
-          const MicroFrontendLayout = 'MicroFrontendLayout';
-          const { isMicroFrontend, component } = value;
-          if (isMicroFrontend && !component) {
-            formApi.setFieldValue('component', MicroFrontendLayout);
-            return;
-          }
-          if (!value.isAdd) {
-            return;
-          }
-          formApi.setFieldValue(
-            'component',
-            value.isMicroFrontend ? MicroFrontendLayout : '',
-          );
+        resolve({ values, actions }) {
+          const show = values.functionType !== 'FUNCTION';
+          const rules = (() => {
+            if (!(values.functionType === 'MENU')) {
+              return null;
+            }
+            return z
+              .string({
+                error: t('system.views.function.validate.component'),
+              })
+              .min(1, {
+                message: t('system.views.function.validate.component'),
+              });
+          })();
+          const disabled = values.isMicroFrontend;
+          (() => {
+            const MicroFrontendLayout = 'MicroFrontendLayout';
+            const { isMicroFrontend, component } = values;
+            if (isMicroFrontend && !component) {
+              actions.setFieldValue('component', MicroFrontendLayout);
+              return;
+            }
+            if (!values.isAdd) {
+              return;
+            }
+            actions.setFieldValue(
+              'component',
+              values.isMicroFrontend ? MicroFrontendLayout : '',
+            );
+          })();
+          return {
+            disabled,
+            rules,
+            show,
+          };
         },
       },
     },
@@ -257,13 +285,17 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionType'],
-        rules: (value) => {
-          if (!(value.functionType === 'MENU')) {
-            return null;
-          }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.url'),
-          });
+        resolve({ values }) {
+          return {
+            rules: (() => {
+              if (!(values.functionType === 'MENU')) {
+                return null;
+              }
+              return z.string().min(1, {
+                message: t('system.views.function.validate.url'),
+              });
+            })(),
+          };
         },
       },
     },
@@ -273,8 +305,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType !== 'FUNCTION';
+        resolve({ values }) {
+          return {
+            show: values.functionType !== 'FUNCTION',
+          };
         },
       },
     },
@@ -291,8 +325,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       controlClass: 'w-full',
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType === 'FUNCTION';
+        resolve({ values }) {
+          return {
+            show: values.functionType === 'FUNCTION',
+          };
         },
       },
     },
@@ -302,16 +338,18 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       component: 'Input',
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType === 'FUNCTION';
-        },
-        rules: (value) => {
-          if (!(value.functionType === 'FUNCTION')) {
-            return null;
-          }
-          return z.string().min(1, {
-            message: t('system.views.function.validate.permission'),
-          });
+        resolve({ values }) {
+          return {
+            show: values.functionType === 'FUNCTION',
+            rules: (() => {
+              if (!(values.functionType === 'FUNCTION')) {
+                return null;
+              }
+              return z.string().min(1, {
+                message: t('system.views.function.validate.permission'),
+              });
+            })(),
+          };
         },
       },
     },
@@ -322,8 +360,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: true,
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType !== 'FUNCTION';
+        resolve({ values }) {
+          return {
+            show: values.functionType !== 'FUNCTION',
+          };
         },
       },
     },
@@ -334,13 +374,16 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType === 'MENU';
-        },
-        trigger: (value, formApi) => {
-          if (value.functionType !== 'MENU') {
-            formApi.setFieldValue('isMicroFrontend', false);
-          }
+        resolve({ values, actions }) {
+          const show = values.functionType === 'MENU';
+          (() => {
+            if (values.functionType !== 'MENU') {
+              actions.setFieldValue('isMicroFrontend', false);
+            }
+          })();
+          return {
+            show,
+          };
         },
       },
     },
@@ -351,11 +394,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['functionType', 'isMicroFrontend'],
-        show: (value) => {
-          return value.functionType === 'MENU';
-        },
-        disabled: (value) => {
-          return value.isMicroFrontend;
+        resolve({ values }) {
+          return {
+            show: values.functionType === 'MENU',
+            disabled: values.isMicroFrontend,
+          };
         },
       },
     },
@@ -366,8 +409,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType === 'FUNCTION';
+        resolve({ values }) {
+          return {
+            show: values.functionType === 'FUNCTION',
+          };
         },
       },
     },
@@ -378,8 +423,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: true,
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType === 'MENU';
+        resolve({ values }) {
+          return {
+            show: values.functionType === 'MENU',
+          };
         },
       },
     },
@@ -393,14 +440,17 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
       dependencies: {
         triggerFields: ['functionType'],
-        show: (value) => {
-          return value.functionType !== 'FUNCTION';
+        resolve({ values }) {
+          return {
+            show: values.functionType !== 'FUNCTION',
+          };
         },
       },
       formItemClass: 'col-span-2',
       rules: z
         .string()
         .optional()
+        .nullable()
         .refine(
           (value) => {
             if (!value) {
@@ -431,11 +481,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       },
       dependencies: {
         triggerFields: ['isMicroFrontend'],
-        show: (value) => {
-          return value.isMicroFrontend;
-        },
-        required: (value) => {
-          return value.isMicroFrontend;
+        resolve({ values }) {
+          return {
+            show: values.isMicroFrontend,
+            required: values.isMicroFrontend,
+          };
         },
       },
     },
@@ -446,16 +496,18 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: '',
       dependencies: {
         triggerFields: ['isMicroFrontend', 'microFrontend.routeLinkageYn'],
-        show: (value) => {
-          return value.isMicroFrontend;
-        },
-        disabled: (value) => {
-          return value.microFrontend?.routeLinkageYn;
-        },
-        trigger: (value, formApi) => {
-          if (value.microFrontend?.routeLinkageYn) {
-            formApi.setFieldValue('microFrontend.microFrontendPageUrl', '');
-          }
+        resolve({ values, actions }) {
+          const show = values.isMicroFrontend;
+          const disabled = values.microFrontend?.routeLinkageYn;
+          (() => {
+            if (values.microFrontend?.routeLinkageYn) {
+              actions.setFieldValue('microFrontend.microFrontendPageUrl', '');
+            }
+          })();
+          return {
+            disabled,
+            show,
+          };
         },
       },
     },
@@ -466,8 +518,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['isMicroFrontend'],
-        show: (value) => {
-          return value.isMicroFrontend;
+        resolve({ values }) {
+          return {
+            show: values.isMicroFrontend,
+          };
         },
       },
     },
@@ -478,11 +532,11 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['isMicroFrontend', 'microFrontend.multiInstanceYn'],
-        show: (value) => {
-          return value.isMicroFrontend;
-        },
-        disabled: (value) => {
-          return value.microFrontend?.multiInstanceYn;
+        resolve({ values }) {
+          return {
+            show: values.isMicroFrontend,
+            disabled: values.microFrontend?.multiInstanceYn,
+          };
         },
       },
     },
@@ -493,8 +547,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['isMicroFrontend'],
-        show: (value) => {
-          return value.isMicroFrontend;
+        resolve({ values }) {
+          return {
+            show: values.isMicroFrontend,
+          };
         },
       },
     },
@@ -510,8 +566,10 @@ export const getAddEditForm = (): VbenFormSchema[] => {
       defaultValue: '',
       dependencies: {
         triggerFields: ['isMicroFrontend'],
-        show: (value) => {
-          return value.isMicroFrontend;
+        resolve({ values }) {
+          return {
+            show: values.isMicroFrontend,
+          };
         },
       },
       rules: z

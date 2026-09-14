@@ -151,7 +151,7 @@
     },
     "lockScreen": {
       "title": "锁定屏幕",
-      "screenButton": "解锁",
+      "screenButton": "锁定",
       "password": "密码",
       "placeholder": "请输入锁屏密码",
       "unlock": "点击解锁",
@@ -173,6 +173,8 @@
       "placeholderConfirm": "请再次输入密码",
       "errorPasswordTip": "两次密码不一致，请重新输入",
       "changePasswordSuccess": "修改密码成功，请重新登录",
+      "generatePassword": "生成随机密码",
+      "generatePasswordFailed": "无法生成符合当前规则的随机密码，请联系管理员检查密码规则",
       "passwordStrength": "密码强度不匹配"
     },
     "personalCenter": {

@@ -5,7 +5,7 @@ import type { Recordable } from '@vben/types';
 import { useRouter } from 'vue-router';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
   useVbenModal,
@@ -141,7 +141,14 @@ const getTableAction = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      :first-size="240"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
+    >
       <template #first>
         <div class="bg-background h-full">
           <SysSystemSimpleList
@@ -158,7 +165,7 @@ const getTableAction = (row: any): SmartTableActionItem[] => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <RenderCodeCreateModal />
   </div>
 </template>

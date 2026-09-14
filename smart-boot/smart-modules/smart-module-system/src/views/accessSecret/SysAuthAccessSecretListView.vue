@@ -123,17 +123,19 @@ const getActions = (row: Recordable<any>): SmartTableActionItem[] => {
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
       </template>
-      <template #search-tenantId="{ model, size }">
+      <template #search-tenantId="{ componentField, size, values }">
         <SysTenantSelect
-          v-model:value="model.tenantId"
+          v-bind="componentField"
+          :value="values.tenantId"
           :size="size"
           allow-clear
           style="width: 120px"
         />
       </template>
-      <template #addEdit-tenantId="{ model, size }">
+      <template #addEdit-tenantId="{ componentField, size, values }">
         <SysTenantSelect
-          v-model:value="model.tenantId"
+          v-bind="componentField"
+          :value="values.tenantId"
           :size="size"
           allow-clear
         />

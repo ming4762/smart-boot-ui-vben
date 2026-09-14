@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import type { SmartTableLayoutProps } from '../types';
 
 import { computed, unref } from 'vue';

@@ -15,8 +15,8 @@ import { injectCodeDesignHandler } from '../useContext';
 import PageAddendumTableChoseModal from './PageAddendumTableChoseModal.vue';
 
 interface Props {
-  configId?: number | string;
-  systemId?: number | string;
+  configId?: number;
+  systemId?: number;
 }
 const props = defineProps<Props>();
 const { systemId, configId } = toRefs(props);
@@ -76,13 +76,16 @@ const handleSetAddendumTable = (tableData: any[]) => {
 <template>
   <Spin :spinning="configLoadingRef">
     <Form>
-      <template #addEditForm-RelateTable="{ model }">
+      <template #addEditForm-RelateTable="{ values }">
         <Tag
-          v-for="(table, index) in model.addendumTableList"
+          v-for="(table, index) in values.addendumTableList"
           :key="index"
           closable
           style="display: inline-block"
-          @close="() => handleRemoveRelateTable(model.addendumTableList, index)"
+          @close="
+            () =>
+              handleRemoveRelateTable(values.addendumTableList, index as number)
+          "
         >
           {{ table.configName }}
         </Tag>
@@ -93,7 +96,7 @@ const handleSetAddendumTable = (tableData: any[]) => {
         />
         <RenderPageAddendumTableChoseModal
           :form-size="getFormSize"
-          :select-table-list="model.relatedTableList"
+          :select-table-list="values.relatedTableList"
           :size="getTableSize"
           @ok="handleSetAddendumTable"
         />

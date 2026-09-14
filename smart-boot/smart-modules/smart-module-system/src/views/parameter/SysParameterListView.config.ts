@@ -119,7 +119,11 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -129,7 +133,11 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -140,9 +148,13 @@ export const getFormSchemas = (t: (arg: string) => string): FormSchema[] => {
       rules: 'required',
       dependencies: {
         triggerFields: ['code'],
-        disabled: (value) => {
-          const { buildIn } = value;
-          return buildIn === true;
+        resolve({ values }) {
+          return {
+            disabled: (() => {
+              const { buildIn } = values;
+              return buildIn === true;
+            })(),
+          };
         },
       },
     },
@@ -319,7 +331,11 @@ export const getParameterTenantFormSchemas = (): FormSchema[] => {
       fieldName: 'id',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
       label: '',
       component: 'Input',
@@ -331,14 +347,22 @@ export const getParameterTenantFormSchemas = (): FormSchema[] => {
       component: 'Switch',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
       fieldName: 'parameterId',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
       label: '',
       component: 'Input',
@@ -359,8 +383,10 @@ export const getParameterTenantFormSchemas = (): FormSchema[] => {
       defaultValue: false,
       dependencies: {
         triggerFields: ['isAdd'],
-        show: (value) => {
-          return value.isAdd === true;
+        resolve({ values }) {
+          return {
+            show: values.isAdd === true,
+          };
         },
       },
     },

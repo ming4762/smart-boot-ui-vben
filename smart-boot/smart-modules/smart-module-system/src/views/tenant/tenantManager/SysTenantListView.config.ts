@@ -193,7 +193,11 @@ export const getFormSchemas = (
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -598,7 +602,11 @@ export const getSubscribeFormSchemas = (
       componentProps: {},
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -607,7 +615,11 @@ export const getSubscribeFormSchemas = (
       component: 'Switch',
       dependencies: {
         triggerFields: ['isAdd'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -616,9 +628,13 @@ export const getSubscribeFormSchemas = (
       component: 'SmartPulldownTable',
       dependencies: {
         triggerFields: ['packageId'],
-        disabled: (value) => {
-          const isAdd = value.isAdd;
-          return isAdd === false;
+        resolve({ values }) {
+          return {
+            disabled: (() => {
+              const isAdd = values.isAdd;
+              return isAdd === false;
+            })(),
+          };
         },
       },
       componentProps: () => {

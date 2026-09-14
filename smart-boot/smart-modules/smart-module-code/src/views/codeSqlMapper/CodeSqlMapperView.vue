@@ -3,7 +3,7 @@ import type { CodeSqlFormValues } from './types';
 
 import { unref, useTemplateRef } from 'vue';
 
-import { SmartLayoutSeparate } from '@vben/common-ui';
+import { ResizableLayout } from '@vben/common-ui';
 
 import CodeSqlGenerator from './components/CodeSqlGenerator.vue';
 import CodeSqlMapperForm from './components/CodeSqlMapperForm.vue';
@@ -18,12 +18,15 @@ const handleGenerate = (values: CodeSqlFormValues) => {
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate
+    <ResizableLayout
       class="h-full"
-      layout="topBottom"
-      first-size="400px"
+      direction="vertical"
+      divider-size="5px"
+      :first-size="400"
+      resize-mode="preview"
+      resizable
       show-divider
-      draggable
+      size-unit="px"
     >
       <template #first>
         <CodeSqlMapperForm
@@ -34,7 +37,7 @@ const handleGenerate = (values: CodeSqlFormValues) => {
       <template #second>
         <CodeSqlGenerator ref="CodeSqlGenerator" class="h-full bg-background" />
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

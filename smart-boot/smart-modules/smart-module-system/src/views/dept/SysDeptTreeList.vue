@@ -3,7 +3,7 @@ import type { Recordable } from '@vben/types';
 
 import { ref, unref, useTemplateRef } from 'vue';
 
-import { SmartLayoutSeparate, useVbenModal } from '@vben/common-ui';
+import { ResizableLayout, useVbenModal } from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t } from '@vben/locales';
 
@@ -130,7 +130,14 @@ const tabItems = [
 
 <template>
   <div class="page-container h-full">
-    <SmartLayoutSeparate first-size="300px" draggable class="h-full">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      :first-size="300"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
+    >
       <template #first>
         <div class="h-full bg-background p-[5px]">
           <div>
@@ -245,7 +252,7 @@ const tabItems = [
           </Tabs>
         </div>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
     <Modal @after-save="reloadDeptTree" />
   </div>
 </template>
@@ -266,7 +273,7 @@ const tabItems = [
   :deep(.ant-tabs-content) {
     height: 100%;
   }
-  :deep(.ant-tabs-tabpane) {
+  :deep(.ant-tabs-body) {
     height: 100%;
   }
   .save-button-container {

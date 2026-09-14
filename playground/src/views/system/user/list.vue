@@ -1,10 +1,9 @@
 <script lang="ts" setup>
+import type { Dayjs } from 'dayjs';
+
 import type { Recordable } from '@vben/types';
 
-import type {
-  OnActionClickParams,
-  VxeTableGridOptions,
-} from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { SystemDeptApi, SystemUserApi } from '#/api';
 
 import { onMounted, ref, watch } from 'vue';
@@ -14,12 +13,26 @@ import { Plus } from '@vben/icons';
 
 import { Button, Card, InputSearch, message, Modal } from 'antdv-next';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid, VbenTableAction } from '#/adapter/vxe-table';
 import { deleteUser, getDeptList, getUserList, updateUser } from '#/api';
 import { $t } from '#/locales';
+import { createDateRangeCodec } from '#/utils/date-range-codec';
 
 import { useColumns, useGridFormSchema } from './data';
+import Detail from './modules/detail.vue';
 import Form from './modules/form.vue';
+
+interface UserSearchFormValues extends Record<string, unknown> {
+  createTime?: [Dayjs, Dayjs];
+}
+
+const userSearchCodec = createDateRangeCodec<UserSearchFormValues>()({
+  endField: 'endTime',
+  rangeField: 'createTime',
+  startField: 'startTime',
+});
+
+type UserSearchSubmitValues = ReturnType<typeof userSearchCodec.encode>;
 
 const deptList = ref<SystemDeptApi.SystemDept[]>([]);
 const inputSearchValue = ref('');
@@ -30,19 +43,24 @@ const [FormDrawer, formDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
+const [DetailDrawer, detailDrawerApi] = useVbenDrawer({
+  connectedComponent: Detail,
+  destroyOnClose: true,
+});
+
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: {
-    fieldMappingTime: [['createTime', ['startTime', 'endTime']]],
+    codec: userSearchCodec,
     schema: useGridFormSchema(),
     submitOnChange: true,
   },
   gridOptions: {
-    columns: useColumns(onActionClick, onStatusChange),
+    columns: useColumns(onStatusChange),
     height: 'auto',
     keepSource: true,
     proxyConfig: {
       ajax: {
-        query: async ({ page }, formValues) => {
+        query: async ({ page }, formValues: UserSearchSubmitValues) => {
           return await getUserList({
             page: page.currentPage,
             pageSize: page.pageSize,
@@ -65,19 +83,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     },
   } as VxeTableGridOptions<SystemUserApi.SystemUser>,
 });
-
-function onActionClick(e: OnActionClickParams<SystemUserApi.SystemUser>) {
-  switch (e.code) {
-    case 'delete': {
-      onDelete(e.row);
-      break;
-    }
-    case 'edit': {
-      onEdit(e.row);
-      break;
-    }
-  }
-}
 
 /**
  * 将Antd的Modal.confirm封装为promise，方便在异步函数中调用。
@@ -129,6 +134,10 @@ function onEdit(row: SystemUserApi.SystemUser) {
   formDrawerApi.setData(row).open();
 }
 
+function onDetail(row: SystemUserApi.SystemUser) {
+  detailDrawerApi.setData(row).open();
+}
+
 function onDelete(row: SystemUserApi.SystemUser) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.name]),
@@ -153,7 +162,7 @@ function onRefresh() {
 }
 
 function onCreate() {
-  formDrawerApi.setData({}).open();
+  formDrawerApi.setData(null).open();
 }
 
 async function loadDeptList() {
@@ -192,6 +201,7 @@ watch(inputSearchValue, (value) => {
 <template>
   <Page auto-content-height>
     <FormDrawer @success="onRefresh" />
+    <DetailDrawer @success="onRefresh" />
     <div class="flex size-full">
       <Card class="w-1/6">
         <InputSearch
@@ -214,6 +224,35 @@ watch(inputSearchValue, (value) => {
               <Plus class="size-5" />
               {{ $t('ui.actionTitle.create', [$t('system.user.name')]) }}
             </Button>
+          </template>
+          <template #action="{ row }">
+            <VbenTableAction
+              :actions="[
+                {
+                  text: $t('common.detail'),
+                  icon: 'lucide:eye',
+                  onClick: () => onDetail(row),
+                },
+                {
+                  text: $t('common.edit'),
+                  icon: 'lucide:edit',
+                  onClick: () => onEdit(row),
+                },
+              ]"
+              :dropdown-actions="[
+                {
+                  text: $t('common.delete'),
+                  icon: 'lucide:trash-2',
+                  danger: true,
+                  popConfirm: {
+                    title: $t('ui.actionMessage.deleteConfirm', [row.name]),
+                    confirm: () => onDelete(row),
+                  },
+                  auth: ['AC_100100'],
+                },
+              ]"
+              align="center"
+            />
           </template>
         </Grid>
       </div>

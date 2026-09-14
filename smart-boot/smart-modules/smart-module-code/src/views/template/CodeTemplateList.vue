@@ -4,7 +4,7 @@ import type { SmartTableActionItem } from '@vben/common-ui';
 import { computed, ref, unref } from 'vue';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
 } from '@vben/common-ui';
@@ -161,7 +161,14 @@ const getActions = (row: any): SmartTableActionItem[] => {
     id="codeTemplateContainer"
     class="page-container smart-code-template-list h-full"
   >
-    <SmartLayoutSeparate draggable class="h-full" first-size="240px">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      :first-size="240"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
+    >
       <template #first>
         <div class="bg-background h-full">
           <TemplateGroup @change="handleGroupChange" />
@@ -177,7 +184,7 @@ const getActions = (row: any): SmartTableActionItem[] => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

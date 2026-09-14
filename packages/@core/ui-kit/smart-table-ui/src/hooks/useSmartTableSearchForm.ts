@@ -3,6 +3,7 @@ import type { ComputedRef, Ref, Slots } from 'vue';
 import type { VbenFormProps } from '@vben-core/form-ui';
 import type { Recordable } from '@vben-core/typings';
 
+import type { VbenButtonProps } from '../../../shadcn-ui';
 import type {
   SmartSearchFormParameter,
   SmartSearchFormProps,
@@ -76,7 +77,7 @@ const useSmartTableSearchForm = (
   const [SearchForm, searchFormApi] = useVbenForm({
     handleReset: () => {
       const { query } = getSmartTableContext();
-      searchFormApi.resetForm();
+      searchFormApi.reset();
       query();
       emit('formQuery');
     },
@@ -111,7 +112,7 @@ const useSmartTableSearchForm = (
       ...searchFormConfig,
       commonConfig: {
         ...searchFormConfig?.commonConfig,
-        componentProps: (value, actions) => {
+        componentProps: (ctx) => {
           const commonComponentProps =
             searchFormConfig?.commonConfig?.componentProps;
           if (!commonComponentProps) {
@@ -121,7 +122,7 @@ const useSmartTableSearchForm = (
             };
           }
           if (isFunction(commonComponentProps)) {
-            const componentProps = commonComponentProps(value, actions);
+            const componentProps = commonComponentProps(ctx);
             return {
               ...defaultComponentProps,
               ...componentProps,
@@ -137,14 +138,14 @@ const useSmartTableSearchForm = (
       },
       resetButtonOptions: {
         icon: AntRedoOutlinedComponent,
-        size: formSize,
+        size: formSize as VbenButtonProps['size'],
         ...resetButtonOptions,
       },
       submitButtonOptions: {
         content: t('smartTable.button.search'),
         icon: AntSearchOutlinedComponent,
         loading: unref(tableLoading),
-        size: formSize,
+        size: formSize as VbenButtonProps['size'],
         ...submitButtonOptions,
       },
     };

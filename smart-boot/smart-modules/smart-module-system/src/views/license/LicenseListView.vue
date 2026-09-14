@@ -5,7 +5,7 @@ import type { Recordable } from '@vben/types';
 import { ref, unref } from 'vue';
 
 import {
-  SmartLayoutSeparate,
+  ResizableLayout,
   SmartVxeTableAction,
   useSmartTable,
 } from '@vben/common-ui';
@@ -218,7 +218,14 @@ const getTableDropDownActions = (row: any): SmartTableActionItem[] => {
 
 <template>
   <div class="smart-table-padding page-container h-full">
-    <SmartLayoutSeparate class="h-full" draggable first-size="240px">
+    <ResizableLayout
+      class="h-full"
+      divider-size="5px"
+      :first-size="240"
+      resize-mode="preview"
+      resizable
+      size-unit="px"
+    >
       <template #first>
         <div class="system-container h-full">
           <SysSystemSimpleList
@@ -238,7 +245,7 @@ const getTableDropDownActions = (row: any): SmartTableActionItem[] => {
           </template>
         </SmartTable>
       </template>
-    </SmartLayoutSeparate>
+    </ResizableLayout>
   </div>
 </template>
 

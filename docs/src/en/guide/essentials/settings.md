@@ -18,10 +18,10 @@ The rules are consistent with [Vite Env Variables and Modes](https://vitejs.dev/
 - Only variables starting with `VITE_` will be embedded into the client-side package. You can access them in the project code like this:
 
   ```ts
-  console.log(import.meta.env.VITE_PROT);
+  console.log(import.meta.env.VITE_PORT);
   ```
 
-- Variables starting with `VITE_GLOB_*` will be added to the `_app.config.js` configuration file during packaging.
+- Variables starting with `VITE_GLOB_*` will be added to the `_app-config-{version}-{hash}.js` configuration file during packaging.
 
 :::
 
@@ -87,9 +87,9 @@ VITE_ARCHIVER=true
 
 ## Dynamic Configuration in Production Environment
 
-When executing `pnpm build` in the root directory of the monorepo, a `dist/_app.config.js` file will be automatically generated in the corresponding application and inserted into `index.html`.
+When executing `pnpm build` in the root directory of the monorepo, a `dist/_app-config-{version}-{hash}.js` file will be automatically generated in the corresponding application and inserted into `index.html`.
 
-`_app.config.js` is a dynamic configuration file that allows for modifications to the configuration dynamically based on different environments after the project has been built. The content is as follows:
+`_app-config-{version}-{hash}.js` is a dynamic configuration file that allows for modifications to the configuration dynamically based on different environments after the project has been built. The content is as follows:
 
 ```ts
 window._VBEN_ADMIN_PRO_APP_CONF_ = {
@@ -104,11 +104,11 @@ Object.defineProperty(window, '_VBEN_ADMIN_PRO_APP_CONF_', {
 
 ### Purpose
 
-`_app.config.js` is used for projects that need to dynamically modify configurations after packaging, such as API endpoints. There's no need to repackage; you can simply modify the variables in `/dist/_app.config.js` after packaging, and refresh to update the variables in the code. A `js` file is used to ensure that the configuration file is loaded early in the order.
+`_app-config-{version}-{hash}.js` is used for projects that need to dynamically modify configurations after packaging, such as API endpoints. There's no need to repackage; you can simply modify the variables in `/dist/_app-config-{version}-{hash}.js` after packaging, and refresh to update the variables in the code. A `js` file is used to ensure that the configuration file is loaded early in the order.
 
 ### Usage
 
-To access the variables inside `_app.config.js`, you need to use the `useAppConfig` method provided by `@vben/hooks`.
+To access the variables inside `_app-config-{version}-{hash}.js`, you need to use the `useAppConfig` method provided by `@vben/hooks`.
 
 ```ts
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
@@ -365,7 +365,7 @@ const defaultPreferences: Preferences = {
     contentPaddingTop: 0,
     defaultAvatar:
       'https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp',
-    defaultHomePath: '/analytics',
+    defaultHomePath: '/dashboard/analytics',
     dynamicTitle: true,
     enableCheckUpdates: true,
     enablePreferences: true,

@@ -48,6 +48,16 @@ interface MenuRecordRaw extends MenuRecordBadgeRaw {
    * 图标名
    */
   icon?: Component | string;
+  /** 菜单业务功能ID */
+  functionId?: number;
+  /** 是否允许收藏 */
+  favoritable?: boolean;
+  /** 是否为收藏快捷项 */
+  favoriteShortcut?: boolean;
+  /** 是否为不可用收藏清理项 */
+  favoriteCleanup?: boolean;
+  /** 菜单节点唯一标识，默认使用 path */
+  key?: string;
   /**
    * 菜单名
    */
@@ -72,11 +82,15 @@ interface MenuRecordRaw extends MenuRecordBadgeRaw {
    * 菜单参数
    */
   query?: Recordable<any>;
+  /** 是否参与菜单搜索 */
+  searchable?: boolean;
   /**
    * 是否显示菜单
    * @default true
    */
   show?: boolean;
+  /** 实际跳转地址，默认使用 path */
+  targetPath?: string;
 }
 
 export type { ExRouteRecordRaw, MenuRecordBadgeRaw, MenuRecordRaw };

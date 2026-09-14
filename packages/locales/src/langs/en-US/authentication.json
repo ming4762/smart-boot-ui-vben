@@ -62,5 +62,7 @@
     "center": "Align Center",
     "alignLeft": "Align Left",
     "alignRight": "Align Right"
-  }
+  },
+  "ssoLogin": "SSO",
+  "ssoLoginTip": "Click the button below to securely log in via the unified authentication platform"
 }

@@ -7,7 +7,7 @@ import type {
 import { z } from '@vben/common-ui';
 import { $t as t } from '@vben/locales';
 
-const dbTypeList = ['MYSQL', 'SQL_SERVER', 'ORACLE'];
+const dbTypeList = ['MYSQL', 'SQL_SERVER', 'ORACLE', 'POSTGRES_SQL'];
 
 export const tableColumns: SmartTableColumn[] = [
   {
@@ -91,7 +91,11 @@ export const addEditForm = (): Array<VbenFormSchema> => {
       component: 'Input',
       dependencies: {
         triggerFields: ['id'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -100,7 +104,11 @@ export const addEditForm = (): Array<VbenFormSchema> => {
       component: 'Switch',
       dependencies: {
         triggerFields: ['isAdd'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -108,7 +116,11 @@ export const addEditForm = (): Array<VbenFormSchema> => {
       component: 'Input',
       dependencies: {
         triggerFields: ['systemId'],
-        show: false,
+        resolve() {
+          return {
+            show: false,
+          };
+        },
       },
     },
     {
@@ -172,8 +184,12 @@ export const addEditForm = (): Array<VbenFormSchema> => {
         placeholder: t('smart.code.views.database.validate.password'),
       },
       dependencies: {
-        triggerFields: ['password'],
-        required: (value) => value.isAdd === true,
+        triggerFields: ['password', 'isAdd'],
+        resolve({ values }) {
+          return {
+            required: values.isAdd === true,
+          };
+        },
       },
     },
     {
