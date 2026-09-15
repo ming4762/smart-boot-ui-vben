@@ -97,6 +97,18 @@ async function isAuthenticated() {
 }
 
 /**
+ * 判断请求失败是否由未认证导致。
+ */
+function isUnauthorizedError(error: unknown) {
+  const response = (
+    error as {
+      response?: { data?: { code?: number }; status?: number };
+    }
+  )?.response;
+  return response?.status === 401 || response?.data?.code === 401;
+}
+
+/**
  * 权限访问守卫配置
  * @param router
  */
@@ -113,16 +125,34 @@ function setupAccessGuard(router: Router) {
     if (sysPropertiesStore.isIamClient && !userStore.userInfo) {
       try {
         const { permissions, roles, user } = await getUserPermissionApi();
-        const userPreference = await initializeUserPreferences(user.userId);
+
+        // 权限接口成功即可确认 Session 有效，偏好加载失败不应改变认证状态。
         userStore.setUserInfo({
           ...user,
-          homePath: userPreference.homePath || preferences.app.defaultHomePath,
+          homePath: preferences.app.defaultHomePath,
           realName: user.fullName,
           roles,
         });
         accessStore.setAccessCodes(permissions);
-      } catch {
-        // 获取失败说明Session无效，继续后续认证流程（跳转登录）
+
+        try {
+          const userPreference = await initializeUserPreferences(user.userId);
+          if (userPreference.homePath) {
+            userStore.setUserInfo({
+              ...user,
+              homePath: userPreference.homePath,
+              realName: user.fullName,
+              roles,
+            });
+          }
+        } catch {
+          // 用户偏好是可选配置，失败时保留默认值并继续进入系统。
+        }
+      } catch (error) {
+        // 只有未认证错误才进入登录流程，其他服务异常交给路由错误处理。
+        if (!isUnauthorizedError(error)) {
+          throw error;
+        }
       }
     }
 
