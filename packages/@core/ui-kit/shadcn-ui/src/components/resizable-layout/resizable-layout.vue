@@ -3,7 +3,7 @@ import type { StyleValue } from 'vue';
 
 import type { ResizableLayoutEmits, ResizableLayoutProps } from './types';
 
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
 
@@ -32,8 +32,10 @@ const emit = defineEmits<ResizableLayoutEmits>();
 
 const firstPanelRef = ref<InstanceType<typeof ResizablePanel>>();
 const secondPanelRef = ref<InstanceType<typeof ResizablePanel>>();
+const layoutHostRef = ref<HTMLElement>();
 const previewDragging = ref(false);
 const previewOffset = ref(0);
+let groupResizeObserver: ResizeObserver | undefined;
 
 interface PreviewDragState {
   availableSize: number;
@@ -55,6 +57,11 @@ const showSeparator = computed(
   () => props.resizable || props.showDivider || props.showHandle,
 );
 const isPreviewMode = computed(() => props.resizeMode === 'preview');
+const needsPixelMeasurement = computed(
+  () => firstUnit.value === 'px' || secondUnit.value === 'px',
+);
+// 百分比布局无需测量；像素布局必须等宿主容器有有效尺寸后再创建 SplitterGroup。
+const splitterReady = ref(!needsPixelMeasurement.value);
 const dividerStyle = computed<StyleValue>(() => {
   const size =
     typeof props.dividerSize === 'number'
@@ -75,6 +82,41 @@ const previewLineStyle = computed<StyleValue>(() => ({
 function getPointerPosition(event: PointerEvent) {
   return props.direction === 'horizontal' ? event.clientX : event.clientY;
 }
+
+/**
+ * 等待 px 分栏的宿主容器首次可见，再创建底层 SplitterGroup。
+ * Reka UI 在 0px 容器中无法生成初始 layout，之后调用 resize 会因 panelSize 为空触发断言。
+ */
+function observeInitialGroupSize() {
+  groupResizeObserver?.disconnect();
+  if (!needsPixelMeasurement.value) return;
+
+  const hostElement = layoutHostRef.value;
+  if (!hostElement) return;
+
+  const rect = hostElement.getBoundingClientRect();
+  const initialSize =
+    props.direction === 'horizontal' ? rect.width : rect.height;
+  if (initialSize > 0) {
+    splitterReady.value = true;
+    return;
+  }
+
+  groupResizeObserver = new ResizeObserver(([entry]) => {
+    if (!entry) return;
+    const { height, width } = entry.contentRect;
+    const currentSize = props.direction === 'horizontal' ? width : height;
+    if (currentSize <= 0) return;
+
+    groupResizeObserver?.disconnect();
+    groupResizeObserver = undefined;
+    splitterReady.value = true;
+  });
+  groupResizeObserver.observe(hostElement);
+}
+
+onMounted(observeInitialGroupSize);
+onBeforeUnmount(() => groupResizeObserver?.disconnect());
 
 /** 开始预览模式拖动，记录两个面板和分割线的初始位置。 */
 function handlePreviewPointerDown(event: PointerEvent) {
@@ -253,74 +295,80 @@ defineExpose({
 </script>
 
 <template>
-  <ResizablePanelGroup
-    v-bind="$attrs"
+  <div
+    ref="layoutHostRef"
     :class="cn('relative min-h-0 min-w-0', props.class)"
-    :direction="direction"
-    @layout="emit('layout', $event)"
   >
-    <ResizablePanel
-      ref="firstPanelRef"
-      class="min-h-0 min-w-0"
-      :collapsed-size="firstCollapsedSize"
-      :collapsible="firstCollapsible"
-      :default-size="firstSize"
-      :max-size="firstMaxSize"
-      :min-size="firstMinSize"
-      :size-unit="firstUnit"
-      @collapse="emit('firstCollapse')"
-      @expand="emit('firstExpand')"
-      @resize="handleFirstResize"
+    <ResizablePanelGroup
+      v-if="splitterReady"
+      v-bind="$attrs"
+      class="h-full w-full"
+      :direction="direction"
+      @layout="emit('layout', $event)"
     >
-      <template #default="slotProps">
-        <slot name="first" v-bind="slotProps"></slot>
-      </template>
-    </ResizablePanel>
+      <ResizablePanel
+        ref="firstPanelRef"
+        class="min-h-0 min-w-0"
+        :collapsed-size="firstCollapsedSize"
+        :collapsible="firstCollapsible"
+        :default-size="firstSize"
+        :max-size="firstMaxSize"
+        :min-size="firstMinSize"
+        :size-unit="firstUnit"
+        @collapse="emit('firstCollapse')"
+        @expand="emit('firstExpand')"
+        @resize="handleFirstResize"
+      >
+        <template #default="slotProps">
+          <slot name="first" v-bind="slotProps"></slot>
+        </template>
+      </ResizablePanel>
 
-    <ResizableHandle
-      v-if="showSeparator"
-      :disabled="!resizable"
-      :hit-area-margins="isPreviewMode ? { coarse: 0, fine: 0 } : undefined"
-      :style="dividerStyle"
-      :with-handle="showHandle"
-      @dragging="handleDragging"
-      @mousedown="handlePreviewLegacyStart"
-      @pointercancel="handlePreviewPointerCancel"
-      @pointerdown="handlePreviewPointerDown"
-      @pointermove="handlePreviewPointerMove"
-      @pointerup="handlePreviewPointerUp"
-      @touchstart="handlePreviewLegacyStart"
-    />
+      <ResizableHandle
+        v-if="showSeparator"
+        :disabled="!resizable"
+        :hit-area-margins="isPreviewMode ? { coarse: 0, fine: 0 } : undefined"
+        :style="dividerStyle"
+        :with-handle="showHandle"
+        @dragging="handleDragging"
+        @mousedown="handlePreviewLegacyStart"
+        @pointercancel="handlePreviewPointerCancel"
+        @pointerdown="handlePreviewPointerDown"
+        @pointermove="handlePreviewPointerMove"
+        @pointerup="handlePreviewPointerUp"
+        @touchstart="handlePreviewLegacyStart"
+      />
 
-    <ResizablePanel
-      ref="secondPanelRef"
-      class="min-h-0 min-w-0"
-      :collapsed-size="secondCollapsedSize"
-      :collapsible="secondCollapsible"
-      :default-size="secondSize"
-      :max-size="secondMaxSize"
-      :min-size="secondMinSize"
-      :size-unit="secondUnit"
-      @collapse="emit('secondCollapse')"
-      @expand="emit('secondExpand')"
-      @resize="handleSecondResize"
-    >
-      <template #default="slotProps">
-        <slot name="second" v-bind="slotProps"></slot>
-      </template>
-    </ResizablePanel>
+      <ResizablePanel
+        ref="secondPanelRef"
+        class="min-h-0 min-w-0"
+        :collapsed-size="secondCollapsedSize"
+        :collapsible="secondCollapsible"
+        :default-size="secondSize"
+        :max-size="secondMaxSize"
+        :min-size="secondMinSize"
+        :size-unit="secondUnit"
+        @collapse="emit('secondCollapse')"
+        @expand="emit('secondExpand')"
+        @resize="handleSecondResize"
+      >
+        <template #default="slotProps">
+          <slot name="second" v-bind="slotProps"></slot>
+        </template>
+      </ResizablePanel>
 
-    <div
-      v-if="previewDragging"
-      :class="
-        cn(
-          'bg-primary pointer-events-none absolute z-20',
-          direction === 'horizontal'
-            ? 'inset-y-0 w-0.5 -translate-x-1/2'
-            : 'inset-x-0 h-0.5 -translate-y-1/2',
-        )
-      "
-      :style="previewLineStyle"
-    ></div>
-  </ResizablePanelGroup>
+      <div
+        v-if="previewDragging"
+        :class="
+          cn(
+            'bg-primary pointer-events-none absolute z-20',
+            direction === 'horizontal'
+              ? 'inset-y-0 w-0.5 -translate-x-1/2'
+              : 'inset-x-0 h-0.5 -translate-y-1/2',
+          )
+        "
+        :style="previewLineStyle"
+      ></div>
+    </ResizablePanelGroup>
+  </div>
 </template>
