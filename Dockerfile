@@ -11,6 +11,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV TZ=Asia/Shanghai
 
+ENV COREPACK_NPM_REGISTRY=https://registry.npmmirror.com
+
 RUN npm config set registry https://registry.npmmirror.com && \
     corepack enable
 
