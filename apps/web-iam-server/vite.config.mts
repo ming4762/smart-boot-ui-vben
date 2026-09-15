@@ -1,10 +1,9 @@
-import { defineConfig, SmartModulesVirtualPlugin } from '@vben/vite-config';
+import { defineConfig } from '@vben/vite-config';
 
 export default defineConfig(async () => {
   return {
     application: {},
     vite: {
-      plugins: [SmartModulesVirtualPlugin()],
       server: {
         allowedHosts: true,
         // proxy: {
