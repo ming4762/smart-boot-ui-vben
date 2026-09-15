@@ -271,7 +271,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
       fieldName: 'clientAuthenticationMethods',
       label: t('sso.oauth2.client.title.clientAuthenticationMethods'),
       slot: 'form-clientAuthenticationMethods',
-      component: '',
+      component: 'Input',
       rules: 'required',
       formItemClass: 'col-span-2',
       defaultValue: ['client_secret_basic', 'client_secret_jwt'],
@@ -279,7 +279,7 @@ export const getFormSchemas = (): VbenFormSchema[] => {
     {
       fieldName: 'authorizationGrantTypes',
       label: t('sso.oauth2.client.title.authorizationGrantTypes'),
-      component: '',
+      component: 'Input',
       slot: 'form-authorizationGrantTypes',
       rules: 'required',
       formItemClass: 'col-span-2',

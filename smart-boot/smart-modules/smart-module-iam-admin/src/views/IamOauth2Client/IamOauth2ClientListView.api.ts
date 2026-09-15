@@ -4,20 +4,59 @@ enum Api {
   batchSaveUpdate = 'iam/oauth2/client/saveUpdateBatch',
   delete = 'iam/oauth2/client/batchDeleteById',
   getById = 'iam/oauth2/client/getById',
-  initializeFunctions = 'iam/oauth2/client/initializeFunctions',
+  initializationStatus = 'iam/oauth2/client/initializationStatus',
+  initialize = 'iam/oauth2/client/initialize',
   list = 'iam/oauth2/client/list',
+  listTenant = '/sys/tenant/manager/list',
   setUseYn = 'iam/oauth2/client/setUseYn',
 }
 
+export interface ClientInitializationStatus {
+  initialized: boolean;
+  subscribedTenantIds: Array<number | string>;
+}
+
+export interface InitializeClientParameter {
+  clientId: number | string;
+  overwrite: boolean;
+  tenantIds: Array<number | string>;
+}
+
 /**
- * 将默认功能模板复制到指定客户端。
+ * 查询客户端是否已经初始化及默认套餐当前覆盖的租户。
  *
  * @param clientId 客户端ID
+ * @returns 初始化状态
+ */
+export const getInitializationStatusApi = (clientId: number | string) => {
+  return requestClient.post<ClientInitializationStatus>(
+    Api.initializationStatus,
+    clientId,
+    { service: ApiServiceEnum.SMART_SSO_SERVER },
+  );
+};
+
+/**
+ * 初始化或覆盖客户端菜单、默认套餐、租户订阅和默认角色。
+ *
+ * @param parameter 初始化参数
  * @returns 是否初始化成功
  */
-export const initializeFunctionsApi = (clientId: number | string) => {
-  return requestClient.post(Api.initializeFunctions, clientId, {
+export const initializeClientApi = (parameter: InitializeClientParameter) => {
+  return requestClient.post(Api.initialize, parameter, {
     service: ApiServiceEnum.SMART_SSO_SERVER,
+  });
+};
+
+/**
+ * 查询可选择的租户列表。
+ *
+ * @param params SmartTable 查询参数
+ * @returns 租户分页数据
+ */
+export const listTenantApi = (params: any) => {
+  return requestClient.post(Api.listTenant, params, {
+    service: ApiServiceEnum.SMART_SYSTEM,
   });
 };
 

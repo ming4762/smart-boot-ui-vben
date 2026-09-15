@@ -139,6 +139,7 @@ const tabItems = [
       divider-size="5px"
       resize-mode="preview"
       resizable
+      show-divider
       :second-size="300"
       size-unit="px"
     >

@@ -144,6 +144,7 @@ const [SmartTable] = useSmartTable({
       resize-mode="preview"
       resizable
       :second-size="240"
+      show-divider
       size-unit="px"
     >
       <template #first>

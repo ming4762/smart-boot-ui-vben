@@ -1,17 +1,21 @@
 <script lang="ts" setup>
 import type { SmartTableActionItem } from '@vben/common-ui';
 
-import { SmartVxeTableAction, useSmartTable } from '@vben/common-ui';
+import {
+  SmartVxeTableAction,
+  useSmartTable,
+  useVbenModal,
+} from '@vben/common-ui';
 import { useSizeSetting } from '@vben/hooks';
 import { $t as t } from '@vben/locales';
 
-import { CheckableTagGroup, message, Modal } from 'antdv-next';
+import { CheckableTagGroup } from 'antdv-next';
 
+import IamOauth2ClientInitializeModal from './IamOauth2ClientInitializeModal.vue';
 import {
   batchSaveUpdateApi,
   deleteApi,
   getByIdApi,
-  initializeFunctionsApi,
   listApi,
   setUseYnApi,
 } from './IamOauth2ClientListView.api';
@@ -25,6 +29,10 @@ import {
 } from './IamOauth2ClientListView.config';
 
 const { getTableSize } = useSizeSetting();
+
+const [InitializeClientModal, initializeClientModalApi] = useVbenModal({
+  connectedComponent: IamOauth2ClientInitializeModal,
+});
 
 const [SmartTable, tableApi] = useSmartTable({
   columns: getTableColumns(),
@@ -108,21 +116,33 @@ const [SmartTable, tableApi] = useSmartTable({
   },
 });
 
+/**
+ * 复制指定客户端并以新增模式打开表单。
+ *
+ * @param row 待复制的客户端列表记录
+ * @returns 弹窗打开结果
+ */
+const copyClient = async (row: Record<string, any>) => {
+  const client = await getByIdApi(row.id);
+  return tableApi.showAddModal(undefined, {
+    ...client,
+    id: undefined,
+    clientCode: '',
+    clientName: '',
+  });
+};
+
 const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
   return [
     {
-      label: '初始化菜单',
+      label: '初始化客户端',
       auth: Permissions.update,
-      onClick: () => {
-        Modal.confirm({
-          title: '初始化客户端菜单',
-          content: '将复制默认菜单模板，客户端已有功能时不能初始化。',
-          async onOk() {
-            await initializeFunctionsApi(row.id);
-            message.success('菜单初始化成功');
-          },
-        });
-      },
+      onClick: () => initializeClientModalApi.setData(row).open(),
+    },
+    {
+      label: '复制',
+      auth: Permissions.save,
+      onClick: () => copyClient(row),
     },
     {
       label: t('common.button.edit'),
@@ -141,6 +161,7 @@ const getActions = (row: Record<string, any>): SmartTableActionItem[] => {
 
 <template>
   <div class="page-container h-full">
+    <InitializeClientModal />
     <SmartTable class="smart-table-padding" :size="getTableSize as never">
       <template #table-operation="{ row }">
         <SmartVxeTableAction :actions="getActions(row)" />
