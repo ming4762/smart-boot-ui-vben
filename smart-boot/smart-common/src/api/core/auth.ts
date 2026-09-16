@@ -61,14 +61,14 @@ export namespace AuthApi {
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    // 跳转地址，如果存在则跳转到指定地址
-    redirectUrl?: string;
-    refreshToken?: string;
-    token?: string;
     passwordChangeRequired?: boolean;
     passwordChangeToken?: string;
     passwordValidate?: string;
     passwordValidateErrorMessage?: string;
+    // 跳转地址，如果存在则跳转到指定地址
+    redirectUrl?: string;
+    refreshToken?: string;
+    token?: string;
   }
 
   export interface RefreshTokenResult {

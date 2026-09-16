@@ -26,6 +26,9 @@ import { getRouterHandler, isMicroApp } from '@smart/wujie';
 import { generateAccess } from './access';
 import { accessRoutes, coreRouteNames } from './routes';
 
+/** 权限初始化失败时使用的兜底路由，必须在请求用户权限前直接放行。 */
+const INTERNAL_ERROR_ROUTE_NAME = 'InternalError';
+
 /**
  * 通用守卫配置
  * @param router
@@ -98,14 +101,26 @@ async function isAuthenticated() {
 
 /**
  * 判断请求失败是否由未认证导致。
+ *
+ * @param error 请求失败时抛出的未知错误
+ * @returns 是否为 HTTP 状态或业务状态表示的未认证错误
  */
-function isUnauthorizedError(error: unknown) {
-  const response = (
-    error as {
-      response?: { data?: { code?: number }; status?: number };
-    }
-  )?.response;
-  return response?.status === 401 || response?.data?.code === 401;
+function isUnauthorizedError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+
+  const unauthorizedError = error as {
+    code?: number;
+    response?: { data?: { code?: number }; status?: number };
+  };
+
+  // RequestClient 会将 AxiosError 解包为 response.data，因此需要兼容顶层业务 code。
+  return (
+    unauthorizedError.code === 401 ||
+    unauthorizedError.response?.status === 401 ||
+    unauthorizedError.response?.data?.code === 401
+  );
 }
 
 /**
@@ -118,6 +133,11 @@ function setupAccessGuard(router: Router) {
     const authStore = useAuthStore();
     const userStore = useUserStore();
     const sysPropertiesStore = useSysPropertiesStore();
+
+    // 兜底页必须跳过权限初始化，否则接口持续失败时会形成重定向循环。
+    if (to.name === INTERNAL_ERROR_ROUTE_NAME) {
+      return true;
+    }
 
     // SESSION模式下（含IAM客户端SSO），尝试通过已设置的Session Cookie获取用户信息
     // SSO/OAuth2登录成功后，后端已设置Session Cookie，但前端store中用户信息尚未加载
@@ -149,9 +169,14 @@ function setupAccessGuard(router: Router) {
           // 用户偏好是可选配置，失败时保留默认值并继续进入系统。
         }
       } catch (error) {
-        // 只有未认证错误才进入登录流程，其他服务异常交给路由错误处理。
+        // 只有未认证错误才进入登录流程，其他服务异常展示可恢复的兜底页。
         if (!isUnauthorizedError(error)) {
-          throw error;
+          // 不输出原始请求错误，避免 network error 中的请求配置泄露 Authorization。
+          console.error('加载用户权限失败，已跳转系统异常页。');
+          return {
+            name: INTERNAL_ERROR_ROUTE_NAME,
+            replace: true,
+          };
         }
       }
     }

@@ -13,6 +13,11 @@ import { VbenButton } from '@vben-core/shadcn-ui';
  */
 defineOptions({ name: 'ChangePasswordModal' });
 
+const props = withDefaults(defineProps<Props>(), {
+  force: false,
+  changePasswordHandler: undefined,
+});
+
 /** 随机密码生成策略与后台 PasswordUtils 保持一致。 */
 const PASSWORD_GENERATE_MAX_ATTEMPTS = 1000;
 const PASSWORD_MIN_LENGTH = 15;
@@ -41,11 +46,6 @@ interface Props {
   /** 是否为不可取消的强制改密模式。 */
   force?: boolean;
 }
-
-const props = withDefaults(defineProps<Props>(), {
-  force: false,
-  changePasswordHandler: undefined,
-});
 
 const { sysParameter } = storeToRefs(useSysPropertiesStore());
 

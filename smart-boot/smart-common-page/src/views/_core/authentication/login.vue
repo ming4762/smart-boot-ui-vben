@@ -11,8 +11,8 @@ import {
   VbenInput,
   z,
 } from '@vben/common-ui';
-import { $t } from '@vben/locales';
 import { ChangePasswordModal } from '@vben/layouts';
+import { $t } from '@vben/locales';
 import { useSysPropertiesStore } from '@vben/stores';
 
 import {

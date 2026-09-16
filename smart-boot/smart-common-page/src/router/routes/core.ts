@@ -111,6 +111,17 @@ const coreRoutes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    component: () => import('../../views/_core/fallback/internal-error.vue'),
+    meta: {
+      hideInBreadcrumb: true,
+      hideInMenu: true,
+      hideInTab: true,
+      title: '500',
+    },
+    name: 'InternalError',
+    path: '/internal-error',
+  },
 ];
 
 export { coreRoutes, fallbackNotFoundRoute };
