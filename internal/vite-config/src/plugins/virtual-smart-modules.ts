@@ -1,12 +1,67 @@
+import type { Plugin } from 'vite';
+
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import fg from 'fast-glob';
 
+/** 当前 Vite 应用 package.json 中插件需要读取的字段。 */
+interface ApplicationPackageJson {
+  dependencies?: Record<string, string>;
+}
+
+/** Smart Module workspace 包统一使用的包名前缀。 */
+const SMART_MODULE_PACKAGE_PREFIX = '@smart-module/';
+
+/**
+ * 读取应用直接依赖的 Smart Module，并转换为对应的 workspace 目录名。
+ *
+ * @param packageJsonPath 当前 Vite 应用的 package.json 绝对路径
+ * @returns 排序且去重后的 Smart Module 目录名
+ * @throws package.json 无法读取、解析失败或 Smart Module 包名非法时抛出异常
+ */
+function readSmartModuleDirectories(packageJsonPath: string): string[] {
+  const packageJson = JSON.parse(
+    readFileSync(packageJsonPath, 'utf8'),
+  ) as ApplicationPackageJson;
+
+  return Object.keys(packageJson.dependencies ?? {})
+    .filter((dependencyName) =>
+      dependencyName.startsWith(SMART_MODULE_PACKAGE_PREFIX),
+    )
+    .map((dependencyName) => {
+      const moduleName = dependencyName.slice(
+        SMART_MODULE_PACKAGE_PREFIX.length,
+      );
+
+      // 包名会参与文件扫描路径拼接，必须禁止路径分隔符和上级目录片段。
+      if (!/^[a-z0-9-]+$/.test(moduleName)) {
+        throw new Error(`非法的 Smart Module 包名: ${dependencyName}`);
+      }
+
+      return `smart-module-${moduleName}`;
+    })
+    .toSorted();
+}
+
+/**
+ * 根据当前应用 package.json 中声明的 Smart Module 依赖生成页面虚拟模块。
+ *
+ * @param basePath Smart Module 根目录相对于当前插件文件的路径
+ * @returns 用于生成 `virtual:smart-modules` 的 Vite 插件
+ * @throws 应用 package.json 无法读取或包含非法 Smart Module 包名时抛出异常
+ */
 function SmartModulesVirtualPlugin(
   basePath = '../../../smart-boot/smart-modules',
-) {
+): Plugin {
+  let applicationRoot = process.cwd();
+
   return {
     name: 'virtual:smart-modules',
+
+    configResolved(config) {
+      applicationRoot = config.root;
+    },
 
     resolveId(id: string) {
       if (id === 'virtual:smart-modules') return id;
@@ -17,12 +72,23 @@ function SmartModulesVirtualPlugin(
       if (id !== 'virtual:smart-modules') return null;
 
       const base = resolve(import.meta.dirname, basePath);
+      const packageJsonPath = resolve(applicationRoot, 'package.json');
+      const moduleDirectories = readSmartModuleDirectories(packageJsonPath);
 
-      // 扫描所有 vue / tsx 文件
-      const files = fg.sync('smart-module-*/src/**/*.{vue,tsx}', {
-        cwd: base,
-        absolute: true,
-      });
+      // 开发期间修改应用依赖后，让 Vite 重新生成虚拟模块内容。
+      this.addWatchFile(packageJsonPath);
+
+      // 只扫描应用直接依赖的 Smart Module，避免隐式引入其他业务包。
+      const patterns = moduleDirectories.map(
+        (directory) => `${directory}/src/**/*.{vue,tsx}`,
+      );
+      const files =
+        patterns.length === 0
+          ? []
+          : fg.sync(patterns, {
+              absolute: true,
+              cwd: base,
+            });
 
       // 生成 import 语句
       const importStatements: string[] = [];
