@@ -43,6 +43,18 @@ const REASON_CONFIGS: Record<string, FailureReasonConfig> = {
   },
 };
 
+/** OAuth2客户端回调错误的展示策略，避免将权限问题误导为可重试的认证故障。 */
+const OAUTH_ERROR_CONFIGS: Record<
+  string,
+  Omit<FailureReasonConfig, 'message'>
+> = {
+  access_denied: {
+    showRetry: false,
+    tip: '请联系系统管理员为当前账号配置应用及租户访问权限。',
+    title: '应用访问受限',
+  },
+};
+
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
@@ -58,6 +70,7 @@ const reasonConfig = computed(() => {
   return typeof reason === 'string' ? REASON_CONFIGS[reason] : undefined;
 });
 
+/** 根据服务端错误原因加载用户可读信息，并应用对应的操作策略。 */
 const loadFailureDetail = async () => {
   const config = reasonConfig.value;
   if (config) {
@@ -78,6 +91,13 @@ const loadFailureDetail = async () => {
   try {
     const result = await getIamLoginFailureApi(oauth2ErrorId);
     message.value = result.message || UNKNOWN_ERROR_MESSAGE;
+    const errorCode = result.data?.errorCode;
+    const errorConfig = errorCode ? OAUTH_ERROR_CONFIGS[errorCode] : undefined;
+    if (errorConfig) {
+      showRetry.value = errorConfig.showRetry;
+      failureTip.value = errorConfig.tip;
+      failureTitle.value = errorConfig.title;
+    }
   } catch {
     message.value = UNKNOWN_ERROR_MESSAGE;
   } finally {
