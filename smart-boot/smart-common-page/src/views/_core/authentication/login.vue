@@ -133,6 +133,7 @@ const handleLogin = async (loginData: Recordable<any>) => {
     const result = await authStore.authLogin({
       code,
       password: loginData.password,
+      'remember-me': loginData['remember-me'],
       username,
     });
     if (result?.passwordChangeRequired) {
@@ -188,6 +189,7 @@ const computedIamLoginUrl = computed(() => {
       :form-schema="formSchema"
       :is-sso-login="sysPropertiesStore.isIamClient"
       :loading="authStore.loginLoading"
+      :show-keep-login="sysPropertiesStore.isSessionAuthMode"
       :sso-login-url="computedIamLoginUrl"
       @submit="handleLogin"
     >

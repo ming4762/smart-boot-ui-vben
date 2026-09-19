@@ -63,6 +63,11 @@ interface AuthenticationProps extends AuthenticationSsoProps {
   showRememberMe?: boolean;
 
   /**
+   * @zh_CN 是否显示保持登录
+   */
+  showKeepLogin?: boolean;
+
+  /**
    * @zh_CN 是否显示第三方登录
    */
   showThirdPartyLogin?: boolean;

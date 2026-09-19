@@ -29,6 +29,7 @@ import {
   requestClient,
 } from '../api';
 import { $t } from '../locales';
+import { setRememberLoginEnabled } from '../utils';
 import {
   initializeUserPreferences,
   stopUserPreferenceSync,
@@ -138,6 +139,9 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loginLoading.value = true;
       const loginData = await loginApi(params as never);
+      if (sysPropertiesStore.isSessionAuthMode) {
+        setRememberLoginEnabled(params['remember-me'] === true);
+      }
       if (loginData.passwordChangeRequired) {
         return {
           passwordChangeRequired: true,
@@ -182,6 +186,9 @@ export const useAuthStore = defineStore('auth', () => {
       // 不做任何处理
     }
     stopUserPreferenceSync();
+    if (sysPropertiesStore.isSessionAuthMode) {
+      setRememberLoginEnabled(false);
+    }
     resetStoresBeforeRouteLeave();
     accessStore.setLoginExpired(false);
 

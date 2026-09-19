@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
   registerPath: '/auth/register',
   showCodeLogin: true,
   showForgetPassword: true,
+  showKeepLogin: false,
   showQrcodeLogin: true,
   showRegister: true,
   showRememberMe: true,
@@ -72,6 +73,7 @@ const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
 const localUsername = localStorage.getItem(REMEMBER_ME_KEY) || '';
 
 const rememberMe = ref(!!localUsername);
+const keepLogin = ref(true);
 
 async function handleSubmit() {
   const { valid } = await formApi.validate();
@@ -81,7 +83,11 @@ async function handleSubmit() {
       REMEMBER_ME_KEY,
       rememberMe.value ? values?.username : '',
     );
-    emit('submit', values);
+    // Spring Security 使用 remember-me 参数决定是否签发持久登录 Cookie。
+    emit('submit', {
+      ...values,
+      'remember-me': keepLogin.value,
+    });
   }
 }
 
@@ -162,16 +168,23 @@ defineExpose({
       </Form>
 
       <div
-        v-if="showRememberMe || showForgetPassword"
+        v-if="showRememberMe || showKeepLogin || showForgetPassword"
         class="mb-6 flex justify-between"
       >
-        <div class="flex-center">
+        <div class="flex-center gap-4">
           <VbenCheckbox
             v-if="showRememberMe"
             v-model="rememberMe"
             name="rememberMe"
           >
             {{ $t('authentication.rememberMe') }}
+          </VbenCheckbox>
+          <VbenCheckbox
+            v-if="showKeepLogin"
+            v-model="keepLogin"
+            name="keepLogin"
+          >
+            {{ $t('authentication.keepLogin') }}
           </VbenCheckbox>
         </div>
 

@@ -15,8 +15,12 @@ import { useAccessStore, useSysPropertiesStore } from '@vben/stores';
 import { getCurrentTimezone } from '@vben/utils';
 
 import { useAuthStore } from '../store';
-import { createErrorModal, errorMessage } from '../utils';
-import { refreshTokenApi } from './core';
+import {
+  createErrorModal,
+  errorMessage,
+  isRememberLoginEnabled,
+} from '../utils';
+import { refreshTokenApi, rememberLoginApi } from './core';
 
 const { apiURL, apiMode } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
@@ -45,13 +49,20 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   }
 
   /**
-   * 刷新token逻辑
+   * 刷新当前认证状态。
+   *
+   * JWT 模式刷新 access token；SESSION 模式使用 HttpOnly Remember-Me Cookie
+   * 重新创建 Session。返回空字符串时，请求拦截器会继续使用 Cookie 重试请求。
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
     const sysPropertiesStore = useSysPropertiesStore();
-    if (!sysPropertiesStore.isJwtAuthMode) {
-      throw new Error('Refresh token is only supported in JWT auth mode');
+    if (sysPropertiesStore.isSessionAuthMode) {
+      if (!isRememberLoginEnabled()) {
+        throw new Error('Remember-Me is not enabled');
+      }
+      await rememberLoginApi();
+      return '';
     }
     const newToken = await refreshTokenApi();
     if (newToken === null) {
@@ -66,11 +77,16 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   }
 
   /**
-   * 是否启用刷新token
+   * 是否允许自动恢复认证状态。
+   *
+   * SESSION 模式仅在用户选择保持登录时尝试 Remember-Me；JWT 模式沿用刷新令牌开关。
    */
   async function isEnableRefreshToken() {
     const sysPropertiesStore = useSysPropertiesStore();
-    return preferences.app.enableRefreshToken && sysPropertiesStore.isJwtAuthMode;
+    return (
+      (sysPropertiesStore.isSessionAuthMode && isRememberLoginEnabled()) ||
+      (preferences.app.enableRefreshToken && sysPropertiesStore.isJwtAuthMode)
+    );
   }
 
   // 请求头处理

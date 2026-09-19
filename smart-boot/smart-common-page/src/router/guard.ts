@@ -15,12 +15,17 @@ import {
   getAuthPropertiesApi,
   getSystemPropertiesApi,
   getUserPermissionApi,
+  rememberLoginApi,
 } from '@smart/common/api';
 import {
   initializeUserPreferences,
   useAuthStore,
   useMenuFavoriteStore,
 } from '@smart/common/store';
+import {
+  isRememberLoginEnabled,
+  setRememberLoginEnabled,
+} from '@smart/common/utils';
 import { getRouterHandler, isMicroApp } from '@smart/wujie';
 
 import { generateAccess } from './access';
@@ -124,6 +129,39 @@ function isUnauthorizedError(error: unknown): boolean {
 }
 
 /**
+ * 使用当前 Session 加载用户，并在成功后恢复前端权限状态。
+ *
+ * 用户偏好属于可选配置，加载失败时不应把有效 Session 判定为未登录。
+ */
+async function loadSessionUser() {
+  const accessStore = useAccessStore();
+  const userStore = useUserStore();
+  const { permissions, roles, user } = await getUserPermissionApi();
+
+  userStore.setUserInfo({
+    ...user,
+    homePath: preferences.app.defaultHomePath,
+    realName: user.fullName,
+    roles,
+  });
+  accessStore.setAccessCodes(permissions);
+
+  try {
+    const userPreference = await initializeUserPreferences(user.userId);
+    if (userPreference.homePath) {
+      userStore.setUserInfo({
+        ...user,
+        homePath: userPreference.homePath,
+        realName: user.fullName,
+        roles,
+      });
+    }
+  } catch {
+    // 用户偏好不参与认证，加载失败时保留默认首页并继续进入系统。
+  }
+}
+
+/**
  * 权限访问守卫配置
  * @param router
  */
@@ -139,39 +177,31 @@ function setupAccessGuard(router: Router) {
       return true;
     }
 
-    // SESSION模式下（含IAM客户端SSO），尝试通过已设置的Session Cookie获取用户信息
-    // SSO/OAuth2登录成功后，后端已设置Session Cookie，但前端store中用户信息尚未加载
-    // 如果不在此处加载，isAuthenticated()会一直返回false，导致无限跳转到IAM登录
-    if (sysPropertiesStore.isIamClient && !userStore.userInfo) {
+    // 页面刷新后优先恢复现有 Session；用户选择保持登录时，失效后再用 Remember-Me Cookie 创建新 Session。
+    if (sysPropertiesStore.isSessionAuthMode && !userStore.userInfo) {
       try {
-        const { permissions, roles, user } = await getUserPermissionApi();
-
-        // 权限接口成功即可确认 Session 有效，偏好加载失败不应改变认证状态。
-        userStore.setUserInfo({
-          ...user,
-          homePath: preferences.app.defaultHomePath,
-          realName: user.fullName,
-          roles,
-        });
-        accessStore.setAccessCodes(permissions);
-
-        try {
-          const userPreference = await initializeUserPreferences(user.userId);
-          if (userPreference.homePath) {
-            userStore.setUserInfo({
-              ...user,
-              homePath: userPreference.homePath,
-              realName: user.fullName,
-              roles,
-            });
-          }
-        } catch {
-          // 用户偏好是可选配置，失败时保留默认值并继续进入系统。
-        }
+        await loadSessionUser();
       } catch (error) {
-        // 只有未认证错误才进入登录流程，其他服务异常展示可恢复的兜底页。
-        if (!isUnauthorizedError(error)) {
-          // 不输出原始请求错误，避免 network error 中的请求配置泄露 Authorization。
+        if (isUnauthorizedError(error)) {
+          if (isRememberLoginEnabled()) {
+            try {
+              await rememberLoginApi();
+              await loadSessionUser();
+            } catch (rememberError) {
+              // Remember-Me 不存在或已过期属于正常未登录，不向用户展示错误提示。
+              if (isUnauthorizedError(rememberError)) {
+                setRememberLoginEnabled(false);
+              } else {
+                console.error('恢复登录状态失败，已跳转系统异常页。');
+                return {
+                  name: INTERNAL_ERROR_ROUTE_NAME,
+                  replace: true,
+                };
+              }
+            }
+          }
+        } else {
+          // 不输出原始请求错误，避免 network error 中的请求配置泄露 Cookie 等信息。
           console.error('加载用户权限失败，已跳转系统异常页。');
           return {
             name: INTERNAL_ERROR_ROUTE_NAME,

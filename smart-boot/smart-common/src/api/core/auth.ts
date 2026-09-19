@@ -9,6 +9,7 @@ enum Api {
   changeTenant = '/auth/tenant/change',
   getUserPermission = '/auth/getUserPermission',
   iamLoginFailure = '/public/auth/oauth2/login-failure',
+  rememberLogin = '/auth/rememberLogin',
 }
 
 const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
@@ -50,6 +51,7 @@ export namespace AuthApi {
   export interface LoginParams {
     code?: string;
     password: string;
+    'remember-me'?: boolean;
     username: string;
   }
 
@@ -104,6 +106,23 @@ export async function loginApi(data: AuthApi.LoginParams) {
     createAuthRequestConfig({
       errorMessageMode: 'modal',
       authErrorProcessed: false,
+      service: ApiServiceEnum.SMART_AUTH,
+    }),
+  );
+}
+
+/**
+ * 使用 HttpOnly Remember-Me Cookie 恢复 Session。
+ *
+ * @returns 登录成功数据；Cookie 不存在或失效时抛出未认证异常
+ */
+export async function rememberLoginApi() {
+  return requestClient.post<AuthApi.LoginResult>(
+    Api.rememberLogin,
+    {},
+    createAuthRequestConfig({
+      authErrorProcessed: false,
+      errorMessageMode: 'none',
       service: ApiServiceEnum.SMART_AUTH,
     }),
   );
