@@ -154,14 +154,13 @@ async function loadSessionUser() {
 
   try {
     const userPreference = await initializeUserPreferences(user.userId);
-    if (userPreference.homePath) {
-      userStore.setUserInfo({
-        ...user,
-        homePath: userPreference.homePath,
-        realName: user.fullName,
-        roles,
-      });
-    }
+    userStore.setUserInfo({
+      ...user,
+      homeFunctionId: userPreference.homeFunctionId,
+      homePath: preferences.app.defaultHomePath,
+      realName: user.fullName,
+      roles,
+    });
   } catch {
     // 用户偏好不参与认证，加载失败时保留默认首页并继续进入系统。
   }
@@ -324,20 +323,34 @@ function setupAccessGuard(router: Router) {
     accessStore.setAccessRoutes(accessibleRoutes);
     accessStore.setIsAccessChecked(true);
 
-    const configuredHomePath =
-      userInfo?.homePath || preferences.app.defaultHomePath;
+    const configuredHomePath = resolveHomePath(
+      router,
+      userInfo?.homeFunctionId,
+    );
+    if (userInfo && userInfo.homePath !== configuredHomePath) {
+      userStore.setUserInfo({ ...userInfo, homePath: configuredHomePath });
+    }
 
     const requestedPath = from.query.redirect
       ? decodeURIComponent(from.query.redirect as string)
       : to.fullPath;
+    const defaultHomeRedirect = router
+      .getRoutes()
+      .find(
+        (route) => route.path === preferences.app.defaultHomePath,
+      )?.redirect;
+    const defaultHomeRedirectPath =
+      typeof defaultHomeRedirect === 'string'
+        ? router.resolve(defaultHomeRedirect).path
+        : undefined;
 
+    // 默认首页可能重定向到具体子页面；登录前保存的也是子页面地址，需要继续按首页处理。
     const isHomeNavigation =
       requestedPath === userInfo?.homePath ||
-      requestedPath === preferences.app.defaultHomePath;
-    const redirectPath =
-      isHomeNavigation && !isAccessiblePath(router, requestedPath)
-        ? configuredHomePath
-        : requestedPath;
+      requestedPath === preferences.app.defaultHomePath ||
+      router.resolve(requestedPath).path === defaultHomeRedirectPath ||
+      to.redirectedFrom?.path === preferences.app.defaultHomePath;
+    const redirectPath = isHomeNavigation ? configuredHomePath : requestedPath;
 
     return {
       ...router.resolve(decodeURIComponent(redirectPath)),
@@ -347,19 +360,28 @@ function setupAccessGuard(router: Router) {
 }
 
 /**
- * 判断是否可以访问某个菜单
- * @param router
- * @param path
+ * 根据当前用户可访问的静态路由解析首页地址。
+ *
+ * @param router 已完成动态路由注册的路由实例
+ * @param functionId 用户保存的首页功能 ID
+ * @returns 可用的首页地址；菜单无权限或不可用时返回系统默认首页
  */
-function isAccessiblePath(router: Router, path?: string) {
-  if (!path) return false;
+function resolveHomePath(router: Router, functionId?: number | string): string {
+  if (functionId === undefined || functionId === null) {
+    return preferences.app.defaultHomePath;
+  }
 
-  const resolved = router.resolve(path);
-  const lastMatched = resolved.matched.at(-1);
+  const homeRoute = router
+    .getRoutes()
+    .find(
+      (route) => String(route.meta.functionId ?? '') === String(functionId),
+    );
+  const homePath = homeRoute?.path;
 
-  return (
-    resolved.matched.length > 0 && lastMatched?.name !== 'FallbackNotFound'
-  );
+  // 动态路由需要参数才能访问，不能作为无需上下文即可进入的首页。
+  return homePath?.startsWith('/') && !homePath.includes(':')
+    ? homePath
+    : preferences.app.defaultHomePath;
 }
 
 /**

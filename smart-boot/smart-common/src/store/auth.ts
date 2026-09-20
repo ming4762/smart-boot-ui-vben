@@ -65,7 +65,8 @@ export const useAuthStore = defineStore('auth', () => {
     const userPreference = await initializeUserPreferences(user.userId);
     const userInfo = {
       ...user,
-      homePath: userPreference.homePath || preferences.app.defaultHomePath,
+      homeFunctionId: userPreference.homeFunctionId,
+      homePath: preferences.app.defaultHomePath,
       realName: user.fullName,
       roles,
     };

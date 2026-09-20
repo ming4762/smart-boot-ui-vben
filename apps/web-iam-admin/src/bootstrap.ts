@@ -52,7 +52,11 @@ async function bootstrap(namespace: string) {
     await setCurrentUserHomeApi(functionId);
     const userStore = useUserStore();
     if (userStore.userInfo) {
-      userStore.setUserInfo({ ...userStore.userInfo, homePath });
+      userStore.setUserInfo({
+        ...userStore.userInfo,
+        homeFunctionId: functionId,
+        homePath,
+      });
     }
     notification.success({ title: '首页设置成功' });
   });

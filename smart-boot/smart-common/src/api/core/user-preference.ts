@@ -4,8 +4,7 @@ import { requestClient } from '../request';
 
 export namespace UserPreferenceApi {
   export interface UserPreference {
-    homeFunctionId?: number;
-    homePath?: string;
+    homeFunctionId?: number | string;
     schemaVersion?: string;
     timezone?: string;
     vbenPreferences?: Record<string, unknown>;
