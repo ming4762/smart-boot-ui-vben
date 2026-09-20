@@ -1,8 +1,6 @@
 import type { RequestClientConfig, RequestResponse } from '@vben/request';
 import type { UserInfo } from '@vben/types';
 
-import { useAccessStore, useSysPropertiesStore } from '@vben/stores';
-
 import { ApiServiceEnum, baseRequestClient, requestClient } from '../request';
 
 enum Api {
@@ -12,18 +10,14 @@ enum Api {
   rememberLogin = '/auth/rememberLogin',
 }
 
-const REFRESH_TOKEN_HEADER = 'Authorization-refreshToken';
-
 const createAuthRequestConfig = (
   config: RequestClientConfig = {},
 ): RequestClientConfig => {
-  const sysPropertiesStore = useSysPropertiesStore();
-  return sysPropertiesStore.isSessionAuthMode
-    ? {
-        ...config,
-        withCredentials: true,
-      }
-    : config;
+  // JWT refresh token 与 SESSION Remember-Me 均通过 HttpOnly Cookie 传递。
+  return {
+    ...config,
+    withCredentials: true,
+  };
 };
 
 export namespace AuthApi {
@@ -69,7 +63,6 @@ export namespace AuthApi {
     passwordValidateErrorMessage?: string;
     // 跳转地址，如果存在则跳转到指定地址
     redirectUrl?: string;
-    refreshToken?: string;
     token?: string;
   }
 
@@ -132,14 +125,12 @@ export async function rememberLoginApi() {
  * 刷新accessToken
  */
 export async function refreshTokenApi(): Promise<string> {
-  const headers = createRefreshTokenHeader();
   const response = await baseRequestClient.post<
     RequestResponse<AuthApi.RefreshTokenResult>
   >(
     '/auth/refresh',
     {},
     createAuthRequestConfig({
-      headers,
       service: ApiServiceEnum.SMART_AUTH,
     }),
   );
@@ -153,30 +144,15 @@ export async function refreshTokenApi(): Promise<string> {
  * 退出登录
  */
 export async function logoutApi() {
-  const headers = createRefreshTokenHeader();
   return requestClient.post<AuthApi.LogoutResult>(
     '/auth/logout',
     {},
     createAuthRequestConfig({
       authErrorProcessed: false,
       service: ApiServiceEnum.SMART_AUTH,
-      headers,
     }),
   );
 }
-
-/**
- * 创建刷新token请求头
- */
-const createRefreshTokenHeader = () => {
-  const accessStore = useAccessStore();
-  const sysPropertiesStore = useSysPropertiesStore();
-  return sysPropertiesStore.isJwtAuthMode && accessStore.hasRefreshToken
-    ? {
-        [REFRESH_TOKEN_HEADER]: accessStore.refreshToken,
-      }
-    : {};
-};
 
 /**
  * 获取用户权限码

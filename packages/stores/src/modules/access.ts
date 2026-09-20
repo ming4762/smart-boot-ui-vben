@@ -39,10 +39,6 @@ interface AccessState {
    * 登录是否过期
    */
   loginExpired: boolean;
-  /**
-   * 登录 accessToken
-   */
-  refreshToken: AccessToken;
 }
 
 /**
@@ -91,24 +87,14 @@ export const useAccessStore = defineStore('core-access', {
     setLoginExpired(loginExpired: boolean) {
       this.loginExpired = loginExpired;
     },
-    setRefreshToken(token: AccessToken) {
-      this.refreshToken = token;
-    },
     unlockScreen() {
       this.isLockScreen = false;
       this.lockScreenPassword = undefined;
     },
   },
-  getters: {
-    hasRefreshToken(): boolean {
-      return !!this.refreshToken;
-    },
-  },
   persist: {
-    // 持久化
+    // 认证令牌只保存在内存或 HttpOnly Cookie 中，持久化层不得保存可用于认证的凭证。
     pick: [
-      'accessToken',
-      'refreshToken',
       'accessCodes',
       'isLockScreen',
       'lockScreenPassword',
@@ -123,7 +109,6 @@ export const useAccessStore = defineStore('core-access', {
     isLockScreen: false,
     lockScreenPassword: undefined,
     loginExpired: false,
-    refreshToken: null,
   }),
 });
 

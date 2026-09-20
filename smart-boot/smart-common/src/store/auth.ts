@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('auth', () => {
     changeTenant = false,
     onSuccess?: (userInfo: UserInfo) => Promise<void> | void,
   ) => {
-    const { token, refreshToken, redirectUrl } = loginData;
+    const { token, redirectUrl } = loginData;
 
     if (redirectUrl) {
       window.location.href = redirectUrl;
@@ -90,12 +90,8 @@ export const useAuthStore = defineStore('auth', () => {
         return null;
       }
       accessStore.setAccessToken(token);
-      if (refreshToken) {
-        accessStore.setRefreshToken(refreshToken);
-      }
     } else {
       accessStore.setAccessToken(null);
-      accessStore.setRefreshToken(null);
     }
 
     const systemProperties = await getSystemPropertiesApi();

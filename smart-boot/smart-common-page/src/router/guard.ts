@@ -15,6 +15,7 @@ import {
   getAuthPropertiesApi,
   getSystemPropertiesApi,
   getUserPermissionApi,
+  refreshTokenApi,
   rememberLoginApi,
 } from '@smart/common/api';
 import {
@@ -33,6 +34,9 @@ import { accessRoutes, coreRouteNames } from './routes';
 
 /** 权限初始化失败时使用的兜底路由，必须在请求用户权限前直接放行。 */
 const INTERNAL_ERROR_ROUTE_NAME = 'InternalError';
+
+/** 当前页面生命周期内仅尝试一次 JWT Cookie 恢复，避免无 Cookie 时每次导航重复刷新。 */
+let jwtRestoreAttempted = false;
 
 /**
  * 通用守卫配置
@@ -117,6 +121,7 @@ function isUnauthorizedError(error: unknown): boolean {
 
   const unauthorizedError = error as {
     code?: number;
+    data?: { code?: number };
     response?: { data?: { code?: number }; status?: number };
   };
 
@@ -124,6 +129,7 @@ function isUnauthorizedError(error: unknown): boolean {
   return (
     unauthorizedError.code === 401 ||
     unauthorizedError.response?.status === 401 ||
+    unauthorizedError.data?.code === 401 ||
     unauthorizedError.response?.data?.code === 401
   );
 }
@@ -203,6 +209,29 @@ function setupAccessGuard(router: Router) {
         } else {
           // 不输出原始请求错误，避免 network error 中的请求配置泄露 Cookie 等信息。
           console.error('加载用户权限失败，已跳转系统异常页。');
+          return {
+            name: INTERNAL_ERROR_ROUTE_NAME,
+            replace: true,
+          };
+        }
+      }
+    }
+
+    // access token 只保存在内存；页面刷新后通过 HttpOnly refresh Cookie 恢复认证状态。
+    if (
+      sysPropertiesStore.isJwtAuthMode &&
+      !accessStore.accessToken &&
+      !jwtRestoreAttempted
+    ) {
+      jwtRestoreAttempted = true;
+      try {
+        const accessToken = await refreshTokenApi();
+        accessStore.setAccessToken(accessToken);
+        await authStore.loadUserPermission();
+      } catch (error) {
+        if (!isUnauthorizedError(error)) {
+          // 不记录请求对象，避免错误日志意外包含 Cookie 或认证请求元数据。
+          console.error('恢复 JWT 登录状态失败，已跳转系统异常页。');
           return {
             name: INTERNAL_ERROR_ROUTE_NAME,
             replace: true,
