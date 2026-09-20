@@ -17,5 +17,8 @@ export default defineConfig({
   }),
   platform: 'neutral',
   plugins: [Vue({ isProduction: true })],
+  css: {
+    inject: true,
+  },
   unbundle: true,
 });
