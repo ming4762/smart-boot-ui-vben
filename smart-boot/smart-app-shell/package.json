@@ -1,0 +1,51 @@
+{
+  "name": "@smart/app-shell",
+  "version": "5.7.0",
+  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "smart-boot/smart-app-shell"
+  },
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./auth": {
+      "types": "./src/auth/index.ts",
+      "default": "./src/auth/index.ts"
+    },
+    "./admin": {
+      "types": "./src/admin/index.ts",
+      "default": "./src/admin/index.ts"
+    }
+  },
+  "dependencies": {
+    "@smart/admin-pages": "workspace:*",
+    "@vben/common-ui": "workspace:*",
+    "@vben/locales": "workspace:*",
+    "@vben/plugins": "workspace:*",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "@vben/types": "workspace:*",
+    "@smart/common": "workspace:*",
+    "@smart/components": "workspace:*",
+    "@smart/wujie": "workspace:*",
+    "antdv-next": "catalog:",
+    "@vben/constants": "workspace:*",
+    "@vben/preferences": "workspace:*",
+    "@vben/stores": "workspace:*",
+    "@vben/utils": "workspace:*",
+    "@vben/icons": "workspace:*",
+    "@vben/layouts": "workspace:*",
+    "@vben/hooks": "workspace:*",
+    "@vben/access": "workspace:*",
+    "@vxe-ui/plugin-export-xlsx": "catalog:",
+    "@vxe-ui/plugin-render-antd": "catalog:",
+    "exceljs": "catalog:",
+    "pinia": "catalog:"
+  }
+}

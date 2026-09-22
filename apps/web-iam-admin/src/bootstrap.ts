@@ -9,7 +9,7 @@ import '@vben/styles';
 import '@vben/styles/antd';
 import { registerDirective } from '@vben/utils';
 
-import { initComponentAdapter } from '@smart/common-page/adapter';
+import { initAdminUiAdapter } from '@smart/app-shell/admin';
 import { setCurrentUserHomeApi } from '@smart/common/api';
 import { $t, setupI18n } from '@smart/common/locales';
 import { setupWujieMain } from '@smart/wujie';
@@ -22,10 +22,7 @@ import { initTimezone } from './timezone-init';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
-  await initComponentAdapter();
-
-  // 初始化表单组件
-  await initComponentAdapter();
+  await initAdminUiAdapter();
 
   // // 设置弹窗的默认配置
   // setDefaultModalProps({

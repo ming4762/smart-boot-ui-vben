@@ -33,7 +33,7 @@
     "@smart-module/system": "workspace:*",
     "@smart-module/iam-admin": "workspace:*",
     "@smart/common": "workspace:*",
-    "@smart/common-page": "workspace:*",
+    "@smart/app-shell": "workspace:*",
     "@smart/components": "workspace:*",
     "@smart/wujie": "workspace:*",
     "@vben-core/code-editor-ui": "workspace:*",

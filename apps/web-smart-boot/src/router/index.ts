@@ -6,7 +6,7 @@ import {
 
 import { resetStaticRoutes } from '@vben/utils';
 
-import { createRouterGuard, routes } from '@smart/common-page/router';
+import { adminRoutes, createAdminRouterGuard } from '@smart/app-shell/admin';
 
 /**
  *  @zh_CN 创建vue-router实例
@@ -17,7 +17,7 @@ const router = createRouter({
       ? createWebHashHistory(import.meta.env.VITE_BASE)
       : createWebHistory(import.meta.env.VITE_BASE),
   // 应该添加到路由的初始路由列表。
-  routes,
+  routes: adminRoutes,
   scrollBehavior: (to, _from, savedPosition) => {
     if (savedPosition) {
       return savedPosition;
@@ -28,9 +28,9 @@ const router = createRouter({
   // strict: true,
 });
 
-const resetRoutes = () => resetStaticRoutes(router, routes);
+const resetRoutes = () => resetStaticRoutes(router, adminRoutes);
 
 // 创建路由守卫
-createRouterGuard(router);
+createAdminRouterGuard(router);
 
 export { resetRoutes, router };

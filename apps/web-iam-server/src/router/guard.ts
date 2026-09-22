@@ -9,10 +9,12 @@ import {
 } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
-import { coreRouteNames } from '@smart/common-page/router';
+import { setupSysPropertiesGuard } from '@smart/app-shell/auth';
 
 /**
- * 通用守卫配置
+ * 通用守卫配置。
+ *
+ * @param router IAM Server 路由实例
  */
 function setupCommonGuard(router: Router) {
   const loadedPaths = new Set<string>();
@@ -34,7 +36,9 @@ function setupCommonGuard(router: Router) {
 }
 
 /**
- * 判断当前是否已认证
+ * 判断当前是否已认证。
+ *
+ * @returns 当前用户是否已经建立认证状态
  */
 async function isAuthenticated() {
   const accessStore = useAccessStore();
@@ -48,16 +52,19 @@ async function isAuthenticated() {
 }
 
 /**
- * 权限访问守卫
+ * 权限访问守卫。
+ *
+ * @param router IAM Server 路由实例
+ * @param publicRouteNames 无需认证即可访问的路由名称
  */
-function setupAccessGuard(router: Router) {
+function setupAccessGuard(router: Router, publicRouteNames: string[]) {
   router.beforeEach(async (to) => {
     const userStore = useUserStore();
 
     const authenticated = await isAuthenticated();
 
     // 基本路由，这些路由不需要进入权限拦截
-    if (coreRouteNames.includes(to.name as string)) {
+    if (publicRouteNames.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && authenticated) {
         return decodeURIComponent(
           (to.query?.redirect as string) ||
@@ -88,11 +95,15 @@ function setupAccessGuard(router: Router) {
 }
 
 /**
- * 项目守卫配置
+ * 项目守卫配置。
+ *
+ * @param router IAM Server 路由实例
+ * @param publicRouteNames 无需认证即可访问的路由名称
  */
-function createRouterGuard(router: Router) {
+function createRouterGuard(router: Router, publicRouteNames: string[]) {
   setupCommonGuard(router);
-  setupAccessGuard(router);
+  setupSysPropertiesGuard(router);
+  setupAccessGuard(router, publicRouteNames);
 }
 
 export { createRouterGuard };

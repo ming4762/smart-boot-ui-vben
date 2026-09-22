@@ -6,9 +6,13 @@ import {
 
 import { resetStaticRoutes } from '@vben/utils';
 
-import { routes } from '@smart/common-page/router';
+import { createAuthShellRoutes } from '@smart/app-shell/auth';
 
 import { createRouterGuard } from './guard';
+
+const { publicRouteNames, routes } = createAuthShellRoutes({
+  rootRedirect: '/auth/login',
+});
 
 const router = createRouter({
   history:
@@ -26,6 +30,6 @@ const router = createRouter({
 
 const resetRoutes = () => resetStaticRoutes(router, routes);
 
-createRouterGuard(router);
+createRouterGuard(router, publicRouteNames);
 
 export { resetRoutes, router };
