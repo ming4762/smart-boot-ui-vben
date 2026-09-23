@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { ref, unref } from 'vue';
+import {ref, unref} from 'vue';
 
-import { useSmartTable, useVbenModal } from '@vben/common-ui';
-import { $ct as t } from '@vben/locales';
+import {useSmartTable, useVbenModal} from '@vben/common-ui';
+import {$ct as t} from '@vben/locales';
 
-import { successMessage, warnMessage } from '@smart/common/utils';
+import {successMessage, warnMessage} from '@smart/common/utils';
 
-import { listNoBindUserApi, setUserApi } from '../UserGroupListView.api';
-import { getUserGroupUserColumns } from '../UserGroupListView.config';
+import {listNoBindUserApi, setUserApi} from '../UserGroupListView.api';
+import {getUserGroupUserColumns} from '../UserGroupListView.config';
 
 const emit = defineEmits(['operationSuccess']);
 
 const groupIdRef = ref<number | string>();
 
-const [Modal, modalApi] = useVbenModal({
+interface ModalData {
+  groupId: number | string;
+}
+
+const [Modal, modalApi] = useVbenModal<ModalData>({
   title: '绑定用户',
   draggable: true,
   onOpened() {
-    const { groupId } = modalApi.getData();
-    groupIdRef.value = groupId;
+    groupIdRef.value = modalApi.getData()?.groupId;
     tableApi.query();
   },
   async onConfirm() {
@@ -93,7 +96,7 @@ const [SmartTable, tableApi] = useSmartTable({
         }
         return await listNoBindUserApi({
           ...ajaxParameter,
-          id: groupId,
+          id: Number(groupId),
         });
       },
     },

@@ -124,7 +124,7 @@ const handleBindUserSuccess = () => {
 
 <template>
   <div class="h-full">
-    <SmartTable />
+    <SmartTable class="smart-table-padding" />
     <RenderUserGroupBindModal @operation-success="handleBindUserSuccess" />
   </div>
 </template>
