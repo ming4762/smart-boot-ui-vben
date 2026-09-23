@@ -8,12 +8,17 @@ import type { AuthenticationProps } from './types';
 import { computed, onMounted, reactive, ref, useSlots } from 'vue';
 import { useRouter } from 'vue-router';
 
+import { useAppConfig } from '@vben/hooks';
+import { SvgDingDingIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useVbenForm } from '@vben-core/form-ui';
 import { VbenButton, VbenCheckbox } from '@vben-core/shadcn-ui';
 
+import { useMediaQuery } from '@vueuse/core';
+
 import Title from './auth-title.vue';
+import DingdingLogin from './dingding-login.vue';
 import SsoLoginButton from './sso-login-button.vue';
 import ThirdPartyLogin from './third-party-login.vue';
 
@@ -33,11 +38,11 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
   qrCodeLoginPath: '/auth/qrcode-login',
   registerPath: '/auth/register',
-  showCodeLogin: true,
+  showCodeLogin: false,
   showForgetPassword: true,
   showKeepLogin: false,
-  showQrcodeLogin: true,
-  showRegister: true,
+  showQrcodeLogin: false,
+  showRegister: false,
   showRememberMe: true,
   showThirdPartyLogin: true,
   submitButtonText: '',
@@ -74,6 +79,12 @@ const localUsername = localStorage.getItem(REMEMBER_ME_KEY) || '';
 
 const rememberMe = ref(!!localUsername);
 const keepLogin = ref(true);
+// 平板及桌面端保留扫码入口，仅在手机端切换为钉钉 OAuth 快捷登录。
+const showDingdingQrCode = useMediaQuery('(min-width: 768px)');
+
+const {
+  auth: { dingding: dingdingAuthConfig },
+} = useAppConfig(import.meta.env, import.meta.env.PROD);
 
 async function handleSubmit() {
   const { valid } = await formApi.validate();
@@ -95,6 +106,13 @@ function handleGo(path: string) {
   router.push(path);
 }
 
+function handleEnter(event: KeyboardEvent) {
+  if (event.target instanceof HTMLInputElement) {
+    event.preventDefault();
+    void handleSubmit();
+  }
+}
+
 onMounted(() => {
   if (localUsername) {
     formApi.setFieldValue('username', localUsername);
@@ -107,16 +125,19 @@ defineExpose({
 </script>
 
 <template>
-  <div @keydown.enter.prevent="handleSubmit">
+  <div
+    class="authentication-login w-full max-w-[46rem]!"
+    @keydown.enter="handleEnter"
+  >
     <slot name="title">
       <Title>
         <slot name="title">
-          {{ title || `${$t('authentication.welcomeBack')} 👋🏻` }}
+          {{ title || $t('authentication.welcomeBack') }}
         </slot>
         <template #desc>
           <span class="text-muted-foreground">
             <slot name="subTitle">
-              {{ subTitle || $t('authentication.loginSubtitle') }}
+              {{ subTitle || $t('authentication.loginMethodSubtitle') }}
             </slot>
           </span>
         </template>
@@ -157,95 +178,205 @@ defineExpose({
 
     <!-- 常规登录模式 -->
     <template v-else>
-      <Form>
-        <template
-          v-for="slotName in formSlotNames"
-          :key="slotName"
-          #[slotName]="slotProps"
-        >
-          <slot :name="slotName" v-bind="slotProps"></slot>
-        </template>
-      </Form>
-
       <div
-        v-if="showRememberMe || showKeepLogin || showForgetPassword"
-        class="mb-6 flex justify-between"
+        class="grid items-stretch overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm"
+        :class="
+          showDingdingQrCode
+            ? 'grid-cols-1 xl:grid-cols-[332px_minmax(300px,1fr)]'
+            : 'grid-cols-1'
+        "
       >
-        <div class="flex-center gap-4">
-          <VbenCheckbox
-            v-if="showRememberMe"
-            v-model="rememberMe"
-            name="rememberMe"
+        <section
+          :class="
+            showDingdingQrCode
+              ? 'justify-start border-b border-border/70 bg-muted/30 p-4 xl:border-r xl:border-b-0'
+              : 'justify-center p-5 pb-0'
+          "
+          aria-labelledby="dingding-login-title"
+          class="flex flex-col"
+        >
+          <div
+            class="mb-4 flex items-center"
+            :class="showDingdingQrCode ? 'gap-3 px-1 pt-1' : 'justify-center'"
           >
-            {{ $t('authentication.rememberMe') }}
-          </VbenCheckbox>
-          <VbenCheckbox
-            v-if="showKeepLogin"
-            v-model="keepLogin"
-            name="keepLogin"
-          >
-            {{ $t('authentication.keepLogin') }}
-          </VbenCheckbox>
+            <span
+              v-if="showDingdingQrCode"
+              class="flex size-10 items-center justify-center rounded-xl bg-[#1677ff]/10 text-[#1677ff]"
+            >
+              <SvgDingDingIcon class="size-6" />
+            </span>
+            <div :class="{ 'text-center': !showDingdingQrCode }">
+              <h2
+                id="dingding-login-title"
+                class="text-base font-semibold text-foreground"
+              >
+                {{
+                  showDingdingQrCode
+                    ? $t('authentication.dingdingScanTitle')
+                    : $t('authentication.dingdingMobileTitle')
+                }}
+              </h2>
+              <p class="mt-0.5 text-xs leading-5 text-muted-foreground">
+                {{
+                  showDingdingQrCode
+                    ? $t('authentication.dingdingScanSubtitle')
+                    : $t('authentication.dingdingMobileSubtitle')
+                }}
+              </p>
+            </div>
+          </div>
+
+          <template v-if="showDingdingQrCode">
+            <div
+              class="mx-auto overflow-hidden rounded-xl bg-background shadow-[0_12px_36px_-20px_hsl(var(--primary)/0.35)]"
+            >
+              <DingdingLogin
+                :client-id="dingdingAuthConfig?.clientId"
+                :corp-id="dingdingAuthConfig?.corpId"
+                inline
+                is-qr-code
+              />
+            </div>
+            <p
+              class="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted-foreground"
+            >
+              <svg
+                aria-hidden="true"
+                class="size-3.5 text-primary"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 6 9 17l-5-5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              {{ $t('authentication.dingdingScanSecureTip') }}
+            </p>
+          </template>
+          <DingdingLogin
+            v-else
+            :client-id="dingdingAuthConfig?.clientId"
+            :corp-id="dingdingAuthConfig?.corpId"
+            button-type="primary"
+          />
+        </section>
+
+        <div
+          v-if="!showDingdingQrCode"
+          class="flex items-center gap-3 px-5 pt-5 text-xs text-muted-foreground"
+        >
+          <span class="h-px flex-1 bg-border"></span>
+          {{ $t('authentication.orAccountLogin') }}
+          <span class="h-px flex-1 bg-border"></span>
         </div>
 
-        <span
-          v-if="showForgetPassword"
-          class="vben-link text-sm font-normal"
-          @click="handleGo(forgetPasswordPath || '')"
+        <section
+          aria-labelledby="account-login-title"
+          class="min-w-0 p-5 sm:p-6 xl:p-8"
         >
-          {{ $t('authentication.forgetPassword') }}
-        </span>
-      </div>
-      <VbenButton
-        :class="{
-          'cursor-wait': loading,
-        }"
-        :loading="loading"
-        aria-label="login"
-        class="w-full"
-        @click="handleSubmit"
-      >
-        {{ submitButtonText || $t('common.login') }}
-      </VbenButton>
+          <div class="mb-5">
+            <h2
+              id="account-login-title"
+              class="text-base font-semibold text-foreground"
+            >
+              {{ $t('authentication.accountPasswordLogin') }}
+            </h2>
+            <p class="mt-1 text-xs leading-5 text-muted-foreground">
+              {{ $t('authentication.accountPasswordSubtitle') }}
+            </p>
+          </div>
 
-      <div
-        v-if="showCodeLogin || showQrcodeLogin"
-        class="mt-4 mb-2 flex items-center justify-between"
-      >
-        <VbenButton
-          v-if="showCodeLogin"
-          class="w-1/2"
-          variant="outline"
-          @click="handleGo(codeLoginPath || '')"
-        >
-          {{ $t('authentication.mobileLogin') }}
-        </VbenButton>
-        <VbenButton
-          v-if="showQrcodeLogin"
-          class="ml-4 w-1/2"
-          variant="outline"
-          @click="handleGo(qrCodeLoginPath || '')"
-        >
-          {{ $t('authentication.qrcodeLogin') }}
-        </VbenButton>
-      </div>
+          <Form>
+            <template
+              v-for="slotName in formSlotNames"
+              :key="slotName"
+              #[slotName]="slotProps"
+            >
+              <slot :name="slotName" v-bind="slotProps"></slot>
+            </template>
+          </Form>
 
-      <!-- 第三方登录 -->
-      <slot name="third-party-login">
-        <ThirdPartyLogin sso-button-type="icon" v-if="showThirdPartyLogin" />
-      </slot>
-
-      <slot name="to-register">
-        <div v-if="showRegister" class="mt-3 text-center text-sm">
-          {{ $t('authentication.accountTip') }}
-          <span
-            class="vben-link text-sm font-normal"
-            @click="handleGo(registerPath || '')"
+          <div
+            v-if="showRememberMe || showKeepLogin || showForgetPassword"
+            class="mb-6 flex items-start justify-between gap-3"
           >
-            {{ $t('authentication.createAccount') }}
-          </span>
-        </div>
-      </slot>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <VbenCheckbox
+                v-if="showRememberMe"
+                v-model="rememberMe"
+                name="rememberMe"
+              >
+                {{ $t('authentication.rememberMe') }}
+              </VbenCheckbox>
+              <VbenCheckbox
+                v-if="showKeepLogin"
+                v-model="keepLogin"
+                name="keepLogin"
+              >
+                {{ $t('authentication.keepLogin') }}
+              </VbenCheckbox>
+            </div>
+
+            <button
+              v-if="showForgetPassword"
+              class="vben-link min-h-11 shrink-0 cursor-pointer text-sm font-normal"
+              type="button"
+              @click="handleGo(forgetPasswordPath || '')"
+            >
+              {{ $t('authentication.forgetPassword') }}
+            </button>
+          </div>
+          <VbenButton
+            :class="{
+              'cursor-wait': loading,
+            }"
+            :disabled="loading"
+            :loading="loading"
+            aria-label="login"
+            class="min-h-11 w-full"
+            @click="handleSubmit"
+          >
+            {{ submitButtonText || $t('common.login') }}
+          </VbenButton>
+
+          <div
+            v-if="showCodeLogin"
+            class="mt-4 mb-2 flex items-center justify-between"
+          >
+            <VbenButton
+              class="min-h-11 w-full"
+              variant="outline"
+              @click="handleGo(codeLoginPath || '')"
+            >
+              {{ $t('authentication.mobileLogin') }}
+            </VbenButton>
+          </div>
+
+          <slot name="third-party-login">
+            <ThirdPartyLogin
+              v-if="showThirdPartyLogin"
+              sso-button-type="icon"
+            />
+          </slot>
+
+          <slot name="to-register">
+            <div v-if="showRegister" class="mt-3 text-center text-sm">
+              {{ $t('authentication.accountTip') }}
+              <button
+                class="vben-link min-h-11 cursor-pointer px-1 text-sm font-normal"
+                type="button"
+                @click="handleGo(registerPath || '')"
+              >
+                {{ $t('authentication.createAccount') }}
+              </button>
+            </div>
+          </slot>
+        </section>
+      </div>
     </template>
   </div>
 </template>

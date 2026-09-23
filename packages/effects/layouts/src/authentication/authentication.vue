@@ -63,7 +63,7 @@ const computeImgStyle = computed(() => ({
     <!-- 左侧认证面板 -->
     <AuthenticationFormView
       v-if="authPanelLeft"
-      class="min-h-full w-2/5 flex-1"
+      class="authentication-side-panel min-h-full w-2/5 flex-1"
       data-side="left"
     >
       <template v-if="copyright" #copyright>
@@ -133,7 +133,7 @@ const computeImgStyle = computed(() => ({
     <div v-if="authPanelCenter" class="relative flex-center w-full">
       <div class="login-background absolute top-0 left-0 size-full"></div>
       <AuthenticationFormView
-        class="w-full rounded-3xl pb-20 shadow-float shadow-primary/5 md:w-2/3 md:bg-background lg:w-1/2 xl:w-[36%]"
+        class="authentication-center-panel w-full rounded-3xl pb-20 shadow-float shadow-primary/5 md:w-2/3 md:bg-background lg:w-1/2 xl:w-[36%]"
         data-side="bottom"
       >
         <template v-if="copyright" #copyright>
@@ -150,7 +150,7 @@ const computeImgStyle = computed(() => ({
     <!-- 右侧认证面板 -->
     <AuthenticationFormView
       v-if="authPanelRight"
-      class="min-h-full w-2/5 flex-1"
+      class="authentication-side-panel min-h-full w-2/5 flex-1"
       data-side="right"
     >
       <template v-if="copyright" #copyright>
@@ -185,6 +185,17 @@ const computeImgStyle = computed(() => ({
       #07070915 64%
     );
     filter: blur(100px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .authentication-side-panel:has(.authentication-login) {
+    width: 60%;
+    flex: none;
+  }
+
+  .authentication-center-panel:has(.authentication-login) {
+    width: min(80%, 50rem);
   }
 }
 </style>
