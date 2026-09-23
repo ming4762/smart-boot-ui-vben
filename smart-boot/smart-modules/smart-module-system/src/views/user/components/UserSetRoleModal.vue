@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import type { ExtendedModalApi } from '@vben/common-ui';
+import type {ExtendedModalApi} from '@vben/common-ui';
+import {useSmartTable, useVbenModal} from '@vben/common-ui';
 
-import { nextTick, ref, unref } from 'vue';
+import {nextTick, ref, unref} from 'vue';
+import {$t as t} from '@vben/locales';
 
-import { useSmartTable, useVbenModal } from '@vben/common-ui';
-import { $t as t } from '@vben/locales';
+import {ApiServiceEnum, requestClient} from '@smart/common/api';
+import {successMessage} from '@smart/common/utils';
 
-import { ApiServiceEnum, requestClient } from '@smart/common/api';
-import { successMessage } from '@smart/common/utils';
+import {setUserRoleApi} from '../UserListView.api';
 
-import { setUserRoleApi } from '../UserListView.api';
-
-const currentUserId = ref<null | number>(null);
+const currentUserId = ref<null | number | undefined>(null);
 
 const [SmartTable, tableApi] = useSmartTable({
   border: true,
@@ -20,6 +19,7 @@ const [SmartTable, tableApi] = useSmartTable({
     isHover: true,
     keyField: 'roleId',
   },
+  showOverflow: 'tooltip',
   columnConfig: {
     resizable: true,
   },
@@ -50,9 +50,10 @@ const [SmartTable, tableApi] = useSmartTable({
     },
   },
   searchFormConfig: {
+    separator: false,
     compact: true,
     searchWithSymbol: true,
-    wrapperClass: 'flex flex-wrap',
+    layout: 'inline',
     actionWrapperClass: 'text-left',
     commonConfig: {
       labelWidth: 80,
@@ -131,10 +132,9 @@ const handleSaveUserRole = async (modalApi: ExtendedModalApi) => {
   }
 };
 
-const [Modal, modalApi] = useVbenModal({
+const [Modal, modalApi] = useVbenModal<{ userId: number }>({
   onOpened: () => {
-    const { userId } = modalApi.getData();
-    currentUserId.value = userId;
+    currentUserId.value = modalApi.getData()?.userId;
     nextTick(async () => {
       await tableApi.query();
       await setSelectRole();
