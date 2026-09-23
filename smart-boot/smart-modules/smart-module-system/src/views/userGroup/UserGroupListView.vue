@@ -15,10 +15,11 @@ const props = defineProps<Props>();
     class="page-container h-full"
     direction="vertical"
     divider-size="5px"
+    resize-mode="preview"
     :first-size="60"
-    :resizable="false"
+    :resizable="true"
     show-divider
-    :show-handle="false"
+    :show-handle="true"
   >
     <template #first>
       <UserGroupList :group-id="props.groupId" />
