@@ -177,7 +177,7 @@ export function createIamPermissionAdapters(
     save: (id, selection) => {
       if (domain === 'role') {
         requireTenant()
-      };
+      }
       return post(`${domain}/function/save`, { id, ...selection });
     },
   });
@@ -209,28 +209,11 @@ export function createIamPermissionAdapters(
   /** 订阅的基础资源操作，供扩展后的订阅适配器复用。 */
   const baseSubscription = createResource('tenant-subscription', 'id');
 
-  /** 租户订阅适配器，补充同一客户端下的套餐候选项及套餐展示信息。 */
+  /** 租户订阅适配器，提供同一客户端下的套餐候选项。 */
   const subscriptions: SubscriptionManagementAdapter = {
     ...baseSubscription,
     permissions: subscriptionPermissions,
     listPackages: () => packages.list({}),
-    list: async (query) => {
-      const [rows, packageRows] = await Promise.all([
-        baseSubscription.list(query),
-        packages.list({}),
-      ]);
-
-      // 订阅仅返回套餐主键，表格展示所需的名称、编码由套餐列表在客户端回填。
-      const map = new Map<string, PermissionRow>(
-        packageRows.map((row: PermissionRow) => [String(row.id), row]),
-      );
-      return rows.map((row: PermissionRow) => ({
-        ...row,
-        tenantPackage: map.get(String(row.packageId)),
-        packageName: map.get(String(row.packageId))?.packageName,
-        packageCode: map.get(String(row.packageId))?.packageCode,
-      }));
-    },
   };
   return { functions, roles, packages, subscriptions };
 }
