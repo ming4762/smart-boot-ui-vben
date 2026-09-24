@@ -17,6 +17,7 @@ const DEFAULT_FAILURE_TIP =
 
 interface FailureReasonConfig {
   message: string;
+  showBackToLogin?: boolean;
   showRetry: boolean;
   tip: string;
   title: string;
@@ -49,8 +50,9 @@ const OAUTH_ERROR_CONFIGS: Record<
   Omit<FailureReasonConfig, 'message'>
 > = {
   access_denied: {
+    showBackToLogin: false,
     showRetry: false,
-    tip: '请联系系统管理员为当前账号配置应用及租户访问权限。',
+    tip: '请联系系统管理员开通权限，或关闭当前页面后从统一认证平台切换账号、访问其他应用。',
     title: '应用访问受限',
   },
 };
@@ -61,6 +63,7 @@ const authStore = useAuthStore();
 
 const loading = ref(true);
 const message = ref(UNKNOWN_ERROR_MESSAGE);
+const showBackToLogin = ref(true);
 const showRetry = ref(true);
 const failureTitle = ref(DEFAULT_FAILURE_TITLE);
 const failureTip = ref(DEFAULT_FAILURE_TIP);
@@ -94,6 +97,7 @@ const loadFailureDetail = async () => {
     const errorCode = result.data?.errorCode;
     const errorConfig = errorCode ? OAUTH_ERROR_CONFIGS[errorCode] : undefined;
     if (errorConfig) {
+      showBackToLogin.value = errorConfig.showBackToLogin ?? true;
       showRetry.value = errorConfig.showRetry;
       failureTip.value = errorConfig.tip;
       failureTitle.value = errorConfig.title;
@@ -133,7 +137,7 @@ onMounted(loadFailureDetail);
       <p class="failure-tip">
         {{ failureTip }}
       </p>
-      <div class="failure-actions">
+      <div v-if="showRetry || showBackToLogin" class="failure-actions">
         <Button
           v-if="showRetry"
           type="primary"
@@ -142,7 +146,9 @@ onMounted(loadFailureDetail);
         >
           重新登录
         </Button>
-        <Button size="large" @click="backToLogin">返回登录页</Button>
+        <Button v-if="showBackToLogin" size="large" @click="backToLogin">
+          返回登录页
+        </Button>
       </div>
     </section>
   </main>

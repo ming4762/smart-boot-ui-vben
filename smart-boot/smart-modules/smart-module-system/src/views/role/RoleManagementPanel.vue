@@ -51,6 +51,7 @@ const [SmartTable, tableApi] = useSmartTable({
   columnConfig: {
     resizable: true,
   },
+  showOverflow: 'tooltip',
   rowConfig: {
     isHover: true,
     isCurrent: true,

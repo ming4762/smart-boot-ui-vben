@@ -376,6 +376,7 @@ export const getSubscribeTableColumns = (): SmartTableColumn[] => {
       field: 'updateTime',
       title: '{common.table.updateTime}',
       width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'updateBy',
