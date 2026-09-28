@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import type { AuthenticationSsoProps } from './types';
 
-import { useAppConfig } from '@vben/hooks';
+import { useSysPropertiesStore } from '@vben/stores';
 import {
   SvgGithubIcon,
   SvgGoogleIcon,
   SvgQQChatIcon,
   SvgShieldKeyIcon,
-  SvgWeChatIcon
+  SvgWeChatIcon,
 } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
 import DingdingLogin from './dingding-login.vue';
-import SsoLoginButton from './sso-login-button.vue'
+import SsoLoginButton from './sso-login-button.vue';
 
 defineOptions({
   name: 'ThirdPartyLogin',
@@ -22,9 +22,7 @@ defineOptions({
 
 defineProps<AuthenticationSsoProps>();
 
-const {
-  auth: { dingding: dingdingAuthConfig },
-} = useAppConfig(import.meta.env, import.meta.env.PROD);
+const sysPropertiesStore = useSysPropertiesStore();
 </script>
 
 <template>
@@ -67,8 +65,10 @@ const {
         <SvgGoogleIcon />
       </VbenIconButton>
       <DingdingLogin
-        :corp-id="dingdingAuthConfig?.corpId"
-        :client-id="dingdingAuthConfig?.clientId"
+        v-if="sysPropertiesStore.dingtalk?.clientId"
+        :corp-id="sysPropertiesStore.dingtalk.corpId"
+        :client-id="sysPropertiesStore.dingtalk.clientId"
+        :redirect-uri="sysPropertiesStore.dingtalk.redirectUri"
         class="mb-3"
       />
 

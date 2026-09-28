@@ -17,10 +17,19 @@ export interface CaptchaProperties {
   captchaType: string;
 }
 
+/** 钉钉登录公开参数；未配置 corpId 时由用户选择组织。 */
+export interface DingtalkProperties {
+  clientId: string;
+  corpId?: string;
+  /** 钉钉授权完成后访问的公开回调地址。 */
+  redirectUri?: string;
+}
+
 export interface AuthProperties {
   [key: string]: any;
   authMode?: AuthMode;
   captcha?: CaptchaProperties;
+  dingtalk?: DingtalkProperties;
   // 是否IAM客户端
   iamClient?: boolean;
   /**
@@ -65,6 +74,7 @@ export const useSysPropertiesStore = defineStore('core-sys-properties', {
   state: (): SysPropertiesState => ({
     authMode: 'JWT',
     captcha: undefined,
+    dingtalk: undefined,
     sysParameter: undefined,
     iamClient: false,
     iamLoginUrl: undefined,

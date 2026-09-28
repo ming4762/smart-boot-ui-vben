@@ -8,9 +8,9 @@ import type { AuthenticationProps } from './types';
 import { computed, onMounted, reactive, ref, useSlots } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { useAppConfig } from '@vben/hooks';
 import { SvgDingDingIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
+import { useSysPropertiesStore } from '@vben/stores';
 
 import { useVbenForm } from '@vben-core/form-ui';
 import { VbenButton, VbenCheckbox } from '@vben-core/shadcn-ui';
@@ -72,6 +72,7 @@ const formSlotNames = computed(() => {
 });
 
 const router = useRouter();
+const sysPropertiesStore = useSysPropertiesStore();
 
 const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
 
@@ -81,10 +82,9 @@ const rememberMe = ref(!!localUsername);
 const keepLogin = ref(true);
 // 平板及桌面端保留扫码入口，仅在手机端切换为钉钉 OAuth 快捷登录。
 const showDingdingQrCode = useMediaQuery('(min-width: 768px)');
-
-const {
-  auth: { dingding: dingdingAuthConfig },
-} = useAppConfig(import.meta.env, import.meta.env.PROD);
+const showDingtalkLogin = computed(
+  () => !!sysPropertiesStore.dingtalk?.clientId,
+);
 
 async function handleSubmit() {
   const { valid } = await formApi.validate();
@@ -181,15 +181,16 @@ defineExpose({
       <div
         class="grid items-stretch overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm"
         :class="
-          showDingdingQrCode
+          showDingtalkLogin && showDingdingQrCode
             ? 'grid-cols-1 xl:grid-cols-[332px_minmax(300px,1fr)]'
             : 'grid-cols-1'
         "
       >
         <section
+          v-if="showDingtalkLogin"
           :class="
             showDingdingQrCode
-              ? 'justify-start border-b border-border/70 bg-muted/30 p-4 xl:border-r xl:border-b-0'
+              ? 'justify-start border-b border-border/70 bg-background p-4 xl:border-r xl:border-b-0'
               : 'justify-center p-5 pb-0'
           "
           aria-labelledby="dingding-login-title"
@@ -227,12 +228,12 @@ defineExpose({
           </div>
 
           <template v-if="showDingdingQrCode">
-            <div
-              class="mx-auto overflow-hidden rounded-xl bg-background shadow-[0_12px_36px_-20px_hsl(var(--primary)/0.35)]"
-            >
+            <!-- 浅色模式与 iframe 白底融合；暗黑模式为第三方 iframe 保留独立扫码区域。 -->
+            <div class="mx-auto overflow-hidden rounded-xl">
               <DingdingLogin
-                :client-id="dingdingAuthConfig?.clientId"
-                :corp-id="dingdingAuthConfig?.corpId"
+                :client-id="sysPropertiesStore.dingtalk?.clientId"
+                :corp-id="sysPropertiesStore.dingtalk?.corpId"
+                :redirect-uri="sysPropertiesStore.dingtalk?.redirectUri"
                 inline
                 is-qr-code
               />
@@ -259,14 +260,15 @@ defineExpose({
           </template>
           <DingdingLogin
             v-else
-            :client-id="dingdingAuthConfig?.clientId"
-            :corp-id="dingdingAuthConfig?.corpId"
+            :client-id="sysPropertiesStore.dingtalk?.clientId"
+            :corp-id="sysPropertiesStore.dingtalk?.corpId"
+            :redirect-uri="sysPropertiesStore.dingtalk?.redirectUri"
             button-type="primary"
           />
         </section>
 
         <div
-          v-if="!showDingdingQrCode"
+          v-if="showDingtalkLogin && !showDingdingQrCode"
           class="flex items-center gap-3 px-5 pt-5 text-xs text-muted-foreground"
         >
           <span class="h-px flex-1 bg-border"></span>

@@ -80,7 +80,8 @@ export const getTableColumns = (): SmartTableColumn[] => {
       field: 'clientSecretExpire',
       align: 'center',
       title: '{sso.oauth2.client.title.clientSecretExpire}',
-      width: 120,
+      width: 165,
+      formatter: 'datetime',
     },
     {
       field: 'clientAuthenticationMethods',

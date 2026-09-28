@@ -15,23 +15,8 @@ export function useAppConfig(
     ? window._VBEN_ADMIN_PRO_APP_CONF_
     : (env as VbenAdminProAppConfigRaw);
 
-  const {
-    VITE_GLOB_API_URL,
-    VITE_GLOB_AUTH_DINGDING_CORP_ID,
-    VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
-  } = config;
-
-  const applicationConfig: ApplicationConfig = {
-    apiURL: VITE_GLOB_API_URL,
+  return {
+    apiURL: config.VITE_GLOB_API_URL,
     apiMode: config.VITE_GLOB_API_MODE,
-    auth: {},
   };
-  if (VITE_GLOB_AUTH_DINGDING_CORP_ID && VITE_GLOB_AUTH_DINGDING_CLIENT_ID) {
-    applicationConfig.auth.dingding = {
-      clientId: VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
-      corpId: VITE_GLOB_AUTH_DINGDING_CORP_ID,
-    };
-  }
-
-  return applicationConfig;
 }

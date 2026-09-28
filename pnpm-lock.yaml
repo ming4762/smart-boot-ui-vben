@@ -2094,6 +2094,9 @@ importers:
       '@vben/locales':
         specifier: workspace:*
         version: link:../../locales
+      '@vben/stores':
+        specifier: workspace:*
+        version: link:../../stores
       '@vben/types':
         specifier: workspace:*
         version: link:../../types

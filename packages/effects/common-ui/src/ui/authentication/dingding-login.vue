@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, useId } from 'vue';
-import { useRoute } from 'vue-router';
+import { nextTick, onBeforeUnmount, onMounted, ref, useId } from 'vue';
 
 import { SvgDingDingIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
@@ -30,11 +29,11 @@ const props = withDefaults(defineProps<Props>(), {
   redirectUri: '',
 });
 
-const route = useRoute();
 const containerId = `dingding_qrcode_login_${useId().replaceAll(':', '')}`;
 const loginStatus = ref<'config-error' | 'error' | 'loading' | 'ready'>(
   'loading',
 );
+let qrLoginAttempt = 0;
 
 const [Modal, modalApi] = useVbenModal({
   header: false,
@@ -44,22 +43,20 @@ const [Modal, modalApi] = useVbenModal({
   onOpened() {
     handleQrCodeLogin();
   },
+  onClosed() {
+    // 关闭弹窗后，旧二维码的回调不能再触发登录或错误弹窗。
+    qrLoginAttempt += 1;
+  },
 });
 
-const getRedirectUri = () => {
-  const { redirectUri } = props;
-  if (redirectUri) {
-    return redirectUri;
-  }
-  return window.location.origin + route.fullPath;
-};
-
 /**
- * 内嵌二维码登录
+ * 初始化当前一轮二维码登录，并忽略 SDK 留下的旧回调。
  */
 const handleQrCodeLogin = async () => {
-  const { clientId, corpId } = props;
-  if (!clientId || !corpId) {
+  const attempt = ++qrLoginAttempt;
+  const { clientId, corpId, redirectUri } = props;
+  // 回调地址必须由服务端配置，避免当前页面 URL 变化导致钉钉回调不一致。
+  if (!clientId || !redirectUri?.trim()) {
     loginStatus.value = 'config-error';
     return;
   }
@@ -73,40 +70,59 @@ const handleQrCodeLogin = async () => {
       );
     }
     await nextTick();
+    if (attempt !== qrLoginAttempt) return;
+
+    let handled = false;
     (window as any).DTFrameLogin(
       {
         id: containerId,
+        // 钉钉仅用宽高设置 iframe，内部二维码及留白需要完整的显示区域。
         width: 300,
         height: 300,
       },
       {
         // 注意：redirect_uri 需为完整URL，扫码后钉钉会带code跳转到这里
-        redirect_uri: encodeURIComponent(getRedirectUri()),
+        redirect_uri: encodeURIComponent(redirectUri),
         client_id: clientId,
         scope: 'openid corpid',
         response_type: 'code',
         state: '1',
         prompt: 'consent',
-        corpId,
+        // 未限定组织时省略 corpId，由钉钉让用户选择登录组织。
+        ...(corpId ? { corpId } : {}),
       },
       (loginResult: any) => {
+        // SDK 重新初始化后可能继续调用旧回调；每轮仅处理首次结果。
+        if (attempt !== qrLoginAttempt || handled) {
+          return;
+        }
+        handled = true;
         const { redirectUrl } = loginResult;
         window.location.href = redirectUrl;
       },
       (errorMsg: string) => {
+        if (attempt !== qrLoginAttempt || handled) {
+          return;
+        }
+        handled = true;
+        console.error(errorMsg);
         loginStatus.value = 'error';
         alert(`Login Error: ${errorMsg}`);
       },
     );
-    loginStatus.value = 'ready';
+    if (attempt === qrLoginAttempt && !handled) {
+      loginStatus.value = 'ready';
+    }
   } catch {
-    loginStatus.value = 'error';
+    if (attempt === qrLoginAttempt) {
+      loginStatus.value = 'error';
+    }
   }
 };
 
 const handleLogin = () => {
-  const { clientId, corpId, isQrCode } = props;
-  if (!clientId || !corpId) {
+  const { clientId, corpId, isQrCode, redirectUri } = props;
+  if (!clientId || !redirectUri?.trim()) {
     alert($t('authentication.dingdingLoginConfigError'));
     return;
   }
@@ -114,7 +130,8 @@ const handleLogin = () => {
     // 内嵌二维码登录
     modalApi.open();
   } else {
-    window.location.href = `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(getRedirectUri())}&response_type=code&client_id=${clientId}&scope=openid&corpid=${corpId}&prompt=consent`;
+    // 未限定组织时不传 corpid，保留钉钉的组织选择流程。
+    window.location.href = `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent${corpId ? `&corpid=${encodeURIComponent(corpId)}` : ''}`;
   }
 };
 
@@ -123,6 +140,10 @@ onMounted(() => {
     void handleQrCodeLogin();
   }
 });
+
+onBeforeUnmount(() => {
+  qrLoginAttempt += 1;
+});
 </script>
 
 <template>
@@ -130,7 +151,7 @@ onMounted(() => {
     <div
       v-if="loginStatus !== 'ready'"
       aria-live="polite"
-      class="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-background px-6 text-center"
+      class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background px-6 text-center"
       role="status"
     >
       <template v-if="loginStatus === 'loading'">
@@ -160,7 +181,8 @@ onMounted(() => {
         </button>
       </template>
     </div>
-    <div :id="containerId" class="size-[300px]"></div>
+    <!-- SDK 不支持主题色，暗黑模式调低亮度并保留深色二维码，避免反相影响扫码。 -->
+    <div :id="containerId" class="size-[300px] dark:brightness-[0.65]"></div>
   </div>
   <div v-else-if="buttonType === 'primary'" class="w-full">
     <VbenButton class="min-h-12 w-full gap-2" @click="handleLogin">
