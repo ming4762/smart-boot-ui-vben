@@ -18,6 +18,8 @@ export interface ManagedClient {
   clientCode: string;
   /** 客户端主键；后端 Long 类型可能以字符串返回。 */
   clientId: PermissionId;
+  /** 当前客户端对应的应用编码，功能树导入导出由 System 服务按此范围处理。 */
+  applicationCode: string | null;
   /** 客户端显示名称。 */
   clientName: string;
   /** 是否启用。 */

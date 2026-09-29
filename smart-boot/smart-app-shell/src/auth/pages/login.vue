@@ -186,6 +186,7 @@ const computedIamLoginUrl = computed(() => {
 <template>
   <div class="w-full max-w-[46rem]!">
     <AuthenticationLogin
+      class="mx-auto"
       :form-schema="formSchema"
       :is-sso-login="sysPropertiesStore.isIamClient"
       :loading="authStore.loginLoading"

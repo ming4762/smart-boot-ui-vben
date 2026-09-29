@@ -64,6 +64,8 @@ function filterRows(rows: PermissionRow[], query: PermissionRow) {
  * @param clientId 目标客户端
  * @param tenantId 角色和订阅的目标租户；未选择时不会发起这两类请求
  * @param signal 该面板实例的请求生命周期
+ * @returns 与当前客户端和租户绑定的权限适配器
+ * @throws 未选择客户端时抛出异常
  */
 export function createIamPermissionAdapters(
   clientId: PermissionId,

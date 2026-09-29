@@ -8,6 +8,8 @@ import { nextTick, onMounted, reactive, ref, unref } from 'vue';
 
 import { useAccess } from '@vben/access';
 import {
+  Language,
+  SmartCodeEditor,
   SmartVxeTableAction,
   useSmartTable,
   useVbenDrawer,
@@ -23,9 +25,14 @@ import {
   getSearchSchemas,
   tableColumns,
 } from './FunctionListView.config';
+import { useFunctionTreeTransfer } from './hooks/useFunctionTreeTransfer';
 
-/** 可复用管理面板；父级切换范围时通过 key 销毁旧实例。 */
-const props = defineProps<{ adapter: FunctionManagementAdapter }>();
+/** 可复用管理面板；IAM 提供应用编码和取消信号，独立系统省略应用编码。 */
+const props = defineProps<{
+  adapter: FunctionManagementAdapter;
+  applicationCode?: null | string;
+  signal?: AbortSignal;
+}>();
 const adapter = props.adapter;
 const Permission = adapter.permissions;
 
@@ -76,6 +83,23 @@ const loadFunctionTreeData = async () => {
 };
 onMounted(() => loadFunctionTreeData());
 
+const {
+  ExportModal,
+  ImportModal,
+  exportJson,
+  importJson,
+  handleExport,
+  handleImport,
+} = useFunctionTreeTransfer({
+  applicationCode: props.applicationCode,
+  getSelectedRows: () => tableApi.getGrid()?.getCheckboxRecords(false) ?? [],
+  onImported: async () => {
+    tableApi.getGrid()?.clearCheckboxRow();
+    await Promise.all([tableApi.query(), loadFunctionTreeData()]);
+  },
+  signal: props.signal,
+});
+
 const [DataPermissionDrawerRender, dataPermissionDrawerApi] = useVbenDrawer({
   connectedComponent: DataPermissionDrawer,
 });
@@ -91,7 +115,13 @@ const [SmartTable, tableApi] = useSmartTable({
   customConfig: {
     storage: true,
   },
-  checkboxConfig: true,
+  // 树节点独立勾选，目录勾选不自动选中后代，保证导入目标只有用户明确勾选的一项。
+  checkboxConfig: {
+    checkStrictly: true,
+    rowCtrl: true,
+    rowShift: true,
+    rowTrigger: 'single',
+  },
   searchFormConfig: {
     layout: 'inline',
     actionWrapperClass: 'gap-1',
@@ -196,6 +226,17 @@ const [SmartTable, tableApi] = useSmartTable({
             );
           },
         },
+      },
+      {
+        name: '导出 JSON',
+        customRender: 'ant',
+        props: { preIcon: 'ant-design:export-outlined', onClick: handleExport, type: 'primary' },
+      },
+      {
+        name: '导入 JSON',
+        auth: Permission.add,
+        customRender: 'ant',
+        props: { preIcon: 'ant-design:import-outlined', onClick: handleImport, type: 'primary' },
       },
     ],
   },
@@ -337,6 +378,21 @@ const getTreeData = (model: Recordable<any>) => {
 
 <template>
   <div class="smart-table-padding h-full">
+    <ExportModal>
+      <SmartCodeEditor
+        :language="Language.JSON"
+        :value="exportJson"
+        class="h-[60vh] min-h-[320px]"
+        disabled
+      />
+    </ExportModal>
+    <ImportModal>
+      <SmartCodeEditor
+        v-model:value="importJson"
+        :language="Language.JSON"
+        class="h-[60vh] min-h-[320px]"
+      />
+    </ImportModal>
     <SmartTable>
       <template #table-functionType="{ row }">
         <Tag :color="getTagData(row.functionType).color" variant="solid">

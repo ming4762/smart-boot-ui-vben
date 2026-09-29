@@ -18,6 +18,7 @@ import { createIamPermissionAdapters } from './adapters';
 /** 每个 Tab 保留实例，仅在激活且自身请求范围变化时切换请求范围。 */
 const props = defineProps<{
   activated: boolean;
+  applicationCode: null | string;
   clientId: PermissionId;
   tab: string;
   tenantId?: PermissionId;
@@ -29,10 +30,11 @@ const scopeTenantId = computed(() =>
     : undefined,
 );
 const scopeKey = computed(
-  () => `${props.clientId}:${scopeTenantId.value ?? 'none'}`,
+  () => `${props.clientId}:${props.applicationCode}:${scopeTenantId.value ?? 'none'}`,
 );
 const loadedScopeKey = ref('');
 const loadedTenantId = shallowRef<PermissionId>();
+const scopeSignal = shallowRef<AbortSignal>();
 const adapters = shallowRef<ReturnType<typeof createIamPermissionAdapters>>();
 let controller: AbortController | undefined;
 
@@ -44,6 +46,7 @@ function loadScope() {
     scopeTenantId.value,
     controller.signal,
   );
+  scopeSignal.value = controller.signal;
   loadedTenantId.value = scopeTenantId.value;
   loadedScopeKey.value = scopeKey.value;
 }
@@ -57,6 +60,8 @@ onBeforeUnmount(() => controller?.abort());
     v-if="adapters && tab === 'function'"
     :key="`function:${loadedScopeKey}`"
     :adapter="adapters.functions"
+    :application-code="applicationCode"
+    :signal="scopeSignal"
   />
   <TenantPackageManagementPanel
     v-else-if="adapters && tab === 'package'"

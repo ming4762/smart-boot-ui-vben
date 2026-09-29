@@ -28,7 +28,7 @@ export interface ResourceManagementAdapter {
   remove: (rows: PermissionRow[]) => Promise<unknown>;
   setUseYn?: (rows: PermissionRow[], useYn: boolean) => Promise<unknown>;
 }
-/** 功能管理使用资源接口，不自行决定客户端范围。 */
+/** 功能管理复用资源接口；功能树导入导出由面板直接调用 System 服务。 */
 export type FunctionManagementAdapter = ResourceManagementAdapter;
 /** 角色管理额外提供授权树和用户选择入口。 */
 export interface RoleManagementAdapter extends ResourceManagementAdapter {
@@ -45,4 +45,3 @@ export interface PackageManagementAdapter extends ResourceManagementAdapter {
 export interface SubscriptionManagementAdapter extends ResourceManagementAdapter {
   listPackages: () => Promise<PermissionRow[]>;
 }
-

@@ -47,6 +47,7 @@ const tenantId = defineModel<PermissionId | undefined>('tenantId');
         <template #contentRender="{ item }">
           <ClientPermissionPanels
             :activated="activeTab === item.key"
+            :application-code="selected.applicationCode"
             :client-id="selected.clientId"
             :tenant-id="tenantId"
             :tab="String(item.key)"

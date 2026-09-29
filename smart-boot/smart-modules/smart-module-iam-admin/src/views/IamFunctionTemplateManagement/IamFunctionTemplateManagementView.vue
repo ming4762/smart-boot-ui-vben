@@ -7,6 +7,8 @@ import { createIamPermissionAdapters } from '../IamClientPermissionManagement/ad
 
 /** IAM后端约定使用该虚拟客户端ID标识默认功能模板。 */
 const TEMPLATE_CLIENT_ID = -1;
+/** 模板功能树使用独立应用编码。 */
+const TEMPLATE_APPLICATION_CODE = 'TEMPLATE';
 const controller = new AbortController();
 const adapter = createIamPermissionAdapters(
   TEMPLATE_CLIENT_ID,
@@ -19,6 +21,10 @@ onBeforeUnmount(() => controller.abort());
 
 <template>
   <div class="page-container h-full">
-    <FunctionManagementPanel :adapter="adapter" />
+    <FunctionManagementPanel
+      :adapter="adapter"
+      :application-code="TEMPLATE_APPLICATION_CODE"
+      :signal="controller.signal"
+    />
   </div>
 </template>
