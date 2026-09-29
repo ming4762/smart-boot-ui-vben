@@ -189,12 +189,12 @@ const computeImgStyle = computed(() => ({
 }
 
 @media (min-width: 1024px) {
-  .authentication-side-panel:has(.authentication-login) {
+  .authentication-side-panel:has(.authentication-login--split) {
     width: 60%;
     flex: none;
   }
 
-  .authentication-center-panel:has(.authentication-login) {
+  .authentication-center-panel:has(.authentication-login--split) {
     width: min(80%, 50rem);
   }
 }

@@ -82,8 +82,17 @@ const rememberMe = ref(!!localUsername);
 const keepLogin = ref(true);
 // 平板及桌面端保留扫码入口，仅在手机端切换为钉钉 OAuth 快捷登录。
 const showDingdingQrCode = useMediaQuery('(min-width: 768px)');
+const isDingdingSplitBreakpoint = useMediaQuery('(min-width: 1280px)');
 const showDingtalkLogin = computed(
   () => !!sysPropertiesStore.dingtalk?.clientId,
+);
+// 仅在二维码与账号登录实际并排展示时使用宽版登录布局。
+const useDingdingSplitLayout = computed(
+  () =>
+    !props.isSsoLogin &&
+    showDingtalkLogin.value &&
+    showDingdingQrCode.value &&
+    isDingdingSplitBreakpoint.value,
 );
 
 async function handleSubmit() {
@@ -126,7 +135,12 @@ defineExpose({
 
 <template>
   <div
-    class="authentication-login w-full max-w-[46rem]!"
+    class="authentication-login w-full"
+    :class="
+      useDingdingSplitLayout
+        ? 'authentication-login--split max-w-[46rem]!'
+        : 'authentication-login--compact max-w-md!'
+    "
     @keydown.enter="handleEnter"
   >
     <slot name="title">
@@ -181,7 +195,7 @@ defineExpose({
       <div
         class="grid items-stretch overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm"
         :class="
-          showDingtalkLogin && showDingdingQrCode
+          useDingdingSplitLayout
             ? 'grid-cols-1 xl:grid-cols-[332px_minmax(300px,1fr)]'
             : 'grid-cols-1'
         "
