@@ -247,6 +247,7 @@ defineExpose({
               <DingdingLogin
                 :client-id="sysPropertiesStore.dingtalk?.clientId"
                 :corp-id="sysPropertiesStore.dingtalk?.corpId"
+                :get-state="dingtalkStateProvider"
                 :redirect-uri="sysPropertiesStore.dingtalk?.redirectUri"
                 inline
                 is-qr-code
@@ -276,6 +277,7 @@ defineExpose({
             v-else
             :client-id="sysPropertiesStore.dingtalk?.clientId"
             :corp-id="sysPropertiesStore.dingtalk?.corpId"
+            :get-state="dingtalkStateProvider"
             :redirect-uri="sysPropertiesStore.dingtalk?.redirectUri"
             button-type="primary"
           />
@@ -375,6 +377,7 @@ defineExpose({
           <slot name="third-party-login">
             <ThirdPartyLogin
               v-if="showThirdPartyLogin"
+              :dingtalk-state-provider="dingtalkStateProvider"
               sso-button-type="icon"
             />
           </slot>

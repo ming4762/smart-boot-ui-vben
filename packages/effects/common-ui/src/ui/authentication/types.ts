@@ -1,4 +1,6 @@
 interface AuthenticationSsoProps {
+  /** 钉钉 OAuth 登录前向服务端领取一次性 state。 */
+  dingtalkStateProvider?: () => Promise<string>;
   /**
    * @zh_CN 是否仅使用SSO单点登录模式
    */

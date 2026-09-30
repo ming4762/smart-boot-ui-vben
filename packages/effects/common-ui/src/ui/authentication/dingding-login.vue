@@ -12,6 +12,8 @@ interface Props {
   buttonType?: 'icon' | 'primary';
   clientId?: string;
   corpId?: string;
+  /** 每次发起授权前领取与当前浏览器绑定的一次性 state。 */
+  getState?: () => Promise<string>;
   // 是否直接在当前页面展示二维码
   inline?: boolean;
   // 登录回调地址
@@ -54,15 +56,19 @@ const [Modal, modalApi] = useVbenModal({
  */
 const handleQrCodeLogin = async () => {
   const attempt = ++qrLoginAttempt;
-  const { clientId, corpId, redirectUri } = props;
+  const { clientId, corpId, getState, redirectUri } = props;
   // 回调地址必须由服务端配置，避免当前页面 URL 变化导致钉钉回调不一致。
-  if (!clientId || !redirectUri?.trim()) {
+  if (!clientId || !redirectUri?.trim() || !getState) {
     loginStatus.value = 'config-error';
     return;
   }
 
   loginStatus.value = 'loading';
   try {
+    const state = await getState();
+    if (!state) {
+      throw new Error('钉钉登录state为空');
+    }
     if (!(window as any).DTFrameLogin) {
       // 二维码登录 加载资源
       await loadScript(
@@ -86,7 +92,7 @@ const handleQrCodeLogin = async () => {
         client_id: clientId,
         scope: 'openid corpid',
         response_type: 'code',
-        state: '1',
+        state,
         prompt: 'consent',
         // 未限定组织时省略 corpId，由钉钉让用户选择登录组织。
         ...(corpId ? { corpId } : {}),
@@ -120,9 +126,12 @@ const handleQrCodeLogin = async () => {
   }
 };
 
-const handleLogin = () => {
-  const { clientId, corpId, isQrCode, redirectUri } = props;
-  if (!clientId || !redirectUri?.trim()) {
+/**
+ * 移动端先领取与浏览器绑定的 state，再打开钉钉授权页。
+ */
+const handleLogin = async () => {
+  const { clientId, corpId, getState, isQrCode, redirectUri } = props;
+  if (!clientId || !redirectUri?.trim() || !getState) {
     alert($t('authentication.dingdingLoginConfigError'));
     return;
   }
@@ -130,8 +139,16 @@ const handleLogin = () => {
     // 内嵌二维码登录
     modalApi.open();
   } else {
-    // 未限定组织时不传 corpid，保留钉钉的组织选择流程。
-    window.location.href = `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent${corpId ? `&corpid=${encodeURIComponent(corpId)}` : ''}`;
+    try {
+      const state = await getState();
+      if (!state) {
+        throw new Error('钉钉登录state为空');
+      }
+      // 未限定组织时不传 corpid，保留钉钉的组织选择流程。
+      window.location.href = `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&client_id=${encodeURIComponent(clientId)}&scope=openid&prompt=consent&state=${encodeURIComponent(state)}${corpId ? `&corpid=${encodeURIComponent(corpId)}` : ''}`;
+    } catch {
+      alert($t('authentication.dingdingQrLoadError'));
+    }
   }
 };
 

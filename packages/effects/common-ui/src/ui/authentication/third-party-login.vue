@@ -68,6 +68,7 @@ const sysPropertiesStore = useSysPropertiesStore();
         v-if="sysPropertiesStore.dingtalk?.clientId"
         :corp-id="sysPropertiesStore.dingtalk.corpId"
         :client-id="sysPropertiesStore.dingtalk.clientId"
+        :get-state="dingtalkStateProvider"
         :redirect-uri="sysPropertiesStore.dingtalk.redirectUri"
         class="mb-3"
       />

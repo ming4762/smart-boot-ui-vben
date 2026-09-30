@@ -22,6 +22,7 @@ import { defineStore } from 'pinia';
 import {
   changePasswordApi,
   changeTenantApi,
+  dingtalkLoginApi,
   getSystemPropertiesApi,
   getUserPermissionApi,
   loginApi,
@@ -124,6 +125,32 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   /**
+   * 完成钉钉登录，复用普通登录对 JWT/Session、权限和用户资料的处理。
+   *
+   * @param code 钉钉授权码
+   * @param state 当前浏览器发起授权时使用的 state
+   * @returns 当前用户资料；认证失败时抛出
+   */
+  const completeDingtalkLogin = async (code: string, state: string) => {
+    loginLoading.value = true;
+    try {
+      const loginData = await dingtalkLoginApi(code, state);
+      // 回调页不能留在浏览器历史记录中，否则返回时会重复提交一次性授权码。
+      const userInfo = await afterLogin(loginData, false, async (userInfo) => {
+        await router.replace(
+          userInfo.homePath || preferences.app.defaultHomePath,
+        );
+      });
+      if (!userInfo && !loginData.redirectUrl) {
+        throw new Error('钉钉登录未返回有效的用户信息');
+      }
+      return userInfo;
+    } finally {
+      loginLoading.value = false;
+    }
+  };
+
+  /**
    * 异步处理登录操作
    * Asynchronously handle the login process
    * @param params 登录表单数据
@@ -144,8 +171,7 @@ export const useAuthStore = defineStore('auth', () => {
           passwordChangeRequired: true,
           passwordChangeToken: loginData.passwordChangeToken,
           passwordValidate: loginData.passwordValidate,
-          passwordValidateErrorMessage:
-            loginData.passwordValidateErrorMessage,
+          passwordValidateErrorMessage: loginData.passwordValidateErrorMessage,
         };
       }
       return { userInfo: await afterLogin(loginData, false, onSuccess) };
@@ -281,6 +307,7 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     $reset,
     authLogin,
+    completeDingtalkLogin,
     // fetchUserInfo,
     loginLoading,
     logout,

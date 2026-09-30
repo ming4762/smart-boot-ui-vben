@@ -17,6 +17,7 @@ import { useSysPropertiesStore } from '@vben/stores';
 
 import {
   ApiServiceEnum,
+  createDingtalkLoginStateApi,
   forceChangePasswordApi,
   requestClient,
 } from '@smart/common/api';
@@ -188,6 +189,7 @@ const computedIamLoginUrl = computed(() => {
     <AuthenticationLogin
       class="mx-auto"
       :form-schema="formSchema"
+      :dingtalk-state-provider="createDingtalkLoginStateApi"
       :is-sso-login="sysPropertiesStore.isIamClient"
       :loading="authStore.loginLoading"
       :show-keep-login="sysPropertiesStore.isSessionAuthMode"

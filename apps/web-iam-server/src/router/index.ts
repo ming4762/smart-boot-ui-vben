@@ -11,6 +11,14 @@ import { createAuthShellRoutes } from '@smart/app-shell/auth';
 import { createRouterGuard } from './guard';
 
 const { publicRouteNames, routes } = createAuthShellRoutes({
+  extraChildren: [
+    {
+      name: 'DingtalkCallback',
+      path: 'dingtalk/callback',
+      component: () => import('../views/_core/dingtalk-callback/index.vue'),
+      meta: { title: '钉钉登录' },
+    },
+  ],
   rootRedirect: '/auth/login',
 });
 
